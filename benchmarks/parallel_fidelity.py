@@ -13,6 +13,7 @@ from benchmarks.compare import difference
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--share-rope-tables",action="store_true")
+    p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     p.add_argument("--output",default="results/full_parallel_fidelity.json")
     a=p.parse_args()
     model=load_model()
@@ -22,7 +23,8 @@ def main():
     report={"scope":"full checkpoint, independent batch lane timelines", "revision":REVISION,
             "torch":torch.__version__,"gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,
             "input":"seeded Gaussian amplitude .05 and its encoded tokens","quantizers":32,"batch":2,
-            "share_rope_tables":a.share_rope_tables,"results":{}}
+            "share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
+            "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","results":{}}
     for direction,inp in [("encode",x),("decode",codes)]:
         chunks=list(inp.split(1920 if direction=="encode" else 1,dim=-1))
         dim=1 if direction=="encode" else 0
@@ -33,7 +35,7 @@ def main():
         records=[]
         mask=torch.tensor([True,False],device="cuda")
         with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",
-                       share_rope_tables=a.share_rope_tables):
+                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
             with StreamingSession(model,direction,batch_size=2) as session:
                 for i,chunk in enumerate(chunks):
                     out,lengths=session.push(chunk,active_mask=mask if i%2 else None)
@@ -47,10 +49,18 @@ def main():
                 session.reset(torch.tensor([False,True],device="cuda"))
                 fresh,_=session.push(chunks[0])
                 fresh_diff=difference(slow_reference[0].select(dim,1),fresh.select(dim,1))
-        report["results"][direction]={"steps":records,"reused_lane":fresh_diff}
+                session.reset()
+                _, lengths = session.push(chunks[4], active_mask=mask)
+                initially_paused = lengths[1].item() == 0
+                delayed, _ = session.push(chunks[0])
+                delayed_diff = difference(slow_reference[0].select(dim,1), delayed.select(dim,1))
+        report["results"][direction]={"steps":records,"reused_lane":fresh_diff,
+                                      "initially_paused_length_zero":initially_paused,
+                                      "delayed_start_lane":delayed_diff}
         print(direction,report["results"][direction],flush=True)
     report["all_exact"]=all(
-        result["reused_lane"]["exact"] and all(
+        result["reused_lane"]["exact"] and result["delayed_start_lane"]["exact"]
+        and result["initially_paused_length_zero"] and all(
             record["lane0"]["exact"] and record.get("lane1",{"exact":True})["exact"]
             and record.get("paused_lane_length_zero",True) for record in result["steps"])
         for result in report["results"].values())

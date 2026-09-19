@@ -38,6 +38,7 @@ def main():
     p.add_argument("--backend",choices=["triton","cute"],default="triton")
     p.add_argument("--rope-backend",choices=["none","triton"],default="triton")
     p.add_argument("--share-rope-tables",action="store_true")
+    p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
     model=load_model()
     def run(x):
@@ -47,13 +48,14 @@ def main():
     report={"scope":"full checkpoint, small regression corpus", "revision":REVISION,
             "torch":torch.__version__,"gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,
             "quantizers":32,"residual_backend":a.backend,"rope_backend":a.rope_backend,
-            "share_rope_tables":a.share_rope_tables,"cases":[]}
+            "share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
+            "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","cases":[]}
     for name,cpu,source in cases():
         x=cpu.cuda()
         reference=run(x)
         record={"name":name,"samples":x.numel(),"source":source,"comparisons":{}}
         with optimized(model,residual_backend=a.backend,rope_backend=a.rope_backend,kv_backend="triton",
-                       share_rope_tables=a.share_rope_tables):
+                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
             eager=run(x)
             graph=GraphedCallable(run,x)
             replay=graph(x)

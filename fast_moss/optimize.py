@@ -34,7 +34,8 @@ def _decode_latents(self, latents):
 
 @contextmanager
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
-              kv_backend="none", rope_backend="none", share_rope_tables=False):
+              kv_backend="none", rope_backend="none", share_rope_tables=False,
+              attention_mask_backend="none"):
     """Temporarily optimize a frozen model; no parameter conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
@@ -52,6 +53,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Unknown RoPE backend")
     if share_rope_tables and rope_backend!="triton":
         raise ValueError("Shared RoPE tables require the Triton RoPE backend")
+    if attention_mask_backend not in {"none", "triton"}:
+        raise ValueError("Unknown attention mask backend")
     kernel = scale_add
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
@@ -65,13 +68,22 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         replace(model, "_fast_optimization_active", True)
         for module in model.modules():
             kind = type(module).__name__
-            if kind == "MossAudioTokenizerTransformer" and share_rope_tables:
-                from .rope import stage_forward
-                if module.rope is not None and module.positional_embedding=="rope":
+            if kind == "MossAudioTokenizerTransformer" and (share_rope_tables or attention_mask_backend == "triton"):
+                from .transformer import stage_forward
+                if len(module.layers):
                     if any(layer.self_attn.weights_per_step for layer in module.layers):
                         raise ValueError("Shared tables do not support per-step weights")
                     replace(module,"_fast_original_stage",module.forward)
+                    replace(module,"_fast_share_rope",share_rope_tables)
+                    replace(module,"_fast_share_masks",attention_mask_backend == "triton")
                     replace(module,"forward",MethodType(stage_forward,module))
+            if kind == "MossAudioTokenizerMultiheadAttention" and attention_mask_backend == "triton":
+                from .attention import forward as attention_forward
+                if module.weights_per_step or len(module.in_projs) != 1 or len(module.out_projs) != 1:
+                    raise ValueError("Fused masks do not support per-step attention weights")
+                replace(module, "_fast_mask_pool", None)
+                replace(module, "_fast_original_attention", module.forward)
+                replace(module, "forward", MethodType(attention_forward, module))
             if kind == "MossAudioTokenizerRotaryEmbedding" and rope_backend == "triton":
                 from .rope import forward
                 replace(module, "_fast_freqs", {})

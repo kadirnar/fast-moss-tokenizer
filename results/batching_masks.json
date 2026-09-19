@@ -1,0 +1,322 @@
+{
+  "scope": "matched full-checkpoint offline batch throughput",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "torch": "2.8.0+cu128",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "frames": 3,
+  "seconds_per_lane": 0.24,
+  "attention_mask_backend": "triton",
+  "share_rope_tables": true,
+  "records": [
+    {
+      "batch": 1,
+      "direction": "encode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 96
+      },
+      "baseline": {
+        "wall_ms_median": 47.61050600063754,
+        "gpu_ms_median": 47.59596633911133,
+        "wall_ms_samples": [
+          47.58358399703866,
+          47.725304000778124,
+          47.61050600063754,
+          47.72477300139144,
+          47.58311399928061
+        ],
+        "gpu_ms_samples": [
+          47.55567932128906,
+          47.71043014526367,
+          47.59596633911133,
+          47.7105598449707,
+          47.56934356689453
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 9.514020995993633,
+        "gpu_ms_median": 9.499263763427734,
+        "wall_ms_samples": [
+          10.112168994965032,
+          9.495065998635255,
+          9.509692994470242,
+          10.01467300375225,
+          9.514020995993633
+        ],
+        "gpu_ms_samples": [
+          10.088640213012695,
+          9.480064392089844,
+          9.497823715209961,
+          10.002367973327637,
+          9.499263763427734
+        ]
+      },
+      "matched_batch_speedup": 5.004246471674426,
+      "baseline_audio_seconds_per_second": 5.040904207083751,
+      "optimized_audio_seconds_per_second": 25.225927092347632,
+      "peak_memory_bytes": 7260256768
+    },
+    {
+      "batch": 1,
+      "direction": "decode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 5760
+      },
+      "baseline": {
+        "wall_ms_median": 38.00097099883715,
+        "gpu_ms_median": 37.98691177368164,
+        "wall_ms_samples": [
+          37.950696001644246,
+          38.01418600050965,
+          38.13439400255447,
+          37.96190700086299,
+          38.00097099883715
+        ],
+        "gpu_ms_samples": [
+          37.93302536010742,
+          38.00009536743164,
+          38.12031936645508,
+          37.94784164428711,
+          37.98691177368164
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 7.92010199802462,
+        "gpu_ms_median": 7.694784164428711,
+        "wall_ms_samples": [
+          7.925090998469386,
+          7.718018001469318,
+          7.706846001383383,
+          7.965127995703369,
+          7.92010199802462
+        ],
+        "gpu_ms_samples": [
+          7.68943977355957,
+          7.703743934631348,
+          7.694784164428711,
+          7.95359992980957,
+          7.688191890716553
+        ]
+      },
+      "matched_batch_speedup": 4.798040607092573,
+      "baseline_audio_seconds_per_second": 6.315628092959629,
+      "optimized_audio_seconds_per_second": 30.302640049314924,
+      "peak_memory_bytes": 7268822528
+    },
+    {
+      "batch": 8,
+      "direction": "encode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 768
+      },
+      "baseline": {
+        "wall_ms_median": 49.5706989968312,
+        "gpu_ms_median": 49.523136138916016,
+        "wall_ms_samples": [
+          49.61947200354189,
+          49.747065000701696,
+          49.479585999506526,
+          49.5706989968312,
+          49.53774699970381
+        ],
+        "gpu_ms_samples": [
+          49.40742492675781,
+          49.732608795166016,
+          49.465694427490234,
+          49.5560302734375,
+          49.523136138916016
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 16.596071000094526,
+        "gpu_ms_median": 16.583295822143555,
+        "wall_ms_samples": [
+          16.11283200327307,
+          16.68652200169163,
+          16.596071000094526,
+          16.73170800495427,
+          16.144743000040762
+        ],
+        "gpu_ms_samples": [
+          16.09404754638672,
+          16.67318344116211,
+          16.583295822143555,
+          16.718143463134766,
+          16.131200790405273
+        ]
+      },
+      "matched_batch_speedup": 2.986893644679446,
+      "baseline_audio_seconds_per_second": 38.73255852459808,
+      "optimized_audio_seconds_per_second": 115.69003289929672,
+      "peak_memory_bytes": 7283364864
+    },
+    {
+      "batch": 8,
+      "direction": "decode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 46080
+      },
+      "baseline": {
+        "wall_ms_median": 39.69392800354399,
+        "gpu_ms_median": 39.68019104003906,
+        "wall_ms_samples": [
+          39.780282000720035,
+          39.732932003971655,
+          39.69392800354399,
+          39.541257996461354,
+          39.68490099941846
+        ],
+        "gpu_ms_samples": [
+          39.76192092895508,
+          39.7191047668457,
+          39.68019104003906,
+          39.527008056640625,
+          39.67116928100586
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 14.433591000852175,
+        "gpu_ms_median": 14.20963191986084,
+        "wall_ms_samples": [
+          14.433591000852175,
+          14.215826995496172,
+          14.784808001422789,
+          14.221497003745753,
+          14.774719005799852
+        ],
+        "gpu_ms_samples": [
+          14.194975852966309,
+          14.203231811523438,
+          14.773856163024902,
+          14.20963191986084,
+          14.763520240783691
+        ]
+      },
+      "matched_batch_speedup": 2.7501075789940574,
+      "baseline_audio_seconds_per_second": 48.37011846820946,
+      "optimized_audio_seconds_per_second": 133.02302939626327,
+      "peak_memory_bytes": 7292253184
+    },
+    {
+      "batch": 128,
+      "direction": "encode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 12288
+      },
+      "baseline": {
+        "wall_ms_median": 91.43780399608659,
+        "gpu_ms_median": 91.42198181152344,
+        "wall_ms_samples": [
+          90.9451980041922,
+          91.64419599983376,
+          91.43780399608659,
+          91.49928899569204,
+          90.80209400417516
+        ],
+        "gpu_ms_samples": [
+          90.70783996582031,
+          91.6280288696289,
+          91.42198181152344,
+          91.47843170166016,
+          90.78630065917969
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 86.46992900321493,
+        "gpu_ms_median": 86.45638275146484,
+        "wall_ms_samples": [
+          87.17580200027442,
+          85.91375200194307,
+          86.5320779994363,
+          85.94727699528448,
+          86.46992900321493
+        ],
+        "gpu_ms_samples": [
+          87.15542602539062,
+          85.89715576171875,
+          86.51734161376953,
+          85.93385314941406,
+          86.45638275146484
+        ]
+      },
+      "matched_batch_speedup": 1.057452053565199,
+      "baseline_audio_seconds_per_second": 335.96607374029645,
+      "optimized_audio_seconds_per_second": 355.26801460491356,
+      "peak_memory_bytes": 7404454400
+    },
+    {
+      "batch": 128,
+      "direction": "decode",
+      "fidelity": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 737280
+      },
+      "baseline": {
+        "wall_ms_median": 91.03491299902089,
+        "gpu_ms_median": 91.01945495605469,
+        "wall_ms_samples": [
+          91.0094169958029,
+          90.36611399642425,
+          91.0577579998062,
+          91.04404100071406,
+          91.03491299902089
+        ],
+        "gpu_ms_samples": [
+          90.98668670654297,
+          90.34950256347656,
+          91.04153442382812,
+          91.0285415649414,
+          91.01945495605469
+        ]
+      },
+      "optimized": {
+        "wall_ms_median": 83.68773900292581,
+        "gpu_ms_median": 83.67324829101562,
+        "wall_ms_samples": [
+          84.13396799733164,
+          83.08863099955488,
+          83.68773900292581,
+          83.02551999804564,
+          83.69879899692023
+        ],
+        "gpu_ms_samples": [
+          84.10899353027344,
+          83.06774139404297,
+          83.67324829101562,
+          83.01078033447266,
+          83.68544006347656
+        ]
+      },
+      "matched_batch_speedup": 1.0877927171128163,
+      "baseline_audio_seconds_per_second": 337.452950609514,
+      "optimized_audio_seconds_per_second": 367.07886204126027,
+      "peak_memory_bytes": 7419789824
+    }
+  ],
+  "all_exact": true
+}

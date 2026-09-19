@@ -15,7 +15,7 @@ def test_lanes_follow_independent_timelines(direction):
               else torch.randint(1024,shape,device="cuda") for _ in range(5)]
     lane_dim = 1 if direction == "encode" else 0
     with optimized(model, residual_backend="triton", kv_backend="triton",
-                   rope_backend="triton",share_rope_tables=True):
+                   rope_backend="triton",share_rope_tables=True,attention_mask_backend="triton"):
         with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
             ref0=[session.push(chunk)[0].clone() for chunk in chunks]
         with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
@@ -37,3 +37,9 @@ def test_lanes_follow_independent_timelines(direction):
             assert torch.equal(reset_out.select(lane_dim,1),ref1[0].select(lane_dim,1))
             # Earlier outputs remain owned after multiple replays and a partial reset.
             assert torch.equal(actual[0],ref0[0])
+            # An initially paused lane has no valid keys: its entire bias is -inf.
+            session.reset()
+            _, lengths = session.push(chunks[4], active_mask=mask)
+            assert lengths[1].item() == 0
+            delayed, _ = session.push(chunks[0])
+            assert torch.equal(delayed.select(lane_dim, 1), ref1[0].select(lane_dim, 1))

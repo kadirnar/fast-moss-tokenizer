@@ -16,13 +16,15 @@ def main():
     p.add_argument("--batches",type=int,nargs="+",default=[1,2,4,8,16,32,64,128])
     p.add_argument("--frames",type=int,default=3)
     p.add_argument("--repeats",type=int,default=5)
+    p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     p.add_argument("--output",default="results/batching.json")
     a=p.parse_args()
     model=load_model()
     torch.manual_seed(921)
     report={"scope":"matched full-checkpoint offline batch throughput", "revision":REVISION,
             "gpu":torch.cuda.get_device_name(),"torch":torch.__version__,"dtype":"float32","tf32":False,
-            "quantizers":32,"frames":a.frames,"seconds_per_lane":a.frames*.08,"records":[]}
+            "quantizers":32,"frames":a.frames,"seconds_per_lane":a.frames*.08,
+            "attention_mask_backend":a.attention_mask_backend,"share_rope_tables":True,"records":[]}
     for batch in a.batches:
         torch.cuda.reset_peak_memory_stats()
         x=torch.randn(batch,1,a.frames*1920,device="cuda")*.05
@@ -32,7 +34,8 @@ def main():
         for direction,fn,inp in [("encode",encode,x),("decode",decode,codes)]:
             reference=fn(inp)[0]
             baseline=measure(lambda:fn(inp),repeats=a.repeats)
-            with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",share_rope_tables=True):
+            with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",share_rope_tables=True,
+                           attention_mask_backend=a.attention_mask_backend):
                 graph=GraphedCallable(fn,inp)
                 fidelity=difference(reference,graph(inp)[0])
                 candidate=measure(lambda:graph(inp),repeats=a.repeats)

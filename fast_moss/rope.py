@@ -64,21 +64,3 @@ def forward(self,q,k,offset,time_before_heads=False):
     shared=getattr(self,"_fast_tables",None)
     cos,sin=shared if shared is not None else tables(self,q.device,b,t,d,offset)
     return rotate(q,k,cos,sin)
-
-
-def stage_forward(self,x,*args,**kwargs):
-    """Reuse tables only where layer positions are known to advance together."""
-    state=self._streaming_state
-    if (x.dtype!=torch.float32 or self.positional_embedding!="rope"
-            or (state is not None and not getattr(state,"_fast_synchronized",False))):
-        return self._fast_original_stage(x,*args,**kwargs)
-    b,t,_=x.shape
-    attn=self.layers[0].self_attn
-    offset=(torch.zeros(b,device=x.device,dtype=torch.long) if state is None
-            else attn._streaming_state.offset)
-    previous=self.rope._fast_tables
-    self.rope._fast_tables=tables(self.rope,x.device,b,t,attn.embed_dim//attn.num_heads,offset)
-    try:
-        return self._fast_original_stage(x,*args,**kwargs)
-    finally:
-        self.rope._fast_tables=previous

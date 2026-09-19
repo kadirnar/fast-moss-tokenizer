@@ -86,3 +86,25 @@ Completed evidence:
 All benchmark/test jobs from this turn completed successfully, including CuTe shared-table fidelity session 12547. No benchmark process is intentionally left running.
 
 Next useful work: optimize dominant matrix shapes on SM120 with documented numerical behavior; share repeated causal masks under the same synchronized-state invariants; extend independent streaming schedules/final lengths and audio corpus coverage. NVIDIA cuBLAS BF16x9 FP32 emulation is currently listed only for SM10.0/10.3, not this SM12.0 GPU; a library upgrade alone does not enable that route. Continue with the full objective and matched baselines.
+
+
+## 2026-09-20, fused/shared attention masks and filled-ring profiling
+
+Previous goal turn classification: **progress**, verified by clean worktree commit `f86766d`, shared-table code, and its checkpoint/batch results. This turn also made **progress**: it implemented a new exact mask kernel and stage sharing, measured the full checkpoint, broadened initial-pause coverage, and profiled a filled streaming cache. The full goal remains active; no 100× result or universal no-quality-loss proof exists.
+
+Implementation: `optimized(..., attention_mask_backend="triton")` computes causal/context masks with 64-bit integer positions, writes the same FP32 zero/negative-infinity bias consumed by the tested PyTorch attention path, and aligns rows to eight elements. The mask is reused within one synchronized transformer-stage invocation. Projection and attention arithmetic are unchanged. Stage reuse now lives in `fast_moss/transformer.py`, supports mask sharing independently of shared RoPE, restores temporary state even after exceptions, and falls back to per-layer computation for external streaming with unknown alignment. No weights, codebook counts, or numerical precision were changed.
+
+Completed evidence:
+
+- `results/tests.txt`: **57 passed**. Includes strided/expanded key positions, offsets through 2**40, finite/unbounded context, additive-mask values/alignment, one construction per stage, three-layer eager/graph equality, exception cleanup, divergent-offset fallback, and initially paused lanes.
+- `results/full_compare_boolean_masks_240ms.json`: intermediate shared-boolean masks, all exact; graph encode/decode 9.719/7.945 ms. Retained as an ablation, not the final runtime format.
+- `results/full_compare_masks_240ms.json`: final aligned additive masks, all exact; upstream eager **48.369 → 9.491 ms encode (5.10×)**, **38.571 → 7.821 ms decode (4.93×)**. Batch one, 240 ms, FP32/all 32 quantizers, copies/owned outputs included, setup separate. Three-chunk streaming graph passes total 38.885/35.486 ms including reset.
+- `results/full_fidelity_masks.json` and `full_fidelity_masks_cute.json`: **12 cases per backend**, exact token/hidden/audio comparisons in eager and graph modes.
+- `results/full_streaming_masks.json`: two 12.8-second lanes cross the ten-second context, with 10,240 exact offline tokens and 614,400 samples exact against corrected eager streaming. Streaming/offline decoder difference remains unchanged: maximum 1.6987e-6, RMSE 4.9938e-8.
+- `results/full_parallel_masks.json`: independently paused/resumed/reused lanes remain exact, including a lane paused before its first chunk and later started. This exercises an entirely masked empty cache.
+- `results/batching_masks.json`: matched batches 1, 8, 128, all exact. Batch 128 reaches 355.3/367.1 audio seconds per second, with only 1.06×/1.09× matched-batch acceleration. Peak allocated memory around 7.42 GB. Throughput is not a 355× model speedup.
+- `results/full_streaming_profile_masks.json` and encode/decode tables: filled ten-second ring, batch two, 80 ms chunks. Per-push latency 11.665/10.208 ms; attention takes 26.6%/29.7% of device time, while dense matrix groups remain roughly half. `benchmarks.profile_graph --streaming` now explicitly fills the ring before measurement.
+
+Reproduce the main comparison with `benchmarks.compare --seconds .24 --stream-chunks 3 --rope-backend triton --kv-backend triton --share-rope-tables --attention-mask-backend triton`. All full-model fidelity scripts accept the new mask flag. The default remains opt-in. PyTorch source evidence and the FP32 backend scope are recorded in `docs/research.md`.
+
+All jobs in this turn completed successfully, including final tests session 96771. No benchmark/download job is intentionally left running. Next work should investigate FP32 small-query streaming attention on actual stage shapes, alongside matrix execution and its bandwidth/reduction-order limits. Batched request scheduling, arbitrary per-lane final lengths, broader audio coverage, and multi-GPU work remain part of the original objective.

@@ -38,18 +38,21 @@ def test_rotary_integration_exact():
 
 
 @torch.inference_mode()
-def test_shared_tables_multiple_layers_and_exception_cleanup():
+@pytest.mark.parametrize("mask_backend", ["none", "triton"])
+def test_shared_tables_multiple_layers_and_exception_cleanup(mask_backend):
     from upstream.modeling_moss_audio_tokenizer import MossAudioTokenizerTransformer
     from fast_moss.graphs import GraphedCallable
     stage=MossAudioTokenizerTransformer(768,12,num_layers=3,dim_feedforward=3072,
                                         causal=True,context=16,positional_embedding="rope").cuda().eval().requires_grad_(False)
     x=torch.randn(2,8,768,device="cuda")
     ref=stage(x)
-    with optimized(stage,rope_backend="triton",share_rope_tables=True):
+    with optimized(stage,rope_backend="triton",share_rope_tables=True,
+                   attention_mask_backend=mask_backend):
         assert torch.equal(stage(x),ref)
         graph=GraphedCallable(lambda z:(stage(z),),x)
         assert torch.equal(graph(x)[0],ref)
         assert stage.rope._fast_tables is None
+        assert all(getattr(layer.self_attn, "_fast_mask_pool", None) is None for layer in stage.layers)
         def fail(*args):
             raise RuntimeError("injected")
         hook=stage.layers[1].register_forward_pre_hook(fail)
@@ -57,12 +60,14 @@ def test_shared_tables_multiple_layers_and_exception_cleanup():
             with pytest.raises(RuntimeError,match="injected"):
                 stage(x)
             assert stage.rope._fast_tables is None
+            assert all(getattr(layer.self_attn, "_fast_mask_pool", None) is None for layer in stage.layers)
         finally:
             hook.remove()
 
 
 @torch.inference_mode()
-def test_unsynchronized_streaming_falls_back():
+@pytest.mark.parametrize("mask_backend", ["none", "triton"])
+def test_unsynchronized_streaming_falls_back(mask_backend):
     from upstream.modeling_moss_audio_tokenizer import MossAudioTokenizerTransformer
     stage=MossAudioTokenizerTransformer(64,1,num_layers=2,dim_feedforward=128,
                                         causal=True,context=16,positional_embedding="rope").cuda().eval().requires_grad_(False)
@@ -73,5 +78,6 @@ def test_unsynchronized_streaming_falls_back():
             stage.layers[1].self_attn._streaming_state.offset.fill_(2)
             return stage(x)
     reference=run()
-    with optimized(stage,rope_backend="triton",share_rope_tables=True):
+    with optimized(stage,rope_backend="triton",share_rope_tables=True,
+                   attention_mask_backend=mask_backend):
         assert torch.equal(run(),reference)
