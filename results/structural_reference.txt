@@ -1,0 +1,32 @@
+REDUCED RANDOM MODEL ONLY; not a checkpoint benchmark.
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                           aten::_weight_norm_interface         1.23%     238.570us         5.10%     988.115us      14.971us     578.783us        18.28%     578.783us       8.769us            66
+void at::native::(anonymous namespace)::weight_norm_...         0.00%       0.000us         0.00%       0.000us       0.000us     578.783us        18.28%     578.783us       8.769us            66
+                                aten::cudnn_convolution         7.35%       1.424ms        13.05%       2.528ms      38.296us     515.231us        16.27%     515.231us       7.807us            66
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us     395.589us        12.49%     395.589us       1.576us           251
+                                              aten::mul         4.96%     960.429us         8.98%       1.738ms       9.658us     318.205us        10.05%     318.205us       1.768us           180
+                               aten::linalg_vector_norm         2.82%     546.059us         4.66%     902.269us      14.098us     228.320us         7.21%     228.320us       3.568us            64
+void at::native::reduce_kernel<512, 1, at::native::R...         0.00%       0.000us         0.00%       0.000us       0.000us     228.320us         7.21%     228.320us       3.568us            64
+void at::native::elementwise_kernel<128, 4, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us     211.488us         6.68%     211.488us       2.203us            96
+                                             aten::add_         1.81%     350.817us         3.26%     631.689us       9.571us     204.447us         6.46%     204.447us       3.098us            66
+                                              aten::bmm         0.41%      79.469us         0.68%     131.338us      32.834us     182.144us         5.75%     182.144us      45.536us             4
+                                               aten::mm         3.66%     709.082us         5.09%     986.521us      18.972us     157.890us         4.99%     157.890us       3.036us            52
+void sgemm_largek_lds64<true, true, 6, 3, 4, 5, 2, 6...         0.00%       0.000us         0.00%       0.000us       0.000us     144.000us         4.55%     144.000us      72.000us             2
+void fft1d_r2c_32<float, float, float2, false, false...         0.00%       0.000us         0.00%       0.000us       0.000us     133.791us         4.22%     133.791us       4.181us            32
+                                              aten::sum         2.05%     397.498us         3.33%     645.243us      10.082us     125.310us         3.96%     125.310us       1.958us            64
+void at::native::reduce_kernel<512, 1, at::native::R...         0.00%       0.000us         0.00%       0.000us       0.000us     125.310us         3.96%     125.310us       1.958us            64
+                                              aten::add         2.79%     540.951us         5.14%     995.860us       8.299us     125.281us         3.96%     125.281us       1.044us           120
+                                              aten::sub         2.85%     552.522us         5.00%     968.811us       8.970us     120.712us         3.81%     120.712us       1.118us           108
+void fft1d_r2c_32<float, float, float2, true, false>...         0.00%       0.000us         0.00%       0.000us       0.000us     119.231us         3.76%     119.231us       3.726us            32
+                                              aten::max         1.49%     289.296us         2.28%     441.600us      13.800us     102.466us         3.24%     102.466us       3.202us            32
+void at::native::reduce_kernel<512, 1, at::native::R...         0.00%       0.000us         0.00%       0.000us       0.000us     102.466us         3.24%     102.466us       3.202us            32
+                                              aten::div         1.75%     339.265us         3.09%     598.715us       9.355us      77.182us         2.44%      77.182us       1.206us            64
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      77.182us         2.44%      77.182us       1.206us            64
+std::enable_if<!(false), void>::type internal::gemvx...         0.00%       0.000us         0.00%       0.000us       0.000us      74.817us         2.36%      74.817us       2.338us            32
+void implicit_convolve_sgemm<float, float, 128, 5, 5...         0.00%       0.000us         0.00%       0.000us       0.000us      74.144us         2.34%      74.144us       2.317us            32
+                                        aten::clamp_min         1.55%     301.147us         2.95%     571.006us       8.922us      69.378us         2.19%      69.378us       1.084us            64
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 19.367ms
+Self CUDA time total: 3.167ms

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fast-moss-tokenizer"
+version = "0.1.0"
+description = "Measured, fidelity-gated GPU optimization of MOSS Audio Tokenizer"
+requires-python = ">=3.12"
+dependencies = ["torch==2.8.0", "triton==3.4.0", "accelerate", "safetensors", "huggingface-hub", "numpy", "transformers @ git+https://github.com/huggingface/transformers.git@4ac58b368aff171c8b45a976b0de9ec3b22a4bdd"]
+
+[project.optional-dependencies]
+cute = ["nvidia-cutlass-dsl==4.7.1"]
+test = ["pytest", "soundfile"]
+
+[tool.setuptools.packages.find]
+include = ["fast_moss*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
