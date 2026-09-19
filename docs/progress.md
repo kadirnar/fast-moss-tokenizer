@@ -63,3 +63,26 @@ Next useful work:
 2. Share repeated RoPE tables and causal masks across layers within each transformer stage, with synchronized streaming offset invariants and rollback on any fidelity failure.
 3. Measure matched batched offline/streaming throughput across batch sizes on the available single GPU. Separate per-stream latency, aggregate throughput, and batch-one versus batch-N comparisons explicitly.
 4. Extend real-audio and long-stream quality coverage, arbitrary per-lane final lengths, request scheduling, and multi-GPU support where test hardware allows it. Retain the full objective; none of the current evidence proves 100× or universal quality preservation.
+
+
+## 2026-09-20, shared tables and matrix/batch experiments
+
+Previous goal turn classification: **progress**, verified against commit `052cdb4` and its full-checkpoint evidence. This turn also made **progress**: shared RoPE tables improved exact inference, matrix alternatives were measured without being silently promoted, and matched batch throughput was profiled. The goal remains active; 100× and comprehensive quality coverage remain unachieved.
+
+Supported implementation: `optimized(..., rope_backend="triton", share_rope_tables=True)` computes sin/cos once per transformer stage. Offline positions are shared; `StreamingSession` marks its synchronized layer states. External upstream streaming falls back to per-layer tables. Temporary tables are cleaned up on exceptions. Defaults remain unchanged.
+
+Completed evidence:
+
+- `results/tests.txt`: **40 passed**, including three-layer shared-table eager/graph equality, exception cleanup, divergent-offset fallback, and independently advancing lanes.
+- `results/full_compare_shared_240ms.json`: all comparisons exact. Matched batch-one upstream eager encode **47.757 → 10.158 ms (4.70×)**; decode **38.168 → 8.391 ms (4.55×)**, FP32/all 32 quantizers. Setup is separate; steady-state includes copies and owned outputs.
+- `results/full_fidelity_shared.json` and `full_fidelity_shared_cute.json`: **12 cases each**, exact codes, hidden states, and waveforms for both residual backends with shared tables.
+- `results/full_streaming_shared.json`: long streaming still matches corrected eager exactly and offline tokens exactly. The same pre-existing maximum 1.6987e-6 streaming/offline waveform difference remains.
+- `results/full_parallel_shared.json`: paused/resumed/reused lanes match independent full-model timelines exactly.
+- `results/matrices.json` and `matrices_gemv.json`: actual checkpoint activation/weight shapes; IEEE Triton tiles, packed weights, row padding, and row-reduction GEMV. Warm-cache component wins shrink substantially after cache eviction. Tiled IEEE GEMM generally regresses; changed reduction orders are recorded against both vendor FP32 and FP64 diagnostics.
+- `results/full_gemv_experiment.json`: experimental GEMV preserves all 352 codes on 11 short inputs but changes hidden/audio values (maximum waveform difference 5.9232e-7). Combined graph latency improves only 16.077 → 15.807 ms, about 1.7%. Kept exclusively under `benchmarks/`; this is neither proof of perceptual loss nor sufficient evidence for a supported no-quality-loss optimization.
+- `results/batching.json`: batches 1, 2, 4, 8, 16, 32, 64, 128; all encode/decode outputs exact against equal-batch upstream eager. Batch 128 delivers 353.5/364.1 audio seconds per second, with 1.06×/1.08× matched speedups and about 7.5 GB peak allocated memory. Do not label real-time throughput as whole-model acceleration.
+- `results/full_graph_batch128.json` and operator tables: roughly 80% device time is SIMT SGEMM and 10% efficient attention. Larger batches amortize launches but expose arithmetic throughput limits.
+
+All benchmark/test jobs from this turn completed successfully, including CuTe shared-table fidelity session 12547. No benchmark process is intentionally left running.
+
+Next useful work: optimize dominant matrix shapes on SM120 with documented numerical behavior; share repeated causal masks under the same synchronized-state invariants; extend independent streaming schedules/final lengths and audio corpus coverage. NVIDIA cuBLAS BF16x9 FP32 emulation is currently listed only for SM10.0/10.3, not this SM12.0 GPU; a library upgrade alone does not enable that route. Continue with the full objective and matched baselines.

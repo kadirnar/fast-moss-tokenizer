@@ -14,7 +14,8 @@ def test_lanes_follow_independent_timelines(direction):
     chunks = [torch.randn(shape,device="cuda")*.05 if direction=="encode"
               else torch.randint(1024,shape,device="cuda") for _ in range(5)]
     lane_dim = 1 if direction == "encode" else 0
-    with optimized(model, residual_backend="triton", kv_backend="triton"):
+    with optimized(model, residual_backend="triton", kv_backend="triton",
+                   rope_backend="triton",share_rope_tables=True):
         with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
             ref0=[session.push(chunk)[0].clone() for chunk in chunks]
         with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:

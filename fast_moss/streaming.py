@@ -61,6 +61,9 @@ class StreamingSession:
                             # One stable mask address for all layers; graph replay
                             # reads it without hundreds of per-layer mask copies.
                             state.exec_mask = self._active
+                            # This session applies resets/masks to every layer,
+                            # so all layer offsets within a stage stay aligned.
+                            state._fast_synchronized = True
                         cache = getattr(state, "kv_cache", None)
                         if cache is not None:
                             self._supports_pause &= hasattr(child, "_fast_original_complete")

@@ -35,3 +35,43 @@ def test_rotary_integration_exact():
         assert torch.equal(actual.audio_codes,ref.audio_codes)
         assert torch.equal(actual.encoder_hidden_states,ref.encoder_hidden_states)
         assert torch.equal(model.decode(actual.audio_codes,return_dict=True).audio,ref_audio)
+
+
+@torch.inference_mode()
+def test_shared_tables_multiple_layers_and_exception_cleanup():
+    from upstream.modeling_moss_audio_tokenizer import MossAudioTokenizerTransformer
+    from fast_moss.graphs import GraphedCallable
+    stage=MossAudioTokenizerTransformer(768,12,num_layers=3,dim_feedforward=3072,
+                                        causal=True,context=16,positional_embedding="rope").cuda().eval().requires_grad_(False)
+    x=torch.randn(2,8,768,device="cuda")
+    ref=stage(x)
+    with optimized(stage,rope_backend="triton",share_rope_tables=True):
+        assert torch.equal(stage(x),ref)
+        graph=GraphedCallable(lambda z:(stage(z),),x)
+        assert torch.equal(graph(x)[0],ref)
+        assert stage.rope._fast_tables is None
+        def fail(*args):
+            raise RuntimeError("injected")
+        hook=stage.layers[1].register_forward_pre_hook(fail)
+        try:
+            with pytest.raises(RuntimeError,match="injected"):
+                stage(x)
+            assert stage.rope._fast_tables is None
+        finally:
+            hook.remove()
+
+
+@torch.inference_mode()
+def test_unsynchronized_streaming_falls_back():
+    from upstream.modeling_moss_audio_tokenizer import MossAudioTokenizerTransformer
+    stage=MossAudioTokenizerTransformer(64,1,num_layers=2,dim_feedforward=128,
+                                        causal=True,context=16,positional_embedding="rope").cuda().eval().requires_grad_(False)
+    x=torch.randn(1,2,64,device="cuda")
+    def run():
+        with stage.streaming(1):
+            # An external caller can give layers different execution histories.
+            stage.layers[1].self_attn._streaming_state.offset.fill_(2)
+            return stage(x)
+    reference=run()
+    with optimized(stage,rope_backend="triton",share_rope_tables=True):
+        assert torch.equal(run(),reference)

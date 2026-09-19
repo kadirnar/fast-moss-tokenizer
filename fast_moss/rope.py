@@ -47,14 +47,38 @@ def rotate(q,k,cos,sin):
     return oq,ok
 
 
+def tables(self,device,b,t,d,offset):
+    key=(device,d,self.max_period)
+    if key not in self._fast_freqs:
+        ds=torch.arange(d//2,device=device,dtype=torch.float32)
+        self._fast_freqs[key]=torch.exp(ds*(-math.log(self.max_period)*2/d))
+    ts=offset.float().view(-1,1)+torch.arange(t,device=device,dtype=torch.float32)
+    phase=self._fast_freqs[key]*ts.view(b,t,1)
+    return torch.cos(phase),torch.sin(phase)
+
+
 def forward(self,q,k,offset,time_before_heads=False):
     if time_before_heads or q.dtype!=torch.float32:
         return self._fast_original_rope(q,k,offset,time_before_heads)
     b,h,t,d=q.shape
-    key=(q.device,d,self.max_period)
-    if key not in self._fast_freqs:
-        ds=torch.arange(d//2,device=q.device,dtype=torch.float32)
-        self._fast_freqs[key]=torch.exp(ds*(-math.log(self.max_period)*2/d))
-    ts=offset.float().view(-1,1)+torch.arange(t,device=q.device,dtype=torch.float32)
-    phase=self._fast_freqs[key]*ts.view(b,t,1)
-    return rotate(q,k,torch.cos(phase),torch.sin(phase))
+    shared=getattr(self,"_fast_tables",None)
+    cos,sin=shared if shared is not None else tables(self,q.device,b,t,d,offset)
+    return rotate(q,k,cos,sin)
+
+
+def stage_forward(self,x,*args,**kwargs):
+    """Reuse tables only where layer positions are known to advance together."""
+    state=self._streaming_state
+    if (x.dtype!=torch.float32 or self.positional_embedding!="rope"
+            or (state is not None and not getattr(state,"_fast_synchronized",False))):
+        return self._fast_original_stage(x,*args,**kwargs)
+    b,t,_=x.shape
+    attn=self.layers[0].self_attn
+    offset=(torch.zeros(b,device=x.device,dtype=torch.long) if state is None
+            else attn._streaming_state.offset)
+    previous=self.rope._fast_tables
+    self.rope._fast_tables=tables(self.rope,x.device,b,t,attn.embed_dim//attn.num_heads,offset)
+    try:
+        return self._fast_original_stage(x,*args,**kwargs)
+    finally:
+        self.rope._fast_tables=previous

@@ -20,6 +20,7 @@ def main():
     p.add_argument("--chunk-frames",type=int,default=4)
     p.add_argument("--batch",type=int,default=2)
     p.add_argument("--output",default="results/full_streaming_fidelity.json")
+    p.add_argument("--share-rope-tables",action="store_true")
     a=p.parse_args()
     if a.frames%a.chunk_frames:
         raise ValueError("Frame count must divide into complete chunks")
@@ -38,6 +39,7 @@ def main():
             "revision":REVISION,"torch":torch.__version__,"gpu":torch.cuda.get_device_name(),
             "dtype":"float32","tf32":False,"quantizers":32,"batch":a.batch,
             "frames":a.frames,"chunk_frames":a.chunk_frames,"seconds":length/24000,
+            "share_rope_tables":a.share_rope_tables,
             "audio":a.audio,"audio_sha256":hashlib.sha256(Path(a.audio).read_bytes()).hexdigest(),
             "lane_transform":"lane i circularly shifted by i*1920 samples","results":{}}
     for direction,inp,offline in [("encode",x,codes),("decode",codes,audio)]:
@@ -46,7 +48,8 @@ def main():
         with StreamingSession(model,direction,a.batch,a.chunk_frames,use_graph=False) as session:
             reference=[session.push(part)[0].clone() for part in inputs]
         print(direction,"reference finished",flush=True)
-        with optimized(model,residual_backend="triton",kv_backend="triton",rope_backend="triton"):
+        with optimized(model,residual_backend="triton",kv_backend="triton",rope_backend="triton",
+                       share_rope_tables=a.share_rope_tables):
             with StreamingSession(model,direction,a.batch,a.chunk_frames) as session:
                 actual=[session.push(part)[0] for part in inputs]
         ref=torch.cat(reference,dim=-1)

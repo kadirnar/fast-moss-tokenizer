@@ -37,6 +37,7 @@ def main():
     p.add_argument("--output",default="results/full_fidelity.json")
     p.add_argument("--backend",choices=["triton","cute"],default="triton")
     p.add_argument("--rope-backend",choices=["none","triton"],default="triton")
+    p.add_argument("--share-rope-tables",action="store_true")
     a=p.parse_args()
     model=load_model()
     def run(x):
@@ -45,12 +46,14 @@ def main():
         return enc.audio_codes,enc.encoder_hidden_states,dec.audio
     report={"scope":"full checkpoint, small regression corpus", "revision":REVISION,
             "torch":torch.__version__,"gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,
-            "quantizers":32,"residual_backend":a.backend,"rope_backend":a.rope_backend,"cases":[]}
+            "quantizers":32,"residual_backend":a.backend,"rope_backend":a.rope_backend,
+            "share_rope_tables":a.share_rope_tables,"cases":[]}
     for name,cpu,source in cases():
         x=cpu.cuda()
         reference=run(x)
         record={"name":name,"samples":x.numel(),"source":source,"comparisons":{}}
-        with optimized(model,residual_backend=a.backend,rope_backend=a.rope_backend,kv_backend="triton"):
+        with optimized(model,residual_backend=a.backend,rope_backend=a.rope_backend,kv_backend="triton",
+                       share_rope_tables=a.share_rope_tables):
             eager=run(x)
             graph=GraphedCallable(run,x)
             replay=graph(x)

@@ -13,15 +13,18 @@ from benchmarks.baseline import measure
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--seconds",type=float,default=.24)
+    p.add_argument("--batch",type=int,default=1)
     p.add_argument("--output",default="results/full_graph_profile.json")
+    p.add_argument("--share-rope-tables",action="store_true")
     a=p.parse_args()
     torch.manual_seed(2026)
     model=load_model()
-    x=torch.randn(1,1,round(a.seconds*24000),device="cuda")*.05
+    x=torch.randn(a.batch,1,round(a.seconds*24000),device="cuda")*.05
     report={"scope":"full checkpoint optimized graph", "revision":REVISION,"torch":torch.__version__,
             "gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,"quantizers":32,
-            "seconds":a.seconds,"batch":1,"results":{}}
-    with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton"):
+            "seconds":a.seconds,"batch":a.batch,"share_rope_tables":a.share_rope_tables,"results":{}}
+    with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",
+                   share_rope_tables=a.share_rope_tables):
         codes=model._encode_frame(x).audio_codes
         for name,fn,inp in [("encode",lambda v:(model._encode_frame(v).audio_codes,),x),
                             ("decode",lambda v:(model._decode_frame(v).audio,),codes)]:

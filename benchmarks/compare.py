@@ -33,6 +33,7 @@ def main():
     p.add_argument("--backend", choices=["triton", "cute", "none"], default="triton")
     p.add_argument("--kv-backend", choices=["none", "triton"], default="none")
     p.add_argument("--rope-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--share-rope-tables", action="store_true")
     p.add_argument("--stream-chunks", type=int, default=0)
     p.add_argument("--output", default="results/compare.json")
     p.add_argument("--structural", action="store_true", help="Use a reduced random model, NOT the checkpoint")
@@ -60,7 +61,8 @@ def main():
               "revision": REVISION, "torch": torch.__version__, "gpu": torch.cuda.get_device_name(),
               "dtype": "float32", "tf32": False, "batch": a.batch, "samples": x.shape[-1],
               "input": a.audio or "seeded Gaussian, amplitude 0.05", "quantizers": 32,
-              "residual_backend":a.backend,"rope_backend":a.rope_backend,"kv_backend":a.kv_backend,"results": {}}
+              "residual_backend":a.backend,"rope_backend":a.rope_backend,"kv_backend":a.kv_backend,
+              "share_rope_tables":a.share_rope_tables,"results": {}}
     encode = lambda inp: (model._encode_frame(inp).audio_codes,)
     codes = encode(x)[0]
     decode = lambda inp: (model._decode_frame(inp).audio,)
@@ -68,7 +70,8 @@ def main():
     for mode in ["reference", "cached", "fused"]:
         ctx = nullcontext() if mode == "reference" else optimized(
             model, residual_backend="none" if mode == "cached" else a.backend,
-            rope_backend=a.rope_backend if mode=="fused" else "none")
+            rope_backend=a.rope_backend if mode=="fused" else "none",
+            share_rope_tables=a.share_rope_tables if mode=="fused" else False)
         with ctx:
             for direction, fn, inp in [("encode", encode, x), ("decode", decode, codes)]:
                 key = f"{mode}_{direction}"
@@ -95,7 +98,7 @@ def main():
             with StreamingSession(model, direction, a.batch, frames, use_graph=False) as session:
                 ref = [session.push(chunk)[0].clone() for chunk in chunks]
             with optimized(model, residual_backend=a.backend, kv_backend=a.kv_backend,
-                           rope_backend=a.rope_backend):
+                           rope_backend=a.rope_backend,share_rope_tables=a.share_rope_tables):
                 with StreamingSession(model, direction, a.batch, frames) as session:
                     actual = [session.push(chunk)[0] for chunk in chunks]
                     fidelity = [difference(r, c) for r, c in zip(ref, actual)]
