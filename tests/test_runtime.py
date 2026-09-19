@@ -35,7 +35,7 @@ def test_streaming_graph_wrap_reset_batch_and_tail(model, direction, backend):
     shape = (2, 1, 1920) if direction == "encode" else (32, 2, 1)
     chunks = [(torch.randn(shape, device="cuda") * .05 if direction == "encode"
                else torch.randint(1024, shape, device="cuda")) for _ in range(5)]
-    with optimized(model, residual_backend=backend):
+    with optimized(model, residual_backend=backend, kv_backend="triton"):
         with StreamingSession(model, direction, batch_size=2, use_graph=False) as session:
             reference = [session.push(x)[0].clone() for x in chunks]
         with StreamingSession(model, direction, batch_size=2) as session:
@@ -76,3 +76,14 @@ def test_session_cleanup(model):
             raise RuntimeError("test cleanup")
     assert not any(getattr(m, "_streaming_state", None) is not None for m in model.modules())
     assert not hasattr(model, "_fast_streaming_owner")
+
+
+def test_nested_optimization_is_rejected_and_restored(model):
+    original=model.quantizer.input_proj.forward
+    with optimized(model):
+        with pytest.raises(RuntimeError, match="active optimization"):
+            with optimized(model):
+                pass
+        assert model._fast_optimization_active
+    assert not hasattr(model,"_fast_optimization_active")
+    assert model.quantizer.input_proj.forward==original

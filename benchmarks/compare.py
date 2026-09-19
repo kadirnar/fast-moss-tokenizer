@@ -31,6 +31,8 @@ def main():
     p.add_argument("--repeats", type=int, default=10)
     p.add_argument("--audio", help="Optional mono WAV/FLAC, resampled to 24 kHz")
     p.add_argument("--backend", choices=["triton", "cute", "none"], default="triton")
+    p.add_argument("--kv-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--rope-backend", choices=["none", "triton"], default="none")
     p.add_argument("--stream-chunks", type=int, default=0)
     p.add_argument("--output", default="results/compare.json")
     p.add_argument("--structural", action="store_true", help="Use a reduced random model, NOT the checkpoint")
@@ -57,14 +59,16 @@ def main():
     report = {"scope": "reduced random structural fixture" if a.structural else "full checkpoint",
               "revision": REVISION, "torch": torch.__version__, "gpu": torch.cuda.get_device_name(),
               "dtype": "float32", "tf32": False, "batch": a.batch, "samples": x.shape[-1],
-              "input": a.audio or "seeded Gaussian, amplitude 0.05", "quantizers": 32, "results": {}}
+              "input": a.audio or "seeded Gaussian, amplitude 0.05", "quantizers": 32,
+              "residual_backend":a.backend,"rope_backend":a.rope_backend,"kv_backend":a.kv_backend,"results": {}}
     encode = lambda inp: (model._encode_frame(inp).audio_codes,)
     codes = encode(x)[0]
     decode = lambda inp: (model._decode_frame(inp).audio,)
     reference = {"encode": codes, "decode": decode(codes)[0]}
     for mode in ["reference", "cached", "fused"]:
         ctx = nullcontext() if mode == "reference" else optimized(
-            model, residual_backend="none" if mode == "cached" else a.backend)
+            model, residual_backend="none" if mode == "cached" else a.backend,
+            rope_backend=a.rope_backend if mode=="fused" else "none")
         with ctx:
             for direction, fn, inp in [("encode", encode, x), ("decode", decode, codes)]:
                 key = f"{mode}_{direction}"
@@ -90,7 +94,8 @@ def main():
                 raise ValueError("Streaming benchmark requires equal complete chunks")
             with StreamingSession(model, direction, a.batch, frames, use_graph=False) as session:
                 ref = [session.push(chunk)[0].clone() for chunk in chunks]
-            with optimized(model, residual_backend=a.backend):
+            with optimized(model, residual_backend=a.backend, kv_backend=a.kv_backend,
+                           rope_backend=a.rope_backend):
                 with StreamingSession(model, direction, a.batch, frames) as session:
                     actual = [session.push(chunk)[0] for chunk in chunks]
                     fidelity = [difference(r, c) for r, c in zip(ref, actual)]
@@ -102,10 +107,12 @@ def main():
             with StreamingSession(model, direction, a.batch, frames, use_graph=False) as session:
                 baseline = measure(stream_pass, repeats=a.repeats)
             report["streaming"][direction] = {"chunks": len(chunks), "fidelity": fidelity,
+                                                "kv_backend": a.kv_backend,
                                                 "reference": baseline, "optimized_graph": timing}
             print("streaming", direction, report["streaming"][direction], flush=True)
     report["all_exact"] = all(r["fidelity"]["exact"] for r in report["results"].values()) and all(
         f["exact"] for r in report.get("streaming", {}).values() for f in r["fidelity"])
+    report["peak_memory_bytes"]=torch.cuda.max_memory_allocated()
     Path(a.output).write_text(json.dumps(report, indent=2) + "\n")
     if not report["all_exact"]:
         raise SystemExit("Fidelity gate failed; inspect the saved report")

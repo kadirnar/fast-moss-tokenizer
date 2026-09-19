@@ -33,7 +33,8 @@ def _decode_latents(self, latents):
 
 
 @contextmanager
-def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True):
+def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
+              kv_backend="none", rope_backend="none"):
     """Temporarily optimize a frozen model; no parameter conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
@@ -41,8 +42,14 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
+    if getattr(model, "_fast_optimization_active", False):
+        raise RuntimeError("This model already has an active optimization context")
     if residual_backend not in {"triton", "cute", "none"}:
         raise ValueError("Unknown residual backend")
+    if kv_backend not in {"none", "triton"}:
+        raise ValueError("Unknown KV backend")
+    if rope_backend not in {"none", "triton"}:
+        raise ValueError("Unknown RoPE backend")
     kernel = scale_add
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
@@ -53,8 +60,20 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         setattr(obj, name, value)
 
     try:
+        replace(model, "_fast_optimization_active", True)
         for module in model.modules():
             kind = type(module).__name__
+            if kind == "MossAudioTokenizerRotaryEmbedding" and rope_backend == "triton":
+                from .rope import forward
+                replace(module, "_fast_freqs", {})
+                replace(module, "_fast_original_rope", module.forward)
+                replace(module, "forward", MethodType(forward, module))
+            if kind == "MossAudioTokenizerMultiheadAttention" and kv_backend == "triton":
+                from .kv_cache import attention_complete
+                if module.weights_per_step:
+                    raise ValueError("Fused KV updates require per-lane offsets")
+                replace(module, "_fast_original_complete", module._complete_kv)
+                replace(module, "_complete_kv", MethodType(attention_complete, module))
             if (cache_weights and isinstance(module, torch.nn.Conv1d)
                     and torch.nn.utils.parametrize.is_parametrized(module, "weight")):
                 replace(module, "_fast_weight", module.weight.detach())
