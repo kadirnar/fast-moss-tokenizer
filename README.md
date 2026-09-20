@@ -81,9 +81,9 @@ All tested codes, hidden states, waveforms, and restored-model results match ori
 
 ## Ordered Triton matrices
 
-`matrix_backend="triton"` uses explicit FP32 SIMT kernels for FFN matrices `(M,N,K)=(24,5120,1280)` and `(24,1280,5120)`. Other matrix shapes retain the supported cuBLASLt/native paths. It requires the same pinned model, GPU and library profile as `"cublaslt"`, plus Triton 3.4.0. Packing, fallbacks, hooks, workspace ownership and graph lifetime rules remain the same; no additional persistent weight copy is kept.
+`matrix_backend="triton"` uses explicit FP32 SIMT kernels for fifteen attention/FFN matrix shapes with 24, 48, 96 or 192 rows. The exact geometries, accumulation partitions and tiles are listed in [the runtime configuration](fast_moss/ordered_matrices.py). Other matrix shapes retain the supported cuBLASLt/native paths. It requires the same pinned model, GPU and library profile as `"cublaslt"`, plus Triton 3.4.0. Packing, fallbacks, hooks, workspace ownership and graph lifetime rules remain the same; no additional persistent weight copy is kept.
 
-Each kernel accumulates consecutive groups of 256 terms, then adds partial results in order. Changing those boundaries changes FP32 results. Compiled main loops use FP32 FMA instructions and no matrix Tensor Core instructions. [Component stress and timing](results/ordered_confirm.json), [compiled kernels](results/ordered_kernel_resources.json).
+Each kernel accumulates consecutive groups of 96–288 terms, then adds partial results in order. The original two FFN shapes use 256 terms. Changing those boundaries changes FP32 results. Compiled main loops use FP32 FMA instructions and no matrix Tensor Core instructions. [Component stress and timing](results/ordered_confirm.json), [compiled kernels](results/ordered_kernel_resources.json).
 
 Forty interleaved graph pairs sharing one packed-weight lifetime give these medians against the previous matrix/projection runtime:
 
@@ -93,9 +93,26 @@ Forty interleaved graph pairs sharing one packed-weight lifetime give these medi
 | 24 / 1 | 14.079 → 13.783 ms | 12.651 → 12.546 ms |
 | 1 / 24 | 13.078 → 12.779 ms | 11.413 → 11.338 ms |
 
-These are modest, variable gains: the candidate wins 24–27 of 40 pairs, depending on direction/geometry. A separate three-round context-by-context comparison ranges from a 1.4% decoder regression to a 2.6% encoder gain. Warm component improvements of roughly 1.35–1.47× shrink to approximately parity after cache eviction. Input copies and owned outputs are timed; loading, packing and capture are excluded. [Interleaved pairs](results/full_ordered_paired.json), [context comparison and 27-case fidelity](results/full_ordered_runtime.json).
+These historical measurements describe the initial two-shape version. Its gains are modest and variable: the candidate wins 24–27 of 40 pairs, depending on direction/geometry. A separate three-round context-by-context comparison ranges from a 1.4% decoder regression to a 2.6% encoder gain. Warm component improvements of roughly 1.35–1.47× shrink to approximately parity after cache eviction. Input copies and owned outputs are timed; loading, packing and capture are excluded. [Interleaved pairs](results/full_ordered_paired.json), [context comparison and 27-case fidelity](results/full_ordered_runtime.json).
 
 Expanded singleton-frame gates also exposed an older residual-layout bug. Both residual backends now allocate the canonical contiguous output used by native PyTorch, preserving downstream matrix dispatch. The regression previously changed encoder hidden states at batch 24 / one frame despite equal residual values, tokens and audio. The full-model corpus now includes batch 24 and 128 singleton inputs. [Isolation](results/ordered_singleton_audit.json), [CuTe corpus](results/full_fidelity_ordered_cute.json), [long incremental streams](results/full_incremental_ordered.json).
+
+## Expanded attention and FFN matrices
+
+The current ordered backend adds thirteen exact matrix shapes, including the repeated attention input projection and several 768-channel transformer matrices. Compared with the preceding two-shape backend, with the same FFN/LFQ optimizations enabled:
+
+| Batch / frames | Encoder, previous → expanded | Decoder, previous → expanded |
+| --- | ---: | ---: |
+| 8 / 3 | 13.167 → 11.520 ms (1.143×) | 11.601 → 9.958 ms (1.165×) |
+| 24 / 1 | 13.992 → 12.336 ms (1.134×) | 12.663 → 11.073 ms (1.144×) |
+| 1 / 24 | 12.973 → 11.364 ms (1.142×) | 11.454 → 9.819 ms (1.167×) |
+| 1 / 3 | 8.698 → 8.622 ms (1.009×) | 7.269 → 7.207 ms (1.009×) |
+
+These are three alternating rounds with independent, restored weight-packing lifetimes and five samples of twenty graph calls per backend/round. Copies and owned outputs are timed; loading, packing, capture and restoration are excluded. Peak allocation is below 7.72 GB. An initial shared-storage comparison penalized baseline fallbacks with new weight copies and is explicitly excluded from performance claims. [Corrected ablation](results/full_ordered_shapes_ablation.json), [27-case exactness and diagnostic paired run](results/full_ordered_shapes.json).
+
+All **1,560 component comparisons**, **27 full-model cases**, the **15-case CuTe corpus**, and long streams with **11,072 tokens / 664,320 samples** are exact. The runtime retains the pinned FP32 environment, one persistent copy of each weight, hooks/fallbacks, per-stream ownership and graph invalidation. Three new shapes need no vendor algorithm; their ordered kernels use the same managed lifetime. [Components](results/ordered_shapes_confirm.json), [CuTe](results/full_fidelity_ordered_shapes_cute.json), [streams](results/full_incremental_ordered_shapes.json).
+
+The profile now contains 192 ordered main loops per direction. Total kernels increase by 68 per direction because some replacements need a separate ordered reduction. Matrix-associated work still occupies approximately **78.58% encoder / 81.88% decoder** device kernel time, including fused decoder epilogues. The requested 100× whole-model result remains unproven. [Profile](results/full_ordered_shapes_profile.json), [compiled resources](results/ordered_shapes_resources.json).
 
 ## FFN pipeline and decoder epilogues
 
@@ -105,7 +122,7 @@ This option requires `nvidia-cuda-nvcc-cu12==12.8.93`, included in `requirements
 
 At batch eight / three frames, eight rotating rounds of 20 graph calls give encoder medians **13.185 → 13.137 ms** and decoder **11.709 → 11.613 ms** versus the preceding ordered-matrix runtime. A separate 40-pair single-call comparison finds no encoder advantage at this geometry. Effects are small and variable; decoder fusion removes 64 kernel launches, but does not establish 100× acceleration. [Five-way ablation](results/full_ffn_ablation.json), [paired samples and 27 exact full-model cases](results/full_ffn_runtime.json), [profile](results/full_ffn_profile.json).
 
-The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite passes **220 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
+The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **249 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
 
 ## LFQ projection and decoder reconstruction
 

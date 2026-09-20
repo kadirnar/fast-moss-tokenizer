@@ -1,4 +1,4 @@
-"""Pinned FP32 SIMT FFN matrices, with the original 256-term partitions.
+"""Pinned FP32 SIMT attention/FFN matrices, with measured native partitions.
 
 Internal entry point: MatrixRuntime validates operands, model and environment.
 No Tensor Core instructions or reduced-precision operands are used.
@@ -8,7 +8,26 @@ import triton
 import triton.language as tl
 
 
-SHAPES = {(24, 5120, 1280), (24, 1280, 5120)}
+# (M,N,K): (partition terms, tile M, tile N, tile K, warps, stages).
+# See ordered_shapes_confirm.json for the expanded empirical arithmetic gate.
+CONFIGS = {
+    (24, 768, 768): (96, 32, 128, 32, 4, 3),
+    (24, 768, 3072): (96, 32, 128, 32, 4, 2),
+    (24, 1280, 5120): (256, 32, 128, 32, 4, 3),
+    (24, 2304, 768): (96, 32, 64, 32, 4, 3),
+    (24, 3072, 768): (96, 32, 64, 32, 4, 2),
+    (24, 3840, 1280): (96, 32, 128, 32, 4, 2),
+    (24, 5120, 1280): (256, 32, 128, 32, 4, 3),
+    (48, 768, 3072): (160, 32, 64, 32, 4, 3),
+    (48, 2304, 768): (128, 32, 64, 32, 4, 2),
+    (96, 768, 768): (128, 32, 128, 32, 4, 3),
+    (96, 768, 3072): (288, 32, 128, 32, 4, 2),
+    (96, 2304, 768): (128, 32, 64, 32, 4, 2),
+    (96, 3072, 768): (192, 32, 128, 32, 4, 2),
+    (192, 768, 768): (128, 32, 64, 32, 4, 2),
+    (192, 768, 3072): (160, 64, 64, 32, 4, 3),
+}
+SHAPES = set(CONFIGS)
 
 
 @triton.jit
@@ -40,17 +59,23 @@ def _reduce(P, Y, NUMEL: tl.constexpr, PARTS: tl.constexpr, BLOCK: tl.constexpr)
     tl.store(Y + i, acc, i < NUMEL)
 
 
-def linear(x, packed, *, stages=3):
-    """Validated contiguous X=(24,K), W=(K,N), with N/K in SHAPES."""
-    k, n = packed.shape
-    if (tuple(x.shape) != (24, k) or (24, n, k) not in SHAPES
+def linear(x, packed, *, stages=None):
+    """Validated contiguous X=(M,K), W=(K,N), with shape-specific FMA partitions."""
+    if x.ndim != 2 or packed.ndim != 2:
+        raise ValueError('Expected a supported contiguous CUDA FP32 ordered matrix shape')
+    m, k = x.shape
+    n = packed.shape[1]
+    shape = (m, n, k)
+    if (packed.shape[0] != k or shape not in CONFIGS
             or not x.is_cuda or x.dtype != torch.float32 or packed.dtype != x.dtype
             or x.device != packed.device or not x.is_contiguous() or not packed.is_contiguous()):
         raise ValueError('Expected a supported contiguous CUDA FP32 ordered matrix shape')
-    parts = k // 256
-    partials = torch.empty((parts, 24, n), device=x.device, dtype=x.dtype)
-    out = torch.empty((24, n), device=x.device, dtype=x.dtype)
-    _partials[(1, n // 128, parts)](x, packed, partials, 24, n, k, 256, 32, 128, 32,
-                                   num_warps=4, num_stages=stages, enable_fp_fusion=False)
-    _reduce[(24 * n // 256,)](partials, out, 24*n, parts, 256, enable_fp_fusion=False)
+    chunk, bm, bn, bk, warps, configured_stages = CONFIGS[shape]
+    parts = triton.cdiv(k, chunk)
+    partials = torch.empty((parts, m, n), device=x.device, dtype=x.dtype)
+    out = torch.empty((m, n), device=x.device, dtype=x.dtype)
+    _partials[(triton.cdiv(m, bm), triton.cdiv(n, bn), parts)](
+        x, packed, partials, m, n, k, chunk, bm, bn, bk, num_warps=warps,
+        num_stages=configured_stages if stages is None else stages, enable_fp_fusion=False)
+    _reduce[(triton.cdiv(m*n, 256),)](partials, out, m*n, parts, 256, enable_fp_fusion=False)
     return out

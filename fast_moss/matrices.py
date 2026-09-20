@@ -49,7 +49,7 @@ class MatrixRuntime:
     Other layouts, shapes, bias, gradients, and autocast use the original FP32
     weight layout through F.linear. The profile is empirical exactness evidence,
     not a claim that all pedantic algorithms reproduce PyTorch's reduction.
-    backend='triton' substitutes ordered SIMT kernels for two 24-row FFN shapes;
+    backend='triton' substitutes ordered SIMT kernels for profiled attention/FFN shapes;
     it retains the same packing, fallbacks, per-stream plans and lifetime guards.
     """
 
@@ -93,6 +93,9 @@ class MatrixRuntime:
         if torch.cuda.is_current_stream_capturing():
             raise RuntimeError('Enter matrix optimization before CUDA graph capture')
         shapes = {shape[1:] for shape in self.selected}
+        if self.backend == 'triton':
+            from .ordered_matrices import SHAPES
+            shapes.update(shape[1:] for shape in SHAPES)
         modules = [m for m in self.model.modules() if type(m) is torch.nn.Linear
                    and tuple(m.weight.shape) in shapes and m.bias is None and 'forward' not in m.__dict__]
         # Include registered buffers and repeated/tied parameter names. External
@@ -137,7 +140,11 @@ class MatrixRuntime:
             if x.ndim < 1 or x.shape[-1] != module.in_features:
                 return finish(original(x))
             shape = (x.numel() // x.shape[-1], *module.weight.shape)
-            if (shape not in self.selected or module.bias is not None or x.device != self.device
+            ordered_shape = False
+            if self.backend == 'triton':
+                from .ordered_matrices import SHAPES
+                ordered_shape = shape in SHAPES
+            if ((shape not in self.selected and not ordered_shape) or module.bias is not None or x.device != self.device
                     or x.dtype != torch.float32 or not x.is_contiguous() or not folds_to_mm(x)
                     or x.data_ptr() % 256 or x.requires_grad or torch.is_autocast_enabled('cuda')):
                 return finish(F.linear(x, module.weight.contiguous(), module.bias)
@@ -161,20 +168,25 @@ class MatrixRuntime:
                         weight.data = packed.T
                     if stream not in self.workspaces:
                         self.workspaces[stream] = torch.empty(32 * 1024 * 1024, device=self.device, dtype=torch.uint8)
-                    record = self.selected[shape]
-                    plan = LinearPlan(module.weight, shape[0], 'packed', workspace=self.workspaces[stream],
-                                      packed_weight=self.packed[id(module.weight)][1])
-                    try:
-                        index = plan.restore(record['algorithm'], self.profile['cublaslt_version'])
-                    except BaseException:
-                        plan.close()
-                        raise
+                    # Some exact ordered shapes have no useful vendor profile.
+                    # Keep a stream warmup entry without manufacturing a plan;
+                    # unsupported later calls still use contiguous native weights.
+                    record = self.selected.get(shape)
+                    plan, index = None, None
+                    if record is not None:
+                        plan = LinearPlan(module.weight, shape[0], 'packed', workspace=self.workspaces[stream],
+                                          packed_weight=self.packed[id(module.weight)][1])
+                        try:
+                            index = plan.restore(record['algorithm'], self.profile['cublaslt_version'])
+                        except BaseException:
+                            plan.close()
+                            raise
                     self.plans[key] = (plan, index)
             plan, index = self.plans[key]
             with torch.cuda.device(self.device):
                 if self.backend == 'triton':
-                    from .ordered_matrices import SHAPES, linear
-                    if shape in SHAPES:
+                    from .ordered_matrices import linear
+                    if ordered_shape:
                         self.triton_calls += 1
                         if _fast_epilogue is not None:
                             from .ffn import linear as fused_linear
@@ -208,7 +220,8 @@ class MatrixRuntime:
         self.saved.clear()
         with torch.cuda.device(self.device):
             for plan, _ in self.plans.values():
-                plan.close()
+                if plan is not None:
+                    plan.close()
         self.plans.clear()
         # Plans hold packed tensors: drop the final loop reference before
         # restoring one parameter at a time, retaining a single model copy.

@@ -7,6 +7,7 @@ from fast_moss.cublaslt import LinearPlan, library
 from fast_moss.graphs import GraphedCallable
 from fast_moss.matrices import MatrixRuntime, load_profile
 from fast_moss.optimize import optimized
+from fast_moss.ordered_matrices import CONFIGS
 from benchmarks.fixtures import structural_model
 
 
@@ -196,16 +197,16 @@ def test_lazy_packing_invalidates_graphs_of_previously_unpacked_weights():
 
 
 @torch.inference_mode()
-@pytest.mark.parametrize('shape', [(5120,1280), (1280,5120)])
+@pytest.mark.parametrize('shape', sorted(CONFIGS))
 def test_ordered_runtime_arithmetic_hooks_fallback_and_storage(shape):
     import json
     from pathlib import Path
     from fast_moss.loading import strict_precision
     strict_precision()
     torch.manual_seed(954)
-    n, k = shape
+    m, n, k = shape
     model = torch.nn.Sequential(torch.nn.Linear(k, n, bias=False)).cuda().eval().requires_grad_(False)
-    x = torch.randn(8,3,k,device='cuda')
+    x = torch.randn(8,m//8,k,device='cuda')
     fallback = torch.randn(8,1,k,device='cuda').as_strided((8,1,k),(k,1,1))
     ref, fallback_ref = model(x), model(fallback)
     weight = model[0].weight.clone()
@@ -215,6 +216,8 @@ def test_ordered_runtime_arithmetic_hooks_fallback_and_storage(shape):
     with MatrixRuntime(model, backend='triton', _profile=profile) as runtime:
         assert torch.equal(model(x), ref)
         assert runtime.triton_calls == 1 and len(observed) == 1
+        if shape not in runtime.selected:
+            assert all(plan is None for plan, _ in runtime.plans.values())
         assert torch.equal(model(fallback), fallback_ref)
         assert runtime.triton_calls == 1
         graph = GraphedCallable(lambda z:(model(z),), x)
@@ -235,3 +238,48 @@ def test_ordered_runtime_compiler_gate_and_helper_validation(monkeypatch):
     monkeypatch.setattr(triton, '__version__', 'unvalidated')
     with pytest.raises(ValueError, match='validated Triton'):
         MatrixRuntime(torch.nn.Linear(1,1), backend='triton')
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('shape', sorted(CONFIGS))
+def test_ordered_random_weight_rounding_and_partial_tail(shape):
+    from fast_moss.loading import strict_precision
+    from fast_moss.ordered_matrices import linear
+    strict_precision()
+    torch.manual_seed(7862)
+    m,n,k = shape
+    x = torch.randn(m,k,device='cuda')
+    w = torch.randn(n,k,device='cuda')*.05
+    packed = w.T.contiguous()
+    for factor in [0.,1.,1e-38,1e-20,1e20]:
+        z = x*factor
+        ref = torch.nn.functional.linear(z,w)
+        out = linear(z,packed)
+        assert torch.equal(out.view(torch.int32),ref.view(torch.int32))
+
+
+@torch.inference_mode()
+def test_ordered_without_vendor_plan_cleanup_and_capture_warmup():
+    from fast_moss.loading import strict_precision
+    strict_precision()
+    model = torch.nn.Sequential(torch.nn.Linear(768,768,bias=False)).cuda().eval().requires_grad_(False)
+    # This shape has an ordered kernel but no recorded vendor plan. An empty
+    # vendor profile also verifies module discovery through the ordered shapes.
+    profile = {'cublaslt_version':library().cublasLtGetVersion(),'records':[]}
+    x = torch.randn(96,768,device='cuda');ref = model(x)
+    original = model[0].weight.clone()
+    with pytest.raises(RuntimeError,match='body failure'):
+        with MatrixRuntime(model,backend='triton',_profile=profile) as runtime:
+            with pytest.warns(UserWarning,match='CUDA Graph is empty'):
+                with pytest.raises(RuntimeError,match='Warm matrix shapes'):
+                    GraphedCallable(lambda z:(model(z),),x,warmup=0)
+            assert torch.equal(model(x),ref)
+            assert runtime.plans and all(plan is None for plan,_ in runtime.plans.values())
+            graph = GraphedCallable(lambda z:(model(z),),x)
+            assert torch.equal(graph(x)[0],ref)
+            raise RuntimeError('body failure')
+    assert not runtime.plans and not runtime.packed
+    assert model[0].weight.is_contiguous() and torch.equal(model[0].weight,original)
+    assert torch.equal(model(x),ref)
+    with pytest.raises(RuntimeError,match='storage changed'):
+        graph(x)
