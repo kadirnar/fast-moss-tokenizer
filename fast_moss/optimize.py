@@ -36,7 +36,7 @@ def _decode_latents(self, latents):
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
               kv_backend="none", rope_backend="none", share_rope_tables=False,
               attention_mask_backend="none", quantizer_backend="none", matrix_backend="none",
-              projection_backend="none", ffn_backend="none"):
+              projection_backend="none", ffn_backend="none", norm_backend="none"):
     """Temporarily optimize a frozen model; no precision conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
@@ -50,6 +50,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     ffn_backend='triton' uses two stages and decoder epilogues for 24-row FFNs,
     plus fused native one-row GEMV epilogues in both encoder and decoder;
     it requires Triton matrices, residual fusion and the pinned ffn math extra.
+    norm_backend='cuda' uses the pinned normalization extra for profiled FP32
+    LayerNorm shapes, preserving the native Welford tree and affine arithmetic.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -71,6 +73,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Quantizer fusion requires cached codebooks")
     if matrix_backend not in {"none", "cublaslt", "triton"}:
         raise ValueError("Unknown matrix backend")
+    if norm_backend not in {"none", "cuda"}:
+        raise ValueError("Unknown normalization backend")
     if ffn_backend not in {'none','triton'}:
         raise ValueError('Unknown FFN backend')
     if ffn_backend == 'triton':
@@ -101,6 +105,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         if matrix_backend in {'cublaslt', 'triton'}:
             from .matrices import MatrixRuntime
             matrix_stack.enter_context(MatrixRuntime(model, backend=matrix_backend))
+        if norm_backend == 'cuda':
+            from .normalization import NormalizationRuntime
+            matrix_stack.enter_context(NormalizationRuntime(model))
         if projection_backend == 'triton':
             from .projections import cache_lifetime
             matrix_stack.enter_context(cache_lifetime(next(model.parameters()).device))

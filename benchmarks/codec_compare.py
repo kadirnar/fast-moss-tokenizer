@@ -20,10 +20,11 @@ def main():
     parser.add_argument('--frames',type=int,default=3)
     parser.add_argument('--batches',type=int,nargs='+',default=[1,8])
     parser.add_argument('--output',default='results/full_codec_current.json')
+    parser.add_argument("--norm-backend", choices=["none", "cuda"], default="none")
     args=parser.parse_args()
     if args.frames<1 or any(b<1 for b in args.batches):parser.error('Frames and batches must be positive')
     model=load_model();clips,sources=audio_sources()
-    opts=dict(options(),matrix_backend='triton',ffn_backend='triton')
+    opts=dict(options(),matrix_backend='triton',ffn_backend='triton',norm_backend=args.norm_backend)
     report={'scope':'full checkpoint, original eager/original graph/current optimized graph',
             'revision':REVISION,'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),
             'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'options':opts,

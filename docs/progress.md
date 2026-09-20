@@ -1010,3 +1010,42 @@ uv build --wheel --out-dir /tmp/moss-gemv-epilogue-wheel
 ```
 
 All handles are terminal: initial/extended metadata probes `37476` / `67384`, component search `41486`, first collection attempt `13719`, revised collection/research-model chain `73703`, initial focused tests `7436`, integrated/CuTe/streams/profile/upstream/full-suite chain `4232`, compiler resources `75719`. Wheel building completes successfully and its temporary repository build output is removed. Final audit verifies every corpus/stream/component check, kernel-count reduction, matrix-group accounting, direct performance ratios and wheel/source hashes. Python compilation and diff checks pass. Physical counter attribution, further exact matrix/launch optimizations, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Integrated exact CUDA LayerNorm
+
+Previous goal turn classification: **progress**, verified at clean commit `52a2c91`, with integrated native FFN epilogues, 501 passing tests, exact codec/streaming gates and measured launch reductions. The 100× goal remains active and unmet.
+
+- Reproduced the native PyTorch 2.8 Welford tree in CUDA and captured 20 actual LayerNorm geometries. All **200** dynamic-count configurations pass. The first constant-count variant passes only **30/200** because compiler-selected FMA orientation changes mean bits. Explicitly preserving the native rounded-product/FMA order fixes all **200** configurations. The failed experiment is retained.
+- Corrected finalists pass **4,320** native/candidate output, mean and reciprocal-standard-deviation comparisons. Component gains are **1.49–1.71×**. Tests additionally cover zero epsilon, partial row grids, signed zeros, subnormals, large inputs, infinities and NaNs. These results support the pinned arithmetic implementation, not arbitrary reordering of LayerNorm.
+- Added optional `norm_backend="cuda"`, requiring the `normalization` extra and recorded GPU/PyTorch/checkpoint profile. Reversible per-module wrappers retain existing FFN fusion, hooks, custom-forward fallbacks, gradient/autocast/layout/epsilon fallbacks, stream warmup and graph-lifetime guards. No parameter packing or persistent activation workspace is added.
+- Research, supported-runtime and CuTe combinations each pass **48 full-checkpoint cases**. The integrated batch-one / one-frame ablation improves encode **7.035 → 6.940 ms (1.0137×)** and decode **6.210 → 6.078 ms (1.0218×)**. Batch-eight gains are **1.0093× / 1.0164×**. At batch one / three frames, encode is effectively unchanged (**1.0009×**), while decode improves **1.0206×**. Peak allocation is **7.721 GB**.
+- Both **162-chunk / 12.96-second** streams remain exact against corrected eager streaming: **5,184 / 10,368 tokens** and **311,040 / 622,080 samples** for one/two lanes. Their preexisting decoder discrepancy from offline execution is unchanged. Peak stream allocations are **7.526 / 7.696 GB**.
+- The profile retains **1,508 encoder / 904 decoder kernels**, including 64 fused FFN GEMVs per direction. CUDA LayerNorm replaces **88 encoder / 136 decoder** calls, leaving 48 native encoder calls. LayerNorm uses approximately **4.34% / 4.28%** of kernel time; matrix groups remain **72.03% / 81.37%**.
+- A fresh original/current comparison measures **6.870 / 6.001 ms** for batch-one / 80 ms encode/decode: **6.89× / 6.25×** versus original eager, **1.51× / 1.52×** versus original graphs. Ratios use fresh denominators; isolated gains are not multiplied into historical results.
+- The full suite passes **554 tests in 84.14 seconds**. Four integrated compiler variants use **30–38 registers**, **0–48 bytes shared memory**, no local-memory spills and no matrix Tensor Core instructions. The wheel matches all **24 runtime/profile files** and passes an isolated import. This turn is **progress**, with a verified runtime optimization; the broader 100× goal remains unmet.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.native_layer_norm_probe
+.venv/bin/python -m benchmarks.layer_norm_inputs
+.venv/bin/python -m benchmarks.native_layer_norm_tune
+.venv/bin/python -m benchmarks.native_layer_norm_confirm
+.venv/bin/python -m benchmarks.native_layer_norm_tune --fixed --output results/native_layer_norm_fixed.json
+.venv/bin/python -m benchmarks.native_layer_norm_tune --fixed --fixed-mode 3 --output results/native_layer_norm_fixed_corrected.json
+.venv/bin/python -m benchmarks.native_layer_norm_confirm --input results/native_layer_norm_fixed_corrected.json --output results/native_layer_norm_fixed_confirm.json
+.venv/bin/python -m pytest tests/test_native_layer_norm_research.py -q
+.venv/bin/python -m benchmarks.native_layer_norm_model
+.venv/bin/python -m pytest tests/test_normalization.py tests/test_ffn.py -q
+.venv/bin/python -m benchmarks.native_layer_norm_model --runtime --output results/full_native_layer_norm_runtime.json
+.venv/bin/python -m benchmarks.native_layer_norm_model --runtime --fidelity-only --residual-backend cute --output results/full_native_layer_norm_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_native_layer_norm_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_native_layer_norm_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_native_layer_norm_profile.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --norm-backend cuda --output results/full_codec_native_layer_norm.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.native_layer_norm_resources
+uv build --wheel --out-dir /tmp/moss-native-layer-norm-wheel
+```
+
+All handles are terminal: initial arithmetic/capture `51809` / `8204`, dynamic sweep/confirmation `87929` / `94242`, first constants/order diagnosis `76476` / `9811`, corrected sweep/confirmation `15640`, research model/tests `56678` / `17637`, initial/corrected focused fixtures `52180` / `38424`, supported model `59923`, CuTe `53631`, streams `83767` / `84666`, profile `54734`, original comparison `49283`, full suite `37916`, resource-audit initial/context-corrected calls `70005` / `62711`, wheel import `94706`. The initial focused failures were training-mode parent test fixtures; the initial resource audit needed an allocated tensor to establish its CUDA context. Both are corrected, and final gates pass. Temporary repository wheel-build output is removed. Final audit verifies the retained arithmetic failures, corrected comparisons, full-model/streaming exactness, profile dispatch, direct speed ratios and package hashes. Further exact matrix work, noncontiguous encoder normalization, physical hardware-counter attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.

@@ -129,6 +129,11 @@ def gemv_linear(x,weight,mode,residual,scale,library):
     return out
 
 
+def owned_norm_forward(module):
+    from .normalization import owned_forward
+    return owned_forward(module)
+
+
 def observed(layer):
     return (module_hooks._global_forward_hooks or module_hooks._global_forward_pre_hooks
             or any(m._forward_hooks or m._forward_pre_hooks for m in
@@ -141,7 +146,7 @@ def forward(self, x):
         return self._fast_observed_ffn(x)
     if (not runtime.ffn_enabled or runtime.backend != 'triton' or self.activation is not F.gelu or self.gating is not None
             or self.weights_per_step or type(self.norm2) is not torch.nn.LayerNorm
-            or 'forward' in self.norm2.__dict__
+            or ('forward' in self.norm2.__dict__ and not owned_norm_forward(self.norm2))
             or x.ndim < 2 or x.shape[-1] != 1280 or x.numel() not in (1280,24*1280)
             or (x.numel()==1280 and not runtime.ffn_gemv_enabled)
             or x.dtype != torch.float32 or x.device != runtime.device or x.requires_grad

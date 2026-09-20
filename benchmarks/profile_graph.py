@@ -29,6 +29,8 @@ def kernel_summary(path,replays=5):
     groups['small_matrix']=sum(small_times.values())
     groups['small_vendor_matrix']=sum(e['dur'] for e in events
         if any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx']))
+    groups['layer_norm_cuda']=sum(e['dur'] for e in events if e.get('name')=='layer_norm')
+    groups['layer_norm_native']=sum(e['dur'] for e in events if 'vectorized_layer_norm_kernel' in e.get('name',''))
     groups['vendor_split_reduce']=sum(e['dur'] for e in events if 'splitkreduce' in e.get('name','').lower())
     return {'scope':'CUDA kernel events only, excludes memcpy and host time','replays':replays,
             'matrix_grouping':'SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions',
@@ -41,6 +43,8 @@ def kernel_summary(path,replays=5):
             'ordered_reduce_per_replay':sum(e.get('name')=='_reduce' for e in events)/replays,
             'ffn_reduce_per_replay':sum(e.get('name')=='_ffn_reduce' for e in events)/replays,
             'small_gemv_per_replay':sum(e.get('name')=='_small_gemv' for e in events)/replays,
+            'layer_norm_cuda_per_replay':sum(e.get('name')=='layer_norm' for e in events)/replays,
+            'layer_norm_native_per_replay':sum('vectorized_layer_norm_kernel' in e.get('name','') for e in events)/replays,
             'ffn_gemv_per_replay':sum(e.get('name')=='_ffn_gemv' for e in events)/replays,
             'small_fixed_per_replay':sum(e.get('name')=='_small_fixed' for e in events)/replays,
             'small_grouped_per_replay':sum(e.get('name')=='_small_grouped' for e in events)/replays,
@@ -67,6 +71,7 @@ def main():
     p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
     p.add_argument("--projection-backend", choices=["none", "triton"], default="none")
     p.add_argument("--ffn-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--norm-backend", choices=["none", "cuda"], default="none")
     a=p.parse_args()
     if a.matrix_tuning and a.matrix_backend != 'none':
         p.error('Choose either experimental tuning or the supported matrix backend')
@@ -80,11 +85,11 @@ def main():
     report={"scope":"full checkpoint optimized graph", "revision":REVISION,"torch":torch.__version__,
             "gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,"quantizers":32,
             "seconds":a.seconds,"batch":a.batch,"streaming":a.streaming,"share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
-            "quantizer_backend":a.quantizer_backend,"matrix_backend":a.matrix_backend,"projection_backend":a.projection_backend,"ffn_backend":a.ffn_backend,"experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
+            "quantizer_backend":a.quantizer_backend,"matrix_backend":a.matrix_backend,"projection_backend":a.projection_backend,"ffn_backend":a.ffn_backend,"norm_backend":a.norm_backend,"experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
             "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","results":{}}
     with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",
                    share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,
-                   quantizer_backend=a.quantizer_backend,matrix_backend=a.matrix_backend,projection_backend=a.projection_backend,ffn_backend=a.ffn_backend):
+                   quantizer_backend=a.quantizer_backend,matrix_backend=a.matrix_backend,projection_backend=a.projection_backend,ffn_backend=a.ffn_backend,norm_backend=a.norm_backend):
         codes=model._encode_frame(x).audio_codes
         for name,fn,inp in [("encode",lambda v:(model._encode_frame(v).audio_codes,),x),
                             ("decode",lambda v:(model._decode_frame(v).audio,),codes)]:

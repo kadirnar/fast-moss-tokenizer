@@ -25,8 +25,10 @@ def main():
     p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
     for name in ['quantizer','projection','ffn']:
         p.add_argument(f"--{name}-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--norm-backend", choices=["none", "cuda"], default="none")
     a=p.parse_args()
     extra={f'{name}_backend':getattr(a,f'{name}_backend') for name in ['matrix','quantizer','projection','ffn']}
+    extra['norm_backend']=a.norm_backend
     if a.frames%a.chunk_frames:
         raise ValueError("Frame count must divide into complete chunks")
     samples,sr=sf.read(a.audio,dtype="float32",always_2d=True)
