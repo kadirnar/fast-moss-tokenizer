@@ -19,7 +19,7 @@ def kernel_summary(path,replays=5):
     total=sum(e['dur'] for e in events)
     groups={name:sum(e['dur'] for e in events if needle in e.get('name','').lower())
             for name,needle in [('sgemm','sgemm'),('attention','fmha')]}
-    groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce'])
+    groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
     groups['vendor_split_reduce']=sum(e['dur'] for e in events if 'splitkreduce' in e.get('name','').lower())
     return {'scope':'CUDA kernel events only, excludes memcpy and host time','replays':replays,
             'total_ms_per_replay':total/replays/1000,'kernels_per_replay':len(events)/replays,
@@ -29,6 +29,7 @@ def kernel_summary(path,replays=5):
             'decoder_gather_per_replay':sum(e.get('name') in ['_decode','_decode_tokens'] for e in events)/replays,
             'ordered_partials_per_replay':sum(e.get('name')=='_partials' for e in events)/replays,
             'ordered_reduce_per_replay':sum(e.get('name')=='_reduce' for e in events)/replays,
+            'ffn_reduce_per_replay':sum(e.get('name')=='_ffn_reduce' for e in events)/replays,
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}
                       for name,value in groups.items()}}
 
@@ -46,6 +47,7 @@ def main():
     p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
     p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
     p.add_argument("--projection-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--ffn-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
     if a.matrix_tuning and a.matrix_backend != 'none':
         p.error('Choose either experimental tuning or the supported matrix backend')
@@ -59,11 +61,11 @@ def main():
     report={"scope":"full checkpoint optimized graph", "revision":REVISION,"torch":torch.__version__,
             "gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,"quantizers":32,
             "seconds":a.seconds,"batch":a.batch,"streaming":a.streaming,"share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
-            "quantizer_backend":a.quantizer_backend,"matrix_backend":a.matrix_backend,"projection_backend":a.projection_backend,"experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
+            "quantizer_backend":a.quantizer_backend,"matrix_backend":a.matrix_backend,"projection_backend":a.projection_backend,"ffn_backend":a.ffn_backend,"experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
             "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","results":{}}
     with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",
                    share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,
-                   quantizer_backend=a.quantizer_backend,matrix_backend=a.matrix_backend,projection_backend=a.projection_backend):
+                   quantizer_backend=a.quantizer_backend,matrix_backend=a.matrix_backend,projection_backend=a.projection_backend,ffn_backend=a.ffn_backend):
         codes=model._encode_frame(x).audio_codes
         for name,fn,inp in [("encode",lambda v:(model._encode_frame(v).audio_codes,),x),
                             ("decode",lambda v:(model._decode_frame(v).audio,),codes)]:

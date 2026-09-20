@@ -552,3 +552,38 @@ uv build --wheel --out-dir /tmp/moss-ordered-wheel
 ```
 
 The two isolation reports preserve pre-fix evidence; rerunning their commands on this commit should observe the corrected behavior. Matrix component tools use the previously captured `results/matrix_inputs.pt`. All observed GPU handles are terminal: partition probe `81389`, rejected tile compilation `36736`, corrected tile sweep `6291`, first stress gate `85992`, initial model failure `9521`, rejected invalid ablation-option combination `23599`, corrected isolation `66924`, residual audit `23361`, residual tests `14247`, corrected prototype `49281`, runtime tests `64539`, specialized runtime `78907`, specialized confirmation `30472`, final confirmation `8808`, final runtime `36562`, sequential CuTe/stream/profile/full-test chain `1564`, interleaved pairs `46525`, and compiled resource check `5646`. No benchmark or download is intentionally left running. The goal remains active: these modest exact improvements do not establish 100×, broader workload guarantees, network serving or multi-GPU execution.
+
+
+## 2026-09-20, FFN pipeline tuning and exact decoder reduction fusion
+
+Previous goal turn classification: **progress**, verified at clean commit `883cd51`, with the supported ordered matrix path, residual stride repair and 206 passing tests. This turn is **progress**: a new opt-in FFN path passes full-model and stream gates and gives small measured gains. **The 100× whole-model goal remains active and unmet.**
+
+- Added `ffn_backend="triton"`, requiring Triton matrices and either residual backend. Two-stage ordered matrices serve the same two 24-row shapes. Decoder reductions fuse exact GELU/scaled residual arithmetic; encoder retains its existing epilogues after the all-fused comparison showed inconsistent encoder benefit. No reduced precision, retraining, codebook removal or additional persistent weight copy is introduced.
+- `ordered_pipeline.json` retains 66 trials: 64 executed exactly, two rejected for excessive shared memory. Aggressive unrolling/spills and the initial cold baseline are not accepted performance claims. Runtime inspection in `ffn_kernel_resources.json` finds **40,960 → 20,480 shared bytes**, unchanged **166 registers**, zero spills, and no matrix Tensor Core instructions. The fused reductions use 18/40 registers and no shared memory.
+- The initial fused GELU failed exactness; `ordered_epilogue.json` is explicitly labeled rejected. `gelu_math.json` isolates differences to bundled libdevice on 2,097,152 inputs. The separately validated CUDA 12.8.93 library matches erf/GELU under both tested fusion flags. `gelu_libdevice_source.json` records official wheel provenance and hashes. Added only `nvidia-cuda-nvcc-cu12==12.8.93` to the local environment, optional package `ffn` extra and lockfile. Runtime validates its version/hash before model mutations and passes it only to fused reduction compilation.
+- `ffn_components.json`: **192 exact eager/graph comparisons**, including twelve inputs per learned matrix and all four variants; eager bit patterns match throughout. Warm component gains are about 1.095× GELU / 1.140× residual, shrinking under eviction. These are component measurements, not model acceleration factors.
+- `full_ffn_runtime.json`: **27 exact full-checkpoint cases**, including codes, hidden states, waveforms, graph replay and context restoration. Forty interleaved pairs at three geometries show variable small gains; batch-eight encoder medians are unchanged, decoder **11.511 → 11.404 ms**. The report records one packed-weight lifetime and two graphs per direction. The final observer-only repair is additionally covered by focused hooks tests and the final CuTe full-model gate.
+- `full_ffn_ablation.json`: eight rotating rounds of twenty calls, five graph variants, all original-reference comparisons exact. Previous → selected medians are **13.185 → 13.137 ms encode** and **11.709 → 11.613 ms decode**, about **0.4% / 0.8%** improvements. Distributions overlap. Copies and owned outputs are included; load, packing, capture and restoration are excluded. Initial all-fused reports are explicitly labeled superseded dispatch experiments and retained for audit.
+- `full_fidelity_ffn_cute.json`: **15 cases exact**. `full_incremental_ffn.json`: exact **11,072 tokens / 664,320 samples**, pauses, tails, late completion, reuse and two requests beyond ten seconds. One/three-fragment times are **853.404/856.851 ms encode**, **795.444/796.941 ms decode**; these are logical stream fidelity checks, not network or independent speedup claims.
+- `full_ffn_profile.json`: **1795 encode / 1059 decode kernels**, 64 fewer decoder launches. Encoder has 64 ordinary ordered reductions; decoder has 64 fused reductions. Matrix-associated groups total **80.74% / 84.77%** of device kernel time; decoder attribution includes fused GELU/residual work. Dense matrix execution and weight traffic remain priorities.
+- `results/tests.txt`: **220 passed in 35.16 seconds**. Fourteen new test instances cover exact extreme inputs, special GELU values, both residual backends and encoder/decoder dispatch, hooks including original LayerScale events, custom activations/norms, fallback after packing, graph epochs, restoration and library/option validation. Compile and diff checks pass. `ffn_package.json` verifies the final built wheel's **22 runtime/profile files** byte-for-byte and the pinned optional dependency.
+
+Reproduction, with GPU jobs strictly sequential:
+
+```bash
+uv pip install --python .venv/bin/python --no-deps nvidia-cuda-nvcc-cu12==12.8.93
+.venv/bin/python -m benchmarks.ordered_pipeline
+.venv/bin/python -m benchmarks.ordered_epilogue
+.venv/bin/python -m benchmarks.gelu_math
+.venv/bin/python -m benchmarks.ffn_components
+.venv/bin/python -m benchmarks.ffn_resources
+.venv/bin/python -m benchmarks.ffn_model
+.venv/bin/python -m benchmarks.ffn_ablation
+.venv/bin/python -m benchmarks.fidelity --backend cute --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_fidelity_ffn_cute.json
+.venv/bin/python -m benchmarks.incremental_batching --matrix-backend triton --projection-backend triton --ffn-backend triton --repeats 1 --output results/full_incremental_ffn.json
+.venv/bin/python -m benchmarks.profile_graph --batch 8 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_ffn_profile.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-ffn-wheel
+```
+
+Component tools require the previously captured `results/matrix_inputs.pt`. The initial bundled-library epilogue command intentionally records its failed GELU gate. The pipeline sweep resumes recorded trials; move its output aside for a fresh sweep. All handles are terminal: initial resource-limit failure `66619`, resumed sweep/initial epilogues `17850`, native GELU composition `20048`, isolated wheel download `30034`, math isolation `65106`, install `1183`, components `65343`, initial focused tests `37710`, all-fused corpus `31234`, first ablation `39546`, initial combined validation `20296`, selected corpus `35343`, final sequential ablation/CuTe/stream/profile/math/full-test chain `31304`, and final resource inspection `28916`. No benchmark or download is intentionally left running. Historical approximately 5× whole-model measurements and these component gains are not multiplied together. Broader workloads, exact dense arithmetic improvements, network serving, multi-GPU execution and a defensible matched-workload 100× result remain open.

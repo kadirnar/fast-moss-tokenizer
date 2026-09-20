@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; version-gated resident FP32 cuBLASLt and ordered Triton matrices; fused LFQ output projections and cached decoder reconstruction.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; version-gated resident FP32 cuBLASLt and ordered Triton matrices; fused LFQ output projections and cached decoder reconstruction; optional FFN pipeline tuning and exact decoder GELU/residual fusion.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -96,6 +96,16 @@ Forty interleaved graph pairs sharing one packed-weight lifetime give these medi
 These are modest, variable gains: the candidate wins 24–27 of 40 pairs, depending on direction/geometry. A separate three-round context-by-context comparison ranges from a 1.4% decoder regression to a 2.6% encoder gain. Warm component improvements of roughly 1.35–1.47× shrink to approximately parity after cache eviction. Input copies and owned outputs are timed; loading, packing and capture are excluded. [Interleaved pairs](results/full_ordered_paired.json), [context comparison and 27-case fidelity](results/full_ordered_runtime.json).
 
 Expanded singleton-frame gates also exposed an older residual-layout bug. Both residual backends now allocate the canonical contiguous output used by native PyTorch, preserving downstream matrix dispatch. The regression previously changed encoder hidden states at batch 24 / one frame despite equal residual values, tokens and audio. The full-model corpus now includes batch 24 and 128 singleton inputs. [Isolation](results/ordered_singleton_audit.json), [CuTe corpus](results/full_fidelity_ordered_cute.json), [long incremental streams](results/full_incremental_ordered.json).
+
+## FFN pipeline and decoder epilogues
+
+Add `ffn_backend="triton"` to `optimized(...)` with `matrix_backend="triton"` and either residual backend enabled. At the two supported 24-row FFN shapes, it uses two pipeline stages, halving main-loop shared memory to 20,480 bytes. Decoder reductions also compute GELU or scaled residual addition with explicit FP32 rounding. Encoder FFNs retain their existing GELU and residual paths. Other shapes, custom activations/norms, and observer hooks retain the appropriate existing module paths; packing and graph lifetime rules still apply.
+
+This option requires `nvidia-cuda-nvcc-cu12==12.8.93`, included in `requirements.lock` and the package's `ffn` extra. Its CUDA math library is checked by version and SHA-256 before model mutation and passed only to these fused kernels. Triton's bundled math library produces different GELU values on the pinned environment; replacing it globally is unnecessary. [Math isolation](results/gelu_math.json), [compiled runtime kernels](results/ffn_kernel_resources.json).
+
+At batch eight / three frames, eight rotating rounds of 20 graph calls give encoder medians **13.185 → 13.137 ms** and decoder **11.709 → 11.613 ms** versus the preceding ordered-matrix runtime. A separate 40-pair single-call comparison finds no encoder advantage at this geometry. Effects are small and variable; decoder fusion removes 64 kernel launches, but does not establish 100× acceleration. [Five-way ablation](results/full_ffn_ablation.json), [paired samples and 27 exact full-model cases](results/full_ffn_runtime.json), [profile](results/full_ffn_profile.json).
+
+The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite passes **220 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
 
 ## LFQ projection and decoder reconstruction
 

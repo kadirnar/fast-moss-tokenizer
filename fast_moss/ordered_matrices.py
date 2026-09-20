@@ -40,7 +40,7 @@ def _reduce(P, Y, NUMEL: tl.constexpr, PARTS: tl.constexpr, BLOCK: tl.constexpr)
     tl.store(Y + i, acc, i < NUMEL)
 
 
-def linear(x, packed):
+def linear(x, packed, *, stages=3):
     """Validated contiguous X=(24,K), W=(K,N), with N/K in SHAPES."""
     k, n = packed.shape
     if (tuple(x.shape) != (24, k) or (24, n, k) not in SHAPES
@@ -51,6 +51,6 @@ def linear(x, packed):
     partials = torch.empty((parts, 24, n), device=x.device, dtype=x.dtype)
     out = torch.empty((24, n), device=x.device, dtype=x.dtype)
     _partials[(1, n // 128, parts)](x, packed, partials, 24, n, k, 256, 32, 128, 32,
-                                   num_warps=4, enable_fp_fusion=False)
+                                   num_warps=4, num_stages=stages, enable_fp_fusion=False)
     _reduce[(24 * n // 256,)](partials, out, 24*n, parts, 256, enable_fp_fusion=False)
     return out

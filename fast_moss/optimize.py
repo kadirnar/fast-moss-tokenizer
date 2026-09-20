@@ -36,7 +36,7 @@ def _decode_latents(self, latents):
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
               kv_backend="none", rope_backend="none", share_rope_tables=False,
               attention_mask_backend="none", quantizer_backend="none", matrix_backend="none",
-              projection_backend="none"):
+              projection_backend="none", ffn_backend="none"):
     """Temporarily optimize a frozen model; no precision conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
@@ -47,6 +47,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     matrix shapes; other shapes retain the supported cuBLASLt/native dispatch.
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
+    ffn_backend='triton' uses two pipeline stages and fuses decoder FFN epilogues;
+    it requires Triton matrices, residual fusion and the pinned ffn math extra.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -68,6 +70,13 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Quantizer fusion requires cached codebooks")
     if matrix_backend not in {"none", "cublaslt", "triton"}:
         raise ValueError("Unknown matrix backend")
+    if ffn_backend not in {'none','triton'}:
+        raise ValueError('Unknown FFN backend')
+    if ffn_backend == 'triton':
+        if matrix_backend != 'triton' or residual_backend == 'none':
+            raise ValueError('FFN fusion requires Triton matrices and an enabled residual backend')
+        from .ffn import math_library
+        ffn_library = math_library()
     if projection_backend not in {'none', 'triton'}:
         raise ValueError('Unknown projection backend')
     if projection_backend == 'triton':
@@ -79,6 +88,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
     saved = []
+    original_ffn = {}
     matrix_stack = ExitStack()
 
     def replace(obj, name, value):
@@ -101,6 +111,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
             replace(model, "_encode_frame", MethodType(encode_frame, model))
         for module in model.modules():
             kind = type(module).__name__
+            if kind == 'MossAudioTokenizerTransformerLayer' and ffn_backend == 'triton':
+                original_ffn[id(module)] = module._ff_block
             if kind == "MossAudioTokenizerResidualLFQ" and quantizer_backend == "triton":
                 from .quantizer import residual_forward
                 replace(module, "_fast_codes_only", False)
@@ -152,6 +164,22 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     from .quantizer import decode_latents, forward
                     replace(module, "decode_latents", MethodType(decode_latents, module))
                     replace(module, "forward", MethodType(forward, module))
+        if ffn_backend == 'triton':
+            from .ffn import forward as ffn_forward
+            runtime = model._fast_matrix_runtime
+            owned = {id(module) for module,_ in runtime.saved}
+            encoder = {id(module) for module in model.encoder.modules()} if hasattr(model,'encoder') else set()
+            for module in model.modules():
+                if (type(module).__name__ == 'MossAudioTokenizerTransformerLayer'
+                        and id(module.linear1) in owned and id(module.linear2) in owned
+                        and tuple(module.linear1.weight.shape) == (5120,1280)
+                        and tuple(module.linear2.weight.shape) == (1280,5120)):
+                    replace(module,'_fast_original_ffn',module._ff_block)
+                    replace(module,'_fast_observed_ffn',original_ffn[id(module)])
+                    replace(module,'_fast_ffn_runtime',runtime)
+                    replace(module,'_fast_ffn_library',ffn_library)
+                    replace(module,'_fast_ffn_fuse',id(module) not in encoder)
+                    replace(module,'_ff_block',MethodType(ffn_forward,module))
         if projection_backend == 'triton':
             from .projections import forward as project_forward, decode_codes
             q = model.quantizer

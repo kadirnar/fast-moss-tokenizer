@@ -1,0 +1,119 @@
+{
+  "scope": "same-input erf/GELU library isolation",
+  "torch": "2.8.0+cu128",
+  "triton": "3.4.0",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "records": [
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc",
+      "sha256": "5c2fae37c86e68c3a38605a95f512d7d12d5f3db986310be47f57304aa72a5ee",
+      "gelu": false,
+      "fusion": false,
+      "difference": {
+        "exact": false,
+        "max_abs": 5.960464477539063e-08,
+        "rmse": 1.4917920577745122e-08,
+        "different_elements": 131367,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc",
+      "sha256": "5c2fae37c86e68c3a38605a95f512d7d12d5f3db986310be47f57304aa72a5ee",
+      "gelu": false,
+      "fusion": true,
+      "difference": {
+        "exact": false,
+        "max_abs": 5.960464477539063e-08,
+        "rmse": 1.4917920577745122e-08,
+        "different_elements": 131367,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc",
+      "sha256": "5c2fae37c86e68c3a38605a95f512d7d12d5f3db986310be47f57304aa72a5ee",
+      "gelu": true,
+      "fusion": false,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.612765535861604e-08,
+        "different_elements": 85005,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc",
+      "sha256": "5c2fae37c86e68c3a38605a95f512d7d12d5f3db986310be47f57304aa72a5ee",
+      "gelu": true,
+      "fusion": true,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.612765535861604e-08,
+        "different_elements": 85005,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc",
+      "sha256": "25498d6e3c64782833ff15a5f56665ff09e5d21177163148a1cf008c61733449",
+      "gelu": false,
+      "fusion": false,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc",
+      "sha256": "25498d6e3c64782833ff15a5f56665ff09e5d21177163148a1cf008c61733449",
+      "gelu": false,
+      "fusion": true,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc",
+      "sha256": "25498d6e3c64782833ff15a5f56665ff09e5d21177163148a1cf008c61733449",
+      "gelu": true,
+      "fusion": false,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 2097152
+      }
+    },
+    {
+      "libdevice": "/home/kadir/kadir_projects/github/fast-moss-tokenizer/.venv/lib/python3.12/site-packages/nvidia/cuda_nvcc/nvvm/libdevice/libdevice.10.bc",
+      "sha256": "25498d6e3c64782833ff15a5f56665ff09e5d21177163148a1cf008c61733449",
+      "gelu": true,
+      "fusion": true,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 2097152
+      }
+    }
+  ],
+  "torch_composed_gelu": {
+    "exact": true,
+    "max_abs": 0.0,
+    "rmse": 0.0,
+    "different_elements": 0,
+    "elements": 2097152
+  }
+}

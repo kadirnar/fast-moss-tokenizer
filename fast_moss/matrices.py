@@ -63,6 +63,9 @@ class MatrixRuntime:
         self.model = model
         self.backend = backend
         self.triton_calls = 0
+        self.ffn_calls = 0
+        self.ffn_staged_calls = 0
+        self.ffn_enabled = True
         self.profile = load_profile(model) if _profile is None else _profile
         self.selected = {tuple(r['shape']): r for r in self.profile['records']}
         self.device = next(model.parameters()).device
@@ -121,17 +124,24 @@ class MatrixRuntime:
             raise
 
     def _wrap(self, original):
-        def forward(module, x):
+        def forward(module, x, *, _fast_epilogue=None, _fast_stages=None):
+            def finish(y):
+                if _fast_epilogue is None:
+                    return y
+                mode,residual,scale,_ = _fast_epilogue
+                return F.gelu(y) if mode == 'gelu' else residual + y*scale
             if get_ident() != self.thread or not self.active:
                 raise RuntimeError('Use the active matrix runtime on its construction host thread')
+            if _fast_epilogue is not None and _fast_epilogue[0] not in {'gelu','residual'}:
+                raise ValueError('Unknown FFN epilogue')
             if x.ndim < 1 or x.shape[-1] != module.in_features:
-                return original(x)
+                return finish(original(x))
             shape = (x.numel() // x.shape[-1], *module.weight.shape)
             if (shape not in self.selected or module.bias is not None or x.device != self.device
                     or x.dtype != torch.float32 or not x.is_contiguous() or not folds_to_mm(x)
                     or x.data_ptr() % 256 or x.requires_grad or torch.is_autocast_enabled('cuda')):
-                return (F.linear(x, module.weight.contiguous(), module.bias)
-                        if id(module.weight) in self.packed else original(x))
+                return finish(F.linear(x, module.weight.contiguous(), module.bias)
+                              if id(module.weight) in self.packed else original(x))
             stream = torch.cuda.current_stream(self.device).cuda_stream
             key = (id(module), shape, stream)
             if key not in self.plans:
@@ -166,9 +176,19 @@ class MatrixRuntime:
                     from .ordered_matrices import SHAPES, linear
                     if shape in SHAPES:
                         self.triton_calls += 1
-                        return linear(x.reshape(shape[0], shape[-1]), self.packed[id(module.weight)][1]).reshape(
+                        if _fast_epilogue is not None:
+                            from .ffn import linear as fused_linear
+                            mode,residual,scale,library = _fast_epilogue
+                            self.ffn_calls += 1
+                            return fused_linear(x.reshape(shape[0],shape[-1]),self.packed[id(module.weight)][1],
+                                mode,residual.reshape(24,module.out_features) if residual is not None else None,
+                                scale,library).reshape(*x.shape[:-1],module.out_features)
+                        if _fast_stages is not None:
+                            self.ffn_staged_calls += 1
+                        kwargs = {} if _fast_stages is None else {'stages':_fast_stages}
+                        return linear(x.reshape(shape[0], shape[-1]), self.packed[id(module.weight)][1],**kwargs).reshape(
                             *x.shape[:-1], module.out_features)
-                return plan(x.reshape(shape[0], shape[-1]), index).reshape(*x.shape[:-1], module.out_features)
+                return finish(plan(x.reshape(shape[0], shape[-1]), index).reshape(*x.shape[:-1], module.out_features))
         return forward
 
     @property

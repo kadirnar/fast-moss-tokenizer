@@ -1,0 +1,232 @@
+{
+  "scope": "research-only exact GELU/residual epilogue probe",
+  "torch": "2.8.0+cu128",
+  "triton": "3.4.0",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "gelu": [
+    {
+      "input": "ramp",
+      "fusion": false,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 4.036779690431963e-08,
+        "different_elements": 46909,
+        "elements": 1048576
+      },
+      "bitwise": false
+    },
+    {
+      "input": "random",
+      "fusion": false,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 4.232024971304682e-08,
+        "different_elements": 52692,
+        "elements": 1048576
+      },
+      "bitwise": false
+    },
+    {
+      "input": "subnormal",
+      "fusion": false,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    },
+    {
+      "input": "tiny",
+      "fusion": false,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    },
+    {
+      "input": "large",
+      "fusion": false,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    },
+    {
+      "input": "ramp",
+      "fusion": true,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 4.036779690431963e-08,
+        "different_elements": 46909,
+        "elements": 1048576
+      },
+      "bitwise": false
+    },
+    {
+      "input": "random",
+      "fusion": true,
+      "difference": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 4.232024971304682e-08,
+        "different_elements": 52692,
+        "elements": 1048576
+      },
+      "bitwise": false
+    },
+    {
+      "input": "subnormal",
+      "fusion": true,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    },
+    {
+      "input": "tiny",
+      "fusion": true,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    },
+    {
+      "input": "large",
+      "fusion": true,
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 1048576
+      },
+      "bitwise": true
+    }
+  ],
+  "matrices": [
+    {
+      "shape": [
+        24,
+        5120,
+        1280
+      ],
+      "mode": "gelu",
+      "fusion": false,
+      "eager": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.9274756354336217e-08,
+        "different_elements": 20025,
+        "elements": 122880
+      },
+      "graph": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.9274756354336217e-08,
+        "different_elements": 20025,
+        "elements": 122880
+      },
+      "native_ms": 0.028750571126361573,
+      "candidate_ms": 0.020102147138405503
+    },
+    {
+      "shape": [
+        24,
+        5120,
+        1280
+      ],
+      "mode": "gelu",
+      "fusion": true,
+      "eager": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.9274756354336217e-08,
+        "different_elements": 20025,
+        "elements": 122880
+      },
+      "graph": {
+        "exact": false,
+        "max_abs": 4.76837158203125e-07,
+        "rmse": 3.9274756354336217e-08,
+        "different_elements": 20025,
+        "elements": 122880
+      },
+      "native_ms": 0.021192481619050605,
+      "candidate_ms": 0.019918778634840442
+    },
+    {
+      "shape": [
+        24,
+        1280,
+        5120
+      ],
+      "mode": "residual",
+      "fusion": false,
+      "eager": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 30720
+      },
+      "graph": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 30720
+      },
+      "native_ms": 0.02169166552792689,
+      "candidate_ms": 0.019963965463479887
+    },
+    {
+      "shape": [
+        24,
+        1280,
+        5120
+      ],
+      "mode": "residual",
+      "fusion": true,
+      "eager": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 30720
+      },
+      "graph": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 30720
+      },
+      "native_ms": 0.021585143658152797,
+      "candidate_ms": 0.019907232307137167
+    }
+  ],
+  "all_exact": false,
+  "evidence_status": "Rejected initial bundled-libdevice GELU; residual exact. Accepted runtime uses separately validated CUDA 12.8.93 libdevice."
+}
