@@ -136,7 +136,7 @@ Against the preceding three-shape runtime, three rotating-order rounds with inde
 
 Selection includes both component and full-model evidence. A larger sixteen-shape candidate set offers no consistent advantage over the retained eleven replacements; the existing split kernel supplied the twelfth shape at that stage. Explicit CUDA vector-load probes also preserve exact arithmetic but do not displace the selected Triton implementation. [Broader model ablation](results/full_small_fixed.json), [CUDA probes](results/small_vector_cuda.json).
 
-All **27 CuTe cases** also match exactly. A **12.96-second batch-one stream** exercises the new shapes across the cache boundary: all **5,184 tokens and 311,040 samples** match corrected original eager streaming, chunk by chunk. As with the original streaming implementation, its waveform can differ slightly from offline decoding. [CuTe](results/full_small_fixed_cute.json), [long stream](results/full_small_fixed_streaming.json). The current suite passes **419 tests**; all 44 compiled native-layout configurations have zero spills and no matrix Tensor Core instructions. [Resources](results/narrow_resources.json).
+All **27 CuTe cases** also match exactly. A **12.96-second batch-one stream** exercises the new shapes across the cache boundary: all **5,184 tokens and 311,040 samples** match corrected original eager streaming, chunk by chunk. As with the original streaming implementation, its waveform can differ slightly from offline decoding. [CuTe](results/full_small_fixed_cute.json), [long stream](results/full_small_fixed_streaming.json). The current suite passes **432 tests**; all 44 compiled native-layout configurations have zero spills and no matrix Tensor Core instructions. [Resources](results/narrow_resources.json).
 
 ## Medium-row matrices and signed-zero fidelity
 
@@ -154,7 +154,7 @@ Ten one-/two-row configurations now use narrower output tiles; one two-row matri
 
 The full 30-shape narrow-grid selection and its 25-shape cache-evicted subset regress some codec geometries despite promising component timings. An explicit Gluon row-layout probe also preserves exact outputs but provides no consistent codec advantage. Those experiments remain outside runtime dispatch. [Broad comparison](results/full_narrow_rows.json), [group isolation](results/full_narrow_groups.json), [3,528 narrow-grid checks](results/narrow_confirm.json), [750 explicit-layout checks](results/small_layout_confirm.json).
 
-Both supported residual backends pass the **48-case** corpus. Two 12.96-second streams, with one and two lanes, match original eager streaming chunk by chunk. The complete suite passes **419 tests**; all 44 small-matrix configurations compile without spills or matrix Tensor Core instructions. The batch-one profile has **12 fewer launches per direction**, while GEMV still consumes **45.26% / 51.24%** of encode/decode kernel time. [CuTe](results/full_narrow_cute.json), [one lane](results/full_narrow_streaming_b1.json), [two lanes](results/full_narrow_streaming_b2.json), [profile](results/full_narrow_profile.json).
+Both supported residual backends pass the **48-case** corpus. Two 12.96-second streams, with one and two lanes, match original eager streaming chunk by chunk. The complete suite passes **432 tests**; all 44 small-matrix configurations compile without spills or matrix Tensor Core instructions. The batch-one profile has **12 fewer launches per direction**, while GEMV still consumes **45.26% / 51.24%** of encode/decode kernel time. [CuTe](results/full_narrow_cute.json), [one lane](results/full_narrow_streaming_b1.json), [two lanes](results/full_narrow_streaming_b2.json), [profile](results/full_narrow_profile.json).
 
 ## FFN pipeline and decoder epilogues
 
@@ -164,7 +164,7 @@ This option requires `nvidia-cuda-nvcc-cu12==12.8.93`, included in `requirements
 
 At batch eight / three frames, eight rotating rounds of 20 graph calls give encoder medians **13.185 → 13.137 ms** and decoder **11.709 → 11.613 ms** versus the preceding ordered-matrix runtime. A separate 40-pair single-call comparison finds no encoder advantage at this geometry. Effects are small and variable; decoder fusion removes 64 kernel launches, but does not establish 100× acceleration. [Five-way ablation](results/full_ffn_ablation.json), [paired samples and 27 exact full-model cases](results/full_ffn_runtime.json), [profile](results/full_ffn_profile.json).
 
-The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **419 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
+The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **432 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
 
 ## LFQ projection and decoder reconstruction
 
@@ -261,6 +261,12 @@ A nonfinal request waits for a full configured chunk. `append(id, fragment, fina
 The incremental full-checkpoint gate uses ten requests, including two over ten seconds, with uneven arrivals, pauses, late final notifications, and lane reuse. All **11,072 tokens and 664,320 waveform samples** match independent original eager timelines at batch eight / three frames. Nine requests emit output before their last input arrival. In three paired rounds, splitting each eligible arrival into three fragments changes median encode time **980.42 → 982.02 ms** and decode time **933.58 → 934.93 ms**, approximately **0.16%/0.14% overhead**. These are host-driven logical arrivals without network waits, not measurements of network latency or additional model speedup. [Incremental evidence](results/full_incremental_batching.json).
 
 On a reproducible uneven queue of 16 requests, batch eight / 240 ms chunks, immediate refill uses **44 model steps versus 86** when each group of eight must finish before the next starts. Median queue time falls **1837 → 942 ms encode** and **1670 → 857 ms decode**, about **1.95×** against the same optimized runtime and batch size. All **13,632 tokens and 817,920 waveform samples** match independent original eager timelines at the same batch shape. Two requests cross the ten-second cache context. Timings include request copies, gathering, resets, owned outputs, and concatenation after graph warmup. This is a workload-dependent queue-completion gain, not a new single-request kernel speedup or a 100× model result. [Triton evidence](results/full_request_batching.json), [CuTe evidence](results/full_request_batching_cute.json).
+
+## Lossless weight-storage experiments
+
+Logical call attribution finds about **3.55 GB of module weights per encode/decode**, including **2.52 GB in GEMV** for batch-one 80 ms input. These are logical bytes, not measured DRAM traffic. [Attribution](results/weight_traffic.json).
+
+Research-only FP32 block encodings save **11–12% of weight storage** while preserving every original bit. Direct Triton reconstruction and cooperative CUDA decoding pass **2,352 component comparisons**, but all tested variants are slower than the current GEMV kernels. They remain outside runtime dispatch; no additional codec speedup or model-memory saving is claimed. [Variable-width probe](results/packed_fp32_probe.json), [fixed-block probe](results/packed_fp32_fixed28.json), [cooperative CUDA probe](results/packed_fp32_cooperative.json), [13 regression tests](results/packed_fp32_tests.txt).
 
 ## Fidelity and benchmark scope
 

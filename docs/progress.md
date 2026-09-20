@@ -908,3 +908,28 @@ uv build --wheel --out-dir /tmp/moss-narrow-wheel
 All handles are terminal: narrow sweep `83835`, confirmation/initial Gluon compilation `4823` (confirmation completed; prototype compilation failed), corrected prototype attempt `2851` (compiler error), successful Gluon sweep `75929`, broad model comparison `82618`, Gluon stress `65087`, grouped model comparison `45108`, and runtime/CuTe/streams/profile/resources/upstream comparison/full-suite chain `64806`. CPU storage audit handles `66721` and `59614` are also complete. Only the pre-existing desktop GPU process remains; no benchmark is left running. Broader exact optimizations, serving/multi-GPU work and verified 100× whole-model acceleration remain open.
 
 Final audit verifies the baseline snapshot against `fd559c3`, all ten runtime table replacements, unchanged ordered tables, exact report counts and outputs, compiler resource claims, profile subgroup accounting and wheel/source hashes. Python compilation and `git diff --check` pass. No GPU benchmark remains active.
+
+## Logical weight traffic and exact packed-GEMV experiments
+
+Previous goal turn classification: **progress**, verified at clean commit `e87f54d`, with ten tuned configurations, exact model/stream evidence and 419 passing tests. The 100× whole-model goal remains active and unmet.
+
+- Added full-checkpoint call attribution. One-frame logical module-weight demand is **3.549 GB encode / 3.547 GB decode**, with **2.521 / 2.517 GB** in the one-row GEMVs. Hooks are removed before timing, and all six diagnostic cases remain exact. These are logical demand counts, not DRAM counters. The initial 11.641 ms encoder timing does not recur with longer warmup (7.006 ms); both artifacts are retained and no speedup claim uses the initial denominator.
+- Implemented two lossless FP32 encodings and direct reconstruction kernels: variable-width exponent deltas and compact 28-bit blocks with verbatim FP32 fallback. Actual storage ratios are approximately **1.13×**, including metadata and padding. A cooperative CUDA decoder shares seven packed-word loads across eight reconstructed values. A preliminary Gluon attempt failed and was discarded; its incomplete evidence is explicitly marked.
+- All **84 completed configurations** preserve captured outputs. **2,352 component stress comparisons** pass, along with exact reconstruction of checkpoint words and IEEE special-value payloads. Nevertheless, every format loses against the current kernels in both warm and evicted component timing, so none is integrated into runtime dispatch. Full-model compressed-memory savings or speedups are not claimed.
+- Added thirteen round-trip, mixed-block and fused-arithmetic regressions. The focused suite passes **13 tests in 7.26 seconds**; the full suite passes **432 tests in 67.87 seconds**. Production runtime files remain unchanged. This turn is **research progress**, with exact implementations and evidence rejecting a proposed acceleration route; there is no additional runtime speedup.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.weight_traffic --warmup 3 --output results/weight_traffic_initial.json
+.venv/bin/python -m benchmarks.weight_traffic
+.venv/bin/python -m benchmarks.packed_fp32_probe
+.venv/bin/python -m benchmarks.packed_fp32_probe --format fixed28 --output results/packed_fp32_fixed28.json
+.venv/bin/python -m benchmarks.packed_fp32_probe --format fixed28 --cooperative --output results/packed_fp32_cooperative.json
+.venv/bin/python -m pytest tests/test_packed_fp32_research.py -q
+.venv/bin/python -m pytest -q
+```
+
+All handles are terminal: initial traffic `49362`; variable-width compile attempt `48424` and successful probe `27349`; fixed28 indexing attempt `99834` and corrected probe `82504`; discarded Gluon attempt `2964` and diagnostics `93195`, `50887`, `95743`; successful CUDA cooperative probe `16027`; focused tests/refreshed traffic/full-suite chain `1500`. No benchmark remains running. Actual memory-system counters, further exact kernel schedules, broader serving/multi-GPU work and verified 100× acceleration remain open.
+
+Final audit verifies all 23 production runtime/profile hashes against the preceding wheel, 2,352 exact component comparisons, rejection of every tested packed variant on both timing regimes, actual encoded sizes, repeated logical call counts and the 432-test report. Python compilation and diff checks pass. Only the pre-existing desktop GPU process remains.
