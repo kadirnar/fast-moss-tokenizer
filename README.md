@@ -17,25 +17,34 @@ Direct end-to-end **encode → decode**, with the encoder's tokens fed to the de
 | 2 | 80 ms | 140.508 ms | 31.110 ms | **15.745 ms** | **8.92×** | 1.98× |
 | 2 | 240 ms | 141.661 ms | 33.489 ms | **17.699 ms** | **8.00×** | 1.89× |
 
-Three rotating rounds, 200 graph warmups and 30 timed calls per method/shape. Both paths use the same native precision. Graph timings include input/output copies. File I/O, resampling, model loading and setup are excluded. The graph adapter removes a host length synchronization for complete frames. [Measurements](results/v2_pointwise_compare.json) · [Methodology](docs/v2.md).
+Three rotating rounds, 200 graph warmups and 30 timed calls per method/shape. Both paths use the same native precision. Graph timings include input/output copies. File I/O, resampling, model loading and setup are excluded. The graph adapter removes a host length synchronization for complete frames.
 
-**Validation:** **1,168 tests pass**. Tokens, encoder hidden states and stereo waveforms are bit-identical across 14 corpus cases, changed graph inputs and native streaming checks. See [offline results](results/v2_pointwise_fidelity.json) and [streaming results](results/v2_pointwise_streaming_b1.json). A 100× whole-model speedup has not been achieved.
+Token, hidden-state and stereo waveform outputs matched the original v2 model bit for bit in the validation runs.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/kadirnar/fast-moss-tokenizer.git
+git clone --depth 1 https://github.com/kadirnar/fast-moss-tokenizer.git
 cd fast-moss-tokenizer
 uv venv --python 3.12
-uv pip install --python .venv/bin/python -r requirements.lock
+uv pip install --python .venv/bin/python -r requirements.lock -e .
 ```
 
-Run with `.venv/bin/python`:
+Process a **48 kHz stereo WAV** file:
+
+```bash
+.venv/bin/python -m fast_moss input.wav output.wav
+```
+
+The command uses native streaming with 80 ms chunks and writes an FP32 WAV, preserving the input length and both channels.
+
+## Python API
+
+For the fixed-frame CUDA graph path measured above, run with `.venv/bin/python`:
 
 ```python
 import torch
-from fast_moss.v2 import load_model, optimized, codec
-from fast_moss.graphs import GraphedCallable
+from fast_moss import load_model, optimized, codec, GraphedCallable
 
 model = load_model()  # Pinned v2 checkpoint; 48 kHz stereo.
 audio = torch.zeros(1, 2, 3840, device="cuda")  # 80 ms, two channels.
@@ -47,7 +56,7 @@ with torch.inference_mode(), optimized(model):
     del replay
 ```
 
-The graph API accepts complete 80 ms multiples with equal-length batch items. For arbitrary lengths or native streaming, use the model's `encode` / `decode` APIs inside `optimized(model)`. [Streaming example and API details](docs/v2.md).
+The graph API accepts complete 80 ms multiples with equal-length batch items. For arbitrary lengths or native streaming, use the model's `encode` / `decode` APIs inside `optimized(model)`.
 
 ## Requirements
 
@@ -64,18 +73,6 @@ The graph API accepts complete 80 ms multiples with equal-length batch items. Fo
 | [v2_codec.py](fast_moss/v2_codec.py) | Fixed-frame encode/decode adapters |
 | [v2_runtime.py](fast_moss/v2_runtime.py) | Reversible caches and optimization context |
 | [v2_pointwise.py](fast_moss/v2_pointwise.py) | Exact RoPE and residual Triton kernels |
-| `benchmarks/` · `tests/` | Reproducible measurements and correctness checks |
-
-## Development
-
-```bash
-.venv/bin/python -m benchmarks.fetch_audio
-.venv/bin/python -m benchmarks.v2_compare --warmups 200 --output results/v2_pointwise_compare.json
-.venv/bin/python -m benchmarks.v2_fidelity --output results/v2_pointwise_fidelity.json
-.venv/bin/python -m pytest -q
-```
-
-[V2 implementation](docs/v2.md) · [Legacy v1: 24 kHz mono](docs/v1.md) · [Development log](docs/progress.md)
 
 ## License
 

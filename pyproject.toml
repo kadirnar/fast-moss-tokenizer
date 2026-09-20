@@ -4,23 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fast-moss-tokenizer"
-version = "0.2.1"
+version = "0.3.0"
 description = "Exact GPU acceleration for MOSS Audio Tokenizer v2, 48 kHz stereo"
 requires-python = ">=3.12"
-dependencies = ["torch==2.8.0", "triton==3.4.0", "accelerate", "safetensors", "huggingface-hub", "numpy", "transformers @ git+https://github.com/huggingface/transformers.git@4ac58b368aff171c8b45a976b0de9ec3b22a4bdd"]
-
-[project.optional-dependencies]
-cute = ["nvidia-cutlass-dsl==4.7.1"]
-ffn = ["nvidia-cuda-nvcc-cu12==12.8.93"]
-cuda = ["cuda-bindings==13.4.2", "nvidia-cuda-nvrtc-cu12==12.8.93"]
-normalization = ["cuda-bindings==13.4.2", "nvidia-cuda-nvrtc-cu12==12.8.93"]
-test = ["pytest", "soundfile"]
+dependencies = [
+    "torch==2.8.0",
+    "triton==3.4.0",
+    "cuda-bindings==13.4.2",
+    "nvidia-cuda-nvrtc-cu12==12.8.93",
+    "accelerate",
+    "safetensors",
+    "huggingface-hub",
+    "numpy",
+    "soundfile",
+    "transformers @ git+https://github.com/huggingface/transformers.git@4ac58b368aff171c8b45a976b0de9ec3b22a4bdd",
+]
 
 [tool.setuptools.packages.find]
 include = ["fast_moss*"]
-
-[tool.setuptools.package-data]
-fast_moss = ["matrix_profile.json"]
-
-[tool.pytest.ini_options]
-pythonpath = ["."]

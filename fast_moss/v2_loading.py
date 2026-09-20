@@ -3,10 +3,16 @@
 import torch
 from transformers import AutoModel
 
-from .loading import strict_precision
 
 MODEL_ID = "OpenMOSS-Team/MOSS-Audio-Tokenizer-v2"
 REVISION = "f6e20e543b33d2c252a7ef71bdf8aa71e5ff9169"
+
+
+def strict_precision():
+    """Keep the native FP32 operations free of TF32 approximation."""
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
+    torch.set_float32_matmul_precision("highest")
 
 
 def load_model(device="cuda", *, attention_implementation="sdpa", compute_dtype="bf16"):

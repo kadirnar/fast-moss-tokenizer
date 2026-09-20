@@ -2,17 +2,18 @@
 
 Mirrors PyTorch 2.8 Reduce.cuh: adjacent shuffle tree for contiguous
 eight-element rows, four cyclic accumulators for transposed single-batch rows.
-Used by the owned CUDA normalization runtime with Triton LFQ selection.
+Used by the v2 optimization context with Triton LFQ selection.
 """
+
 import ctypes
 import hashlib
 
 import torch
 
-from .normalization import compiler, _check
+from .cuda import compiler, _check
 
 
-SOURCE = r'''
+SOURCE = r"""
 __device__ __forceinline__ float sum8(const float* v, bool strided) {
   if(strided) {
     float a=__fadd_rn(v[0],v[4]), b=__fadd_rn(v[1],v[5]);
@@ -54,7 +55,7 @@ extern "C" __global__ void quantizer_prepare(const float* X, float* E,
   Norm[row]=sum8(esquare,strided);
   Denom[row]=denom;
 }
-'''
+"""
 CACHE = {}
 
 
@@ -63,55 +64,94 @@ def compile_kernel():
     if device in CACHE:
         return CACHE[device]
     if torch.cuda.is_current_stream_capturing():
-        raise RuntimeError('Warm quantizer preparation before capture')
+        raise RuntimeError("Warm quantizer preparation before capture")
     cu, nvrtc = compiler()
-    program = _check(nvrtc.nvrtcCreateProgram(SOURCE.encode(), b'quantizer_prepare.cu', 0, [], []))
+    program = _check(
+        nvrtc.nvrtcCreateProgram(SOURCE.encode(), b"quantizer_prepare.cu", 0, [], [])
+    )
     try:
-        options = [b'--gpu-architecture=sm_120', b'--std=c++17', b'--ftz=false', b'--fmad=false']
+        options = [
+            b"--gpu-architecture=sm_120",
+            b"--std=c++17",
+            b"--ftz=false",
+            b"--fmad=false",
+        ]
         result = nvrtc.nvrtcCompileProgram(program, len(options), options)
         if int(result[0]):
-            log = b' ' * _check(nvrtc.nvrtcGetProgramLogSize(program))
+            log = b" " * _check(nvrtc.nvrtcGetProgramLogSize(program))
             _check(nvrtc.nvrtcGetProgramLog(program, log))
             raise RuntimeError(log.decode())
-        blob = b' ' * _check(nvrtc.nvrtcGetCUBINSize(program))
+        blob = b" " * _check(nvrtc.nvrtcGetCUBINSize(program))
         _check(nvrtc.nvrtcGetCUBIN(program, blob))
     finally:
         _check(nvrtc.nvrtcDestroyProgram(program))
     module = _check(cu.cuModuleLoadData(blob))
     try:
-        fn = _check(cu.cuModuleGetFunction(module, b'quantizer_prepare'))
+        fn = _check(cu.cuModuleGetFunction(module, b"quantizer_prepare"))
     except BaseException:
         _check(cu.cuModuleUnload(module))
         raise
     attr = cu.CUfunction_attribute
-    resources = {name: _check(cu.cuFuncGetAttribute(a, fn)) for name, a in [
-        ('registers', attr.CU_FUNC_ATTRIBUTE_NUM_REGS),
-        ('local_bytes', attr.CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES),
-        ('shared_bytes', attr.CU_FUNC_ATTRIBUTE_SHARED_SIZE_BYTES)]}
-    resources.update(source_sha256=hashlib.sha256(SOURCE.encode()).hexdigest(),
-                     cubin_sha256=hashlib.sha256(blob).hexdigest())
+    resources = {
+        name: _check(cu.cuFuncGetAttribute(a, fn))
+        for name, a in [
+            ("registers", attr.CU_FUNC_ATTRIBUTE_NUM_REGS),
+            ("local_bytes", attr.CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES),
+            ("shared_bytes", attr.CU_FUNC_ATTRIBUTE_SHARED_SIZE_BYTES),
+        ]
+    }
+    resources.update(
+        source_sha256=hashlib.sha256(SOURCE.encode()).hexdigest(),
+        cubin_sha256=hashlib.sha256(blob).hexdigest(),
+    )
     CACHE[device] = module, fn, resources
     return CACHE[device]
 
 
 def prepare(x):
-    if (x.ndim != 3 or x.shape[1] != 8 or not x.is_cuda
-            or x.dtype != torch.float32 or not x.is_contiguous()
-            or x.shape[0] < 1 or x.shape[2] < 1 or x.numel() > 2147483647):
-        raise ValueError('Expected nonempty contiguous CUDA FP32 B,8,T latents')
+    if (
+        x.ndim != 3
+        or x.shape[1] != 8
+        or not x.is_cuda
+        or x.dtype != torch.float32
+        or not x.is_contiguous()
+        or x.shape[0] < 1
+        or x.shape[2] < 1
+        or x.numel() > 2147483647
+    ):
+        raise ValueError("Expected nonempty contiguous CUDA FP32 B,8,T latents")
     b, _, t = x.shape
     with torch.cuda.device(x.device):
         cu, _ = compiler()
         _, fn, _ = compile_kernel()
-        normalized = torch.empty((8, t) if b == 1 and t > 1 else (b*t, 8), device=x.device, dtype=x.dtype)
+        normalized = torch.empty(
+            (8, t) if b == 1 and t > 1 else (b * t, 8), device=x.device, dtype=x.dtype
+        )
         if b == 1 and t > 1:
             normalized = normalized.T
-        twice = torch.empty_strided(normalized.shape, normalized.stride(), device=x.device, dtype=x.dtype)
-        norm = torch.empty((b*t, 1), device=x.device, dtype=x.dtype)
+        twice = torch.empty_strided(
+            normalized.shape, normalized.stride(), device=x.device, dtype=x.dtype
+        )
+        norm = torch.empty((b * t, 1), device=x.device, dtype=x.dtype)
         denom = torch.empty_like(norm)
-        values = [ctypes.c_void_p(v.data_ptr()) for v in (x, normalized, norm, twice, denom)]
+        values = [
+            ctypes.c_void_p(v.data_ptr()) for v in (x, normalized, norm, twice, denom)
+        ]
         values += [ctypes.c_int(b), ctypes.c_int(t)]
         ptrs = (ctypes.c_void_p * len(values))(*(ctypes.addressof(v) for v in values))
-        _check(cu.cuLaunchKernel(fn, (b*t+127)//128, 1, 1, 128, 1, 1, 0,
-               cu.CUstream(torch.cuda.current_stream().cuda_stream), ctypes.addressof(ptrs), 0))
+        _check(
+            cu.cuLaunchKernel(
+                fn,
+                (b * t + 127) // 128,
+                1,
+                1,
+                128,
+                1,
+                1,
+                0,
+                cu.CUstream(torch.cuda.current_stream().cuda_stream),
+                ctypes.addressof(ptrs),
+                0,
+            )
+        )
     return normalized, norm, twice, denom

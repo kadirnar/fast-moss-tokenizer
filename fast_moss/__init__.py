@@ -1,6 +1,15 @@
-"""Inference-only optimizations. The upstream checkpoint remains unchanged."""
+"""Fast inference for the native 48 kHz stereo MOSS Audio Tokenizer v2."""
 
-from .loading import load_model
-from .v2_loading import load_model as load_model_v2
+from .v2 import codec, encode_fixed, load_model, optimized
+from .graphs import GraphedCallable
 
-__all__ = ["load_model", "load_model_v2"]
+load_model_v2 = load_model
+
+__all__ = [
+    "load_model",
+    "load_model_v2",
+    "optimized",
+    "codec",
+    "encode_fixed",
+    "GraphedCallable",
+]
