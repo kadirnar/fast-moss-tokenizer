@@ -45,8 +45,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     it invalidates managed graphs on this device and requires the bundled profile.
     matrix_backend='triton' additionally uses ordered FP32 kernels for validated
     attention/FFN shapes; other shapes retain the supported cuBLASLt/native dispatch.
-    matrix_backend='cuda' adds exact single-block K partitions for five small-row
-    shapes; it requires the pinned cuda extra and retains other Triton dispatch.
+    matrix_backend='cuda' adds exact single-block K partitions for eleven small-row
+    shapes, including six long-K kernels; it requires the pinned cuda extra.
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
     ffn_backend='triton' uses two stages and decoder epilogues for 24-row FFNs,

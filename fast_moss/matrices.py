@@ -52,7 +52,8 @@ class MatrixRuntime:
     backend='triton' substitutes ordered SIMT kernels for profiled attention/FFN shapes;
     it retains the same packing, fallbacks, per-stream plans and lifetime guards.
     backend='cuda' additionally uses pinned CUDA kernels for five native small-row
-    shapes. Validated small-row shapes use native storage without persistent workspace.
+    shapes and six long-K shared-partial kernels. Validated small-row shapes use
+    native storage without persistent workspace.
     """
 
     def __init__(self, model, *, backend='cublaslt', _profile=None):
@@ -75,6 +76,8 @@ class MatrixRuntime:
         self.profile = load_profile(model) if _profile is None else _profile
         self.cuda_enabled = True
         self.cuda_calls = 0
+        self.wide_enabled = True
+        self.wide_calls = 0
         if backend == 'cuda':
             from .cuda_matrices import compiler
             self.cuda_bindings = compiler()
@@ -112,6 +115,8 @@ class MatrixRuntime:
         if self.backend == 'cuda':
             from .cuda_matrices import CONFIGS as CUDA_CONFIGS
             shapes.update(shape[1:] for shape in CUDA_CONFIGS)
+            from .wide_matrices import CONFIGS as WIDE_CONFIGS
+            shapes.update(shape[1:] for shape in WIDE_CONFIGS)
         modules = [m for m in self.model.modules() if type(m) is torch.nn.Linear
                    and tuple(m.weight.shape) in shapes and m.bias is None and 'forward' not in m.__dict__]
         # Include registered buffers and repeated/tied parameter names. External
@@ -159,6 +164,7 @@ class MatrixRuntime:
             ordered_shape = False
             small_shape = False
             cuda_shape = False
+            wide_shape = False
             if self.backend in {'triton', 'cuda'}:
                 from .ordered_matrices import SHAPES
                 from .small_matrices import SHAPES as SMALL_SHAPES
@@ -167,14 +173,17 @@ class MatrixRuntime:
             if self.backend == 'cuda' and self.cuda_enabled:
                 from .cuda_matrices import CONFIGS as CUDA_CONFIGS
                 cuda_shape = shape in CUDA_CONFIGS and module.weight.is_contiguous()
-            if ((shape not in self.selected and not ordered_shape and not small_shape and not cuda_shape) or module.bias is not None or x.device != self.device
+            if self.backend == 'cuda' and self.wide_enabled:
+                from .wide_matrices import CONFIGS as WIDE_CONFIGS
+                wide_shape = shape in WIDE_CONFIGS and module.weight.is_contiguous()
+            if ((shape not in self.selected and not ordered_shape and not small_shape and not cuda_shape and not wide_shape) or module.bias is not None or x.device != self.device
                     or x.dtype != torch.float32 or not x.is_contiguous() or not folds_to_mm(x)
                     or x.data_ptr() % 256 or x.requires_grad or torch.is_autocast_enabled('cuda')):
                 return finish(F.linear(x, module.weight.contiguous(), module.bias)
                               if id(module.weight) in self.packed else original(x))
             stream = torch.cuda.current_stream(self.device).cuda_stream
             key = (id(module), shape, stream)
-            if small_shape or cuda_shape:
+            if small_shape or cuda_shape or wide_shape:
                 # Native-layout kernels do not pack weights or retain workspace.
                 # If a larger call later packs this parameter, the normal native
                 # fallback above restores contiguous arithmetic for small calls.
@@ -182,6 +191,11 @@ class MatrixRuntime:
                     if torch.cuda.is_current_stream_capturing():
                         raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
                     self.small_warmed.add(key)
+                if wide_shape:
+                    from .wide_matrices import linear as wide_linear
+                    self.wide_calls += 1
+                    return finish(wide_linear(x.reshape(shape[0], shape[-1]), module.weight,
+                        self.cuda_bindings).reshape(*x.shape[:-1], module.out_features))
                 if cuda_shape:
                     from .cuda_matrices import linear as cuda_linear
                     self.cuda_calls += 1

@@ -1127,3 +1127,47 @@ uv build --wheel --out-dir /tmp/moss-cta-matrix-wheel
 The profiles verify **24 / 36 new CUDA calls per direction** for one-/three-frame inputs, unchanged total launch counts and 136 CUDA normalization calls per direction. Two initial short-chunk encoder profile measurements remain slow despite identical dispatch; they are preserved. Added an explicit, reported `--warmup-replays` option. Repeating the one-frame command with `--warmup-replays 200 --output results/full_cta_tiled_profile_f1_warm.json` yields **6.753 ms** encoder wall time, consistent with the independently rotated codec comparison. Its matrix groups still occupy **72.49% / 81.95%** of kernel time. The device-state cause of the earlier transient is not established.
 
 All handles are terminal: eager attribution `5249`; superseded initial CUDA sweep/confirmation/model `68878` / `51223` / `58834`; Triton sweep `50931`; corrected sequential confirmation/sweep/model chain `95200`; focused tests `41949`; integrated runtime `17340`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `62435`; isolated wheel import `85375`; repeated/warmed short profile `18020` / `67885`. GPU jobs ran sequentially. The final audit checks source/configuration provenance, exactness, profile dispatch, directly computed speed ratios, compiler resources and package bytes. Temporary repository wheel-build output is removed. Further exact matrix work, physical counter attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Long-K shared-partial investigation
+
+Previous goal turn classification: **progress**, verified at clean commit `397db43`, with five exact CUDA matrix shapes, 651 passing tests, bit-identical corpus/streaming gates and an audited package. Only the preexisting 29 MiB GPU client remained; no previous task GPU job was active. The 100× goal remains active and unmet.
+
+The next investigation targets the four remaining global partial/reduction pairs and related long-K fixed-row matrices. A CUDA block computes one or several independent 256-term partitions per thread group, stores them in shared memory, synchronizes, then retains the native ordered FP32 reduction. Selection must pass repeated distinct-allocation and full-codec gates before any runtime change.
+
+- All **1,080 configurations** across nine long-K shapes reproduce captured outputs bit for bit, with zero local-memory bytes. Repeated finalists pass **720 eager/graph stress comparisons** including native/current controls, plus exact outputs across **27 allocation-ring cases**. Six choices retain **1.04–1.23×** component gains; three larger-row alternatives are rejected.
+- The 48-case research gate is exact. A first batch-eight decoder timing difference triggers a five-round repeat with direction-specific capture counts. That decoder makes no candidate calls, and its timing difference reverses sign. The repeated evidence retains batch-one benefits while treating the batch-eight decoder as a control.
+- Added six native-storage long-K kernels to `matrix_backend="cuda"`, covering all four small-matrix split/reduction shapes and two fixed-row replacements. The five previous CUDA shapes and all other existing matrix paths remain available. Each new kernel exchanges independent 256-term partitions in shared memory and performs the native ordered FP32 reduction, without a global partial buffer or persistent weight copy.
+- All **48 integrated runtime cases** are bit-identical. Five rotating timing rounds measure batch-one / 80 ms encode/decode **6.831 → 6.780 ms / 6.046 → 5.997 ms**, about **0.8% lower latency**. At 240 ms, **7.963 → 7.768 ms / 6.625 → 6.435 ms** gives **2.4% / 2.9% lower latency**. Batch-eight results stay within **0.09%** of parity. Peak allocation is **7.723 GB**.
+- The **35 focused tests pass in 11.82 seconds**, covering research arithmetic/tails and runtime storage, fallback, graph and fusion behavior. The wheel matches all **27 runtime/profile files** and passes isolated import. No dependency changes are needed beyond the existing pinned CUDA extra.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.wide_cta_tune
+.venv/bin/python -m benchmarks.wide_cta_confirm
+.venv/bin/python -m pytest tests/test_wide_cta_research.py -q
+.venv/bin/python -m benchmarks.wide_cta_model --output results/full_wide_cta_ring.json
+.venv/bin/python -m benchmarks.wide_cta_model --timing-only --rounds 5 --output results/full_wide_cta_repeat.json
+.venv/bin/python -m pytest tests/test_wide_matrix_runtime.py tests/test_wide_cta_research.py -q
+.venv/bin/python -m benchmarks.wide_cta_model --runtime --rounds 5 --output results/full_wide_cta_runtime.json
+.venv/bin/python -m benchmarks.wide_cta_model --runtime --fidelity-only --residual-backend cute --output results/full_wide_cta_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_wide_cta_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_wide_cta_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_wide_cta_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_wide_cta_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --output results/full_codec_wide_cta_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --output results/full_codec_wide_cta_f3.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.wide_cta_resources
+uv build --wheel --out-dir /tmp/moss-wide-cta-wheel
+```
+
+The CuTe combination passes **48 cases**. Both **162-chunk / 12.96-second** streams remain exact against corrected eager streaming: **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, and peak allocations **7.522 / 7.695 GB**. Their existing decoder difference from offline execution is unchanged.
+
+Warmed profiles show **36 / 44 long-K CUDA calls per direction** at one/three frames. They remove **24 / 32 launches per direction**, leaving **1,436 / 880** and **1,522 / 995** encoder/decoder kernels, respectively. Both profiles retain the prior narrow-K CUDA dispatch and all 136 CUDA LayerNorm calls per direction, with zero small-matrix global partial/reduction pairs. Matrix groups still occupy **73.05% / 81.73%** of one-frame kernel time.
+
+Fresh matched comparisons give **6.711 / 5.924 ms** batch-one encode/decode at 80 ms, or **7.08× / 6.34×** versus original eager and **1.54× / 1.54×** versus original graphs. At 240 ms, totals are **7.677 / 6.347 ms**, or **6.27× / 6.06×** versus eager. These direct ratios use fresh denominators; historical increments are not multiplied.
+
+The full suite passes **686 tests in 128.37 seconds**. Six compiler variants use **38–40 registers**, **3,072–24,576 shared bytes**, zero local-memory bytes and no matrix Tensor Core instructions. Source hashes and selected configurations match the research/runtime reports, and the 27-file package audit passes. This turn is **progress**, with a verified integrated optimization; the 100× goal remains active and unmet.
+
+All handles are terminal: sweep `45296`; confirmation/research-test chain `84459`; research model `49341`; five-round timing repeat `53615`; focused integration tests `52046`; integrated model `89065`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `46076`; isolated wheel import `75565`. GPU jobs ran sequentially and only the preexisting 29 MiB client remains. Temporary repository wheel-build output is removed. Final audit verifies arithmetic/source provenance, selection, output equality, negative-control counts, launch removal, direct ratios, compiler resources and package bytes. Further exact matrix/FFN fusion, physical memory-system counters, broader serving/multi-GPU execution and verified 100× acceleration remain open.

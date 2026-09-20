@@ -24,7 +24,7 @@ def kernel_summary(path,replays=5):
     groups['sgemm']=sum(e['dur'] for e in events if 'sgemm' in e.get('name','').lower()
         and not any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx','splitkreduce']))
     groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
-    small_names=['cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
+    small_names=['wide_cta','cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
     small_times={name:sum(e['dur'] for e in events if e.get('name')==name) for name in small_names}
     groups['small_matrix']=sum(small_times.values())
     groups['small_vendor_matrix']=sum(e['dur'] for e in events
@@ -42,6 +42,7 @@ def kernel_summary(path,replays=5):
             'ordered_partials_per_replay':sum(e.get('name')=='_partials' for e in events)/replays,
             'ordered_reduce_per_replay':sum(e.get('name')=='_reduce' for e in events)/replays,
             'ffn_reduce_per_replay':sum(e.get('name')=='_ffn_reduce' for e in events)/replays,
+            'wide_cta_per_replay':sum(e.get('name')=='wide_cta' for e in events)/replays,
             'cuda_cta_per_replay':sum(e.get('name')=='cta_tiled' for e in events)/replays,
             'small_gemv_per_replay':sum(e.get('name')=='_small_gemv' for e in events)/replays,
             'layer_norm_cuda_per_replay':sum(e.get('name')=='layer_norm' for e in events)/replays,
