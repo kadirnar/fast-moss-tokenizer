@@ -1,0 +1,271 @@
+{
+  "scope": "paired tensor-core versus existing exact matrix backend; not model quality proof",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "torch": "2.8.0+cu128",
+  "records": [
+    {
+      "shape_MNK": [
+        24,
+        5120,
+        1280
+      ],
+      "mode": "bf16x6",
+      "tile": [
+        32,
+        64,
+        32,
+        4,
+        3
+      ],
+      "reference_backend": "lt_packed_0",
+      "reference": {
+        "exact": false,
+        "max_abs": 3.814697265625e-06,
+        "rmse": 3.6423497850617665e-07,
+        "different_elements": 96945,
+        "elements": 122880
+      },
+      "baseline": {
+        "warm_ms": 0.029405146032730728,
+        "evicted_ms": 0.04505600035190582
+      },
+      "candidate": {
+        "warm_ms": 0.05452811849953064,
+        "evicted_ms": 0.06348799914121628
+      },
+      "warm_gain": 0.5392657374191966,
+      "evicted_gain": 0.7096774344973106
+    },
+    {
+      "shape_MNK": [
+        24,
+        5120,
+        1280
+      ],
+      "mode": "tf32x3",
+      "tile": [
+        16,
+        32,
+        32,
+        4,
+        2
+      ],
+      "reference_backend": "lt_packed_0",
+      "reference": {
+        "exact": false,
+        "max_abs": 3.814697265625e-06,
+        "rmse": 4.162235440134422e-07,
+        "different_elements": 98141,
+        "elements": 122880
+      },
+      "baseline": {
+        "warm_ms": 0.02928570387665986,
+        "evicted_ms": 0.04505600035190582
+      },
+      "candidate": {
+        "warm_ms": 0.03579395343730976,
+        "evicted_ms": 0.06143999844789505
+      },
+      "warm_gain": 0.8181746095175382,
+      "evicted_gain": 0.733333357586526
+    },
+    {
+      "shape_MNK": [
+        24,
+        1280,
+        5120
+      ],
+      "mode": "bf16x6",
+      "tile": [
+        32,
+        64,
+        32,
+        4,
+        3
+      ],
+      "reference_backend": "lt_packed_0",
+      "reference": {
+        "exact": false,
+        "max_abs": 1.52587890625e-05,
+        "rmse": 1.1609447337643718e-06,
+        "different_elements": 27639,
+        "elements": 30720
+      },
+      "baseline": {
+        "warm_ms": 0.02720726357034823,
+        "evicted_ms": 0.04710400104522705
+      },
+      "candidate": {
+        "warm_ms": 0.14255260521510862,
+        "evicted_ms": 0.1454080045223236
+      },
+      "warm_gain": 0.19085770848798653,
+      "evicted_gain": 0.3239436590851191
+    },
+    {
+      "shape_MNK": [
+        24,
+        1280,
+        5120
+      ],
+      "mode": "tf32x3",
+      "tile": [
+        16,
+        32,
+        32,
+        4,
+        2
+      ],
+      "reference_backend": "lt_packed_0",
+      "reference": {
+        "exact": false,
+        "max_abs": 1.52587890625e-05,
+        "rmse": 1.1931421441264157e-06,
+        "different_elements": 27666,
+        "elements": 30720
+      },
+      "baseline": {
+        "warm_ms": 0.027063426366046677,
+        "evicted_ms": 0.04710400104522705
+      },
+      "candidate": {
+        "warm_ms": 0.06755435280916686,
+        "evicted_ms": 0.11468800157308578
+      },
+      "warm_gain": 0.40061706227128974,
+      "evicted_gain": 0.410714289194495
+    },
+    {
+      "shape_MNK": [
+        24,
+        3840,
+        1280
+      ],
+      "mode": "bf16x6",
+      "tile": [
+        32,
+        64,
+        32,
+        4,
+        3
+      ],
+      "reference_backend": "lt_packed_6",
+      "reference": {
+        "exact": false,
+        "max_abs": 9.5367431640625e-06,
+        "rmse": 9.589565639581265e-07,
+        "different_elements": 72080,
+        "elements": 92160
+      },
+      "baseline": {
+        "warm_ms": 0.0418707392406858,
+        "evicted_ms": 0.048128001391887665
+      },
+      "candidate": {
+        "warm_ms": 0.037034108586933304,
+        "evicted_ms": 0.053247999399900436
+      },
+      "warm_gain": 1.1305993539009873,
+      "evicted_gain": 0.9038461901721261
+    },
+    {
+      "shape_MNK": [
+        24,
+        3840,
+        1280
+      ],
+      "mode": "tf32x3",
+      "tile": [
+        16,
+        32,
+        32,
+        4,
+        2
+      ],
+      "reference_backend": "lt_packed_6",
+      "reference": {
+        "exact": false,
+        "max_abs": 9.5367431640625e-06,
+        "rmse": 1.1225302967839453e-06,
+        "different_elements": 75201,
+        "elements": 92160
+      },
+      "baseline": {
+        "warm_ms": 0.04183070872633876,
+        "evicted_ms": 0.048128001391887665
+      },
+      "candidate": {
+        "warm_ms": 0.029350617221582713,
+        "evicted_ms": 0.055296000093221664
+      },
+      "warm_gain": 1.4252071229213852,
+      "evicted_gain": 0.8703703940746218
+    },
+    {
+      "shape_MNK": [
+        24,
+        1280,
+        1280
+      ],
+      "mode": "bf16x6",
+      "tile": [
+        32,
+        64,
+        32,
+        4,
+        3
+      ],
+      "reference_backend": "torch",
+      "reference": {
+        "exact": false,
+        "max_abs": 0.000244140625,
+        "rmse": 3.0211870478778087e-06,
+        "different_elements": 29800,
+        "elements": 30720
+      },
+      "baseline": {
+        "warm_ms": 0.019370649991394324,
+        "evicted_ms": 0.026623999699950218
+      },
+      "candidate": {
+        "warm_ms": 0.03651312157347962,
+        "evicted_ms": 0.04095999896526337
+      },
+      "warm_gain": 0.5305120229836418,
+      "evicted_gain": 0.6500000090949473
+    },
+    {
+      "shape_MNK": [
+        24,
+        1280,
+        1280
+      ],
+      "mode": "tf32x3",
+      "tile": [
+        16,
+        32,
+        32,
+        4,
+        2
+      ],
+      "reference_backend": "torch",
+      "reference": {
+        "exact": false,
+        "max_abs": 0.00018310546875,
+        "rmse": 3.0303314550261016e-06,
+        "different_elements": 29632,
+        "elements": 30720
+      },
+      "baseline": {
+        "warm_ms": 0.01936113850214568,
+        "evicted_ms": 0.026623999699950218
+      },
+      "candidate": {
+        "warm_ms": 0.017615073365591913,
+        "evicted_ms": 0.03891199827194214
+      },
+      "warm_gain": 1.0991233530689921,
+      "evicted_gain": 0.6842105489901736
+    }
+  ]
+}

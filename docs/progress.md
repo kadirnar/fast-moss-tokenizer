@@ -266,3 +266,43 @@ Reproduce the configuration experiment after generating the previously documente
 ```
 
 All GPU jobs completed, including final capability sweep `19132`, full validation/ablation/tests `15298`, confirmation `72956`, and support probe `76596`. The initial capability enumeration `66540` was deliberately interrupted after discovering an advertised 262,144-value custom range; it was replaced by the documented bounded search, not restarted because of an observation timeout. No benchmark or download is intentionally left running. The main remaining bottleneck is still dense FP32 matrix execution; request scheduling, broader quality validation, multi-GPU support, and the original 100× whole-model objective remain open.
+
+
+## 2026-09-20, tensor-core correction prototypes and near-tie regression coverage
+
+Previous goal turn classification: **progress**, verified against clean commit `cccd4c7`, its 12,422-configuration search, matched ablations, and 97-test result. This turn is also **progress**: two new hardware kernels were implemented and evaluated, full-model testing exposed a concrete failure of an approximate encoder, its first discrete decision was traced, and the supported fidelity corpus was strengthened. No new runtime acceleration is accepted from this turn. The 100× objective remains active and unachieved.
+
+Changes:
+
+- `benchmarks/tensorcore_mm.py`: Triton TF32x3 and manually decomposed BF16x6 matrix kernels, preserving FP32 learned-weight storage/output while changing component arithmetic. BF16x6 uses a separate correction accumulator and explicit round-to-nearest CUDA addition for high-product block sums. These experiments do not use FP8/FP4 or distillation.
+- `tensorcore_shapes.py`: tile/warp/stage exploration, FP64 error diagnostics, eager/graph consistency, register/spill metadata, and separate warm/cache-evicted timing. `tensorcore_select.py` directly compares promising candidates with the existing exact cuBLASLt selection, instead of attributing pre-existing exact-backend gains to the new kernels.
+- `tensorcore_model.py`: a limited full-codec probe of the strongest warm QKV candidate, with all other layers on the exact resident path. It records changed tokens, hidden states, round-trip waveforms, fixed-original-code decoding, graph/eager equality, and timing.
+- `tensorcore_tie.py`: full-batch distance inspection at the first changed speech token, exposing the narrow quantizer margin rather than assuming small floating-point errors are harmless.
+- `benchmarks.fidelity` now includes the failing speech geometry as an exact-backend regression, with checksum, input shape, cyclic offsets, and observed decision coordinates in its metadata.
+
+Evidence:
+
+- `results/tensorcore_shapes.json`: 60 initial comparisons; `tensorcore_compact.json`: 64 compact-tile comparisons; `tensorcore_bf16x6.json`: 48 six-product comparisons. All completed without runtime failure and retain exact eager/graph equality. The candidate arithmetic is not bitwise equal to vendor FP32. Some compact tiles remove register spills, but most larger tested matrices remain slower than vendor SGEMM. These results apply to these implementations/tiles, not all possible tensor-core kernels.
+- `results/tensorcore_selection.json`: eight direct candidate-versus-exact comparisons. The strongest plausible short QKV case gives roughly **1.43× warm** but **0.87× cache-evicted** performance against the tuned exact kernel; no candidate wins both timing regimes by 10%.
+- `results/full_tensorcore_probe.json`: **14 cases**, **10,752 tokens**, and **645,120 waveform samples** per execution mode. The QKV probe changes **24 tokens** in `data/speech.wav_b8_f3`; other cases keep their codes. Every eager result matches its graph replay. In the failing case, hidden-state maximum error is **8.5831e-6**, but round-trip waveform maximum error reaches **0.1522008**, RMSE **0.0064646**, and signal-to-error ratio **21.82 dB**. With original codes held fixed, the maximum decoder error is only **1.2301e-5**. This candidate cannot be accepted as an exact replacement or represented as proven quality-preserving.
+- Matched batch-eight / 240 ms combined latency in that final probe is **26.015 → 25.392 ms**, roughly **1.0245×**, against the previous exact resident prototype. The small timing change is not promoted because fidelity fails; it is not another multiplier for the different supported batch-one benchmark.
+- `results/tensorcore_quantizer_tie.json`: the first mismatch is zero-based quantizer **5**, lane **6**, frame **2**. Reference nearest codes **198/1007** differ in squared distance by **1.1920929e-7**. The perturbed latent chooses 1007 instead of 198, followed by further residual-quantizer changes. Full-batch arithmetic is retained during the audit to avoid changing the matrix dispatch itself.
+- `results/full_fidelity_near_tie.json` and `full_fidelity_near_tie_cute.json`: **13 cases per supported backend**, including the new eight-lane speech regression. Tokens, hidden states, and audio remain exact in eager and graph modes against original FP32 execution.
+- `results/tests.txt`: **104 passed in 15.76 seconds**. New numerical tests cover both component-product modes, odd tiles, widely separated operand scales, incompatible storage, unchanged PyTorch math mode, and graph replay. These unit tests are numerical/structural checks, not codec-quality approval.
+
+Reproduce the experiments sequentially:
+
+```bash
+.venv/bin/python -m benchmarks.tensorcore_shapes
+.venv/bin/python -m benchmarks.tensorcore_shapes --compact --rows 24 384 3072 --limit 8 --output results/tensorcore_compact.json
+.venv/bin/python -m benchmarks.tensorcore_shapes --mode bf16x6 --rows 24 384 3072 --limit 8 --output results/tensorcore_bf16x6.json
+.venv/bin/python -m benchmarks.tensorcore_select
+.venv/bin/python -m benchmarks.tensorcore_model
+.venv/bin/python -m benchmarks.tensorcore_tie
+.venv/bin/python -m benchmarks.fidelity --share-rope-tables --attention-mask-backend triton --output results/full_fidelity_near_tie.json
+.venv/bin/python -m benchmarks.fidelity --backend cute --share-rope-tables --attention-mask-backend triton --output results/full_fidelity_near_tie_cute.json
+```
+
+The row filter lists possible cached shapes; the limit prioritizes dominant weights, so these runs do not claim coverage of every requested row count. Supported runtime arithmetic/defaults remain unchanged. The concrete near-tie case rules out using average latent error as a sufficient acceptance gate. Further work should improve exact matrix execution or provide a justified treatment of discrete quantization, while continuing request scheduling, streaming/parallel execution, and wider quality coverage toward the original goal.
+
+All jobs completed: initial TF32 sweep `22749`, compact sweep `47995`, BF16x6 sweep `22730`, paired selection `66186`, initial full probe/tests `36546`, final fixed-code probe `78086`, decision audit `81660`, and both expanded supported-backend fidelity runs `11938`. A progress update based only on the tail of the probe log initially overstated token equality; the full report exposed the speech failure and the update was promptly corrected. The authoritative results and conclusions above include that failure. No GPU benchmark or download is intentionally left running.

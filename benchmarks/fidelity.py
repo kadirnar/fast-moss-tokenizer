@@ -24,6 +24,13 @@ def cases():
         for frames in [1,10,40]:
             if x.numel()>=frames*1920:
                 yield f"{path.stem}_{frames}frames",x[:frames*1920].view(1,1,-1),entry
+        if path.stem=='speech':
+            # This geometry exposes a quantizer boundary only 1.19e-7 apart in
+            # the original FP32 calculation; tiny latent errors can cascade.
+            idx=torch.arange(5760)[None]+torch.arange(8)[:,None]*1920
+            yield 'speech_near_tie_b8_f3',x[idx%x.numel()][:,None],{
+                **entry,'transform':'eight cyclic lanes, 5760 samples each, starts offset by 1920 samples',
+                'regression':'first observed TF32x3 code flip at quantizer 5, lane 6, frame 2 (zero-based)'}
     yield "silence",torch.zeros(1,1,1920),None
     impulse=torch.zeros(1,1,19200);impulse[...,9599]=1
     yield "impulse",impulse,None
@@ -53,7 +60,7 @@ def main():
     for name,cpu,source in cases():
         x=cpu.cuda()
         reference=run(x)
-        record={"name":name,"samples":x.numel(),"source":source,"comparisons":{}}
+        record={"name":name,"samples":x.numel(),"input_shape":list(x.shape),"source":source,"comparisons":{}}
         with optimized(model,residual_backend=a.backend,rope_backend=a.rope_backend,kv_backend="triton",
                        share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
             eager=run(x)
