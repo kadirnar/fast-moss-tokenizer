@@ -1,6 +1,6 @@
 # Fast-MOSS-Tokenizer
 
-Fast inference for [MOSS Audio Tokenizer](https://huggingface.co/OpenMOSS-Team/MOSS-Audio-Tokenizer), a neural audio codec that converts audio into tokens and reconstructs it. Accelerates encoding up to **7.24×** and decoding up to **6.44×** using CUDA, Triton and CUDA graphs, with unchanged FP32 weights and bit-identical outputs on the validation corpus.
+Fast inference for [MOSS Audio Tokenizer](https://huggingface.co/OpenMOSS-Team/MOSS-Audio-Tokenizer), a neural audio codec that converts audio into tokens and reconstructs it. Accelerates encoding up to **7.24×** and decoding up to **6.46×** using CUDA, Triton and CUDA graphs, with unchanged FP32 weights and bit-identical outputs on the validation corpus.
 
 Supports incremental streaming, parallel batch lanes and queued requests. No distillation, FP8 or FP4.
 
@@ -10,14 +10,14 @@ Supports incremental streaming, parallel batch lanes and queued requests. No dis
 
 | Audio length | Operation | PyTorch eager | PyTorch graph | Optimized graph | vs. eager | vs. graph |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 80 ms | Encode | 46.738 ms | 10.343 ms | **6.455 ms** | **7.24×** | 1.60× |
-| 80 ms | Decode | 37.016 ms | 9.104 ms | **5.744 ms** | **6.44×** | 1.58× |
-| 240 ms | Encode | 47.555 ms | 11.806 ms | **7.357 ms** | **6.46×** | 1.60× |
-| 240 ms | Decode | 37.921 ms | 10.170 ms | **6.184 ms** | **6.13×** | 1.64× |
+| 80 ms | Encode | 46.639 ms | 10.345 ms | **6.442 ms** | **7.24×** | 1.61× |
+| 80 ms | Decode | 36.974 ms | 9.095 ms | **5.727 ms** | **6.46×** | 1.59× |
+| 240 ms | Encode | 48.079 ms | 11.871 ms | **7.362 ms** | **6.53×** | 1.61× |
+| 240 ms | Decode | 38.368 ms | 10.182 ms | **6.193 ms** | **6.20×** | 1.64× |
 
-Steady-state medians from three rotating rounds, with 200 extra graph warmups. Graph timings include input copies and owned outputs; model loading, packing and graph capture are excluded. [80 ms results](results/full_codec_norm_async_f1.json) · [240 ms results](results/full_codec_norm_async_f3.json).
+Steady-state medians from three rotating rounds, with 200 extra graph warmups. Graph timings include input copies and owned outputs; model loading, packing and graph capture are excluded. [80 ms results](results/full_codec_residual_async_f1.json) · [240 ms results](results/full_codec_residual_async_f3.json).
 
-**Validation:** 1,055 tests pass; full-checkpoint gates compare tokens, hidden states and waveform bits. Long streaming checks match corrected eager streaming. Streaming and offline decoding have an existing small rounding difference, documented in the [streaming reference](docs/implementation.md#streaming). Experimental kernels are excluded from the table. A 100× whole-model speedup has not been achieved.
+**Validation:** 1,079 tests pass; full-checkpoint gates compare tokens, hidden states and waveform bits. Long streaming checks match corrected eager streaming. Streaming and offline decoding have an existing small rounding difference, documented in the [streaming reference](docs/implementation.md#streaming). Experimental kernels are excluded from the table. A 100× whole-model speedup has not been achieved.
 
 ## Quick Start
 

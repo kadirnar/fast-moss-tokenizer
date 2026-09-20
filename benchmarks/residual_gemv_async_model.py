@@ -12,12 +12,24 @@ from benchmarks.residual_gemv_async import linear
 from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import REVISION,load_model
 from fast_moss.optimize import optimized
+RUNTIME=False
 @contextmanager
 def selected(model,configs):
     """Temporarily replace only the one-row FFN contraction research path."""
     import fast_moss.ffn as ffn
     original=ffn.gemv_linear
     counts={'candidate_calls':0,'ffn_calls':0}
+    runtime=model._fast_matrix_runtime;previous=runtime.residual_async_enabled
+    if RUNTIME:
+        from fast_moss.residual_async import CONFIG
+        if configs and configs!={5120:CONFIG}:raise ValueError('Runtime selection differs from validated schedule')
+        before=runtime.residual_async_calls;runtime.residual_async_enabled=bool(configs)
+        try:yield counts
+        finally:
+            counts.update(candidate_calls=runtime.residual_async_calls-before,ffn_calls=runtime.residual_async_calls-before)
+            runtime.residual_async_enabled=previous
+        return
+    runtime.residual_async_enabled=False
     def candidate(x,w,mode,residual,scale,library):
         if mode!='residual' or tuple(x.shape)!=(1,5120) or tuple(w.shape)!=(1280,5120) or 5120 not in configs:
             return original(x,w,mode,residual,scale,library)
@@ -26,11 +38,11 @@ def selected(model,configs):
     ffn.gemv_linear=candidate
     try:yield counts
     finally:
-        torch.cuda.synchronize();ffn.gemv_linear=original
+        torch.cuda.synchronize();ffn.gemv_linear=original;runtime.residual_async_enabled=previous
 
 
 def runtime_count(model,counts):
-    return counts['candidate_calls']
+    return model._fast_matrix_runtime.residual_async_calls if RUNTIME else counts['candidate_calls']
 
 def compare(ref,out):
     return [{**difference(a,b),'bits_equal':torch.equal(
@@ -40,7 +52,9 @@ def compare(ref,out):
 
 @torch.inference_mode()
 def main():
+    global RUNTIME
     parser=argparse.ArgumentParser()
+    parser.add_argument("--runtime",action="store_true")
     parser.add_argument('--selection',default='results/residual_gemv_async_confirm.json')
 
     parser.add_argument('--fidelity-only', action='store_true')
@@ -49,7 +63,7 @@ def main():
     parser.add_argument('--extra-warmup-replays',type=int,default=0)
     parser.add_argument('--residual-backend', choices=['triton','cute'], default='triton')
     parser.add_argument('--output', default='results/full_residual_gemv_async.json')
-    args=parser.parse_args()
+    args=parser.parse_args();RUNTIME=args.runtime
     if args.rounds<1 or args.extra_warmup_replays<0 or (args.timing_only and args.fidelity_only):parser.error('Invalid timing options')
     selection=json.loads(Path(args.selection).read_text());configs={}
     for row in selection['records']:
@@ -58,13 +72,13 @@ def main():
     if not configs:raise SystemExit('No faster confirmed configuration')
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='cuda',ffn_backend='triton',norm_backend='cuda');opts['residual_backend']=args.residual_backend
-    report={'scope':'research asynchronous FFN residual GEMV weight staging, full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
-        'previous_commit':'b2a1086','selection_report':args.selection,'revision':REVISION,'torch':torch.__version__,
+    report={'scope':('supported' if RUNTIME else 'research')+' asynchronous FFN residual GEMV weight staging, full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
+        'previous_commit':'b2a1086','integration_parent':'c4f560a','selection_report':args.selection,'revision':REVISION,'torch':torch.__version__,
         'gpu':torch.cuda.get_device_name(),'sources':sources,'options':opts,
         'configs':configs,
         'fidelity_skipped':args.timing_only,'timing_rounds':args.rounds,
         'timing_scope':'rotating independently restored contexts; five samples of ten graph calls, input copies and owned outputs included; setup/capture/restoration excluded',
-        'cases':[],'timings':[],'enabled_in_runtime':False,'extra_warmup_replays':args.extra_warmup_replays}
+        'cases':[],'timings':[],'enabled_in_runtime':RUNTIME,'extra_warmup_replays':args.extra_warmup_replays}
     output=Path(args.output)
     def save():output.write_text(json.dumps(report,indent=2)+'\n')
     def run(x):

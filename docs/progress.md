@@ -1531,3 +1531,42 @@ done
 The full suite passes **1,055 tests in 196.52 seconds**. A final audit passes **312 cross-report checks**, including byte identity for all **32 supported runtime/profile files** against the previous package. No production source changed and no new wheel is required. [Research and evidence](research.md#asynchronous-staging-for-residual-gemv).
 
 All handles are terminal: exploratory sweep `86109`, distinct-weight sweep `80326`, finalist confirmation `41715`, focused tests `95984`, full-model timing/fidelity `69359`, interleaved pairs `16364`, compiler/CuTe/stream/profile/full-suite chain `38499`, and CPU cross-report audit `65340`. GPU jobs ran sequentially. This turn is **progress**: attention staging is rejected and a small exact FFN improvement is validated as a research candidate. Owned dispatch integration and lifecycle checks are the next step; supported headline speedups remain **7.24× / 6.44×** against original eager. The broader **100× objective remains active and unmet**.
+
+## 2026-09-20 — Integrate exact asynchronous FFN contraction
+
+The preceding goal work is **progress**: research at `807d554` rejected attention staging and validated a small exact FFN gain. The intervening publication at `c4f560a` created the public GitHub repository, pushed all 44 commits, simplified README, preserved the detailed API reference and checked its executable example. This turn begins from that published state; earlier GPU jobs are terminal, with only preexisting PID 1718 present.
+
+The selected `(64,320,2,0,16,1,2)` residual GEMV now runs through the owned CUDA matrix/FFN dispatch for `(1,1280,5120)`. Original FP32 weights, cyclic accumulation and separately rounded residual arithmetic remain unchanged. There is no extra persistent weight copy or workspace. The existing asynchronous normalization/QKV/GELU kernels remain enabled; attention output staging remains rejected.
+
+Warmup keys distinguish module, matrix shape, epilogue, stream and selected backend. Direct/asynchronous graphs coexist at stable storage; packing and context exit invalidate them and cleanup removes warmup records. Existing observer/custom paths, gradients, autocast, layout and host-thread guards are retained. The initial **102-test regression group** passes in **20.92 seconds**; **24 new integration tests** pass in **6.70 seconds**.
+
+Both **48-case Triton/CuTe checkpoint gates** preserve token values, hidden-state bits, waveform bits, graph replay and restored execution. Seven warmed rotating rounds measure encode **6.536835 → 6.522068 ms (1.00226×)** and decode **5.826501 → 5.809977 ms (1.00284×)** at batch one / 80 ms. No-call controls remain within 0.20% of parity. Forty interleaved graph pairs with stable weight addresses/layouts give **6.537289 → 6.520355 ms encode (1.00260×)** and **5.831623 → 5.815805 ms decode (1.00272×)**, with **31 / 40** and **32 / 40** candidate wins. Their controls remain within 0.15%. This is a modest incremental improvement.
+
+Both **162-chunk / 12.96-second** streams match corrected eager execution chunk by chunk: **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, with **7,521,828,864 / 7,694,623,744 bytes** peak allocation. One lane uses the new kernel; two lanes make no new calls. The prior decoder/offline discrepancy remains unchanged. Profiles show **32 residual staging kernels per direction** at one frame and none at three frames. Launch totals remain **1,184 / 676** and **1,242 / 827**, with matrix work still **76.37% / 83.93%** and **80.93% / 83.76%** of device kernel time.
+
+The supported helper reproduces all **17 research finalist binaries**, including fifteen asynchronous and two synchronous controls. Only one FFN schedule enters runtime dispatch: **40 registers / 12,800 shared bytes**, no local spills and no matrix Tensor Core instructions. The built wheel contains **33 source-matching runtime/profile files** and passes an isolated import. The generated build directory was removed.
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m pytest tests/test_ffn.py tests/test_norm_async_runtime.py tests/test_attention_residual_runtime.py -q
+.venv/bin/python -m pytest tests/test_residual_async_runtime.py -q
+.venv/bin/python -m benchmarks.residual_gemv_async_resources --runtime
+.venv/bin/python -m benchmarks.residual_gemv_async_model --runtime --rounds 7 --extra-warmup-replays 200 --output results/full_residual_async_runtime.json
+.venv/bin/python -m benchmarks.residual_gemv_async_paired --runtime --output results/full_residual_async_paired.json
+.venv/bin/python -m benchmarks.residual_gemv_async_model --runtime --fidelity-only --residual-backend cute --output results/full_residual_async_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.streaming_fidelity --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_residual_async_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_residual_async_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_residual_async_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_residual_async_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_residual_async_f3.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-residual-async-wheel
+.venv/bin/python -m benchmarks.residual_async_audit
+```
+
+The final full suite passes **1,079 tests in 199.50 seconds** and the cross-report audit passes **205 checks**. Fresh matched original/current comparisons measure **6.442 ms encode / 5.727 ms decode** at batch one / 80 ms, or **7.24× / 6.46×** versus original eager and **1.61× / 1.59×** versus original graphs. README retains its simplified layout and now uses these directly measured values and the refreshed 240 ms table. Historical incremental gains are not multiplied. [Integration details](research.md#supported-asynchronous-ffn-contraction).
+
+All handles are terminal: initial regression `85441`, integration tests `71177`, compiler/seven-round/interleaved comparison chain `76270`, CuTe/stream/profile/fresh-comparison/full-suite chain `32286`, CPU wheel audit `10327`, and CPU cross-report audit `27625`. GPU jobs ran sequentially. This turn is **progress**: an exact FFN memory pipeline is integrated into the supported runtime and validated through the full codec. Matrix work remains the dominant optimization target. The broader **100× objective remains active and unmet**.

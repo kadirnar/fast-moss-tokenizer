@@ -65,6 +65,7 @@ def main():
             small_calls=getattr(runtime,'small_calls',0)
             norm_projection_calls=getattr(runtime,'norm_gemv_calls',0)
             norm_async_calls=getattr(runtime,'norm_async_calls',0)
+            residual_async_calls=getattr(runtime,'residual_async_calls',0)
             attention_residual_calls=getattr(runtime,'attention_residual_calls',0)
         ref=torch.cat(reference,dim=-1)
         cand=torch.cat(actual,dim=-1)
@@ -74,6 +75,7 @@ def main():
                 "per_chunk_exact":[torch.equal(r,c) for r,c in zip(reference,actual)],
                 "small_matrix_calls":small_calls,"norm_projection_calls":norm_projection_calls,
                 "attention_residual_calls":attention_residual_calls,"norm_async_calls":norm_async_calls,
+                "residual_async_calls":residual_async_calls,
                 "per_chunk_bits_equal":[torch.equal(r.view(torch.int32),c.view(torch.int32)) if r.dtype==torch.float32 else torch.equal(r,c) for r,c in zip(reference,actual)]}
         report["results"][direction]=result
         print(direction,result,flush=True)

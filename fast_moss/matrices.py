@@ -70,6 +70,9 @@ class MatrixRuntime:
         self.small_warmed = set()
         self.ffn_calls = 0
         self.ffn_gemv_calls = 0
+        self.ffn_gemv_warmed = set()
+        self.residual_async_enabled = True
+        self.residual_async_calls = 0
         self.ffn_short_enabled = True
         self.ffn_short_calls = 0
         self.ffn_strided_enabled = True
@@ -256,16 +259,30 @@ class MatrixRuntime:
                         self.cuda_bindings).reshape(*x.shape[:-1], module.out_features))
                 from .small_matrices import linear as small_linear
                 with torch.cuda.device(self.device):
-                    self.triton_calls += 1
-                    self.small_calls += 1
                     if _fast_epilogue is not None and _fast_epilogue[0]!='attention_residual' and shape in ((1,5120,1280),(1,1280,5120)):
                         from .ffn import gemv_linear
                         mode,residual,scale,library = _fast_epilogue
+                        asynchronous = (self.backend == 'cuda' and self.residual_async_enabled
+                                        and shape == (1,1280,5120) and mode == 'residual')
+                        warm = (id(module),shape,stream,mode,asynchronous)
+                        if torch.cuda.is_current_stream_capturing() and warm not in self.ffn_gemv_warmed:
+                            raise RuntimeError('Warm FFN GEMV backend on the capture stream')
+                        values = (x.reshape(1,shape[-1]),module.weight,
+                                  residual.reshape(1,module.out_features) if residual is not None else None,scale)
+                        if asynchronous:
+                            from .residual_async import linear as residual_linear
+                            out = residual_linear(*values)
+                            self.residual_async_calls += 1
+                        else:
+                            out = gemv_linear(values[0],values[1],mode,values[2],values[3],library)
+                            self.triton_calls += 1
+                        self.ffn_gemv_warmed.add(warm)
+                        self.small_calls += 1
                         self.ffn_calls += 1
                         self.ffn_gemv_calls += 1
-                        return gemv_linear(x.reshape(1,shape[-1]),module.weight,mode,
-                            residual.reshape(1,module.out_features) if residual is not None else None,
-                            scale,library).reshape(*x.shape[:-1],module.out_features)
+                        return out.reshape(*x.shape[:-1],module.out_features)
+                    self.triton_calls += 1
+                    self.small_calls += 1
                     return finish(small_linear(x.reshape(shape[0],shape[-1]),module.weight).reshape(
                         *x.shape[:-1],module.out_features))
             if key not in self.plans:
@@ -337,6 +354,7 @@ class MatrixRuntime:
         self.saved.clear()
         self.forwards.clear()
         self.norm_gemv_warmed.clear()
+        self.ffn_gemv_warmed.clear()
         self.attention_residual_warmed.clear()
         with torch.cuda.device(self.device):
             for plan, _ in self.plans.values():

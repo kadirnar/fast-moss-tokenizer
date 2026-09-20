@@ -3,6 +3,7 @@ import argparse,json,statistics,time
 from pathlib import Path
 import torch
 from benchmarks.residual_gemv_async_model import selected,compare
+from benchmarks import residual_gemv_async_model as harness
 from benchmarks.lane_completion import audio_sources
 from benchmarks.ordered_model import options
 from fast_moss.loading import load_model,REVISION
@@ -11,14 +12,15 @@ from fast_moss.graphs import GraphedCallable
 
 @torch.inference_mode()
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--output',default='results/full_residual_gemv_async_paired.json');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument("--runtime",action="store_true");parser.add_argument('--output',default='results/full_residual_gemv_async_paired.json');args=parser.parse_args()
+    harness.RUNTIME=args.runtime
     selection=json.loads(Path('results/residual_gemv_async_confirm.json').read_text());configs={}
     for row in selection['records']:
         ratios=row['rings'][-1]['speedups'];best=max(ratios,key=ratios.get)
         if row['shape'][2]==5120 and ratios[best]>1.005:configs[5120]=tuple(json.loads(best))
     model=load_model();clips,sources=audio_sources();opts=dict(options(),matrix_backend='cuda',ffn_backend='triton',norm_backend='cuda')
     report={'scope':'40 alternating graph pairs per direction and geometry, 200 warmups, five owned calls per sample; same verified weight addresses/layouts after warming both methods; setup/capture excluded; copies/clones included',
-        'previous_commit':'b2a1086','enabled_in_runtime':False,'revision':REVISION,'sources':sources,'configs':configs,'options':opts,'records':[]}
+        'previous_commit':'b2a1086','integration_parent':'c4f560a','enabled_in_runtime':args.runtime,'revision':REVISION,'sources':sources,'configs':configs,'options':opts,'records':[]}
     for batch,frames in [(1,1),(8,1),(1,3)]:
         idx=torch.arange(frames*1920,device='cuda')[None]+torch.arange(batch,device='cuda')[:,None]*1920
         x=clips[1][idx%clips[1].numel()][:,None];e=model._encode_frame(x);codes=e.audio_codes

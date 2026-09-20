@@ -31,8 +31,7 @@ def main():
             percent=100*ms/result['total_ms_per_replay'] if result['total_ms_per_replay'] else 0.
             result['residual_gemv_async_per_replay']=len(events)/replays
             result['small_matrix_breakdown']['residual_gemv_async']={'ms_per_replay':ms,'percent':percent}
-            result['groups']['small_matrix']['ms_per_replay']+=ms
-            result['groups']['small_matrix']['percent']+=percent
+            # The supported profiler already accounts for this kernel name.
             result['small_matrix_breakdown_scope']+=' Research residual_gemv_async includes FFN contraction and scaled residual; counted once in small_matrix.'
             return result
         harness.kernel_summary=summary
