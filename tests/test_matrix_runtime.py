@@ -25,12 +25,13 @@ def fixture():
 
 
 @torch.inference_mode()
-def test_runtime_storage_graph_epochs_stream_workspaces_and_restoration():
+@pytest.mark.parametrize('backend', ['cublaslt', 'triton'])
+def test_runtime_storage_graph_epochs_stream_workspaces_and_restoration(backend):
     model, profile, x = fixture()
     expected, weights = model(x), model[0].weight.clone()
     identity = id(model[0].weight)
     old = GraphedCallable(lambda y: (model(y),), x)
-    with MatrixRuntime(model, _profile=profile) as runtime:
+    with MatrixRuntime(model, backend=backend, _profile=profile) as runtime:
         assert runtime.packed_bytes == 0 and model[0].weight.is_contiguous()
         assert torch.equal(model(x), expected)
         assert runtime.packed_bytes == weights.numel() * 4
@@ -192,3 +193,45 @@ def test_lazy_packing_invalidates_graphs_of_previously_unpacked_weights():
         assert torch.equal(late(fallback)[0], ref)
         model(torch.ones(7, 64, device='cuda'))  # New plan, same packed storage.
         assert torch.equal(late(fallback)[0], ref)
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('shape', [(5120,1280), (1280,5120)])
+def test_ordered_runtime_arithmetic_hooks_fallback_and_storage(shape):
+    import json
+    from pathlib import Path
+    from fast_moss.loading import strict_precision
+    strict_precision()
+    torch.manual_seed(954)
+    n, k = shape
+    model = torch.nn.Sequential(torch.nn.Linear(k, n, bias=False)).cuda().eval().requires_grad_(False)
+    x = torch.randn(8,3,k,device='cuda')
+    fallback = torch.randn(8,1,k,device='cuda').as_strided((8,1,k),(k,1,1))
+    ref, fallback_ref = model(x), model(fallback)
+    weight = model[0].weight.clone()
+    profile = json.loads(Path('fast_moss/matrix_profile.json').read_text())
+    observed = []
+    hook = model[0].register_forward_hook(lambda *args: observed.append(1))
+    with MatrixRuntime(model, backend='triton', _profile=profile) as runtime:
+        assert torch.equal(model(x), ref)
+        assert runtime.triton_calls == 1 and len(observed) == 1
+        assert torch.equal(model(fallback), fallback_ref)
+        assert runtime.triton_calls == 1
+        graph = GraphedCallable(lambda z:(model(z),), x)
+        assert torch.equal(graph(x)[0], ref)
+        assert torch.equal(model[0].weight, weight)
+    hook.remove()
+    assert model[0].weight.is_contiguous() and torch.equal(model[0].weight, weight)
+    assert torch.equal(model(x), ref)
+    with pytest.raises(RuntimeError, match='storage changed'):
+        graph(x)
+
+
+def test_ordered_runtime_compiler_gate_and_helper_validation(monkeypatch):
+    import triton
+    from fast_moss.ordered_matrices import linear
+    with pytest.raises(ValueError, match='supported contiguous'):
+        linear(torch.randn(24,1280), torch.randn(1280,5120))
+    monkeypatch.setattr(triton, '__version__', 'unvalidated')
+    with pytest.raises(ValueError, match='validated Triton'):
+        MatrixRuntime(torch.nn.Linear(1,1), backend='triton')

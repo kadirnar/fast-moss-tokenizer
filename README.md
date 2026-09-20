@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; optional version-gated resident FP32 cuBLASLt matrices; fused LFQ output projections and cached decoder reconstruction.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; version-gated resident FP32 cuBLASLt and ordered Triton matrices; fused LFQ output projections and cached decoder reconstruction.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -78,6 +78,24 @@ Three alternating paired rounds compare combined encode/decode against the prece
 | 128 / 240 ms | 169.851 ms | 146.823 ms | 1.16× |
 
 All tested codes, hidden states, waveforms, and restored-model results match original eager references. Peak allocated memory stays below 7.8 GB in this ablation. Packing, plan creation, graph capture, and restoration are excluded from steady-state timings; setup and memory are recorded separately. These are additional gains over the previous optimized runtime, not 100× results. [Paired ablation](results/full_matrix_runtime.json), [Triton corpus](results/full_fidelity_matrix_runtime.json), [CuTe corpus](results/full_fidelity_matrix_runtime_cute.json).
+
+## Ordered Triton matrices
+
+`matrix_backend="triton"` uses explicit FP32 SIMT kernels for FFN matrices `(M,N,K)=(24,5120,1280)` and `(24,1280,5120)`. Other matrix shapes retain the supported cuBLASLt/native paths. It requires the same pinned model, GPU and library profile as `"cublaslt"`, plus Triton 3.4.0. Packing, fallbacks, hooks, workspace ownership and graph lifetime rules remain the same; no additional persistent weight copy is kept.
+
+Each kernel accumulates consecutive groups of 256 terms, then adds partial results in order. Changing those boundaries changes FP32 results. Compiled main loops use FP32 FMA instructions and no matrix Tensor Core instructions. [Component stress and timing](results/ordered_confirm.json), [compiled kernels](results/ordered_kernel_resources.json).
+
+Forty interleaved graph pairs sharing one packed-weight lifetime give these medians against the previous matrix/projection runtime:
+
+| Batch / frames | Encoder, cuBLASLt → Triton | Decoder, cuBLASLt → Triton |
+| --- | ---: | ---: |
+| 8 / 3 | 13.224 → 12.920 ms | 11.593 → 11.506 ms |
+| 24 / 1 | 14.079 → 13.783 ms | 12.651 → 12.546 ms |
+| 1 / 24 | 13.078 → 12.779 ms | 11.413 → 11.338 ms |
+
+These are modest, variable gains: the candidate wins 24–27 of 40 pairs, depending on direction/geometry. A separate three-round context-by-context comparison ranges from a 1.4% decoder regression to a 2.6% encoder gain. Warm component improvements of roughly 1.35–1.47× shrink to approximately parity after cache eviction. Input copies and owned outputs are timed; loading, packing and capture are excluded. [Interleaved pairs](results/full_ordered_paired.json), [context comparison and 27-case fidelity](results/full_ordered_runtime.json).
+
+Expanded singleton-frame gates also exposed an older residual-layout bug. Both residual backends now allocate the canonical contiguous output used by native PyTorch, preserving downstream matrix dispatch. The regression previously changed encoder hidden states at batch 24 / one frame despite equal residual values, tokens and audio. The full-model corpus now includes batch 24 and 128 singleton inputs. [Isolation](results/ordered_singleton_audit.json), [CuTe corpus](results/full_fidelity_ordered_cute.json), [long incremental streams](results/full_incremental_ordered.json).
 
 ## LFQ projection and decoder reconstruction
 

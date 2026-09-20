@@ -81,7 +81,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--backend', choices=['triton', 'cute'], default='triton')
     parser.add_argument('--repeats', type=int, default=3)
-    parser.add_argument('--matrix-backend', choices=['none', 'cublaslt'], default='none')
+    parser.add_argument('--matrix-backend', choices=['none', 'cublaslt', 'triton'], default='none')
     parser.add_argument('--output', default='results/full_incremental_batching.json')
     parser.add_argument("--projection-backend", choices=["none", "triton"], default="none")
     args = parser.parse_args()

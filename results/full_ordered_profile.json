@@ -1,0 +1,138 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.24,
+  "batch": 8,
+  "streaming": false,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "triton",
+  "projection_backend": "triton",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 12.920176501211245,
+      "gpu_ms_median": 12.906256198883057,
+      "wall_ms_samples": [
+        13.388926003244705,
+        12.91182599379681,
+        13.508240997907706,
+        12.921763998747338,
+        12.91326800128445,
+        13.396330003160983,
+        12.918589003675152,
+        13.440852999337949,
+        12.917906999064144,
+        12.907267002447043
+      ],
+      "gpu_ms_samples": [
+        13.19264030456543,
+        12.896512031555176,
+        13.494560241699219,
+        12.907936096191406,
+        12.90112018585205,
+        13.19587230682373,
+        12.903424263000488,
+        13.423808097839355,
+        12.904576301574707,
+        12.895551681518555
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 12.9345244,
+        "kernels_per_replay": 1795.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 31.0,
+        "decoder_gather_per_replay": 0.0,
+        "ordered_partials_per_replay": 64.0,
+        "ordered_reduce_per_replay": 64.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 7.726408999999999,
+            "percent": 59.734774631528005
+          },
+          "attention": {
+            "ms_per_replay": 0.9614176,
+            "percent": 7.432956715439803
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 2.3700558000000003,
+            "percent": 18.323486250487882
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.30760540000000003,
+            "percent": 2.3781732554464856
+          }
+        }
+      }
+    },
+    "decode": {
+      "wall_ms_median": 11.508867999509675,
+      "gpu_ms_median": 11.494560241699219,
+      "wall_ms_samples": [
+        12.07755200448446,
+        11.510010001074988,
+        11.496926003019325,
+        12.064286005625036,
+        11.4999910001643,
+        11.499660999106709,
+        12.049679004121572,
+        11.47478399798274,
+        11.507725997944362,
+        12.10946099308785
+      ],
+      "gpu_ms_samples": [
+        12.054047584533691,
+        11.49392032623291,
+        11.48310375213623,
+        12.050559997558594,
+        11.484607696533203,
+        11.47481632232666,
+        12.035679817199707,
+        11.459648132324219,
+        11.495200157165527,
+        12.096063613891602
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 11.4650786,
+        "kernels_per_replay": 1123.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 0.0,
+        "decoder_gather_per_replay": 1.0,
+        "ordered_partials_per_replay": 64.0,
+        "ordered_reduce_per_replay": 64.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 6.9214956,
+            "percent": 60.37024115996902
+          },
+          "attention": {
+            "ms_per_replay": 0.9088392,
+            "percent": 7.9270211021492685
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 2.432315,
+            "percent": 21.21498757104029
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.2684352,
+            "percent": 2.3413289116046707
+          }
+        }
+      }
+    }
+  }
+}

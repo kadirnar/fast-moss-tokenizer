@@ -1,0 +1,5764 @@
+{
+  "scope": "actual-weight ordered FP32 GEMM confirmation; not model speedup",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "tf32": false,
+  "seed": 4927,
+  "rounds": 3,
+  "records": [
+    {
+      "shape": [
+        24,
+        5120,
+        1280
+      ],
+      "checks": [
+        {
+          "backend": "cublaslt",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "runtime_triton",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 32, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 32, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 16, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 16, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(16, 128, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 122880
+              }
+            }
+          ]
+        }
+      ],
+      "timings": [
+        {
+          "round": 0,
+          "backend": "cublaslt",
+          "warm_ms": 0.02928443919716543,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04259200021624565,
+              0.05190400034189224,
+              0.04464000090956688,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "runtime_triton",
+          "warm_ms": 0.020796809561070294,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.020798817683127517,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04915200173854828,
+              0.05116799846291542,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.05116799846291542,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.01981653819008479,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.053247999399900436,
+              0.05119999870657921,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.021175267634453713,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.020549086877332944,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.040383998304605484,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.021315454507802988,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04464000090956688,
+              0.04464000090956688,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.025755258111764264,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.05119999870657921,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.02866653272701056,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04668800160288811,
+              0.05238400027155876,
+              0.04464000090956688,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04912000149488449,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.028627558296739457,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04707200080156326,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.025573593348412964,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.043007999658584595,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.021271986891126866,
+          "cold": {
+            "gpu_ms_median": 0.04668800160288811,
+            "samples": [
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04668800160288811,
+              0.04639999940991402,
+              0.04873599857091904,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.020399911527509813,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04054399952292442,
+              0.0390079990029335,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.021120811528902612,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.01991636806745621,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.0209409670184137,
+          "cold": {
+            "gpu_ms_median": 0.04915200173854828,
+            "samples": [
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.05119999870657921,
+              0.053247999399900436,
+              0.04915200173854828,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "runtime_triton",
+          "warm_ms": 0.02082921246896083,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cublaslt",
+          "warm_ms": 0.02912902385155106,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cublaslt",
+          "warm_ms": 0.02915041540631344,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04403200000524521,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.045024000108242035,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "runtime_triton",
+          "warm_ms": 0.020944992583822816,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.02087061068950555,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.0199687897774481,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04912000149488449,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.045024000108242035,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.021114746334145517,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04255999997258186,
+              0.043007999658584595,
+              0.04665600135922432,
+              0.04505600035190582,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.020508381067026116,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04915200173854828,
+              0.04095999896526337,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04095999896526337
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.021330065197414823,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.043007999658584595,
+              0.04505600035190582,
+              0.053247999399900436,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.055296000093221664,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.025655192272670883,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.028644963330928856,
+          "cold": {
+            "gpu_ms_median": 0.04707200080156326,
+            "samples": [
+              0.04505600035190582,
+              0.04710400104522705,
+              0.053247999399900436,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04707200080156326,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04707200080156326
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "cublaslt": {
+          "warm": 0.02915041540631344,
+          "cold": 0.04505600035190582
+        },
+        "runtime_triton": {
+          "warm": 0.02082921246896083,
+          "cold": 0.04505600035190582
+        },
+        "(32, 64, 32, 4)": {
+          "warm": 0.02087061068950555,
+          "cold": 0.04710400104522705
+        },
+        "(32, 128, 32, 4)": {
+          "warm": 0.01991636806745621,
+          "cold": 0.04505600035190582
+        },
+        "(32, 64, 16, 4)": {
+          "warm": 0.021120811528902612,
+          "cold": 0.043007999658584595
+        },
+        "(32, 128, 16, 4)": {
+          "warm": 0.020508381067026116,
+          "cold": 0.043007999658584595
+        },
+        "(32, 128, 32, 8)": {
+          "warm": 0.021315454507802988,
+          "cold": 0.04710400104522705
+        },
+        "(32, 64, 32, 8)": {
+          "warm": 0.025655192272670883,
+          "cold": 0.04710400104522705
+        },
+        "(16, 128, 32, 8)": {
+          "warm": 0.028644963330928856,
+          "cold": 0.04707200080156326
+        }
+      },
+      "all_exact": true
+    },
+    {
+      "shape": [
+        24,
+        1280,
+        5120
+      ],
+      "checks": [
+        {
+          "backend": "cublaslt",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "runtime_triton",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 32, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 32, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 16, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 16, 4)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 128, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(32, 64, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        },
+        {
+          "backend": "(16, 128, 32, 8)",
+          "variants": [
+            {
+              "name": "actual",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "negated",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "scaled",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "zero",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "subnormal",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "tiny",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "large",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_0",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_1",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_2",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "random_3",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            },
+            {
+              "name": "sparse",
+              "eager": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              },
+              "graph": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 30720
+              }
+            }
+          ]
+        }
+      ],
+      "timings": [
+        {
+          "round": 0,
+          "backend": "cublaslt",
+          "warm_ms": 0.027094981981360393,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "runtime_triton",
+          "warm_ms": 0.020892814167758875,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.0209973609292662,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.019951225865271784,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04809600114822388,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.02115298360350015,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.043007999658584595,
+              0.04259200021624565,
+              0.03872000053524971,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.02052750011573091,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.021395271502363797,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04668800160288811,
+              0.040511999279260635,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.02551593443926643,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.0287175422705314,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.028726056294563488,
+          "cold": {
+            "gpu_ms_median": 0.04707200080156326,
+            "samples": [
+              0.04505600035190582,
+              0.04707200080156326,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.0256134596876443,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.043007999658584595,
+              0.04915200173854828,
+              0.050912000238895416,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.02121403429844391,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04668800160288811,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.020536995088148966,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04095999896526337,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.021100403845506925,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.019896282565991717,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04668800160288811,
+              0.04505600035190582,
+              0.04668800160288811,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.020854924024572813,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "runtime_triton",
+          "warm_ms": 0.020797569075627114,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cublaslt",
+          "warm_ms": 0.027042210541836406,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.053247999399900436,
+              0.04710400104522705,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cublaslt",
+          "warm_ms": 0.027148308843051906,
+          "cold": {
+            "gpu_ms_median": 0.04915200173854828,
+            "samples": [
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "runtime_triton",
+          "warm_ms": 0.020810527830024114,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.053247999399900436
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 32, 4)",
+          "warm_ms": 0.020906759119358194,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 32, 4)",
+          "warm_ms": 0.019936729677068363,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 16, 4)",
+          "warm_ms": 0.021189160919189452,
+          "cold": {
+            "gpu_ms_median": 0.045024000108242035,
+            "samples": [
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04873599857091904,
+              0.04668800160288811,
+              0.04095999896526337,
+              0.04710400104522705,
+              0.045024000108242035,
+              0.045024000108242035,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04707200080156326,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 16, 4)",
+          "warm_ms": 0.02055861170402174,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.05119999870657921,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 128, 32, 8)",
+          "warm_ms": 0.02146874398988078,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04505600035190582,
+              0.05119999870657921,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.05116799846291542,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04912000149488449,
+              0.04912000149488449,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(32, 64, 32, 8)",
+          "warm_ms": 0.025479040971636165,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "(16, 128, 32, 8)",
+          "warm_ms": 0.028879200054120414,
+          "cold": {
+            "gpu_ms_median": 0.04710400104522705,
+            "samples": [
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04912000149488449,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705,
+              0.04710400104522705
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "cublaslt": {
+          "warm": 0.027094981981360393,
+          "cold": 0.04710400104522705
+        },
+        "runtime_triton": {
+          "warm": 0.020810527830024114,
+          "cold": 0.04710400104522705
+        },
+        "(32, 64, 32, 4)": {
+          "warm": 0.020906759119358194,
+          "cold": 0.04710400104522705
+        },
+        "(32, 128, 32, 4)": {
+          "warm": 0.019936729677068363,
+          "cold": 0.04710400104522705
+        },
+        "(32, 64, 16, 4)": {
+          "warm": 0.02115298360350015,
+          "cold": 0.04505600035190582
+        },
+        "(32, 128, 16, 4)": {
+          "warm": 0.020536995088148966,
+          "cold": 0.04505600035190582
+        },
+        "(32, 128, 32, 8)": {
+          "warm": 0.021395271502363797,
+          "cold": 0.04710400104522705
+        },
+        "(32, 64, 32, 8)": {
+          "warm": 0.02551593443926643,
+          "cold": 0.04505600035190582
+        },
+        "(16, 128, 32, 8)": {
+          "warm": 0.028726056294563488,
+          "cold": 0.04707200080156326
+        }
+      },
+      "all_exact": true
+    }
+  ],
+  "all_exact": true
+}

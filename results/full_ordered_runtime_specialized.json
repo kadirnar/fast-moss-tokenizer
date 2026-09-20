@@ -1,0 +1,4918 @@
+{
+  "scope": "supported ordered FP32 FFN; original full-checkpoint references and paired backend timings",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "shapes": [
+    [
+      24,
+      5120,
+      1280
+    ],
+    [
+      24,
+      1280,
+      5120
+    ]
+  ],
+  "chunk": 256,
+  "tile": [
+    32,
+    128,
+    32,
+    4
+  ],
+  "options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "cublaslt",
+    "projection_backend": "triton"
+  },
+  "cases": [
+    {
+      "name": "speech_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_near_tie_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "eight cyclic lanes, 5760 samples each, starts offset by 1920 samples",
+        "regression": "first observed TF32x3 code flip at quantizer 5, lane 6, frame 2 (zero-based)"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "24 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b128_f1",
+      "shape": [
+        128,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "128 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "silence",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "impulse",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "full_scale_alternating",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "tiny_signal",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "counts": {
+        "calls": 0
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "music_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "speech_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    },
+    {
+      "name": "environment_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "counts": {
+        "calls": 640
+      },
+      "all_exact": true
+    }
+  ],
+  "timings": [
+    {
+      "batch": 8,
+      "frames": 3,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.078683499770705,
+                "gpu_ms_median": 13.057439804077148,
+                "wall_ms_samples": [
+                  14.109773001109716,
+                  13.030988004175015,
+                  13.5857049972401,
+                  13.239921994681936,
+                  13.015087999519892,
+                  13.6509770018165,
+                  13.062777994491626,
+                  13.587287998234387,
+                  13.074700997094624,
+                  13.03994499903638,
+                  13.640036995639093,
+                  13.041847996646538,
+                  13.59694599523209,
+                  13.067175998003222,
+                  13.05311000032816,
+                  13.5686630019336,
+                  13.044593993981835,
+                  13.570045004598796,
+                  13.082666002446786,
+                  13.031989998125937
+                ],
+                "gpu_ms_samples": [
+                  14.090144157409668,
+                  13.014399528503418,
+                  13.572671890258789,
+                  13.006752014160156,
+                  13.002495765686035,
+                  13.63913631439209,
+                  13.048800468444824,
+                  13.574432373046875,
+                  13.061311721801758,
+                  13.028191566467285,
+                  13.62831974029541,
+                  13.028096199035645,
+                  13.583295822143555,
+                  13.053567886352539,
+                  13.04150390625,
+                  13.557024002075195,
+                  13.031231880187988,
+                  13.557984352111816,
+                  13.06931209564209,
+                  13.020607948303223
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.640534499747446,
+                "gpu_ms_median": 11.62879991531372,
+                "wall_ms_samples": [
+                  12.14306200563442,
+                  11.57771600264823,
+                  11.581092003325466,
+                  12.159042998973746,
+                  11.608603999775369,
+                  11.577334997127764,
+                  12.219397001899779,
+                  11.590861002332531,
+                  11.59806500072591,
+                  12.177486998552922,
+                  11.575001000892371,
+                  11.574650001421105,
+                  12.182006001239643,
+                  11.594527000852395,
+                  11.901436999323778,
+                  11.886959000548813,
+                  11.661293996439781,
+                  12.238602997967973,
+                  11.686231002386194,
+                  11.61977500305511
+                ],
+                "gpu_ms_samples": [
+                  12.121376037597656,
+                  11.562975883483887,
+                  11.568863868713379,
+                  12.146528244018555,
+                  11.594464302062988,
+                  11.565567970275879,
+                  12.207263946533203,
+                  11.576512336730957,
+                  11.586560249328613,
+                  12.16534423828125,
+                  11.561599731445312,
+                  11.563360214233398,
+                  12.170463562011719,
+                  11.581376075744629,
+                  11.890144348144531,
+                  11.650464057922363,
+                  11.649375915527344,
+                  12.225728034973145,
+                  11.671968460083008,
+                  11.608223915100098
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 0,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.998021000385052,
+                "gpu_ms_median": 12.974463939666748,
+                "wall_ms_samples": [
+                  13.428908998321276,
+                  12.946549002663232,
+                  13.474243998643942,
+                  12.980672996491194,
+                  12.967208000191022,
+                  13.463945004332345,
+                  12.958892002643552,
+                  13.499803004378919,
+                  12.986643996555358,
+                  13.195467996411026,
+                  13.188545999582857,
+                  12.963120003405493,
+                  13.511373996152543,
+                  12.98936999955913,
+                  12.970775002031587,
+                  13.460207999742124,
+                  12.96429200010607,
+                  13.514199999917764,
+                  13.006672001210973,
+                  12.98071399651235
+                ],
+                "gpu_ms_samples": [
+                  13.230239868164062,
+                  12.931679725646973,
+                  13.460736274719238,
+                  12.966336250305176,
+                  12.955391883850098,
+                  13.264287948608398,
+                  12.94591999053955,
+                  13.48799991607666,
+                  12.973695755004883,
+                  13.183744430541992,
+                  12.9551362991333,
+                  12.951583862304688,
+                  13.500320434570312,
+                  12.975232124328613,
+                  12.958880424499512,
+                  13.259584426879883,
+                  12.95132827758789,
+                  13.500736236572266,
+                  12.9933443069458,
+                  12.969183921813965
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.658373001409927,
+                "gpu_ms_median": 11.53872013092041,
+                "wall_ms_samples": [
+                  11.534334000316449,
+                  11.500169995997567,
+                  12.135668999690097,
+                  11.545053996087518,
+                  11.515148005855735,
+                  12.131741001212504,
+                  11.54066599701764,
+                  11.53754999540979,
+                  12.063483001838904,
+                  11.542109001311474,
+                  11.818610000773333,
+                  11.763667003833689,
+                  12.072158999217208,
+                  12.173570001323242,
+                  11.548802001925651,
+                  11.553078998986166,
+                  12.127041998610366,
+                  11.788985000748653,
+                  11.51727199612651,
+                  12.068110998370685
+                ],
+                "gpu_ms_samples": [
+                  11.515647888183594,
+                  11.487711906433105,
+                  12.123711585998535,
+                  11.530879974365234,
+                  11.504063606262207,
+                  12.119647979736328,
+                  11.525471687316895,
+                  11.524800300598145,
+                  12.051775932312012,
+                  11.528512001037598,
+                  11.807295799255371,
+                  11.527456283569336,
+                  12.060352325439453,
+                  12.160991668701172,
+                  11.53593635559082,
+                  11.54150390625,
+                  12.115679740905762,
+                  11.775296211242676,
+                  11.504480361938477,
+                  12.056672096252441
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.206924995756708,
+                "gpu_ms_median": 13.166863918304443,
+                "wall_ms_samples": [
+                  12.95104699966032,
+                  13.492337995558046,
+                  13.24039300379809,
+                  12.933414000144694,
+                  13.805989998218138,
+                  12.996142002521083,
+                  13.214644997788128,
+                  13.17665300302906,
+                  12.948472001880873,
+                  13.563022002927028,
+                  12.966957001481205,
+                  13.199204993725289,
+                  13.348066997423302,
+                  12.973799995961599,
+                  13.573641997936647,
+                  12.96510300016962,
+                  13.452824001433328,
+                  13.295958997332491,
+                  12.991332994715776,
+                  13.560247003624681
+                ],
+                "gpu_ms_samples": [
+                  12.932512283325195,
+                  13.479392051696777,
+                  13.226400375366211,
+                  12.920000076293945,
+                  13.794143676757812,
+                  12.982208251953125,
+                  13.202879905700684,
+                  12.937312126159668,
+                  12.936800003051758,
+                  13.550975799560547,
+                  12.953887939453125,
+                  13.187456130981445,
+                  13.146271705627441,
+                  12.959744453430176,
+                  13.561856269836426,
+                  12.952095985412598,
+                  13.441216468811035,
+                  13.282719612121582,
+                  12.977567672729492,
+                  13.548576354980469
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.55307450244436,
+                "gpu_ms_median": 11.53385591506958,
+                "wall_ms_samples": [
+                  11.514316000102554,
+                  12.086656002793461,
+                  11.549423004908022,
+                  11.533943004906178,
+                  12.158131001342554,
+                  11.54329100245377,
+                  11.687033002090175,
+                  12.122483996790834,
+                  11.538792998180725,
+                  11.803863002569415,
+                  11.767142997996416,
+                  11.526178001076914,
+                  12.06336200266378,
+                  11.541388004843611,
+                  11.511109994899016,
+                  12.43398200313095,
+                  11.547097994480282,
+                  11.543651002284605,
+                  12.432898998667952,
+                  11.5567259999807
+                ],
+                "gpu_ms_samples": [
+                  11.49561595916748,
+                  12.073792457580566,
+                  11.534463882446289,
+                  11.522720336914062,
+                  12.146368026733398,
+                  11.529791831970215,
+                  11.675071716308594,
+                  12.109855651855469,
+                  11.525568008422852,
+                  11.792351722717285,
+                  11.52575969696045,
+                  11.51353645324707,
+                  12.050496101379395,
+                  11.528160095214844,
+                  11.499615669250488,
+                  12.422271728515625,
+                  11.533247947692871,
+                  11.532064437866211,
+                  12.42137622833252,
+                  11.54304027557373
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.087153998640133,
+                "gpu_ms_median": 13.073055744171143,
+                "wall_ms_samples": [
+                  13.025326996285003,
+                  13.664863996382337,
+                  13.051337002252694,
+                  13.577869998698588,
+                  13.07807699777186,
+                  13.04648700170219,
+                  13.591885995992925,
+                  13.065512997854967,
+                  13.566367997555062,
+                  13.089978994685225,
+                  13.033713003096636,
+                  13.821438995364588,
+                  13.058940996415913,
+                  13.603578001493588,
+                  13.084329002595041,
+                  13.59415100159822,
+                  13.721770999836735,
+                  13.041018006333616,
+                  13.661857999977656,
+                  13.083858000754844
+                ],
+                "gpu_ms_samples": [
+                  13.006464004516602,
+                  13.648608207702637,
+                  13.03718376159668,
+                  13.565631866455078,
+                  13.06390380859375,
+                  13.03439998626709,
+                  13.579839706420898,
+                  13.05190372467041,
+                  13.554847717285156,
+                  13.076031684875488,
+                  13.022047996520996,
+                  13.80953598022461,
+                  13.045120239257812,
+                  13.591967582702637,
+                  13.069408416748047,
+                  13.582367897033691,
+                  13.708064079284668,
+                  13.027999877929688,
+                  13.650239944458008,
+                  13.070079803466797
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.728395002137404,
+                "gpu_ms_median": 11.613232135772705,
+                "wall_ms_samples": [
+                  11.593716000788845,
+                  12.23808200302301,
+                  11.610478002694435,
+                  11.60207199427532,
+                  12.214216993015725,
+                  11.610387999098748,
+                  11.599115998251364,
+                  12.124938002671115,
+                  11.619224002060946,
+                  11.861411003337707,
+                  11.828849004814401,
+                  11.607030995946843,
+                  12.164724001195282,
+                  11.971027000981849,
+                  11.61475499975495,
+                  12.14916400203947,
+                  11.82057400001213,
+                  11.632158995780628,
+                  12.275232002139091,
+                  11.636216004262678
+                ],
+                "gpu_ms_samples": [
+                  11.574912071228027,
+                  12.22544002532959,
+                  11.59660816192627,
+                  11.591551780700684,
+                  12.201600074768066,
+                  11.597375869750977,
+                  11.587648391723633,
+                  12.113568305969238,
+                  11.606016159057617,
+                  11.849663734436035,
+                  11.588735580444336,
+                  11.595359802246094,
+                  12.153375625610352,
+                  11.9584321975708,
+                  11.600799560546875,
+                  12.137344360351562,
+                  11.58512020111084,
+                  11.620448112487793,
+                  12.263808250427246,
+                  11.623200416564941
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.09305500035407,
+                "gpu_ms_median": 13.078703880310059,
+                "wall_ms_samples": [
+                  13.029385001573246,
+                  13.669953994394746,
+                  13.088577004964463,
+                  13.57750900206156,
+                  13.093615998513997,
+                  13.066325002000667,
+                  13.582068000687286,
+                  13.092494002194144,
+                  13.564284003223293,
+                  13.094738002109807,
+                  13.066635001450777,
+                  13.67393099644687,
+                  13.069520005956292,
+                  13.614679999591317,
+                  13.083027006359771,
+                  13.077226001769304,
+                  13.56140899588354,
+                  13.07566299510654,
+                  13.57124799687881,
+                  13.090240005112719
+                ],
+                "gpu_ms_samples": [
+                  13.011327743530273,
+                  13.656800270080566,
+                  13.075807571411133,
+                  13.56550407409668,
+                  13.079872131347656,
+                  13.055264472961426,
+                  13.56931209564209,
+                  13.072447776794434,
+                  13.551712036132812,
+                  13.082079887390137,
+                  13.054976463317871,
+                  13.662240028381348,
+                  13.05622386932373,
+                  13.603103637695312,
+                  13.070207595825195,
+                  13.065728187561035,
+                  13.548064231872559,
+                  13.062399864196777,
+                  13.559040069580078,
+                  13.077535629272461
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.682698499498656,
+                "gpu_ms_median": 11.645343780517578,
+                "wall_ms_samples": [
+                  11.592103001021314,
+                  12.146259003202431,
+                  11.613604001468047,
+                  11.602942999161314,
+                  12.167347995273303,
+                  11.607932996412273,
+                  11.625997001829091,
+                  12.156649005191866,
+                  11.601630998484325,
+                  11.866259999806061,
+                  11.838056998385582,
+                  11.601309997786302,
+                  12.184981002064887,
+                  11.643079000350554,
+                  11.590410002099816,
+                  12.186954998469446,
+                  11.67445800092537,
+                  11.697190995619167,
+                  12.28203500068048,
+                  11.690938998071942
+                ],
+                "gpu_ms_samples": [
+                  11.572480201721191,
+                  12.133343696594238,
+                  11.599455833435059,
+                  11.591232299804688,
+                  12.155679702758789,
+                  11.594207763671875,
+                  11.613759994506836,
+                  12.145343780517578,
+                  11.585375785827637,
+                  11.854240417480469,
+                  11.598655700683594,
+                  11.589280128479004,
+                  12.172831535339355,
+                  11.629695892333984,
+                  11.579327583312988,
+                  12.175135612487793,
+                  11.660991668701172,
+                  11.686016082763672,
+                  12.269760131835938,
+                  11.677599906921387
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.088471503579058,
+                "gpu_ms_median": 12.973583698272705,
+                "wall_ms_samples": [
+                  13.504472000931855,
+                  12.969182003871538,
+                  13.18838499719277,
+                  13.18297500256449,
+                  12.947459996212274,
+                  13.557040998421144,
+                  12.970443996891845,
+                  12.97201700072037,
+                  13.467232005496044,
+                  12.947952003742103,
+                  13.555076999182347,
+                  12.975644000107422,
+                  12.95736899919575,
+                  13.54738199734129,
+                  12.976945996342693,
+                  13.567559995863121,
+                  12.993968004593626,
+                  13.210646997322328,
+                  13.508600000932347,
+                  12.978739003301598
+                ],
+                "gpu_ms_samples": [
+                  13.485471725463867,
+                  12.955455780029297,
+                  13.175968170166016,
+                  12.947456359863281,
+                  12.935744285583496,
+                  13.54531192779541,
+                  12.957535743713379,
+                  12.95958423614502,
+                  13.267552375793457,
+                  12.935104370117188,
+                  13.543295860290527,
+                  12.962976455688477,
+                  12.945280075073242,
+                  13.53593635559082,
+                  12.963168144226074,
+                  13.556159973144531,
+                  12.981087684631348,
+                  13.1976957321167,
+                  13.266176223754883,
+                  12.966079711914062
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.793353001849027,
+                "gpu_ms_median": 11.71347188949585,
+                "wall_ms_samples": [
+                  12.069573996996041,
+                  11.539974999323022,
+                  11.825333000160754,
+                  11.762925998482388,
+                  11.550664996320847,
+                  12.070235003193375,
+                  11.748056997021195,
+                  12.033375998726115,
+                  11.823780005215667,
+                  11.894593997567426,
+                  11.532890996022616,
+                  12.076336002792232,
+                  11.539854996954091,
+                  11.518293002154678,
+                  12.081797001883388,
+                  11.53764999617124,
+                  11.824481996882241,
+                  11.762814996473026,
+                  11.544834000233095,
+                  12.141618994064629
+                ],
+                "gpu_ms_samples": [
+                  12.05014419555664,
+                  11.526240348815918,
+                  11.812895774841309,
+                  11.520671844482422,
+                  11.538592338562012,
+                  12.058655738830566,
+                  11.732704162597656,
+                  11.694239616394043,
+                  11.809280395507812,
+                  11.880672454833984,
+                  11.519455909729004,
+                  12.064512252807617,
+                  11.52678394317627,
+                  11.506400108337402,
+                  12.07033634185791,
+                  11.524767875671387,
+                  11.812447547912598,
+                  11.52723217010498,
+                  11.531968116760254,
+                  12.129440307617188
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "cublaslt": 13.087153998640133,
+          "triton": 13.088471503579058
+        },
+        "decode": {
+          "cublaslt": 11.682698499498656,
+          "triton": 11.658373001409927
+        }
+      },
+      "speedups": {
+        "encode": 0.9998993385179802,
+        "decode": 1.0020865259745753
+      }
+    },
+    {
+      "batch": 24,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.927670002885861,
+                "gpu_ms_median": 13.914160251617432,
+                "wall_ms_samples": [
+                  13.90485699812416,
+                  13.913082002545707,
+                  14.533854002365842,
+                  13.924172999395523,
+                  14.52680100192083,
+                  13.911530004406814,
+                  14.461347003816627,
+                  13.92897200275911,
+                  13.917231000959873,
+                  14.466747001279145,
+                  13.923191996582318,
+                  14.50530999863986,
+                  13.91761100239819,
+                  14.500650999252684,
+                  13.94159600022249,
+                  13.914415001636371,
+                  14.52730099845212,
+                  13.926368003012612,
+                  14.497174997814,
+                  13.91750099719502
+                ],
+                "gpu_ms_samples": [
+                  13.886336326599121,
+                  13.899264335632324,
+                  14.520895957946777,
+                  13.909407615661621,
+                  14.514656066894531,
+                  13.897760391235352,
+                  14.44927978515625,
+                  13.914976119995117,
+                  13.90550422668457,
+                  14.454912185668945,
+                  13.908672332763672,
+                  14.493056297302246,
+                  13.903712272644043,
+                  14.488927841186523,
+                  13.928000450134277,
+                  13.90396785736084,
+                  14.51574420928955,
+                  13.913344383239746,
+                  14.485664367675781,
+                  13.90441608428955
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.794061498425435,
+                "gpu_ms_median": 12.72766399383545,
+                "wall_ms_samples": [
+                  12.836461995902937,
+                  12.858262001827825,
+                  12.619581997569185,
+                  13.581877006799914,
+                  12.634560000151396,
+                  13.275698998768348,
+                  12.650079996092245,
+                  12.621476002095733,
+                  13.229162999778055,
+                  12.64302599884104,
+                  12.858932997914962,
+                  12.963339999259915,
+                  12.645561000681482,
+                  13.246474998595659,
+                  12.64022100076545,
+                  12.629230004677083,
+                  13.25715500570368,
+                  12.731311995594297,
+                  13.332638001884334,
+                  12.751661000947934
+                ],
+                "gpu_ms_samples": [
+                  12.81766414642334,
+                  12.625696182250977,
+                  12.607487678527832,
+                  13.56822395324707,
+                  12.62003231048584,
+                  13.263744354248047,
+                  12.636096000671387,
+                  12.610112190246582,
+                  13.216896057128906,
+                  12.629535675048828,
+                  12.847295761108398,
+                  12.949695587158203,
+                  12.632255554199219,
+                  13.233951568603516,
+                  12.626655578613281,
+                  12.617600440979004,
+                  13.2456636428833,
+                  12.717472076416016,
+                  13.319616317749023,
+                  12.737855911254883
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 0,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 14.226389001123607,
+                "gpu_ms_median": 14.119152069091797,
+                "wall_ms_samples": [
+                  14.444143998844083,
+                  14.348905002407264,
+                  14.387757997610606,
+                  14.439726997807156,
+                  14.405070003704168,
+                  14.138368002022617,
+                  14.412515003641602,
+                  14.08763099607313,
+                  14.066181000089273,
+                  14.032257997314446,
+                  13.799608001136221,
+                  14.3327039986616,
+                  13.804346999677364,
+                  14.417764999961946,
+                  13.802463996398728,
+                  13.806229995680042,
+                  14.314410000224598,
+                  13.803715999529231,
+                  14.363693000632338,
+                  13.801663000776898
+                ],
+                "gpu_ms_samples": [
+                  14.389632225036621,
+                  14.33238410949707,
+                  14.372608184814453,
+                  14.424639701843262,
+                  14.389472007751465,
+                  14.12502384185791,
+                  14.399295806884766,
+                  14.07487964630127,
+                  14.053183555603027,
+                  13.79094409942627,
+                  13.788000106811523,
+                  14.32038402557373,
+                  13.790240287780762,
+                  14.40550422668457,
+                  13.788895606994629,
+                  13.794495582580566,
+                  14.113280296325684,
+                  13.789376258850098,
+                  14.351136207580566,
+                  13.78758430480957
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.578197998664109,
+                "gpu_ms_median": 12.551552295684814,
+                "wall_ms_samples": [
+                  12.735260002955329,
+                  12.565780998556875,
+                  13.343698999960907,
+                  12.580267000885215,
+                  12.54679400153691,
+                  13.034955998591613,
+                  12.562583993712906,
+                  13.134332999470644,
+                  12.561893003294244,
+                  12.548407998110633,
+                  13.090460000967141,
+                  12.55912699707551,
+                  12.822935001167934,
+                  12.782068006345071,
+                  12.549790997582022,
+                  13.160130998585373,
+                  12.576128996443003,
+                  12.545502002467401,
+                  13.044383995293174,
+                  12.55983900045976
+                ],
+                "gpu_ms_samples": [
+                  12.497856140136719,
+                  12.553376197814941,
+                  13.33135986328125,
+                  12.56499195098877,
+                  12.534144401550293,
+                  12.832639694213867,
+                  12.549728393554688,
+                  13.12281608581543,
+                  12.549152374267578,
+                  12.537247657775879,
+                  13.079296112060547,
+                  12.545856475830078,
+                  12.810815811157227,
+                  12.545023918151855,
+                  12.53769588470459,
+                  13.148799896240234,
+                  12.563199996948242,
+                  12.53388786315918,
+                  12.842111587524414,
+                  12.547200202941895
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 14.034206502401503,
+                "gpu_ms_median": 13.825392246246338,
+                "wall_ms_samples": [
+                  14.266489997680765,
+                  13.771815996733494,
+                  14.335078994918149,
+                  13.82116899912944,
+                  14.43187100085197,
+                  13.830215997586492,
+                  13.795790997392032,
+                  14.41047099797288,
+                  13.814687001286075,
+                  14.433224001550116,
+                  13.8400149953668,
+                  14.054911000130232,
+                  14.034601997991558,
+                  13.801451998006087,
+                  14.36420399841154,
+                  13.819255000271369,
+                  14.41448900004616,
+                  13.836797996191308,
+                  14.033811006811447,
+                  14.055931998882443
+                ],
+                "gpu_ms_samples": [
+                  14.069567680358887,
+                  13.757823944091797,
+                  14.322976112365723,
+                  13.807840347290039,
+                  14.334879875183105,
+                  13.816160202026367,
+                  13.784255981445312,
+                  14.399295806884766,
+                  13.801728248596191,
+                  14.420063972473145,
+                  13.827072143554688,
+                  14.04310417175293,
+                  13.797247886657715,
+                  13.789664268493652,
+                  14.352543830871582,
+                  13.806495666503906,
+                  14.403039932250977,
+                  13.823712348937988,
+                  14.021247863769531,
+                  13.813759803771973
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.805778496840503,
+                "gpu_ms_median": 12.566447734832764,
+                "wall_ms_samples": [
+                  13.16891799797304,
+                  12.587622004502919,
+                  12.569446997076739,
+                  13.112592001562007,
+                  13.126819001627155,
+                  12.843404001614545,
+                  12.819689996831585,
+                  12.573333995533176,
+                  13.1700109996018,
+                  12.572612999065313,
+                  12.855897999543231,
+                  12.791866996849421,
+                  12.538929004222155,
+                  13.14863099833019,
+                  12.565821001771837,
+                  12.558937996800523,
+                  13.166604003345128,
+                  12.55762499931734,
+                  13.129383994964883,
+                  12.574196000059601
+                ],
+                "gpu_ms_samples": [
+                  13.149408340454102,
+                  12.571871757507324,
+                  12.557120323181152,
+                  13.100607872009277,
+                  13.113471984863281,
+                  12.830016136169434,
+                  12.54252815246582,
+                  12.560799598693848,
+                  13.158656120300293,
+                  12.559647560119629,
+                  12.844096183776855,
+                  12.548992156982422,
+                  12.527199745178223,
+                  13.137151718139648,
+                  12.553024291992188,
+                  12.548768043518066,
+                  13.154175758361816,
+                  12.54428768157959,
+                  13.119104385375977,
+                  12.561023712158203
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 14.12175100267632,
+                "gpu_ms_median": 13.91102409362793,
+                "wall_ms_samples": [
+                  13.917360993218608,
+                  14.48334800079465,
+                  13.930094995885156,
+                  14.121184998657554,
+                  14.127296999504324,
+                  13.922300000558607,
+                  14.477698001428507,
+                  13.906169006077107,
+                  14.361247995111626,
+                  13.925726001616567,
+                  14.122317006695084,
+                  14.13649399910355,
+                  13.90937499672873,
+                  14.42623099865159,
+                  13.896330994612072,
+                  14.494289003778249,
+                  13.916538999183103,
+                  14.149920003546868,
+                  14.141193001705687,
+                  13.91019700531615
+                ],
+                "gpu_ms_samples": [
+                  13.898048400878906,
+                  14.469951629638672,
+                  13.915103912353516,
+                  14.10927963256836,
+                  13.887616157531738,
+                  13.910304069519043,
+                  14.465824127197266,
+                  13.891936302185059,
+                  14.349599838256836,
+                  13.911744117736816,
+                  14.11030387878418,
+                  13.899711608886719,
+                  13.897536277770996,
+                  14.41327953338623,
+                  13.882816314697266,
+                  14.482624053955078,
+                  13.903648376464844,
+                  14.138175964355469,
+                  13.900287628173828,
+                  13.89891242980957
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.669015501160175,
+                "gpu_ms_median": 12.655263900756836,
+                "wall_ms_samples": [
+                  12.966846996278036,
+                  12.646693001443055,
+                  13.21800100413384,
+                  12.633247999474406,
+                  12.840006995247677,
+                  12.975142999493983,
+                  12.62757700169459,
+                  13.220825996540952,
+                  12.660159001825377,
+                  12.65135200083023,
+                  13.214303005952388,
+                  12.635612001759,
+                  13.207220996264368,
+                  12.677872000494972,
+                  12.631003999558743,
+                  13.263055996503681,
+                  12.65043999592308,
+                  13.213051999628078,
+                  12.629360004211776,
+                  12.639650005439762
+                ],
+                "gpu_ms_samples": [
+                  12.946751594543457,
+                  12.63315200805664,
+                  13.206208229064941,
+                  12.620063781738281,
+                  12.825119972229004,
+                  12.962240219116211,
+                  12.614944458007812,
+                  13.209440231323242,
+                  12.645983695983887,
+                  12.639552116394043,
+                  13.202688217163086,
+                  12.62399959564209,
+                  13.195487976074219,
+                  12.664544105529785,
+                  12.617695808410645,
+                  13.249792098999023,
+                  12.637663841247559,
+                  13.201215744018555,
+                  12.616064071655273,
+                  12.6278076171875
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 14.129124996543396,
+                "gpu_ms_median": 13.914576053619385,
+                "wall_ms_samples": [
+                  14.466325999819674,
+                  13.908824999816716,
+                  14.502925005217548,
+                  13.927578998846002,
+                  14.910423997207545,
+                  13.929453001765069,
+                  14.180626996676438,
+                  14.537991999532096,
+                  13.920677003625315,
+                  14.486485000816174,
+                  13.902081998821814,
+                  14.12143499328522,
+                  14.136814999801572,
+                  13.914254996052478,
+                  14.525667997077107,
+                  13.911510002799332,
+                  14.516732000629418,
+                  13.921598998422269,
+                  14.117869002802763,
+                  14.136833997326903
+                ],
+                "gpu_ms_samples": [
+                  14.446975708007812,
+                  13.894368171691895,
+                  14.490400314331055,
+                  13.9136323928833,
+                  14.89798355102539,
+                  13.915519714355469,
+                  13.910335540771484,
+                  14.525823593139648,
+                  13.907487869262695,
+                  14.473855972290039,
+                  13.888511657714844,
+                  14.109824180603027,
+                  13.895615577697754,
+                  13.90220832824707,
+                  14.512864112854004,
+                  13.897600173950195,
+                  14.505087852478027,
+                  13.908448219299316,
+                  14.105600357055664,
+                  13.899871826171875
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.671475000388455,
+                "gpu_ms_median": 12.658016204833984,
+                "wall_ms_samples": [
+                  13.244290996226482,
+                  12.660459004109725,
+                  12.644848997297231,
+                  13.277272999403067,
+                  12.682490996667184,
+                  12.889842000731733,
+                  12.975283003470395,
+                  12.648055999306962,
+                  13.228540999989491,
+                  12.630433004233055,
+                  12.6479449972976,
+                  13.190618999942672,
+                  12.650830998609308,
+                  13.167155004339293,
+                  12.6448299997719,
+                  12.634569997317158,
+                  13.226696995843668,
+                  12.655389997235034,
+                  13.19060900277691,
+                  12.653296005737502
+                ],
+                "gpu_ms_samples": [
+                  13.224608421325684,
+                  12.64675235748291,
+                  12.632224082946777,
+                  13.266079902648926,
+                  12.669280052185059,
+                  12.876640319824219,
+                  12.96127986907959,
+                  12.63430404663086,
+                  13.216896057128906,
+                  12.617695808410645,
+                  12.636863708496094,
+                  13.179167747497559,
+                  12.638143539428711,
+                  13.155712127685547,
+                  12.633503913879395,
+                  12.622976303100586,
+                  13.215392112731934,
+                  12.639488220214844,
+                  13.179488182067871,
+                  12.64089584350586
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 14.018722496984992,
+                "gpu_ms_median": 13.809711933135986,
+                "wall_ms_samples": [
+                  14.327814998978283,
+                  13.801912995404564,
+                  13.785672002995852,
+                  14.351929996337276,
+                  13.803715999529231,
+                  14.426560999709181,
+                  13.818244005960878,
+                  14.034411004104186,
+                  14.007851998030674,
+                  13.794489001156762,
+                  14.379703003214672,
+                  13.81904499430675,
+                  14.431951000005938,
+                  13.817031001963187,
+                  14.02959299593931,
+                  14.038029003131669,
+                  13.805139002215583,
+                  14.362951995281037,
+                  13.827290000335779,
+                  14.418555998418014
+                ],
+                "gpu_ms_samples": [
+                  14.30835247039795,
+                  13.787551879882812,
+                  13.773247718811035,
+                  14.339776039123535,
+                  13.790335655212402,
+                  14.41478443145752,
+                  13.805055618286133,
+                  14.023391723632812,
+                  13.772543907165527,
+                  13.782655715942383,
+                  14.367839813232422,
+                  13.804832458496094,
+                  14.420255661010742,
+                  13.80412769317627,
+                  14.018048286437988,
+                  13.797599792480469,
+                  13.792960166931152,
+                  14.351360321044922,
+                  13.81436824798584,
+                  14.407008171081543
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.57622049888596,
+                "gpu_ms_median": 12.562064170837402,
+                "wall_ms_samples": [
+                  12.577442998008337,
+                  13.152868996257894,
+                  12.572392995934933,
+                  12.552986001537647,
+                  13.163158000679687,
+                  12.55600199510809,
+                  13.180400004785042,
+                  12.574997999763582,
+                  12.565981000079773,
+                  13.184948998969048,
+                  12.580228001752403,
+                  12.567965000926051,
+                  13.334320996364113,
+                  12.539291004941333,
+                  13.129234001098666,
+                  12.57438700122293,
+                  12.566019999212585,
+                  13.106842001434416,
+                  12.559528004203457,
+                  12.820680996810552
+                ],
+                "gpu_ms_samples": [
+                  12.559295654296875,
+                  13.13980770111084,
+                  12.558496475219727,
+                  12.541184425354004,
+                  13.151488304138184,
+                  12.54201602935791,
+                  13.168831825256348,
+                  12.562335968017578,
+                  12.555359840393066,
+                  13.17353630065918,
+                  12.567520141601562,
+                  12.556511878967285,
+                  13.132800102233887,
+                  12.52627182006836,
+                  13.117759704589844,
+                  12.561792373657227,
+                  12.555071830749512,
+                  13.095711708068848,
+                  12.546175956726074,
+                  12.808064460754395
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "cublaslt": 14.12175100267632,
+          "triton": 14.034206502401503
+        },
+        "decode": {
+          "cublaslt": 12.671475000388455,
+          "triton": 12.578197998664109
+        }
+      },
+      "speedups": {
+        "encode": 1.006237937304103,
+        "decode": 1.0074157682789102
+      }
+    },
+    {
+      "batch": 1,
+      "frames": 24,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.094963996991282,
+                "gpu_ms_median": 12.871855735778809,
+                "wall_ms_samples": [
+                  13.087835002806969,
+                  13.11764200363541,
+                  12.880324000434484,
+                  13.479886001732666,
+                  12.873551000666339,
+                  13.091110995446797,
+                  13.13552500505466,
+                  12.870406004367396,
+                  13.442324001516681,
+                  12.87967299867887,
+                  13.098816998535767,
+                  13.132148997101467,
+                  12.879121997684706,
+                  13.44862599944463,
+                  12.8730500000529,
+                  13.117911999870557,
+                  13.13549499900546,
+                  12.867410005128477,
+                  13.42724599817302,
+                  12.89062400610419
+                ],
+                "gpu_ms_samples": [
+                  13.069984436035156,
+                  12.865663528442383,
+                  12.867744445800781,
+                  13.466848373413086,
+                  12.85977554321289,
+                  13.078847885131836,
+                  12.869855880737305,
+                  12.85910415649414,
+                  13.430591583251953,
+                  12.867487907409668,
+                  13.087103843688965,
+                  12.873855590820312,
+                  12.867648124694824,
+                  13.436287879943848,
+                  12.859007835388184,
+                  13.106335639953613,
+                  12.863519668579102,
+                  12.855775833129883,
+                  13.41590404510498,
+                  12.877823829650879
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.426235501858173,
+                "gpu_ms_median": 11.399951934814453,
+                "wall_ms_samples": [
+                  11.416061002819333,
+                  12.013747997116297,
+                  11.411372004658915,
+                  11.405220000597183,
+                  12.29114300076617,
+                  11.423545001889579,
+                  11.693714994180482,
+                  11.628772001131438,
+                  11.413545995310415,
+                  11.667906001093797,
+                  11.633691996394191,
+                  11.396212998079136,
+                  11.985514996922575,
+                  11.428926001826767,
+                  11.409708000428509,
+                  11.981717994785868,
+                  11.402614996768534,
+                  11.399299000913743,
+                  11.988391001068521,
+                  11.406802994315512
+                ],
+                "gpu_ms_samples": [
+                  11.397248268127441,
+                  12.002143859863281,
+                  11.397631645202637,
+                  11.392352104187012,
+                  12.278783798217773,
+                  11.410400390625,
+                  11.682144165039062,
+                  11.387904167175293,
+                  11.40227222442627,
+                  11.6561918258667,
+                  11.396063804626465,
+                  11.384544372558594,
+                  11.97372817993164,
+                  11.414463996887207,
+                  11.39305591583252,
+                  11.96713638305664,
+                  11.388992309570312,
+                  11.38691234588623,
+                  11.976832389831543,
+                  11.393695831298828
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 0,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.080862499919022,
+                "gpu_ms_median": 13.067248344421387,
+                "wall_ms_samples": [
+                  12.994218996027485,
+                  13.096962997224182,
+                  12.761750993377063,
+                  13.342155005375389,
+                  12.788922002073377,
+                  13.007733999984339,
+                  13.114084998960607,
+                  13.34032199520152,
+                  13.25481099775061,
+                  13.13658800063422,
+                  12.997234000067692,
+                  13.109846993756946,
+                  12.75964700471377,
+                  13.316828000824898,
+                  13.064762002613861,
+                  13.00450899725547,
+                  13.120336996507831,
+                  12.788089996320195,
+                  13.339260003704112,
+                  12.771839996275958
+                ],
+                "gpu_ms_samples": [
+                  12.975744247436523,
+                  13.082688331604004,
+                  12.748096466064453,
+                  13.329888343811035,
+                  12.775679588317871,
+                  12.994784355163574,
+                  13.10108757019043,
+                  13.327136039733887,
+                  13.241439819335938,
+                  13.123807907104492,
+                  12.984352111816406,
+                  13.09712028503418,
+                  12.74675178527832,
+                  13.305215835571289,
+                  13.05180835723877,
+                  12.991968154907227,
+                  13.108160018920898,
+                  12.775168418884277,
+                  13.327967643737793,
+                  12.758975982666016
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.35931400131085,
+                "gpu_ms_median": 11.342511653900146,
+                "wall_ms_samples": [
+                  11.327203996188473,
+                  11.840311999549158,
+                  11.349635002261493,
+                  11.802941000496503,
+                  11.58421799482312,
+                  11.328073996992316,
+                  11.941593002120499,
+                  11.372357999789529,
+                  11.342051002429798,
+                  11.926072998903692,
+                  11.363391997292638,
+                  11.347341001965106,
+                  11.911855996004306,
+                  11.352009998518042,
+                  11.351269000442699,
+                  11.872282004333101,
+                  11.355236005329061,
+                  11.34908500534948,
+                  11.950389001867734,
+                  11.34708100289572
+                ],
+                "gpu_ms_samples": [
+                  11.30684757232666,
+                  11.640447616577148,
+                  11.335647583007812,
+                  11.791839599609375,
+                  11.343263626098633,
+                  11.315775871276855,
+                  11.929823875427246,
+                  11.35865592956543,
+                  11.330400466918945,
+                  11.911808013916016,
+                  11.348608016967773,
+                  11.335840225219727,
+                  11.901087760925293,
+                  11.33846378326416,
+                  11.339615821838379,
+                  11.85968017578125,
+                  11.34175968170166,
+                  11.337632179260254,
+                  11.938976287841797,
+                  11.333632469177246
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.799601005099248,
+                "gpu_ms_median": 12.786816120147705,
+                "wall_ms_samples": [
+                  13.394864996371325,
+                  12.775136005075183,
+                  13.024847001361195,
+                  13.058489996183198,
+                  12.762311002006754,
+                  13.343066995730624,
+                  12.786697006959002,
+                  12.798649004253093,
+                  13.327136999578215,
+                  12.770186003763229,
+                  13.268546004837845,
+                  12.79547400190495,
+                  12.75826300116023,
+                  13.302309998834971,
+                  12.782990001142025,
+                  13.32890000048792,
+                  12.800553005945403,
+                  12.77689899870893,
+                  13.306387998454738,
+                  12.78522500069812
+                ],
+                "gpu_ms_samples": [
+                  13.376383781433105,
+                  12.76095962524414,
+                  13.011648178100586,
+                  13.045536041259766,
+                  12.749407768249512,
+                  13.331168174743652,
+                  12.773183822631836,
+                  12.786080360412598,
+                  13.315263748168945,
+                  12.757087707519531,
+                  13.257120132446289,
+                  12.782208442687988,
+                  12.74675178527832,
+                  13.290687561035156,
+                  12.76966381072998,
+                  13.317631721496582,
+                  12.787551879882812,
+                  12.763775825500488,
+                  13.294912338256836,
+                  12.772064208984375
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.352801499015186,
+                "gpu_ms_median": 11.338095664978027,
+                "wall_ms_samples": [
+                  11.929398999200203,
+                  11.360104996128939,
+                  11.338835000060499,
+                  11.89412399980938,
+                  11.353282003256027,
+                  11.343894999299664,
+                  11.926373997994233,
+                  11.33745200058911,
+                  11.347432002366986,
+                  11.93609199981438,
+                  11.352320994774345,
+                  11.338885997247417,
+                  11.946873004490044,
+                  11.347300998750143,
+                  11.331982001138385,
+                  11.94164200569503,
+                  11.341180004819762,
+                  11.619344004429877,
+                  11.569821006560232,
+                  11.32959799724631
+                ],
+                "gpu_ms_samples": [
+                  11.90988826751709,
+                  11.34614372253418,
+                  11.326944351196289,
+                  11.882464408874512,
+                  11.340255737304688,
+                  11.331999778747559,
+                  11.913951873779297,
+                  11.324511528015137,
+                  11.336799621582031,
+                  11.92460823059082,
+                  11.339391708374023,
+                  11.327232360839844,
+                  11.935296058654785,
+                  11.334336280822754,
+                  11.321727752685547,
+                  11.930399894714355,
+                  11.32800006866455,
+                  11.607328414916992,
+                  11.33238410949707,
+                  11.31827163696289
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.89684500079602,
+                "gpu_ms_median": 12.87443208694458,
+                "wall_ms_samples": [
+                  12.853123000240885,
+                  13.400625000940636,
+                  12.864162999903783,
+                  13.387199993303511,
+                  12.901633999717887,
+                  12.827474005462136,
+                  13.380066004174296,
+                  12.870705999375787,
+                  13.402869997662492,
+                  12.892056001874153,
+                  12.853453001298476,
+                  13.394253001024481,
+                  12.859474998549558,
+                  13.365238999540452,
+                  12.88319900049828,
+                  12.843434000387788,
+                  13.494993996573612,
+                  12.874913998530246,
+                  13.06684599694563,
+                  13.135015004081652
+                ],
+                "gpu_ms_samples": [
+                  12.834400177001953,
+                  13.387392044067383,
+                  12.850432395935059,
+                  13.375264167785645,
+                  12.887519836425781,
+                  12.815584182739258,
+                  13.368576049804688,
+                  12.857855796813965,
+                  13.391167640686035,
+                  12.879487991333008,
+                  12.841888427734375,
+                  13.382528305053711,
+                  12.845952033996582,
+                  13.353792190551758,
+                  12.869376182556152,
+                  12.832159996032715,
+                  13.4835844039917,
+                  12.86188793182373,
+                  13.055264472961426,
+                  12.858048439025879
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.43146999675082,
+                "gpu_ms_median": 11.393376350402832,
+                "wall_ms_samples": [
+                  11.385914003767539,
+                  11.986808000074234,
+                  11.430497994297184,
+                  11.40559100167593,
+                  11.979174007137772,
+                  11.432441999204457,
+                  11.397365997254383,
+                  11.972811000305228,
+                  11.404138000216335,
+                  11.386575002688915,
+                  11.973191998549737,
+                  11.406301993702073,
+                  11.404548997234087,
+                  11.977319998550229,
+                  11.39325800613733,
+                  11.685258999932557,
+                  11.614626004302409,
+                  11.389590996259358,
+                  11.698213005729485,
+                  11.627309999312274
+                ],
+                "gpu_ms_samples": [
+                  11.365280151367188,
+                  11.973983764648438,
+                  11.416288375854492,
+                  11.393664360046387,
+                  11.967391967773438,
+                  11.41859245300293,
+                  11.385631561279297,
+                  11.96121597290039,
+                  11.391648292541504,
+                  11.374336242675781,
+                  11.961471557617188,
+                  11.39254379272461,
+                  11.393088340759277,
+                  11.965567588806152,
+                  11.3788480758667,
+                  11.672896385192871,
+                  11.378080368041992,
+                  11.378175735473633,
+                  11.685664176940918,
+                  11.386015892028809
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cublaslt",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 13.008691497816471,
+                "gpu_ms_median": 12.873744010925293,
+                "wall_ms_samples": [
+                  12.835419001930859,
+                  13.418850001471583,
+                  12.912033998873085,
+                  12.85952400212409,
+                  13.435360997391399,
+                  12.861338000220712,
+                  13.40006400278071,
+                  12.89030299813021,
+                  12.874763997388072,
+                  13.43355800054269,
+                  12.879162000899669,
+                  13.108464001561515,
+                  13.105348996759858,
+                  12.881835995358415,
+                  13.425201999780256,
+                  12.866889002907556,
+                  13.106671001878567,
+                  13.141335999534931,
+                  12.86765000259038,
+                  13.470366997353267
+                ],
+                "gpu_ms_samples": [
+                  12.816991806030273,
+                  13.405599594116211,
+                  12.898015975952148,
+                  12.847295761108398,
+                  13.423135757446289,
+                  12.847359657287598,
+                  13.388319969177246,
+                  12.877216339111328,
+                  12.861248016357422,
+                  13.422112464904785,
+                  12.865983963012695,
+                  13.096735954284668,
+                  12.853759765625,
+                  12.870271682739258,
+                  13.414048194885254,
+                  12.8538236618042,
+                  13.094623565673828,
+                  12.86518383026123,
+                  12.85632038116455,
+                  13.458815574645996
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.520903997734422,
+                "gpu_ms_median": 11.398463726043701,
+                "wall_ms_samples": [
+                  11.721867995220236,
+                  11.417242996685673,
+                  11.990565006271936,
+                  11.402155003452208,
+                  11.69021800160408,
+                  11.632599998847581,
+                  11.404017997847404,
+                  11.685318997479044,
+                  11.624564998783171,
+                  11.405752004066017,
+                  12.002718001895119,
+                  11.404830001993105,
+                  11.416321001888718,
+                  11.918459000298753,
+                  11.406833000364713,
+                  11.405440993257798,
+                  12.264110999240074,
+                  11.405741999624297,
+                  11.415579996537417,
+                  11.958053000853397
+                ],
+                "gpu_ms_samples": [
+                  11.702655792236328,
+                  11.402751922607422,
+                  11.977760314941406,
+                  11.388511657714844,
+                  11.678624153137207,
+                  11.391648292541504,
+                  11.392095565795898,
+                  11.673088073730469,
+                  11.387935638427734,
+                  11.39417552947998,
+                  11.991007804870605,
+                  11.390239715576172,
+                  11.394047737121582,
+                  11.905983924865723,
+                  11.393280029296875,
+                  11.393728256225586,
+                  12.244832038879395,
+                  11.390848159790039,
+                  11.403743743896484,
+                  11.946399688720703
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 0
+          }
+        },
+        {
+          "round": 2,
+          "backend": "triton",
+          "results": {
+            "encode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 12.994995500775985,
+                "gpu_ms_median": 12.983200073242188,
+                "wall_ms_samples": [
+                  13.096060996758752,
+                  12.770766996254679,
+                  13.347093998163473,
+                  12.755929994455073,
+                  13.328007997188251,
+                  13.296238998009358,
+                  12.978309001482558,
+                  13.299013997311704,
+                  12.77680799830705,
+                  12.990862000151537,
+                  13.364848004130181,
+                  12.779664000845514,
+                  13.394674999290146,
+                  12.785004000761546,
+                  12.995160999707878,
+                  13.09234400105197,
+                  12.756600001011975,
+                  13.394463996519335,
+                  12.792498993803747,
+                  12.994830001844093
+                ],
+                "gpu_ms_samples": [
+                  13.075296401977539,
+                  12.757023811340332,
+                  13.334815979003906,
+                  12.742976188659668,
+                  13.316736221313477,
+                  13.283295631408691,
+                  12.964735984802246,
+                  13.285823822021484,
+                  12.763903617858887,
+                  12.97913646697998,
+                  13.352704048156738,
+                  12.766304016113281,
+                  13.38268756866455,
+                  12.7708158493042,
+                  12.983391761779785,
+                  13.07910442352295,
+                  12.743776321411133,
+                  13.382880210876465,
+                  12.778783798217773,
+                  12.98300838470459
+                ]
+              }
+            },
+            "decode": {
+              "comparisons": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "timing": {
+                "wall_ms_median": 11.475528499431675,
+                "gpu_ms_median": 11.348544120788574,
+                "wall_ms_samples": [
+                  11.356549002812244,
+                  11.34827300120378,
+                  11.935871996684,
+                  11.353051995683927,
+                  11.35639799758792,
+                  11.930781998671591,
+                  11.33162200130755,
+                  11.33633100107545,
+                  11.857272998895496,
+                  11.664669997117016,
+                  11.639051001111511,
+                  11.585070002183784,
+                  11.349104999681003,
+                  11.955448004300706,
+                  11.341110002831556,
+                  11.342021003656555,
+                  11.90889099962078,
+                  11.713782994775102,
+                  11.365986996679567,
+                  11.94561999727739
+                ],
+                "gpu_ms_samples": [
+                  11.338111877441406,
+                  11.3307523727417,
+                  11.922176361083984,
+                  11.339584350585938,
+                  11.344096183776855,
+                  11.918848037719727,
+                  11.318719863891602,
+                  11.324383735656738,
+                  11.65452766418457,
+                  11.650912284851074,
+                  11.625727653503418,
+                  11.343040466308594,
+                  11.337247848510742,
+                  11.942912101745605,
+                  11.32812786102295,
+                  11.33027172088623,
+                  11.896736145019531,
+                  11.700799942016602,
+                  11.352992057800293,
+                  11.934080123901367
+                ]
+              }
+            }
+          },
+          "counts": {
+            "calls": 512
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "cublaslt": 13.008691497816471,
+          "triton": 12.994995500775985
+        },
+        "decode": {
+          "cublaslt": 11.43146999675082,
+          "triton": 11.35931400131085
+        }
+      },
+      "speedups": {
+        "encode": 1.0010539439617097,
+        "decode": 1.0063521437501988
+      }
+    }
+  ],
+  "supported_runtime": true,
+  "all_exact": true,
+  "peak_allocated_bytes": 7697324544,
+  "timing_scope": "warmed graph input copies and owned outputs; excludes packing/capture/restoration",
+  "baseline_options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "cublaslt",
+    "projection_backend": "triton"
+  },
+  "candidate_options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "triton",
+    "projection_backend": "triton"
+  },
+  "status": "superseded specialized launch, numerically exact; final runtime restores measured generic tile indexing"
+}

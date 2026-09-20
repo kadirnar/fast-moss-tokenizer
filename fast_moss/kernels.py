@@ -23,7 +23,10 @@ def scale_add(x, update, scale):
         raise ValueError("Inputs must be on the same CUDA device")
     if not all(t.is_contiguous() for t in (x, update, scale)):
         return x + update * scale
-    out = torch.empty_like(x)
+    # TensorIterator canonicalizes singleton strides when all operands are
+    # contiguous. empty_like preserves x's singleton strides, which can change
+    # downstream matmul folding and therefore vendor FP32 rounding.
+    out = torch.empty(x.shape, device=x.device, dtype=x.dtype)
     if x.numel():
         _scale_add[(triton.cdiv(x.numel(), 256),)](
             x, update, scale, out, x.numel(), x.shape[-1], 256, enable_fp_fusion=False)

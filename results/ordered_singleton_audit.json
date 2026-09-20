@@ -1,0 +1,210 @@
+{
+  "scope": "full-checkpoint singleton hidden-state isolation",
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "records": [
+    {
+      "label": "all",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "defaults",
+      "options": {},
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_residual_backend",
+      "options": {
+        "residual_backend": "none",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_rope_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "none",
+        "kv_backend": "triton",
+        "share_rope_tables": false,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_kv_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "none",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_share_rope_tables",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": false,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_attention_mask_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "none",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_quantizer_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "none",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_matrix_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "none",
+        "projection_backend": "triton"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    },
+    {
+      "label": "without_projection_backend",
+      "options": {
+        "residual_backend": "triton",
+        "rope_backend": "triton",
+        "kv_backend": "triton",
+        "share_rope_tables": true,
+        "attention_mask_backend": "triton",
+        "quantizer_backend": "triton",
+        "matrix_backend": "cublaslt",
+        "projection_backend": "none"
+      },
+      "difference": {
+        "exact": false,
+        "max_abs": 5.7220458984375e-06,
+        "rmse": 7.412691657748983e-07,
+        "different_elements": 15322,
+        "elements": 18432
+      }
+    }
+  ]
+}

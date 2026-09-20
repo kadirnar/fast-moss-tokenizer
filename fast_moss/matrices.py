@@ -1,4 +1,4 @@
-"""Version-gated resident FP32 matrices for the pinned MOSS checkpoint.
+"""Version-gated resident FP32 cuBLASLt/Triton matrices for pinned MOSS.
 
 Packing changes parameter storage/strides, not values or Parameter identity.
 Do not retain external weight aliases or raw CUDA graphs across this context.
@@ -49,10 +49,20 @@ class MatrixRuntime:
     Other layouts, shapes, bias, gradients, and autocast use the original FP32
     weight layout through F.linear. The profile is empirical exactness evidence,
     not a claim that all pedantic algorithms reproduce PyTorch's reduction.
+    backend='triton' substitutes ordered SIMT kernels for two 24-row FFN shapes;
+    it retains the same packing, fallbacks, per-stream plans and lifetime guards.
     """
 
-    def __init__(self, model, *, _profile=None):
+    def __init__(self, model, *, backend='cublaslt', _profile=None):
+        if backend not in {'cublaslt', 'triton'}:
+            raise ValueError('Unknown matrix backend')
+        if backend == 'triton':
+            import triton
+            if triton.__version__ != '3.4.0':
+                raise ValueError('Ordered matrices require the validated Triton 3.4.0 compiler')
         self.model = model
+        self.backend = backend
+        self.triton_calls = 0
         self.profile = load_profile(model) if _profile is None else _profile
         self.selected = {tuple(r['shape']): r for r in self.profile['records']}
         self.device = next(model.parameters()).device
@@ -152,6 +162,12 @@ class MatrixRuntime:
                     self.plans[key] = (plan, index)
             plan, index = self.plans[key]
             with torch.cuda.device(self.device):
+                if self.backend == 'triton':
+                    from .ordered_matrices import SHAPES, linear
+                    if shape in SHAPES:
+                        self.triton_calls += 1
+                        return linear(x.reshape(shape[0], shape[-1]), self.packed[id(module.weight)][1]).reshape(
+                            *x.shape[:-1], module.out_features)
                 return plan(x.reshape(shape[0], shape[-1]), index).reshape(*x.shape[:-1], module.out_features)
         return forward
 

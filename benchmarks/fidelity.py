@@ -31,6 +31,11 @@ def cases():
             yield 'speech_near_tie_b8_f3',x[idx%x.numel()][:,None],{
                 **entry,'transform':'eight cyclic lanes, 5760 samples each, starts offset by 1920 samples',
                 'regression':'first observed TF32x3 code flip at quantizer 5, lane 6, frame 2 (zero-based)'}
+            for batch in [24, 128]:
+                idx=torch.arange(1920)[None]+torch.arange(batch)[:,None]*1920
+                yield f'speech_singleton_b{batch}_f1',x[idx%x.numel()][:,None],{
+                    **entry,'transform':f'{batch} cyclic lanes, 1920 samples each, starts offset by 1920 samples',
+                    'regression':'canonical residual output strides must preserve downstream matrix dispatch'}
     yield "silence",torch.zeros(1,1,1920),None
     impulse=torch.zeros(1,1,19200);impulse[...,9599]=1
     yield "impulse",impulse,None
@@ -47,7 +52,7 @@ def main():
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
-    p.add_argument("--matrix-backend", choices=["none", "cublaslt"], default="none")
+    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
     p.add_argument("--projection-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
     model=load_model()

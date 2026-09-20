@@ -43,6 +43,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     Cached normalization uses the exact upstream operations, once per codebook.
     matrix_backend='cublaslt' explicitly changes weight storage/strides until exit;
     it invalidates managed graphs on this device and requires the bundled profile.
+    matrix_backend='triton' additionally uses ordered FP32 kernels for two FFN
+    matrix shapes; other shapes retain the supported cuBLASLt/native dispatch.
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
     """
@@ -64,7 +66,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Unknown quantizer backend")
     if quantizer_backend == "triton" and not cache_codebooks:
         raise ValueError("Quantizer fusion requires cached codebooks")
-    if matrix_backend not in {"none", "cublaslt"}:
+    if matrix_backend not in {"none", "cublaslt", "triton"}:
         raise ValueError("Unknown matrix backend")
     if projection_backend not in {'none', 'triton'}:
         raise ValueError('Unknown projection backend')
@@ -85,9 +87,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
 
     try:
         replace(model, "_fast_optimization_active", True)
-        if matrix_backend == 'cublaslt':
+        if matrix_backend in {'cublaslt', 'triton'}:
             from .matrices import MatrixRuntime
-            matrix_stack.enter_context(MatrixRuntime(model))
+            matrix_stack.enter_context(MatrixRuntime(model, backend=matrix_backend))
         if projection_backend == 'triton':
             from .projections import cache_lifetime
             matrix_stack.enter_context(cache_lifetime(next(model.parameters()).device))

@@ -47,7 +47,8 @@ def scale_add(x, update, scale):
         raise ValueError("Inputs must be on the same CUDA device")
     if not all(t.is_contiguous() for t in (x, update, scale)):
         return x + update * scale
-    out = torch.empty_like(x)
+    # Match TensorIterator's contiguous output, including singleton strides.
+    out = torch.empty(x.shape, device=x.device, dtype=x.dtype)
     if not x.numel():
         return out
     args = tuple(from_dlpack(t.view(-1)) for t in (x, update, scale, out))

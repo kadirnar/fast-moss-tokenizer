@@ -1,0 +1,5794 @@
+{
+  "scope": "full checkpoint, 40 interleaved paired graph samples in one packed-weight lifetime",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "cases": [
+    {
+      "batch": 8,
+      "frames": 3,
+      "results": {
+        "encode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 13.53768700209912,
+                "gpu_ms_median": 13.517760276794434,
+                "wall_ms_samples": [
+                  13.53768700209912
+                ],
+                "gpu_ms_samples": [
+                  13.517760276794434
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.91869800479617,
+                "gpu_ms_median": 12.904928207397461,
+                "wall_ms_samples": [
+                  12.91869800479617
+                ],
+                "gpu_ms_samples": [
+                  12.904928207397461
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 13.086134997138288,
+                "gpu_ms_median": 13.073856353759766,
+                "wall_ms_samples": [
+                  13.086134997138288
+                ],
+                "gpu_ms_samples": [
+                  13.073856353759766
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.24475400178926,
+                "gpu_ms_median": 12.988927841186523,
+                "wall_ms_samples": [
+                  13.24475400178926
+                ],
+                "gpu_ms_samples": [
+                  12.988927841186523
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 12.99844899767777,
+                "gpu_ms_median": 12.9868803024292,
+                "wall_ms_samples": [
+                  12.99844899767777
+                ],
+                "gpu_ms_samples": [
+                  12.9868803024292
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.417469999694731,
+                "gpu_ms_median": 13.40601634979248,
+                "wall_ms_samples": [
+                  13.417469999694731
+                ],
+                "gpu_ms_samples": [
+                  13.40601634979248
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 12.882110000646207,
+                "gpu_ms_median": 12.869183540344238,
+                "wall_ms_samples": [
+                  12.882110000646207
+                ],
+                "gpu_ms_samples": [
+                  12.869183540344238
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.21846400242066,
+                "gpu_ms_median": 13.206975936889648,
+                "wall_ms_samples": [
+                  13.21846400242066
+                ],
+                "gpu_ms_samples": [
+                  13.206975936889648
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 13.212712998210918,
+                "gpu_ms_median": 12.986592292785645,
+                "wall_ms_samples": [
+                  13.212712998210918
+                ],
+                "gpu_ms_samples": [
+                  12.986592292785645
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.917415995616466,
+                "gpu_ms_median": 12.905792236328125,
+                "wall_ms_samples": [
+                  12.917415995616466
+                ],
+                "gpu_ms_samples": [
+                  12.905792236328125
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 13.472222999553196,
+                "gpu_ms_median": 13.460639953613281,
+                "wall_ms_samples": [
+                  13.472222999553196
+                ],
+                "gpu_ms_samples": [
+                  13.460639953613281
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.016914002946578,
+                "gpu_ms_median": 13.004192352294922,
+                "wall_ms_samples": [
+                  13.016914002946578
+                ],
+                "gpu_ms_samples": [
+                  13.004192352294922
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 13.241468004707713,
+                "gpu_ms_median": 13.228416442871094,
+                "wall_ms_samples": [
+                  13.241468004707713
+                ],
+                "gpu_ms_samples": [
+                  13.228416442871094
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.11316600185819,
+                "gpu_ms_median": 12.883968353271484,
+                "wall_ms_samples": [
+                  13.11316600185819
+                ],
+                "gpu_ms_samples": [
+                  12.883968353271484
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 12.90573400183348,
+                "gpu_ms_median": 12.893888473510742,
+                "wall_ms_samples": [
+                  12.90573400183348
+                ],
+                "gpu_ms_samples": [
+                  12.893888473510742
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.587971996457782,
+                "gpu_ms_median": 13.576095581054688,
+                "wall_ms_samples": [
+                  13.587971996457782
+                ],
+                "gpu_ms_samples": [
+                  13.576095581054688
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 13.009620000957511,
+                "gpu_ms_median": 12.9967041015625,
+                "wall_ms_samples": [
+                  13.009620000957511
+                ],
+                "gpu_ms_samples": [
+                  12.9967041015625
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.898961002065334,
+                "gpu_ms_median": 12.887840270996094,
+                "wall_ms_samples": [
+                  12.898961002065334
+                ],
+                "gpu_ms_samples": [
+                  12.887840270996094
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 13.364138998440467,
+                "gpu_ms_median": 13.174336433410645,
+                "wall_ms_samples": [
+                  13.364138998440467
+                ],
+                "gpu_ms_samples": [
+                  13.174336433410645
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.534710997191723,
+                "gpu_ms_median": 13.522368431091309,
+                "wall_ms_samples": [
+                  13.534710997191723
+                ],
+                "gpu_ms_samples": [
+                  13.522368431091309
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 13.641202000144403,
+                "gpu_ms_median": 13.629055976867676,
+                "wall_ms_samples": [
+                  13.641202000144403
+                ],
+                "gpu_ms_samples": [
+                  13.629055976867676
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.903180002467707,
+                "gpu_ms_median": 12.891424179077148,
+                "wall_ms_samples": [
+                  12.903180002467707
+                ],
+                "gpu_ms_samples": [
+                  12.891424179077148
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 13.13044800190255,
+                "gpu_ms_median": 13.118751525878906,
+                "wall_ms_samples": [
+                  13.13044800190255
+                ],
+                "gpu_ms_samples": [
+                  13.118751525878906
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.249832998553757,
+                "gpu_ms_median": 12.994239807128906,
+                "wall_ms_samples": [
+                  13.249832998553757
+                ],
+                "gpu_ms_samples": [
+                  12.994239807128906
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 13.006673994823359,
+                "gpu_ms_median": 12.99510383605957,
+                "wall_ms_samples": [
+                  13.006673994823359
+                ],
+                "gpu_ms_samples": [
+                  12.99510383605957
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.47966799949063,
+                "gpu_ms_median": 13.468544006347656,
+                "wall_ms_samples": [
+                  13.47966799949063
+                ],
+                "gpu_ms_samples": [
+                  13.468544006347656
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 12.886206997791305,
+                "gpu_ms_median": 12.874079704284668,
+                "wall_ms_samples": [
+                  12.886206997791305
+                ],
+                "gpu_ms_samples": [
+                  12.874079704284668
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.24556500185281,
+                "gpu_ms_median": 13.234304428100586,
+                "wall_ms_samples": [
+                  13.24556500185281
+                ],
+                "gpu_ms_samples": [
+                  13.234304428100586
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 13.23077800043393,
+                "gpu_ms_median": 13.003071784973145,
+                "wall_ms_samples": [
+                  13.23077800043393
+                ],
+                "gpu_ms_samples": [
+                  13.003071784973145
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.906125004519708,
+                "gpu_ms_median": 12.895232200622559,
+                "wall_ms_samples": [
+                  12.906125004519708
+                ],
+                "gpu_ms_samples": [
+                  12.895232200622559
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 13.46050099527929,
+                "gpu_ms_median": 13.449503898620605,
+                "wall_ms_samples": [
+                  13.46050099527929
+                ],
+                "gpu_ms_samples": [
+                  13.449503898620605
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.027834000240546,
+                "gpu_ms_median": 13.015839576721191,
+                "wall_ms_samples": [
+                  13.027834000240546
+                ],
+                "gpu_ms_samples": [
+                  13.015839576721191
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 13.230327000201214,
+                "gpu_ms_median": 13.219327926635742,
+                "wall_ms_samples": [
+                  13.230327000201214
+                ],
+                "gpu_ms_samples": [
+                  13.219327926635742
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.106893995427527,
+                "gpu_ms_median": 12.877568244934082,
+                "wall_ms_samples": [
+                  13.106893995427527
+                ],
+                "gpu_ms_samples": [
+                  12.877568244934082
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 12.88684899918735,
+                "gpu_ms_median": 12.87564754486084,
+                "wall_ms_samples": [
+                  12.88684899918735
+                ],
+                "gpu_ms_samples": [
+                  12.87564754486084
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.555700999859255,
+                "gpu_ms_median": 13.544575691223145,
+                "wall_ms_samples": [
+                  13.555700999859255
+                ],
+                "gpu_ms_samples": [
+                  13.544575691223145
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 13.019088000874035,
+                "gpu_ms_median": 13.006848335266113,
+                "wall_ms_samples": [
+                  13.019088000874035
+                ],
+                "gpu_ms_samples": [
+                  13.006848335266113
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.914309998450335,
+                "gpu_ms_median": 12.90339183807373,
+                "wall_ms_samples": [
+                  12.914309998450335
+                ],
+                "gpu_ms_samples": [
+                  12.90339183807373
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 13.390298998274375,
+                "gpu_ms_median": 13.380160331726074,
+                "wall_ms_samples": [
+                  13.390298998274375
+                ],
+                "gpu_ms_samples": [
+                  13.380160331726074
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.039056000707205,
+                "gpu_ms_median": 13.0283842086792,
+                "wall_ms_samples": [
+                  13.039056000707205
+                ],
+                "gpu_ms_samples": [
+                  13.0283842086792
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 13.575787997979205,
+                "gpu_ms_median": 13.564607620239258,
+                "wall_ms_samples": [
+                  13.575787997979205
+                ],
+                "gpu_ms_samples": [
+                  13.564607620239258
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.919028995383997,
+                "gpu_ms_median": 12.906720161437988,
+                "wall_ms_samples": [
+                  12.919028995383997
+                ],
+                "gpu_ms_samples": [
+                  12.906720161437988
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 12.892710001324303,
+                "gpu_ms_median": 12.882047653198242,
+                "wall_ms_samples": [
+                  12.892710001324303
+                ],
+                "gpu_ms_samples": [
+                  12.882047653198242
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.549608993344009,
+                "gpu_ms_median": 13.538623809814453,
+                "wall_ms_samples": [
+                  13.549608993344009
+                ],
+                "gpu_ms_samples": [
+                  13.538623809814453
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 13.000182996620424,
+                "gpu_ms_median": 12.988415718078613,
+                "wall_ms_samples": [
+                  13.000182996620424
+                ],
+                "gpu_ms_samples": [
+                  12.988415718078613
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.45231500454247,
+                "gpu_ms_median": 13.44092845916748,
+                "wall_ms_samples": [
+                  13.45231500454247
+                ],
+                "gpu_ms_samples": [
+                  13.44092845916748
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 12.920122004288714,
+                "gpu_ms_median": 12.907456398010254,
+                "wall_ms_samples": [
+                  12.920122004288714
+                ],
+                "gpu_ms_samples": [
+                  12.907456398010254
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.037742995948065,
+                "gpu_ms_median": 13.026752471923828,
+                "wall_ms_samples": [
+                  13.037742995948065
+                ],
+                "gpu_ms_samples": [
+                  13.026752471923828
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 13.569647002441343,
+                "gpu_ms_median": 13.558624267578125,
+                "wall_ms_samples": [
+                  13.569647002441343
+                ],
+                "gpu_ms_samples": [
+                  13.558624267578125
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.910042998555582,
+                "gpu_ms_median": 12.89798355102539,
+                "wall_ms_samples": [
+                  12.910042998555582
+                ],
+                "gpu_ms_samples": [
+                  12.89798355102539
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 13.414163004199509,
+                "gpu_ms_median": 13.40278434753418,
+                "wall_ms_samples": [
+                  13.414163004199509
+                ],
+                "gpu_ms_samples": [
+                  13.40278434753418
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.032743998337537,
+                "gpu_ms_median": 13.021056175231934,
+                "wall_ms_samples": [
+                  13.032743998337537
+                ],
+                "gpu_ms_samples": [
+                  13.021056175231934
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 13.01741499628406,
+                "gpu_ms_median": 13.006912231445312,
+                "wall_ms_samples": [
+                  13.01741499628406
+                ],
+                "gpu_ms_samples": [
+                  13.006912231445312
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.454690000799019,
+                "gpu_ms_median": 13.443552017211914,
+                "wall_ms_samples": [
+                  13.454690000799019
+                ],
+                "gpu_ms_samples": [
+                  13.443552017211914
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 12.893161001557019,
+                "gpu_ms_median": 12.881535530090332,
+                "wall_ms_samples": [
+                  12.893161001557019
+                ],
+                "gpu_ms_samples": [
+                  12.881535530090332
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.547606002248358,
+                "gpu_ms_median": 13.536704063415527,
+                "wall_ms_samples": [
+                  13.547606002248358
+                ],
+                "gpu_ms_samples": [
+                  13.536704063415527
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 13.035389005381148,
+                "gpu_ms_median": 13.023648262023926,
+                "wall_ms_samples": [
+                  13.035389005381148
+                ],
+                "gpu_ms_samples": [
+                  13.023648262023926
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.904231996799354,
+                "gpu_ms_median": 12.89299201965332,
+                "wall_ms_samples": [
+                  12.904231996799354
+                ],
+                "gpu_ms_samples": [
+                  12.89299201965332
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 13.459709996823221,
+                "gpu_ms_median": 13.448320388793945,
+                "wall_ms_samples": [
+                  13.459709996823221
+                ],
+                "gpu_ms_samples": [
+                  13.448320388793945
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.020170001254883,
+                "gpu_ms_median": 13.008288383483887,
+                "wall_ms_samples": [
+                  13.020170001254883
+                ],
+                "gpu_ms_samples": [
+                  13.008288383483887
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 13.493492995621637,
+                "gpu_ms_median": 13.482208251953125,
+                "wall_ms_samples": [
+                  13.493492995621637
+                ],
+                "gpu_ms_samples": [
+                  13.482208251953125
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.896617001388222,
+                "gpu_ms_median": 12.885024070739746,
+                "wall_ms_samples": [
+                  12.896617001388222
+                ],
+                "gpu_ms_samples": [
+                  12.885024070739746
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 12.886377997347154,
+                "gpu_ms_median": 12.875712394714355,
+                "wall_ms_samples": [
+                  12.886377997347154
+                ],
+                "gpu_ms_samples": [
+                  12.875712394714355
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.642044003063347,
+                "gpu_ms_median": 13.631327629089355,
+                "wall_ms_samples": [
+                  13.642044003063347
+                ],
+                "gpu_ms_samples": [
+                  13.631327629089355
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 13.003328000195324,
+                "gpu_ms_median": 12.991904258728027,
+                "wall_ms_samples": [
+                  13.003328000195324
+                ],
+                "gpu_ms_samples": [
+                  12.991904258728027
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.482772999850567,
+                "gpu_ms_median": 13.471424102783203,
+                "wall_ms_samples": [
+                  13.482772999850567
+                ],
+                "gpu_ms_samples": [
+                  13.471424102783203
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 12.908700002299156,
+                "gpu_ms_median": 12.897248268127441,
+                "wall_ms_samples": [
+                  12.908700002299156
+                ],
+                "gpu_ms_samples": [
+                  12.897248268127441
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.034477000473998,
+                "gpu_ms_median": 13.023807525634766,
+                "wall_ms_samples": [
+                  13.034477000473998
+                ],
+                "gpu_ms_samples": [
+                  13.023807525634766
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 13.565158995334059,
+                "gpu_ms_median": 13.554207801818848,
+                "wall_ms_samples": [
+                  13.565158995334059
+                ],
+                "gpu_ms_samples": [
+                  13.554207801818848
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.881519003713038,
+                "gpu_ms_median": 12.870495796203613,
+                "wall_ms_samples": [
+                  12.881519003713038
+                ],
+                "gpu_ms_samples": [
+                  12.870495796203613
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 13.437176996376365,
+                "gpu_ms_median": 13.426079750061035,
+                "wall_ms_samples": [
+                  13.437176996376365
+                ],
+                "gpu_ms_samples": [
+                  13.426079750061035
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.24887200462399,
+                "gpu_ms_median": 12.994751930236816,
+                "wall_ms_samples": [
+                  13.24887200462399
+                ],
+                "gpu_ms_samples": [
+                  12.994751930236816
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 13.000323000596836,
+                "gpu_ms_median": 12.98960018157959,
+                "wall_ms_samples": [
+                  13.000323000596836
+                ],
+                "gpu_ms_samples": [
+                  12.98960018157959
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.49543800461106,
+                "gpu_ms_median": 13.484831809997559,
+                "wall_ms_samples": [
+                  13.49543800461106
+                ],
+                "gpu_ms_samples": [
+                  13.484831809997559
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 12.893099999928381,
+                "gpu_ms_median": 12.881823539733887,
+                "wall_ms_samples": [
+                  12.893099999928381
+                ],
+                "gpu_ms_samples": [
+                  12.881823539733887
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.58555699698627,
+                "gpu_ms_median": 13.574848175048828,
+                "wall_ms_samples": [
+                  13.58555699698627
+                ],
+                "gpu_ms_samples": [
+                  13.574848175048828
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 13.037051998253446,
+                "gpu_ms_median": 13.025919914245605,
+                "wall_ms_samples": [
+                  13.037051998253446
+                ],
+                "gpu_ms_samples": [
+                  13.025919914245605
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.92741500219563,
+                "gpu_ms_median": 12.916735649108887,
+                "wall_ms_samples": [
+                  12.92741500219563
+                ],
+                "gpu_ms_samples": [
+                  12.916735649108887
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 13.497389998519793,
+                "gpu_ms_median": 13.486335754394531,
+                "wall_ms_samples": [
+                  13.497389998519793
+                ],
+                "gpu_ms_samples": [
+                  13.486335754394531
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.032793998718262,
+                "gpu_ms_median": 13.021599769592285,
+                "wall_ms_samples": [
+                  13.032793998718262
+                ],
+                "gpu_ms_samples": [
+                  13.021599769592285
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 13.224395501310937,
+            "triton": 12.919575499836355
+          },
+          "speedup": 1.0235936545653874,
+          "paired_saving_ms_median": 0.1270395005121827,
+          "triton_faster_pairs": 27
+        },
+        "decode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 11.835484998300672,
+                "gpu_ms_median": 11.81663990020752,
+                "wall_ms_samples": [
+                  11.835484998300672
+                ],
+                "gpu_ms_samples": [
+                  11.81663990020752
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.660604002827313,
+                "gpu_ms_median": 11.44489574432373,
+                "wall_ms_samples": [
+                  11.660604002827313
+                ],
+                "gpu_ms_samples": [
+                  11.44489574432373
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 11.453264000010677,
+                "gpu_ms_median": 11.441439628601074,
+                "wall_ms_samples": [
+                  11.453264000010677
+                ],
+                "gpu_ms_samples": [
+                  11.441439628601074
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.169865003670566,
+                "gpu_ms_median": 12.15817642211914,
+                "wall_ms_samples": [
+                  12.169865003670566
+                ],
+                "gpu_ms_samples": [
+                  12.15817642211914
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 11.561668005015235,
+                "gpu_ms_median": 11.549375534057617,
+                "wall_ms_samples": [
+                  11.561668005015235
+                ],
+                "gpu_ms_samples": [
+                  11.549375534057617
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.482568996143527,
+                "gpu_ms_median": 11.47219181060791,
+                "wall_ms_samples": [
+                  11.482568996143527
+                ],
+                "gpu_ms_samples": [
+                  11.47219181060791
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 12.012439001409803,
+                "gpu_ms_median": 12.001248359680176,
+                "wall_ms_samples": [
+                  12.012439001409803
+                ],
+                "gpu_ms_samples": [
+                  12.001248359680176
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.559724996914156,
+                "gpu_ms_median": 11.547776222229004,
+                "wall_ms_samples": [
+                  11.559724996914156
+                ],
+                "gpu_ms_samples": [
+                  11.547776222229004
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 11.536942001839634,
+                "gpu_ms_median": 11.525728225708008,
+                "wall_ms_samples": [
+                  11.536942001839634
+                ],
+                "gpu_ms_samples": [
+                  11.525728225708008
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.038567998388316,
+                "gpu_ms_median": 12.027359962463379,
+                "wall_ms_samples": [
+                  12.038567998388316
+                ],
+                "gpu_ms_samples": [
+                  12.027359962463379
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 11.466638999991119,
+                "gpu_ms_median": 11.454239845275879,
+                "wall_ms_samples": [
+                  11.466638999991119
+                ],
+                "gpu_ms_samples": [
+                  11.454239845275879
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.579430996789597,
+                "gpu_ms_median": 11.567839622497559,
+                "wall_ms_samples": [
+                  11.579430996789597
+                ],
+                "gpu_ms_samples": [
+                  11.567839622497559
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 12.011776998406276,
+                "gpu_ms_median": 11.820128440856934,
+                "wall_ms_samples": [
+                  12.011776998406276
+                ],
+                "gpu_ms_samples": [
+                  11.820128440856934
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.504550006065983,
+                "gpu_ms_median": 11.492608070373535,
+                "wall_ms_samples": [
+                  11.504550006065983
+                ],
+                "gpu_ms_samples": [
+                  11.492608070373535
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 11.772906997066457,
+                "gpu_ms_median": 11.761664390563965,
+                "wall_ms_samples": [
+                  11.772906997066457
+                ],
+                "gpu_ms_samples": [
+                  11.761664390563965
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.765723997086752,
+                "gpu_ms_median": 11.53548812866211,
+                "wall_ms_samples": [
+                  11.765723997086752
+                ],
+                "gpu_ms_samples": [
+                  11.53548812866211
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 11.548172995389905,
+                "gpu_ms_median": 11.53667163848877,
+                "wall_ms_samples": [
+                  11.548172995389905
+                ],
+                "gpu_ms_samples": [
+                  11.53667163848877
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.075227001332678,
+                "gpu_ms_median": 12.064000129699707,
+                "wall_ms_samples": [
+                  12.075227001332678
+                ],
+                "gpu_ms_samples": [
+                  12.064000129699707
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 11.493830003018957,
+                "gpu_ms_median": 11.48300838470459,
+                "wall_ms_samples": [
+                  11.493830003018957
+                ],
+                "gpu_ms_samples": [
+                  11.48300838470459
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.582065999391489,
+                "gpu_ms_median": 11.57040023803711,
+                "wall_ms_samples": [
+                  11.582065999391489
+                ],
+                "gpu_ms_samples": [
+                  11.57040023803711
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 12.087921000784263,
+                "gpu_ms_median": 12.076895713806152,
+                "wall_ms_samples": [
+                  12.087921000784263
+                ],
+                "gpu_ms_samples": [
+                  12.076895713806152
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.502635999931954,
+                "gpu_ms_median": 11.490495681762695,
+                "wall_ms_samples": [
+                  11.502635999931954
+                ],
+                "gpu_ms_samples": [
+                  11.490495681762695
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 11.489312004414387,
+                "gpu_ms_median": 11.478336334228516,
+                "wall_ms_samples": [
+                  11.489312004414387
+                ],
+                "gpu_ms_samples": [
+                  11.478336334228516
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.187358996015973,
+                "gpu_ms_median": 12.175840377807617,
+                "wall_ms_samples": [
+                  12.187358996015973
+                ],
+                "gpu_ms_samples": [
+                  12.175840377807617
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 11.575705000723246,
+                "gpu_ms_median": 11.56383991241455,
+                "wall_ms_samples": [
+                  11.575705000723246
+                ],
+                "gpu_ms_samples": [
+                  11.56383991241455
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.50791700638365,
+                "gpu_ms_median": 11.496864318847656,
+                "wall_ms_samples": [
+                  11.50791700638365
+                ],
+                "gpu_ms_samples": [
+                  11.496864318847656
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 12.229086998559069,
+                "gpu_ms_median": 12.217920303344727,
+                "wall_ms_samples": [
+                  12.229086998559069
+                ],
+                "gpu_ms_samples": [
+                  12.217920303344727
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.583899999095593,
+                "gpu_ms_median": 11.572447776794434,
+                "wall_ms_samples": [
+                  11.583899999095593
+                ],
+                "gpu_ms_samples": [
+                  11.572447776794434
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 11.781924004026223,
+                "gpu_ms_median": 11.770912170410156,
+                "wall_ms_samples": [
+                  11.781924004026223
+                ],
+                "gpu_ms_samples": [
+                  11.770912170410156
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.7056200033403,
+                "gpu_ms_median": 11.4782075881958,
+                "wall_ms_samples": [
+                  11.7056200033403
+                ],
+                "gpu_ms_samples": [
+                  11.4782075881958
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 11.484262002340984,
+                "gpu_ms_median": 11.473055839538574,
+                "wall_ms_samples": [
+                  11.484262002340984
+                ],
+                "gpu_ms_samples": [
+                  11.473055839538574
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.819965002359822,
+                "gpu_ms_median": 11.809184074401855,
+                "wall_ms_samples": [
+                  11.819965002359822
+                ],
+                "gpu_ms_samples": [
+                  11.809184074401855
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 11.784747999627143,
+                "gpu_ms_median": 11.554207801818848,
+                "wall_ms_samples": [
+                  11.784747999627143
+                ],
+                "gpu_ms_samples": [
+                  11.554207801818848
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.503627996717114,
+                "gpu_ms_median": 11.492287635803223,
+                "wall_ms_samples": [
+                  11.503627996717114
+                ],
+                "gpu_ms_samples": [
+                  11.492287635803223
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 12.0817499991972,
+                "gpu_ms_median": 12.070655822753906,
+                "wall_ms_samples": [
+                  12.0817499991972
+                ],
+                "gpu_ms_samples": [
+                  12.070655822753906
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.594889998377766,
+                "gpu_ms_median": 11.582752227783203,
+                "wall_ms_samples": [
+                  11.594889998377766
+                ],
+                "gpu_ms_samples": [
+                  11.582752227783203
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 11.559163001948036,
+                "gpu_ms_median": 11.548224449157715,
+                "wall_ms_samples": [
+                  11.559163001948036
+                ],
+                "gpu_ms_samples": [
+                  11.548224449157715
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.096216996724252,
+                "gpu_ms_median": 12.084671974182129,
+                "wall_ms_samples": [
+                  12.096216996724252
+                ],
+                "gpu_ms_samples": [
+                  12.084671974182129
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 11.500161999720149,
+                "gpu_ms_median": 11.488384246826172,
+                "wall_ms_samples": [
+                  11.500161999720149
+                ],
+                "gpu_ms_samples": [
+                  11.488384246826172
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.571857001399621,
+                "gpu_ms_median": 11.561216354370117,
+                "wall_ms_samples": [
+                  11.571857001399621
+                ],
+                "gpu_ms_samples": [
+                  11.561216354370117
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 12.16965599451214,
+                "gpu_ms_median": 12.15839958190918,
+                "wall_ms_samples": [
+                  12.16965599451214
+                ],
+                "gpu_ms_samples": [
+                  12.15839958190918
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.5000619989587,
+                "gpu_ms_median": 11.48806381225586,
+                "wall_ms_samples": [
+                  11.5000619989587
+                ],
+                "gpu_ms_samples": [
+                  11.48806381225586
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 11.477478998131119,
+                "gpu_ms_median": 11.465888023376465,
+                "wall_ms_samples": [
+                  11.477478998131119
+                ],
+                "gpu_ms_samples": [
+                  11.465888023376465
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.098842002160382,
+                "gpu_ms_median": 12.087552070617676,
+                "wall_ms_samples": [
+                  12.098842002160382
+                ],
+                "gpu_ms_samples": [
+                  12.087552070617676
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 11.560686005395837,
+                "gpu_ms_median": 11.54867172241211,
+                "wall_ms_samples": [
+                  11.560686005395837
+                ],
+                "gpu_ms_samples": [
+                  11.54867172241211
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.493388999952003,
+                "gpu_ms_median": 11.48259162902832,
+                "wall_ms_samples": [
+                  11.493388999952003
+                ],
+                "gpu_ms_samples": [
+                  11.48259162902832
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 11.988894002570305,
+                "gpu_ms_median": 11.796863555908203,
+                "wall_ms_samples": [
+                  11.988894002570305
+                ],
+                "gpu_ms_samples": [
+                  11.796863555908203
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.581175000173971,
+                "gpu_ms_median": 11.570688247680664,
+                "wall_ms_samples": [
+                  11.581175000173971
+                ],
+                "gpu_ms_samples": [
+                  11.570688247680664
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 12.16418400144903,
+                "gpu_ms_median": 12.1527681350708,
+                "wall_ms_samples": [
+                  12.16418400144903
+                ],
+                "gpu_ms_samples": [
+                  12.1527681350708
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.33760200557299,
+                "gpu_ms_median": 12.32534408569336,
+                "wall_ms_samples": [
+                  12.33760200557299
+                ],
+                "gpu_ms_samples": [
+                  12.32534408569336
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 11.504920999868773,
+                "gpu_ms_median": 11.49350357055664,
+                "wall_ms_samples": [
+                  11.504920999868773
+                ],
+                "gpu_ms_samples": [
+                  11.49350357055664
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.184692997834645,
+                "gpu_ms_median": 12.173664093017578,
+                "wall_ms_samples": [
+                  12.184692997834645
+                ],
+                "gpu_ms_samples": [
+                  12.173664093017578
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 11.563431995455176,
+                "gpu_ms_median": 11.552000045776367,
+                "wall_ms_samples": [
+                  11.563431995455176
+                ],
+                "gpu_ms_samples": [
+                  11.552000045776367
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.515591002535075,
+                "gpu_ms_median": 11.50489616394043,
+                "wall_ms_samples": [
+                  11.515591002535075
+                ],
+                "gpu_ms_samples": [
+                  11.50489616394043
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 12.054448001435958,
+                "gpu_ms_median": 12.043456077575684,
+                "wall_ms_samples": [
+                  12.054448001435958
+                ],
+                "gpu_ms_samples": [
+                  12.043456077575684
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.590933994739316,
+                "gpu_ms_median": 11.579615592956543,
+                "wall_ms_samples": [
+                  11.590933994739316
+                ],
+                "gpu_ms_samples": [
+                  11.579615592956543
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 11.570925998967141,
+                "gpu_ms_median": 11.560480117797852,
+                "wall_ms_samples": [
+                  11.570925998967141
+                ],
+                "gpu_ms_samples": [
+                  11.560480117797852
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.030111996864434,
+                "gpu_ms_median": 12.019231796264648,
+                "wall_ms_samples": [
+                  12.030111996864434
+                ],
+                "gpu_ms_samples": [
+                  12.019231796264648
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 11.488410003948957,
+                "gpu_ms_median": 11.476960182189941,
+                "wall_ms_samples": [
+                  11.488410003948957
+                ],
+                "gpu_ms_samples": [
+                  11.476960182189941
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.595841999223921,
+                "gpu_ms_median": 11.581184387207031,
+                "wall_ms_samples": [
+                  11.595841999223921
+                ],
+                "gpu_ms_samples": [
+                  11.581184387207031
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 12.077460996806622,
+                "gpu_ms_median": 11.883359909057617,
+                "wall_ms_samples": [
+                  12.077460996806622
+                ],
+                "gpu_ms_samples": [
+                  11.883359909057617
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.501724999106955,
+                "gpu_ms_median": 11.490336418151855,
+                "wall_ms_samples": [
+                  11.501724999106955
+                ],
+                "gpu_ms_samples": [
+                  11.490336418151855
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 11.944029996811878,
+                "gpu_ms_median": 11.9334077835083,
+                "wall_ms_samples": [
+                  11.944029996811878
+                ],
+                "gpu_ms_samples": [
+                  11.9334077835083
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.585091997403651,
+                "gpu_ms_median": 11.573663711547852,
+                "wall_ms_samples": [
+                  11.585091997403651
+                ],
+                "gpu_ms_samples": [
+                  11.573663711547852
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 11.576735996641219,
+                "gpu_ms_median": 11.559167861938477,
+                "wall_ms_samples": [
+                  11.576735996641219
+                ],
+                "gpu_ms_samples": [
+                  11.559167861938477
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.107117996492889,
+                "gpu_ms_median": 12.096511840820312,
+                "wall_ms_samples": [
+                  12.107117996492889
+                ],
+                "gpu_ms_samples": [
+                  12.096511840820312
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 11.502736997499596,
+                "gpu_ms_median": 11.488608360290527,
+                "wall_ms_samples": [
+                  11.502736997499596
+                ],
+                "gpu_ms_samples": [
+                  11.488608360290527
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.578359000850469,
+                "gpu_ms_median": 11.568063735961914,
+                "wall_ms_samples": [
+                  11.578359000850469
+                ],
+                "gpu_ms_samples": [
+                  11.568063735961914
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 12.147873996582348,
+                "gpu_ms_median": 12.136992454528809,
+                "wall_ms_samples": [
+                  12.147873996582348
+                ],
+                "gpu_ms_samples": [
+                  12.136992454528809
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.507265997352079,
+                "gpu_ms_median": 11.496383666992188,
+                "wall_ms_samples": [
+                  11.507265997352079
+                ],
+                "gpu_ms_samples": [
+                  11.496383666992188
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 11.49485199857736,
+                "gpu_ms_median": 11.484031677246094,
+                "wall_ms_samples": [
+                  11.49485199857736
+                ],
+                "gpu_ms_samples": [
+                  11.484031677246094
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.078052001015749,
+                "gpu_ms_median": 12.067071914672852,
+                "wall_ms_samples": [
+                  12.078052001015749
+                ],
+                "gpu_ms_samples": [
+                  12.067071914672852
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 11.571375995117705,
+                "gpu_ms_median": 11.559488296508789,
+                "wall_ms_samples": [
+                  11.571375995117705
+                ],
+                "gpu_ms_samples": [
+                  11.559488296508789
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.504489993967582,
+                "gpu_ms_median": 11.49398422241211,
+                "wall_ms_samples": [
+                  11.504489993967582
+                ],
+                "gpu_ms_samples": [
+                  11.49398422241211
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 11.976109999523032,
+                "gpu_ms_median": 11.782079696655273,
+                "wall_ms_samples": [
+                  11.976109999523032
+                ],
+                "gpu_ms_samples": [
+                  11.782079696655273
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.580353006138466,
+                "gpu_ms_median": 11.568415641784668,
+                "wall_ms_samples": [
+                  11.580353006138466
+                ],
+                "gpu_ms_samples": [
+                  11.568415641784668
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 11.775582002883311,
+                "gpu_ms_median": 11.764703750610352,
+                "wall_ms_samples": [
+                  11.775582002883311
+                ],
+                "gpu_ms_samples": [
+                  11.764703750610352
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.70339599775616,
+                "gpu_ms_median": 11.473983764648438,
+                "wall_ms_samples": [
+                  11.70339599775616
+                ],
+                "gpu_ms_samples": [
+                  11.473983764648438
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 11.473001002741512,
+                "gpu_ms_median": 11.462016105651855,
+                "wall_ms_samples": [
+                  11.473001002741512
+                ],
+                "gpu_ms_samples": [
+                  11.462016105651855
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.144157000875566,
+                "gpu_ms_median": 12.13321590423584,
+                "wall_ms_samples": [
+                  12.144157000875566
+                ],
+                "gpu_ms_samples": [
+                  12.13321590423584
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 11.592911996558541,
+            "triton": 11.506093498610426
+          },
+          "speedup": 1.007545436507934,
+          "paired_saving_ms_median": 0.07390400423901156,
+          "triton_faster_pairs": 26
+        }
+      }
+    },
+    {
+      "batch": 24,
+      "frames": 1,
+      "results": {
+        "encode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 14.478120996500365,
+                "gpu_ms_median": 14.458463668823242,
+                "wall_ms_samples": [
+                  14.478120996500365
+                ],
+                "gpu_ms_samples": [
+                  14.458463668823242
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.742804003413767,
+                "gpu_ms_median": 13.729727745056152,
+                "wall_ms_samples": [
+                  13.742804003413767
+                ],
+                "gpu_ms_samples": [
+                  13.729727745056152
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 14.337045002321247,
+                "gpu_ms_median": 14.324607849121094,
+                "wall_ms_samples": [
+                  14.337045002321247
+                ],
+                "gpu_ms_samples": [
+                  14.324607849121094
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.894710995373316,
+                "gpu_ms_median": 13.882207870483398,
+                "wall_ms_samples": [
+                  13.894710995373316
+                ],
+                "gpu_ms_samples": [
+                  13.882207870483398
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 14.153459000226576,
+                "gpu_ms_median": 14.141983985900879,
+                "wall_ms_samples": [
+                  14.153459000226576
+                ],
+                "gpu_ms_samples": [
+                  14.141983985900879
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.926450999861117,
+                "gpu_ms_median": 13.701696395874023,
+                "wall_ms_samples": [
+                  13.926450999861117
+                ],
+                "gpu_ms_samples": [
+                  13.701696395874023
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 13.729047997912858,
+                "gpu_ms_median": 13.717791557312012,
+                "wall_ms_samples": [
+                  13.729047997912858
+                ],
+                "gpu_ms_samples": [
+                  13.717791557312012
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.508428001136053,
+                "gpu_ms_median": 14.4966402053833,
+                "wall_ms_samples": [
+                  14.508428001136053
+                ],
+                "gpu_ms_samples": [
+                  14.4966402053833
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 13.876405995688401,
+                "gpu_ms_median": 13.864543914794922,
+                "wall_ms_samples": [
+                  13.876405995688401
+                ],
+                "gpu_ms_samples": [
+                  13.864543914794922
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.293532993178815,
+                "gpu_ms_median": 14.282400131225586,
+                "wall_ms_samples": [
+                  14.293532993178815
+                ],
+                "gpu_ms_samples": [
+                  14.282400131225586
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 13.740047994360793,
+                "gpu_ms_median": 13.728256225585938,
+                "wall_ms_samples": [
+                  13.740047994360793
+                ],
+                "gpu_ms_samples": [
+                  13.728256225585938
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.158138001221232,
+                "gpu_ms_median": 14.146944046020508,
+                "wall_ms_samples": [
+                  14.158138001221232
+                ],
+                "gpu_ms_samples": [
+                  14.146944046020508
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 14.077414998610038,
+                "gpu_ms_median": 13.8472318649292,
+                "wall_ms_samples": [
+                  14.077414998610038
+                ],
+                "gpu_ms_samples": [
+                  13.8472318649292
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.745869997364935,
+                "gpu_ms_median": 13.734496116638184,
+                "wall_ms_samples": [
+                  13.745869997364935
+                ],
+                "gpu_ms_samples": [
+                  13.734496116638184
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 14.271821994043421,
+                "gpu_ms_median": 14.260224342346191,
+                "wall_ms_samples": [
+                  14.271821994043421
+                ],
+                "gpu_ms_samples": [
+                  14.260224342346191
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.896173004468437,
+                "gpu_ms_median": 13.88428783416748,
+                "wall_ms_samples": [
+                  13.896173004468437
+                ],
+                "gpu_ms_samples": [
+                  13.88428783416748
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 14.420061997952871,
+                "gpu_ms_median": 14.408543586730957,
+                "wall_ms_samples": [
+                  14.420061997952871
+                ],
+                "gpu_ms_samples": [
+                  14.408543586730957
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.749517005635425,
+                "gpu_ms_median": 13.737664222717285,
+                "wall_ms_samples": [
+                  13.749517005635425
+                ],
+                "gpu_ms_samples": [
+                  13.737664222717285
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 13.731621998886112,
+                "gpu_ms_median": 13.720352172851562,
+                "wall_ms_samples": [
+                  13.731621998886112
+                ],
+                "gpu_ms_samples": [
+                  13.720352172851562
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.344419003464282,
+                "gpu_ms_median": 14.15494441986084,
+                "wall_ms_samples": [
+                  14.344419003464282
+                ],
+                "gpu_ms_samples": [
+                  14.15494441986084
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 13.890403002733365,
+                "gpu_ms_median": 13.878432273864746,
+                "wall_ms_samples": [
+                  13.890403002733365
+                ],
+                "gpu_ms_samples": [
+                  13.878432273864746
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.329190002172254,
+                "gpu_ms_median": 14.317695617675781,
+                "wall_ms_samples": [
+                  14.329190002172254
+                ],
+                "gpu_ms_samples": [
+                  14.317695617675781
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 13.750409001659136,
+                "gpu_ms_median": 13.73852825164795,
+                "wall_ms_samples": [
+                  13.750409001659136
+                ],
+                "gpu_ms_samples": [
+                  13.73852825164795
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.496275995043106,
+                "gpu_ms_median": 14.484895706176758,
+                "wall_ms_samples": [
+                  14.496275995043106
+                ],
+                "gpu_ms_samples": [
+                  14.484895706176758
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 13.889931004086975,
+                "gpu_ms_median": 13.878080368041992,
+                "wall_ms_samples": [
+                  13.889931004086975
+                ],
+                "gpu_ms_samples": [
+                  13.878080368041992
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.743303999945056,
+                "gpu_ms_median": 13.7324800491333,
+                "wall_ms_samples": [
+                  13.743303999945056
+                ],
+                "gpu_ms_samples": [
+                  13.7324800491333
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 14.190678994054906,
+                "gpu_ms_median": 14.00057601928711,
+                "wall_ms_samples": [
+                  14.190678994054906
+                ],
+                "gpu_ms_samples": [
+                  14.00057601928711
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.896593998651952,
+                "gpu_ms_median": 13.884703636169434,
+                "wall_ms_samples": [
+                  13.896593998651952
+                ],
+                "gpu_ms_samples": [
+                  13.884703636169434
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 14.440279999689665,
+                "gpu_ms_median": 14.428895950317383,
+                "wall_ms_samples": [
+                  14.440279999689665
+                ],
+                "gpu_ms_samples": [
+                  14.428895950317383
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.753113002167083,
+                "gpu_ms_median": 13.742015838623047,
+                "wall_ms_samples": [
+                  13.753113002167083
+                ],
+                "gpu_ms_samples": [
+                  13.742015838623047
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 14.284336000855546,
+                "gpu_ms_median": 14.272543907165527,
+                "wall_ms_samples": [
+                  14.284336000855546
+                ],
+                "gpu_ms_samples": [
+                  14.272543907165527
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.890652000554837,
+                "gpu_ms_median": 13.878944396972656,
+                "wall_ms_samples": [
+                  13.890652000554837
+                ],
+                "gpu_ms_samples": [
+                  13.878944396972656
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 13.869813999917824,
+                "gpu_ms_median": 13.858880043029785,
+                "wall_ms_samples": [
+                  13.869813999917824
+                ],
+                "gpu_ms_samples": [
+                  13.858880043029785
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.191470996593125,
+                "gpu_ms_median": 14.000800132751465,
+                "wall_ms_samples": [
+                  14.191470996593125
+                ],
+                "gpu_ms_samples": [
+                  14.000800132751465
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 13.746651005931199,
+                "gpu_ms_median": 13.734496116638184,
+                "wall_ms_samples": [
+                  13.746651005931199
+                ],
+                "gpu_ms_samples": [
+                  13.734496116638184
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.49456200498389,
+                "gpu_ms_median": 14.483424186706543,
+                "wall_ms_samples": [
+                  14.49456200498389
+                ],
+                "gpu_ms_samples": [
+                  14.483424186706543
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 13.901382997573819,
+                "gpu_ms_median": 13.889280319213867,
+                "wall_ms_samples": [
+                  13.901382997573819
+                ],
+                "gpu_ms_samples": [
+                  13.889280319213867
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.295857006800361,
+                "gpu_ms_median": 14.284416198730469,
+                "wall_ms_samples": [
+                  14.295857006800361
+                ],
+                "gpu_ms_samples": [
+                  14.284416198730469
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 13.744247000431642,
+                "gpu_ms_median": 13.732192039489746,
+                "wall_ms_samples": [
+                  13.744247000431642
+                ],
+                "gpu_ms_samples": [
+                  13.732192039489746
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.31246900028782,
+                "gpu_ms_median": 14.201855659484863,
+                "wall_ms_samples": [
+                  14.31246900028782
+                ],
+                "gpu_ms_samples": [
+                  14.201855659484863
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 14.499712000542786,
+                "gpu_ms_median": 14.487968444824219,
+                "wall_ms_samples": [
+                  14.499712000542786
+                ],
+                "gpu_ms_samples": [
+                  14.487968444824219
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.766678996034898,
+                "gpu_ms_median": 13.754976272583008,
+                "wall_ms_samples": [
+                  13.766678996034898
+                ],
+                "gpu_ms_samples": [
+                  13.754976272583008
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 14.344258997880388,
+                "gpu_ms_median": 14.333087921142578,
+                "wall_ms_samples": [
+                  14.344258997880388
+                ],
+                "gpu_ms_samples": [
+                  14.333087921142578
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.883889994758647,
+                "gpu_ms_median": 13.87235164642334,
+                "wall_ms_samples": [
+                  13.883889994758647
+                ],
+                "gpu_ms_samples": [
+                  13.87235164642334
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 14.149941998766735,
+                "gpu_ms_median": 14.138943672180176,
+                "wall_ms_samples": [
+                  14.149941998766735
+                ],
+                "gpu_ms_samples": [
+                  14.138943672180176
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.93560799624538,
+                "gpu_ms_median": 13.709856033325195,
+                "wall_ms_samples": [
+                  13.93560799624538
+                ],
+                "gpu_ms_samples": [
+                  13.709856033325195
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 13.72936899861088,
+                "gpu_ms_median": 13.718527793884277,
+                "wall_ms_samples": [
+                  13.72936899861088
+                ],
+                "gpu_ms_samples": [
+                  13.718527793884277
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.450599002884701,
+                "gpu_ms_median": 14.439871788024902,
+                "wall_ms_samples": [
+                  14.450599002884701
+                ],
+                "gpu_ms_samples": [
+                  14.439871788024902
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 13.87439300015103,
+                "gpu_ms_median": 13.862879753112793,
+                "wall_ms_samples": [
+                  13.87439300015103
+                ],
+                "gpu_ms_samples": [
+                  13.862879753112793
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.369616998010315,
+                "gpu_ms_median": 14.35859203338623,
+                "wall_ms_samples": [
+                  14.369616998010315
+                ],
+                "gpu_ms_samples": [
+                  14.35859203338623
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 13.748764999036212,
+                "gpu_ms_median": 13.737119674682617,
+                "wall_ms_samples": [
+                  13.748764999036212
+                ],
+                "gpu_ms_samples": [
+                  13.737119674682617
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.152577001368627,
+                "gpu_ms_median": 14.141440391540527,
+                "wall_ms_samples": [
+                  14.152577001368627
+                ],
+                "gpu_ms_samples": [
+                  14.141440391540527
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 14.088807001826353,
+                "gpu_ms_median": 13.859040260314941,
+                "wall_ms_samples": [
+                  14.088807001826353
+                ],
+                "gpu_ms_samples": [
+                  13.859040260314941
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.745978998485953,
+                "gpu_ms_median": 13.735360145568848,
+                "wall_ms_samples": [
+                  13.745978998485953
+                ],
+                "gpu_ms_samples": [
+                  13.735360145568848
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 14.30385199637385,
+                "gpu_ms_median": 14.29315185546875,
+                "wall_ms_samples": [
+                  14.30385199637385
+                ],
+                "gpu_ms_samples": [
+                  14.29315185546875
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.881766004487872,
+                "gpu_ms_median": 13.870400428771973,
+                "wall_ms_samples": [
+                  13.881766004487872
+                ],
+                "gpu_ms_samples": [
+                  13.870400428771973
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 14.496675998088904,
+                "gpu_ms_median": 14.485535621643066,
+                "wall_ms_samples": [
+                  14.496675998088904
+                ],
+                "gpu_ms_samples": [
+                  14.485535621643066
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.768872995569836,
+                "gpu_ms_median": 13.75222396850586,
+                "wall_ms_samples": [
+                  13.768872995569836
+                ],
+                "gpu_ms_samples": [
+                  13.75222396850586
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 13.956146001874004,
+                "gpu_ms_median": 13.945088386535645,
+                "wall_ms_samples": [
+                  13.956146001874004
+                ],
+                "gpu_ms_samples": [
+                  13.945088386535645
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.079991000471637,
+                "gpu_ms_median": 13.8569917678833,
+                "wall_ms_samples": [
+                  14.079991000471637
+                ],
+                "gpu_ms_samples": [
+                  13.8569917678833
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 13.859393999155145,
+                "gpu_ms_median": 13.848480224609375,
+                "wall_ms_samples": [
+                  13.859393999155145
+                ],
+                "gpu_ms_samples": [
+                  13.848480224609375
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.271541003836319,
+                "gpu_ms_median": 14.260191917419434,
+                "wall_ms_samples": [
+                  14.271541003836319
+                ],
+                "gpu_ms_samples": [
+                  14.260191917419434
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 13.745709002250805,
+                "gpu_ms_median": 13.733951568603516,
+                "wall_ms_samples": [
+                  13.745709002250805
+                ],
+                "gpu_ms_samples": [
+                  13.733951568603516
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.47674899827689,
+                "gpu_ms_median": 14.465951919555664,
+                "wall_ms_samples": [
+                  14.47674899827689
+                ],
+                "gpu_ms_samples": [
+                  14.465951919555664
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 13.880653998057824,
+                "gpu_ms_median": 13.86905574798584,
+                "wall_ms_samples": [
+                  13.880653998057824
+                ],
+                "gpu_ms_samples": [
+                  13.86905574798584
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.756328997260425,
+                "gpu_ms_median": 13.745696067810059,
+                "wall_ms_samples": [
+                  13.756328997260425
+                ],
+                "gpu_ms_samples": [
+                  13.745696067810059
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 14.503329002764076,
+                "gpu_ms_median": 14.312640190124512,
+                "wall_ms_samples": [
+                  14.503329002764076
+                ],
+                "gpu_ms_samples": [
+                  14.312640190124512
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.9286749981693,
+                "gpu_ms_median": 13.916799545288086,
+                "wall_ms_samples": [
+                  13.9286749981693
+                ],
+                "gpu_ms_samples": [
+                  13.916799545288086
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 14.481998005066998,
+                "gpu_ms_median": 14.470656394958496,
+                "wall_ms_samples": [
+                  14.481998005066998
+                ],
+                "gpu_ms_samples": [
+                  14.470656394958496
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.78336099878652,
+                "gpu_ms_median": 13.772319793701172,
+                "wall_ms_samples": [
+                  13.78336099878652
+                ],
+                "gpu_ms_samples": [
+                  13.772319793701172
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 14.272113003244158,
+                "gpu_ms_median": 14.260640144348145,
+                "wall_ms_samples": [
+                  14.272113003244158
+                ],
+                "gpu_ms_samples": [
+                  14.260640144348145
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.891725000576116,
+                "gpu_ms_median": 13.880415916442871,
+                "wall_ms_samples": [
+                  13.891725000576116
+                ],
+                "gpu_ms_samples": [
+                  13.880415916442871
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 13.87319000059506,
+                "gpu_ms_median": 13.862496376037598,
+                "wall_ms_samples": [
+                  13.87319000059506
+                ],
+                "gpu_ms_samples": [
+                  13.862496376037598
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.335022002342157,
+                "gpu_ms_median": 14.323871612548828,
+                "wall_ms_samples": [
+                  14.335022002342157
+                ],
+                "gpu_ms_samples": [
+                  14.323871612548828
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 13.777398999081925,
+                "gpu_ms_median": 13.765888214111328,
+                "wall_ms_samples": [
+                  13.777398999081925
+                ],
+                "gpu_ms_samples": [
+                  13.765888214111328
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 14.47453499713447,
+                "gpu_ms_median": 14.463552474975586,
+                "wall_ms_samples": [
+                  14.47453499713447
+                ],
+                "gpu_ms_samples": [
+                  14.463552474975586
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 13.899240002501756,
+                "gpu_ms_median": 13.887968063354492,
+                "wall_ms_samples": [
+                  13.899240002501756
+                ],
+                "gpu_ms_samples": [
+                  13.887968063354492
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 14.314723004645202,
+                "gpu_ms_median": 14.303872108459473,
+                "wall_ms_samples": [
+                  14.314723004645202
+                ],
+                "gpu_ms_samples": [
+                  14.303872108459473
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 13.783139998849947,
+                "gpu_ms_median": 13.771807670593262,
+                "wall_ms_samples": [
+                  13.783139998849947
+                ],
+                "gpu_ms_samples": [
+                  13.771807670593262
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.914709001255687,
+                "gpu_ms_median": 13.903583526611328,
+                "wall_ms_samples": [
+                  13.914709001255687
+                ],
+                "gpu_ms_samples": [
+                  13.903583526611328
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 14.078702999540837,
+            "triton": 13.783250498818234
+          },
+          "speedup": 1.0214356185972195,
+          "paired_saving_ms_median": 0.180480503331637,
+          "triton_faster_pairs": 24
+        },
+        "decode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 13.162808994820807,
+                "gpu_ms_median": 13.14367961883545,
+                "wall_ms_samples": [
+                  13.162808994820807
+                ],
+                "gpu_ms_samples": [
+                  13.14367961883545
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.499226999352686,
+                "gpu_ms_median": 12.486687660217285,
+                "wall_ms_samples": [
+                  12.499226999352686
+                ],
+                "gpu_ms_samples": [
+                  12.486687660217285
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 12.642267000046559,
+                "gpu_ms_median": 12.630751609802246,
+                "wall_ms_samples": [
+                  12.642267000046559
+                ],
+                "gpu_ms_samples": [
+                  12.630751609802246
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.165804994059727,
+                "gpu_ms_median": 13.152959823608398,
+                "wall_ms_samples": [
+                  13.165804994059727
+                ],
+                "gpu_ms_samples": [
+                  13.152959823608398
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 12.614936000318266,
+                "gpu_ms_median": 12.602368354797363,
+                "wall_ms_samples": [
+                  12.614936000318266
+                ],
+                "gpu_ms_samples": [
+                  12.602368354797363
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.530637002782896,
+                "gpu_ms_median": 12.519488334655762,
+                "wall_ms_samples": [
+                  12.530637002782896
+                ],
+                "gpu_ms_samples": [
+                  12.519488334655762
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 13.022054001339711,
+                "gpu_ms_median": 12.828160285949707,
+                "wall_ms_samples": [
+                  13.022054001339711
+                ],
+                "gpu_ms_samples": [
+                  12.828160285949707
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.644321002881043,
+                "gpu_ms_median": 12.63203239440918,
+                "wall_ms_samples": [
+                  12.644321002881043
+                ],
+                "gpu_ms_samples": [
+                  12.63203239440918
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 13.238252002338413,
+                "gpu_ms_median": 13.226367950439453,
+                "wall_ms_samples": [
+                  13.238252002338413
+                ],
+                "gpu_ms_samples": [
+                  13.226367950439453
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.545284000225365,
+                "gpu_ms_median": 12.532992362976074,
+                "wall_ms_samples": [
+                  12.545284000225365
+                ],
+                "gpu_ms_samples": [
+                  12.532992362976074
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 12.503003999881912,
+                "gpu_ms_median": 12.492064476013184,
+                "wall_ms_samples": [
+                  12.503003999881912
+                ],
+                "gpu_ms_samples": [
+                  12.492064476013184
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.215728999057319,
+                "gpu_ms_median": 13.20464038848877,
+                "wall_ms_samples": [
+                  13.215728999057319
+                ],
+                "gpu_ms_samples": [
+                  13.20464038848877
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 12.631817000510637,
+                "gpu_ms_median": 12.619872093200684,
+                "wall_ms_samples": [
+                  12.631817000510637
+                ],
+                "gpu_ms_samples": [
+                  12.619872093200684
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.768024003889877,
+                "gpu_ms_median": 12.756959915161133,
+                "wall_ms_samples": [
+                  12.768024003889877
+                ],
+                "gpu_ms_samples": [
+                  12.756959915161133
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 12.73157599644037,
+                "gpu_ms_median": 12.50175952911377,
+                "wall_ms_samples": [
+                  12.73157599644037
+                ],
+                "gpu_ms_samples": [
+                  12.50175952911377
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.619864995940588,
+                "gpu_ms_median": 12.608927726745605,
+                "wall_ms_samples": [
+                  12.619864995940588
+                ],
+                "gpu_ms_samples": [
+                  12.608927726745605
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 13.200610999774653,
+                "gpu_ms_median": 13.189920425415039,
+                "wall_ms_samples": [
+                  13.200610999774653
+                ],
+                "gpu_ms_samples": [
+                  13.189920425415039
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.544493001769297,
+                "gpu_ms_median": 12.532320022583008,
+                "wall_ms_samples": [
+                  12.544493001769297
+                ],
+                "gpu_ms_samples": [
+                  12.532320022583008
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 12.785326995071955,
+                "gpu_ms_median": 12.773568153381348,
+                "wall_ms_samples": [
+                  12.785326995071955
+                ],
+                "gpu_ms_samples": [
+                  12.773568153381348
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.839700000768062,
+                "gpu_ms_median": 12.609631538391113,
+                "wall_ms_samples": [
+                  12.839700000768062
+                ],
+                "gpu_ms_samples": [
+                  12.609631538391113
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 12.613802995474543,
+                "gpu_ms_median": 12.602432250976562,
+                "wall_ms_samples": [
+                  12.613802995474543
+                ],
+                "gpu_ms_samples": [
+                  12.602432250976562
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.035158997809049,
+                "gpu_ms_median": 13.023872375488281,
+                "wall_ms_samples": [
+                  13.035158997809049
+                ],
+                "gpu_ms_samples": [
+                  13.023872375488281
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 12.517200993897859,
+                "gpu_ms_median": 12.50499153137207,
+                "wall_ms_samples": [
+                  12.517200993897859
+                ],
+                "gpu_ms_samples": [
+                  12.50499153137207
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.635393999516964,
+                "gpu_ms_median": 12.624095916748047,
+                "wall_ms_samples": [
+                  12.635393999516964
+                ],
+                "gpu_ms_samples": [
+                  12.624095916748047
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 13.219416003266815,
+                "gpu_ms_median": 13.208288192749023,
+                "wall_ms_samples": [
+                  13.219416003266815
+                ],
+                "gpu_ms_samples": [
+                  13.208288192749023
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.542458003736101,
+                "gpu_ms_median": 12.530688285827637,
+                "wall_ms_samples": [
+                  12.542458003736101
+                ],
+                "gpu_ms_samples": [
+                  12.530688285827637
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 13.063641999906395,
+                "gpu_ms_median": 13.052576065063477,
+                "wall_ms_samples": [
+                  13.063641999906395
+                ],
+                "gpu_ms_samples": [
+                  13.052576065063477
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.647166004171595,
+                "gpu_ms_median": 12.635295867919922,
+                "wall_ms_samples": [
+                  12.647166004171595
+                ],
+                "gpu_ms_samples": [
+                  12.635295867919922
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 12.627498996153008,
+                "gpu_ms_median": 12.615903854370117,
+                "wall_ms_samples": [
+                  12.627498996153008
+                ],
+                "gpu_ms_samples": [
+                  12.615903854370117
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.078481002594344,
+                "gpu_ms_median": 13.067584037780762,
+                "wall_ms_samples": [
+                  13.078481002594344
+                ],
+                "gpu_ms_samples": [
+                  13.067584037780762
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 12.52494599611964,
+                "gpu_ms_median": 12.513407707214355,
+                "wall_ms_samples": [
+                  12.52494599611964
+                ],
+                "gpu_ms_samples": [
+                  12.513407707214355
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.213554993853904,
+                "gpu_ms_median": 13.202495574951172,
+                "wall_ms_samples": [
+                  13.213554993853904
+                ],
+                "gpu_ms_samples": [
+                  13.202495574951172
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 12.636365994694643,
+                "gpu_ms_median": 12.624640464782715,
+                "wall_ms_samples": [
+                  12.636365994694643
+                ],
+                "gpu_ms_samples": [
+                  12.624640464782715
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.539702998765279,
+                "gpu_ms_median": 12.528800010681152,
+                "wall_ms_samples": [
+                  12.539702998765279
+                ],
+                "gpu_ms_samples": [
+                  12.528800010681152
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 13.143251999281347,
+                "gpu_ms_median": 13.13219165802002,
+                "wall_ms_samples": [
+                  13.143251999281347
+                ],
+                "gpu_ms_samples": [
+                  13.13219165802002
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.626247000298463,
+                "gpu_ms_median": 12.614784240722656,
+                "wall_ms_samples": [
+                  12.626247000298463
+                ],
+                "gpu_ms_samples": [
+                  12.614784240722656
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 12.613543003681116,
+                "gpu_ms_median": 12.602720260620117,
+                "wall_ms_samples": [
+                  12.613543003681116
+                ],
+                "gpu_ms_samples": [
+                  12.602720260620117
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.01533100195229,
+                "gpu_ms_median": 12.822463989257812,
+                "wall_ms_samples": [
+                  13.01533100195229
+                ],
+                "gpu_ms_samples": [
+                  12.822463989257812
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 12.518392999481875,
+                "gpu_ms_median": 12.506719589233398,
+                "wall_ms_samples": [
+                  12.518392999481875
+                ],
+                "gpu_ms_samples": [
+                  12.506719589233398
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.20628199755447,
+                "gpu_ms_median": 13.195232391357422,
+                "wall_ms_samples": [
+                  13.20628199755447
+                ],
+                "gpu_ms_samples": [
+                  13.195232391357422
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 12.630283999897074,
+                "gpu_ms_median": 12.618687629699707,
+                "wall_ms_samples": [
+                  12.630283999897074
+                ],
+                "gpu_ms_samples": [
+                  12.618687629699707
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.531407999631483,
+                "gpu_ms_median": 12.520671844482422,
+                "wall_ms_samples": [
+                  12.531407999631483
+                ],
+                "gpu_ms_samples": [
+                  12.520671844482422
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 12.949005998962093,
+                "gpu_ms_median": 12.748895645141602,
+                "wall_ms_samples": [
+                  12.949005998962093
+                ],
+                "gpu_ms_samples": [
+                  12.748895645141602
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.641515997529496,
+                "gpu_ms_median": 12.629216194152832,
+                "wall_ms_samples": [
+                  12.641515997529496
+                ],
+                "gpu_ms_samples": [
+                  12.629216194152832
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 13.134806999005377,
+                "gpu_ms_median": 13.123616218566895,
+                "wall_ms_samples": [
+                  13.134806999005377
+                ],
+                "gpu_ms_samples": [
+                  13.123616218566895
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.530826999864075,
+                "gpu_ms_median": 12.519264221191406,
+                "wall_ms_samples": [
+                  12.530826999864075
+                ],
+                "gpu_ms_samples": [
+                  12.519264221191406
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 12.506531005783472,
+                "gpu_ms_median": 12.495072364807129,
+                "wall_ms_samples": [
+                  12.506531005783472
+                ],
+                "gpu_ms_samples": [
+                  12.495072364807129
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.124026001605671,
+                "gpu_ms_median": 13.112607955932617,
+                "wall_ms_samples": [
+                  13.124026001605671
+                ],
+                "gpu_ms_samples": [
+                  13.112607955932617
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 12.600118003319949,
+                "gpu_ms_median": 12.588479995727539,
+                "wall_ms_samples": [
+                  12.600118003319949
+                ],
+                "gpu_ms_samples": [
+                  12.588479995727539
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.807108003471512,
+                "gpu_ms_median": 12.796031951904297,
+                "wall_ms_samples": [
+                  12.807108003471512
+                ],
+                "gpu_ms_samples": [
+                  12.796031951904297
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 12.72590500593651,
+                "gpu_ms_median": 12.49561595916748,
+                "wall_ms_samples": [
+                  12.72590500593651
+                ],
+                "gpu_ms_samples": [
+                  12.49561595916748
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.63334100076463,
+                "gpu_ms_median": 12.622559547424316,
+                "wall_ms_samples": [
+                  12.63334100076463
+                ],
+                "gpu_ms_samples": [
+                  12.622559547424316
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 13.158802001271397,
+                "gpu_ms_median": 13.147808074951172,
+                "wall_ms_samples": [
+                  13.158802001271397
+                ],
+                "gpu_ms_samples": [
+                  13.147808074951172
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.524404999567196,
+                "gpu_ms_median": 12.512831687927246,
+                "wall_ms_samples": [
+                  12.524404999567196
+                ],
+                "gpu_ms_samples": [
+                  12.512831687927246
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 12.509275999036618,
+                "gpu_ms_median": 12.497695922851562,
+                "wall_ms_samples": [
+                  12.509275999036618
+                ],
+                "gpu_ms_samples": [
+                  12.497695922851562
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.662731995282229,
+                "gpu_ms_median": 13.651712417602539,
+                "wall_ms_samples": [
+                  13.662731995282229
+                ],
+                "gpu_ms_samples": [
+                  13.651712417602539
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 12.653448000492062,
+                "gpu_ms_median": 12.638431549072266,
+                "wall_ms_samples": [
+                  12.653448000492062
+                ],
+                "gpu_ms_samples": [
+                  12.638431549072266
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.017614997806959,
+                "gpu_ms_median": 13.005951881408691,
+                "wall_ms_samples": [
+                  13.017614997806959
+                ],
+                "gpu_ms_samples": [
+                  13.005951881408691
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 12.546305995783769,
+                "gpu_ms_median": 12.531392097473145,
+                "wall_ms_samples": [
+                  12.546305995783769
+                ],
+                "gpu_ms_samples": [
+                  12.531392097473145
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.649049000174273,
+                "gpu_ms_median": 12.637984275817871,
+                "wall_ms_samples": [
+                  12.649049000174273
+                ],
+                "gpu_ms_samples": [
+                  12.637984275817871
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 13.638518001243938,
+                "gpu_ms_median": 13.627360343933105,
+                "wall_ms_samples": [
+                  13.638518001243938
+                ],
+                "gpu_ms_samples": [
+                  13.627360343933105
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.540133997390512,
+                "gpu_ms_median": 12.528127670288086,
+                "wall_ms_samples": [
+                  12.540133997390512
+                ],
+                "gpu_ms_samples": [
+                  12.528127670288086
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 12.798782998288516,
+                "gpu_ms_median": 12.787263870239258,
+                "wall_ms_samples": [
+                  12.798782998288516
+                ],
+                "gpu_ms_samples": [
+                  12.787263870239258
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.827456994273234,
+                "gpu_ms_median": 12.6015043258667,
+                "wall_ms_samples": [
+                  12.827456994273234
+                ],
+                "gpu_ms_samples": [
+                  12.6015043258667
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 12.61991500359727,
+                "gpu_ms_median": 12.608480453491211,
+                "wall_ms_samples": [
+                  12.61991500359727
+                ],
+                "gpu_ms_samples": [
+                  12.608480453491211
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.140586997906212,
+                "gpu_ms_median": 13.129471778869629,
+                "wall_ms_samples": [
+                  13.140586997906212
+                ],
+                "gpu_ms_samples": [
+                  13.129471778869629
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 12.529253006505314,
+                "gpu_ms_median": 12.517312049865723,
+                "wall_ms_samples": [
+                  12.529253006505314
+                ],
+                "gpu_ms_samples": [
+                  12.517312049865723
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.887671000498813,
+                "gpu_ms_median": 12.87657642364502,
+                "wall_ms_samples": [
+                  12.887671000498813
+                ],
+                "gpu_ms_samples": [
+                  12.87657642364502
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 12.966508998943027,
+                "gpu_ms_median": 12.955679893493652,
+                "wall_ms_samples": [
+                  12.966508998943027
+                ],
+                "gpu_ms_samples": [
+                  12.955679893493652
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.54423199861776,
+                "gpu_ms_median": 12.532671928405762,
+                "wall_ms_samples": [
+                  12.54423199861776
+                ],
+                "gpu_ms_samples": [
+                  12.532671928405762
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 13.114007997501176,
+                "gpu_ms_median": 13.102911949157715,
+                "wall_ms_samples": [
+                  13.114007997501176
+                ],
+                "gpu_ms_samples": [
+                  13.102911949157715
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.637066996830981,
+                "gpu_ms_median": 12.624992370605469,
+                "wall_ms_samples": [
+                  12.637066996830981
+                ],
+                "gpu_ms_samples": [
+                  12.624992370605469
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 12.832205997256096,
+                "gpu_ms_median": 12.819583892822266,
+                "wall_ms_samples": [
+                  12.832205997256096
+                ],
+                "gpu_ms_samples": [
+                  12.819583892822266
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.877371002105065,
+                "gpu_ms_median": 12.865216255187988,
+                "wall_ms_samples": [
+                  12.877371002105065
+                ],
+                "gpu_ms_samples": [
+                  12.865216255187988
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 12.511549997725524,
+                "gpu_ms_median": 12.500032424926758,
+                "wall_ms_samples": [
+                  12.511549997725524
+                ],
+                "gpu_ms_samples": [
+                  12.500032424926758
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.242739994893782,
+                "gpu_ms_median": 13.23145580291748,
+                "wall_ms_samples": [
+                  13.242739994893782
+                ],
+                "gpu_ms_samples": [
+                  13.23145580291748
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 12.636205996386707,
+                "gpu_ms_median": 12.624095916748047,
+                "wall_ms_samples": [
+                  12.636205996386707
+                ],
+                "gpu_ms_samples": [
+                  12.624095916748047
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.539201998151839,
+                "gpu_ms_median": 12.528223991394043,
+                "wall_ms_samples": [
+                  12.539201998151839
+                ],
+                "gpu_ms_samples": [
+                  12.528223991394043
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 13.114368004607968,
+                "gpu_ms_median": 13.102751731872559,
+                "wall_ms_samples": [
+                  13.114368004607968
+                ],
+                "gpu_ms_samples": [
+                  13.102751731872559
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.63664699945366,
+                "gpu_ms_median": 12.62502384185791,
+                "wall_ms_samples": [
+                  12.63664699945366
+                ],
+                "gpu_ms_samples": [
+                  12.62502384185791
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 12.651248500333168,
+            "triton": 12.545794998004567
+          },
+          "speedup": 1.008405485849671,
+          "paired_saving_ms_median": 0.09683349708211608,
+          "triton_faster_pairs": 24
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "frames": 24,
+      "results": {
+        "encode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 13.08056400011992,
+                "gpu_ms_median": 13.05510425567627,
+                "wall_ms_samples": [
+                  13.08056400011992
+                ],
+                "gpu_ms_samples": [
+                  13.05510425567627
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.966770002094563,
+                "gpu_ms_median": 12.696928024291992,
+                "wall_ms_samples": [
+                  12.966770002094563
+                ],
+                "gpu_ms_samples": [
+                  12.696928024291992
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 12.707950998446904,
+                "gpu_ms_median": 12.695839881896973,
+                "wall_ms_samples": [
+                  12.707950998446904
+                ],
+                "gpu_ms_samples": [
+                  12.695839881896973
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.377003000641707,
+                "gpu_ms_median": 13.365568161010742,
+                "wall_ms_samples": [
+                  13.377003000641707
+                ],
+                "gpu_ms_samples": [
+                  13.365568161010742
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 12.837244998081587,
+                "gpu_ms_median": 12.824640274047852,
+                "wall_ms_samples": [
+                  12.837244998081587
+                ],
+                "gpu_ms_samples": [
+                  12.824640274047852
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.73509199381806,
+                "gpu_ms_median": 12.723456382751465,
+                "wall_ms_samples": [
+                  12.73509199381806
+                ],
+                "gpu_ms_samples": [
+                  12.723456382751465
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 13.284438005939592,
+                "gpu_ms_median": 13.273183822631836,
+                "wall_ms_samples": [
+                  13.284438005939592
+                ],
+                "gpu_ms_samples": [
+                  13.273183822631836
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.850359002186451,
+                "gpu_ms_median": 12.83801555633545,
+                "wall_ms_samples": [
+                  12.850359002186451
+                ],
+                "gpu_ms_samples": [
+                  12.83801555633545
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 13.421397998172324,
+                "gpu_ms_median": 13.409791946411133,
+                "wall_ms_samples": [
+                  13.421397998172324
+                ],
+                "gpu_ms_samples": [
+                  13.409791946411133
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.713381998764817,
+                "gpu_ms_median": 12.701184272766113,
+                "wall_ms_samples": [
+                  12.713381998764817
+                ],
+                "gpu_ms_samples": [
+                  12.701184272766113
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 12.712600000668317,
+                "gpu_ms_median": 12.701663970947266,
+                "wall_ms_samples": [
+                  12.712600000668317
+                ],
+                "gpu_ms_samples": [
+                  12.701663970947266
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.34097600192763,
+                "gpu_ms_median": 13.329631805419922,
+                "wall_ms_samples": [
+                  13.34097600192763
+                ],
+                "gpu_ms_samples": [
+                  13.329631805419922
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 12.8156040009344,
+                "gpu_ms_median": 12.80345630645752,
+                "wall_ms_samples": [
+                  12.8156040009344
+                ],
+                "gpu_ms_samples": [
+                  12.80345630645752
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.268508999317419,
+                "gpu_ms_median": 13.257311820983887,
+                "wall_ms_samples": [
+                  13.268508999317419
+                ],
+                "gpu_ms_samples": [
+                  13.257311820983887
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 12.743207000312395,
+                "gpu_ms_median": 12.73094367980957,
+                "wall_ms_samples": [
+                  12.743207000312395
+                ],
+                "gpu_ms_samples": [
+                  12.73094367980957
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.849337996158283,
+                "gpu_ms_median": 12.837727546691895,
+                "wall_ms_samples": [
+                  12.849337996158283
+                ],
+                "gpu_ms_samples": [
+                  12.837727546691895
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 13.39386600011494,
+                "gpu_ms_median": 13.382816314697266,
+                "wall_ms_samples": [
+                  13.39386600011494
+                ],
+                "gpu_ms_samples": [
+                  13.382816314697266
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.74845699663274,
+                "gpu_ms_median": 12.736607551574707,
+                "wall_ms_samples": [
+                  12.74845699663274
+                ],
+                "gpu_ms_samples": [
+                  12.736607551574707
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 13.263228996947873,
+                "gpu_ms_median": 13.251744270324707,
+                "wall_ms_samples": [
+                  13.263228996947873
+                ],
+                "gpu_ms_samples": [
+                  13.251744270324707
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.895774998469278,
+                "gpu_ms_median": 12.88486385345459,
+                "wall_ms_samples": [
+                  12.895774998469278
+                ],
+                "gpu_ms_samples": [
+                  12.88486385345459
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 12.863165000453591,
+                "gpu_ms_median": 12.851200103759766,
+                "wall_ms_samples": [
+                  12.863165000453591
+                ],
+                "gpu_ms_samples": [
+                  12.851200103759766
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.287144000059925,
+                "gpu_ms_median": 13.27564811706543,
+                "wall_ms_samples": [
+                  13.287144000059925
+                ],
+                "gpu_ms_samples": [
+                  13.27564811706543
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 12.746073000016622,
+                "gpu_ms_median": 12.734111785888672,
+                "wall_ms_samples": [
+                  12.746073000016622
+                ],
+                "gpu_ms_samples": [
+                  12.734111785888672
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.12842399784131,
+                "gpu_ms_median": 13.117216110229492,
+                "wall_ms_samples": [
+                  13.12842399784131
+                ],
+                "gpu_ms_samples": [
+                  13.117216110229492
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 13.108787999954075,
+                "gpu_ms_median": 12.852928161621094,
+                "wall_ms_samples": [
+                  13.108787999954075
+                ],
+                "gpu_ms_samples": [
+                  12.852928161621094
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.749430003168527,
+                "gpu_ms_median": 12.737855911254883,
+                "wall_ms_samples": [
+                  12.749430003168527
+                ],
+                "gpu_ms_samples": [
+                  12.737855911254883
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 13.259883002319839,
+                "gpu_ms_median": 13.248607635498047,
+                "wall_ms_samples": [
+                  13.259883002319839
+                ],
+                "gpu_ms_samples": [
+                  13.248607635498047
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.879463996796403,
+                "gpu_ms_median": 12.867136001586914,
+                "wall_ms_samples": [
+                  12.879463996796403
+                ],
+                "gpu_ms_samples": [
+                  12.867136001586914
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 13.076406001346186,
+                "gpu_ms_median": 13.064895629882812,
+                "wall_ms_samples": [
+                  13.076406001346186
+                ],
+                "gpu_ms_samples": [
+                  13.064895629882812
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.981437001144513,
+                "gpu_ms_median": 12.73465633392334,
+                "wall_ms_samples": [
+                  12.981437001144513
+                ],
+                "gpu_ms_samples": [
+                  12.73465633392334
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 12.733349001791794,
+                "gpu_ms_median": 12.722399711608887,
+                "wall_ms_samples": [
+                  12.733349001791794
+                ],
+                "gpu_ms_samples": [
+                  12.722399711608887
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.494364997313824,
+                "gpu_ms_median": 13.484160423278809,
+                "wall_ms_samples": [
+                  13.494364997313824
+                ],
+                "gpu_ms_samples": [
+                  13.484160423278809
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 12.887108998256736,
+                "gpu_ms_median": 12.875136375427246,
+                "wall_ms_samples": [
+                  12.887108998256736
+                ],
+                "gpu_ms_samples": [
+                  12.875136375427246
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.988039998163003,
+                "gpu_ms_median": 12.976960182189941,
+                "wall_ms_samples": [
+                  12.988039998163003
+                ],
+                "gpu_ms_samples": [
+                  12.976960182189941
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 13.111152002238669,
+                "gpu_ms_median": 13.097984313964844,
+                "wall_ms_samples": [
+                  13.111152002238669
+                ],
+                "gpu_ms_samples": [
+                  13.097984313964844
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.898822002171073,
+                "gpu_ms_median": 12.88758373260498,
+                "wall_ms_samples": [
+                  12.898822002171073
+                ],
+                "gpu_ms_samples": [
+                  12.88758373260498
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 13.476601001457311,
+                "gpu_ms_median": 13.465312004089355,
+                "wall_ms_samples": [
+                  13.476601001457311
+                ],
+                "gpu_ms_samples": [
+                  13.465312004089355
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.782101002812851,
+                "gpu_ms_median": 12.770591735839844,
+                "wall_ms_samples": [
+                  12.782101002812851
+                ],
+                "gpu_ms_samples": [
+                  12.770591735839844
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 12.741013000777457,
+                "gpu_ms_median": 12.730400085449219,
+                "wall_ms_samples": [
+                  12.741013000777457
+                ],
+                "gpu_ms_samples": [
+                  12.730400085449219
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.457465996907558,
+                "gpu_ms_median": 13.446208000183105,
+                "wall_ms_samples": [
+                  13.457465996907558
+                ],
+                "gpu_ms_samples": [
+                  13.446208000183105
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 12.870297003246378,
+                "gpu_ms_median": 12.858367919921875,
+                "wall_ms_samples": [
+                  12.870297003246378
+                ],
+                "gpu_ms_samples": [
+                  12.858367919921875
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.383284996962175,
+                "gpu_ms_median": 13.371456146240234,
+                "wall_ms_samples": [
+                  13.383284996962175
+                ],
+                "gpu_ms_samples": [
+                  13.371456146240234
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 12.77091999509139,
+                "gpu_ms_median": 12.758720397949219,
+                "wall_ms_samples": [
+                  12.77091999509139
+                ],
+                "gpu_ms_samples": [
+                  12.758720397949219
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.882921000709757,
+                "gpu_ms_median": 12.87183952331543,
+                "wall_ms_samples": [
+                  12.882921000709757
+                ],
+                "gpu_ms_samples": [
+                  12.87183952331543
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 13.471693004248664,
+                "gpu_ms_median": 13.46019172668457,
+                "wall_ms_samples": [
+                  13.471693004248664
+                ],
+                "gpu_ms_samples": [
+                  13.46019172668457
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.747335000312887,
+                "gpu_ms_median": 12.735456466674805,
+                "wall_ms_samples": [
+                  12.747335000312887
+                ],
+                "gpu_ms_samples": [
+                  12.735456466674805
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 13.30255300126737,
+                "gpu_ms_median": 13.29155158996582,
+                "wall_ms_samples": [
+                  13.30255300126737
+                ],
+                "gpu_ms_samples": [
+                  13.29155158996582
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.890696001704782,
+                "gpu_ms_median": 12.879327774047852,
+                "wall_ms_samples": [
+                  12.890696001704782
+                ],
+                "gpu_ms_samples": [
+                  12.879327774047852
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 12.855799999670126,
+                "gpu_ms_median": 12.844863891601562,
+                "wall_ms_samples": [
+                  12.855799999670126
+                ],
+                "gpu_ms_samples": [
+                  12.844863891601562
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.24606600246625,
+                "gpu_ms_median": 13.233023643493652,
+                "wall_ms_samples": [
+                  13.24606600246625
+                ],
+                "gpu_ms_samples": [
+                  13.233023643493652
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 12.775037001119927,
+                "gpu_ms_median": 12.757856369018555,
+                "wall_ms_samples": [
+                  12.775037001119927
+                ],
+                "gpu_ms_samples": [
+                  12.757856369018555
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.48820400016848,
+                "gpu_ms_median": 13.476448059082031,
+                "wall_ms_samples": [
+                  13.48820400016848
+                ],
+                "gpu_ms_samples": [
+                  13.476448059082031
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 13.409115003014449,
+                "gpu_ms_median": 13.396960258483887,
+                "wall_ms_samples": [
+                  13.409115003014449
+                ],
+                "gpu_ms_samples": [
+                  13.396960258483887
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.770729001204018,
+                "gpu_ms_median": 12.758687973022461,
+                "wall_ms_samples": [
+                  12.770729001204018
+                ],
+                "gpu_ms_samples": [
+                  12.758687973022461
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 13.356704999750946,
+                "gpu_ms_median": 13.345215797424316,
+                "wall_ms_samples": [
+                  13.356704999750946
+                ],
+                "gpu_ms_samples": [
+                  13.345215797424316
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.896216001536231,
+                "gpu_ms_median": 12.884384155273438,
+                "wall_ms_samples": [
+                  12.896216001536231
+                ],
+                "gpu_ms_samples": [
+                  12.884384155273438
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 13.481239999237005,
+                "gpu_ms_median": 13.469504356384277,
+                "wall_ms_samples": [
+                  13.481239999237005
+                ],
+                "gpu_ms_samples": [
+                  13.469504356384277
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.776490999385715,
+                "gpu_ms_median": 12.765024185180664,
+                "wall_ms_samples": [
+                  12.776490999385715
+                ],
+                "gpu_ms_samples": [
+                  12.765024185180664
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 12.725984997814521,
+                "gpu_ms_median": 12.71513557434082,
+                "wall_ms_samples": [
+                  12.725984997814521
+                ],
+                "gpu_ms_samples": [
+                  12.71513557434082
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.420827002846636,
+                "gpu_ms_median": 13.409503936767578,
+                "wall_ms_samples": [
+                  13.420827002846636
+                ],
+                "gpu_ms_samples": [
+                  13.409503936767578
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 12.874415006081108,
+                "gpu_ms_median": 12.862848281860352,
+                "wall_ms_samples": [
+                  12.874415006081108
+                ],
+                "gpu_ms_samples": [
+                  12.862848281860352
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.325797001016326,
+                "gpu_ms_median": 13.314175605773926,
+                "wall_ms_samples": [
+                  13.325797001016326
+                ],
+                "gpu_ms_samples": [
+                  13.314175605773926
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 12.782211000740062,
+                "gpu_ms_median": 12.769536018371582,
+                "wall_ms_samples": [
+                  12.782211000740062
+                ],
+                "gpu_ms_samples": [
+                  12.769536018371582
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.894352999865077,
+                "gpu_ms_median": 12.883423805236816,
+                "wall_ms_samples": [
+                  12.894352999865077
+                ],
+                "gpu_ms_samples": [
+                  12.883423805236816
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 13.439021000522189,
+                "gpu_ms_median": 13.427552223205566,
+                "wall_ms_samples": [
+                  13.439021000522189
+                ],
+                "gpu_ms_samples": [
+                  13.427552223205566
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.760850004269741,
+                "gpu_ms_median": 12.748800277709961,
+                "wall_ms_samples": [
+                  12.760850004269741
+                ],
+                "gpu_ms_samples": [
+                  12.748800277709961
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 12.945328999194317,
+                "gpu_ms_median": 12.934304237365723,
+                "wall_ms_samples": [
+                  12.945328999194317
+                ],
+                "gpu_ms_samples": [
+                  12.934304237365723
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.227331997768488,
+                "gpu_ms_median": 13.21555233001709,
+                "wall_ms_samples": [
+                  13.227331997768488
+                ],
+                "gpu_ms_samples": [
+                  13.21555233001709
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 12.861080002039671,
+                "gpu_ms_median": 12.849696159362793,
+                "wall_ms_samples": [
+                  12.861080002039671
+                ],
+                "gpu_ms_samples": [
+                  12.849696159362793
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 13.318343000719324,
+                "gpu_ms_median": 13.306719779968262,
+                "wall_ms_samples": [
+                  13.318343000719324
+                ],
+                "gpu_ms_samples": [
+                  13.306719779968262
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 12.74553199618822,
+                "gpu_ms_median": 12.733759880065918,
+                "wall_ms_samples": [
+                  12.74553199618822
+                ],
+                "gpu_ms_samples": [
+                  12.733759880065918
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.075103997834958,
+                "gpu_ms_median": 13.06390380859375,
+                "wall_ms_samples": [
+                  13.075103997834958
+                ],
+                "gpu_ms_samples": [
+                  13.06390380859375
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 13.094369998725597,
+                "gpu_ms_median": 12.847552299499512,
+                "wall_ms_samples": [
+                  13.094369998725597
+                ],
+                "gpu_ms_samples": [
+                  12.847552299499512
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.757525000779424,
+                "gpu_ms_median": 12.746335983276367,
+                "wall_ms_samples": [
+                  12.757525000779424
+                ],
+                "gpu_ms_samples": [
+                  12.746335983276367
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 13.374308997299522,
+                "gpu_ms_median": 13.362688064575195,
+                "wall_ms_samples": [
+                  13.374308997299522
+                ],
+                "gpu_ms_samples": [
+                  13.362688064575195
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 12.894633000541944,
+                "gpu_ms_median": 12.879520416259766,
+                "wall_ms_samples": [
+                  12.894633000541944
+                ],
+                "gpu_ms_samples": [
+                  12.879520416259766
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 13.100331998430192,
+                "gpu_ms_median": 13.089183807373047,
+                "wall_ms_samples": [
+                  13.100331998430192
+                ],
+                "gpu_ms_samples": [
+                  13.089183807373047
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 12.98288999532815,
+                "gpu_ms_median": 12.720640182495117,
+                "wall_ms_samples": [
+                  12.98288999532815
+                ],
+                "gpu_ms_samples": [
+                  12.720640182495117
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 12.740612000925466,
+                "gpu_ms_median": 12.729439735412598,
+                "wall_ms_samples": [
+                  12.740612000925466
+                ],
+                "gpu_ms_samples": [
+                  12.729439735412598
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 13.43745700432919,
+                "gpu_ms_median": 13.426176071166992,
+                "wall_ms_samples": [
+                  13.43745700432919
+                ],
+                "gpu_ms_samples": [
+                  13.426176071166992
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 13.078485000733053,
+            "triton": 12.779296001099283
+          },
+          "speedup": 1.0234120095197758,
+          "paired_saving_ms_median": 0.11561800056369975,
+          "triton_faster_pairs": 26
+        },
+        "decode": {
+          "checks": {
+            "cublaslt": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ],
+            "triton": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          },
+          "samples": [
+            {
+              "pair": 0,
+              "cublaslt": {
+                "wall_ms_median": 11.88768300198717,
+                "gpu_ms_median": 11.867679595947266,
+                "wall_ms_samples": [
+                  11.88768300198717
+                ],
+                "gpu_ms_samples": [
+                  11.867679595947266
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.925013997824863,
+                "gpu_ms_median": 11.91209602355957,
+                "wall_ms_samples": [
+                  11.925013997824863
+                ],
+                "gpu_ms_samples": [
+                  11.91209602355957
+                ]
+              }
+            },
+            {
+              "pair": 1,
+              "triton": {
+                "wall_ms_median": 11.28722000430571,
+                "gpu_ms_median": 11.274815559387207,
+                "wall_ms_samples": [
+                  11.28722000430571
+                ],
+                "gpu_ms_samples": [
+                  11.274815559387207
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.706732002494391,
+                "gpu_ms_median": 11.694784164428711,
+                "wall_ms_samples": [
+                  11.706732002494391
+                ],
+                "gpu_ms_samples": [
+                  11.694784164428711
+                ]
+              }
+            },
+            {
+              "pair": 2,
+              "cublaslt": {
+                "wall_ms_median": 11.59641399863176,
+                "gpu_ms_median": 11.375616073608398,
+                "wall_ms_samples": [
+                  11.59641399863176
+                ],
+                "gpu_ms_samples": [
+                  11.375616073608398
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.33128299989039,
+                "gpu_ms_median": 11.31993579864502,
+                "wall_ms_samples": [
+                  11.33128299989039
+                ],
+                "gpu_ms_samples": [
+                  11.31993579864502
+                ]
+              }
+            },
+            {
+              "pair": 3,
+              "triton": {
+                "wall_ms_median": 11.602826001762878,
+                "gpu_ms_median": 11.591296195983887,
+                "wall_ms_samples": [
+                  11.602826001762878
+                ],
+                "gpu_ms_samples": [
+                  11.591296195983887
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.605129999225028,
+                "gpu_ms_median": 11.375871658325195,
+                "wall_ms_samples": [
+                  11.605129999225028
+                ],
+                "gpu_ms_samples": [
+                  11.375871658325195
+                ]
+              }
+            },
+            {
+              "pair": 4,
+              "cublaslt": {
+                "wall_ms_median": 11.393710999982432,
+                "gpu_ms_median": 11.381952285766602,
+                "wall_ms_samples": [
+                  11.393710999982432
+                ],
+                "gpu_ms_samples": [
+                  11.381952285766602
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.908722997759469,
+                "gpu_ms_median": 11.897503852844238,
+                "wall_ms_samples": [
+                  11.908722997759469
+                ],
+                "gpu_ms_samples": [
+                  11.897503852844238
+                ]
+              }
+            },
+            {
+              "pair": 5,
+              "triton": {
+                "wall_ms_median": 11.330000997986645,
+                "gpu_ms_median": 11.317503929138184,
+                "wall_ms_samples": [
+                  11.330000997986645
+                ],
+                "gpu_ms_samples": [
+                  11.317503929138184
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.39640600013081,
+                "gpu_ms_median": 11.385120391845703,
+                "wall_ms_samples": [
+                  11.39640600013081
+                ],
+                "gpu_ms_samples": [
+                  11.385120391845703
+                ]
+              }
+            },
+            {
+              "pair": 6,
+              "cublaslt": {
+                "wall_ms_median": 12.260837000212632,
+                "gpu_ms_median": 12.249504089355469,
+                "wall_ms_samples": [
+                  12.260837000212632
+                ],
+                "gpu_ms_samples": [
+                  12.249504089355469
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.32958000380313,
+                "gpu_ms_median": 11.317312240600586,
+                "wall_ms_samples": [
+                  11.32958000380313
+                ],
+                "gpu_ms_samples": [
+                  11.317312240600586
+                ]
+              }
+            },
+            {
+              "pair": 7,
+              "triton": {
+                "wall_ms_median": 11.319199998979457,
+                "gpu_ms_median": 11.308159828186035,
+                "wall_ms_samples": [
+                  11.319199998979457
+                ],
+                "gpu_ms_samples": [
+                  11.308159828186035
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.951855005463585,
+                "gpu_ms_median": 11.940671920776367,
+                "wall_ms_samples": [
+                  11.951855005463585
+                ],
+                "gpu_ms_samples": [
+                  11.940671920776367
+                ]
+              }
+            },
+            {
+              "pair": 8,
+              "cublaslt": {
+                "wall_ms_median": 11.389783998311032,
+                "gpu_ms_median": 11.377728462219238,
+                "wall_ms_samples": [
+                  11.389783998311032
+                ],
+                "gpu_ms_samples": [
+                  11.377728462219238
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.32783699722495,
+                "gpu_ms_median": 11.316864013671875,
+                "wall_ms_samples": [
+                  11.32783699722495
+                ],
+                "gpu_ms_samples": [
+                  11.316864013671875
+                ]
+              }
+            },
+            {
+              "pair": 9,
+              "triton": {
+                "wall_ms_median": 11.916076997295022,
+                "gpu_ms_median": 11.904640197753906,
+                "wall_ms_samples": [
+                  11.916076997295022
+                ],
+                "gpu_ms_samples": [
+                  11.904640197753906
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.41678400017554,
+                "gpu_ms_median": 11.404735565185547,
+                "wall_ms_samples": [
+                  11.41678400017554
+                ],
+                "gpu_ms_samples": [
+                  11.404735565185547
+                ]
+              }
+            },
+            {
+              "pair": 10,
+              "cublaslt": {
+                "wall_ms_median": 11.377871000149753,
+                "gpu_ms_median": 11.367039680480957,
+                "wall_ms_samples": [
+                  11.377871000149753
+                ],
+                "gpu_ms_samples": [
+                  11.367039680480957
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.940011994738597,
+                "gpu_ms_median": 11.927840232849121,
+                "wall_ms_samples": [
+                  11.940011994738597
+                ],
+                "gpu_ms_samples": [
+                  11.927840232849121
+                ]
+              }
+            },
+            {
+              "pair": 11,
+              "triton": {
+                "wall_ms_median": 11.324832004902419,
+                "gpu_ms_median": 11.312704086303711,
+                "wall_ms_samples": [
+                  11.324832004902419
+                ],
+                "gpu_ms_samples": [
+                  11.312704086303711
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.40111499989871,
+                "gpu_ms_median": 11.388511657714844,
+                "wall_ms_samples": [
+                  11.40111499989871
+                ],
+                "gpu_ms_samples": [
+                  11.388511657714844
+                ]
+              }
+            },
+            {
+              "pair": 12,
+              "cublaslt": {
+                "wall_ms_median": 11.908141997992061,
+                "gpu_ms_median": 11.89731216430664,
+                "wall_ms_samples": [
+                  11.908141997992061
+                ],
+                "gpu_ms_samples": [
+                  11.89731216430664
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.327496002195403,
+                "gpu_ms_median": 11.315679550170898,
+                "wall_ms_samples": [
+                  11.327496002195403
+                ],
+                "gpu_ms_samples": [
+                  11.315679550170898
+                ]
+              }
+            },
+            {
+              "pair": 13,
+              "triton": {
+                "wall_ms_median": 11.564713000552729,
+                "gpu_ms_median": 11.552607536315918,
+                "wall_ms_samples": [
+                  11.564713000552729
+                ],
+                "gpu_ms_samples": [
+                  11.552607536315918
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.605300001974683,
+                "gpu_ms_median": 11.375935554504395,
+                "wall_ms_samples": [
+                  11.605300001974683
+                ],
+                "gpu_ms_samples": [
+                  11.375935554504395
+                ]
+              }
+            },
+            {
+              "pair": 14,
+              "cublaslt": {
+                "wall_ms_median": 11.38073699985398,
+                "gpu_ms_median": 11.369695663452148,
+                "wall_ms_samples": [
+                  11.38073699985398
+                ],
+                "gpu_ms_samples": [
+                  11.369695663452148
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.623675003647804,
+                "gpu_ms_median": 11.612863540649414,
+                "wall_ms_samples": [
+                  11.623675003647804
+                ],
+                "gpu_ms_samples": [
+                  11.612863540649414
+                ]
+              }
+            },
+            {
+              "pair": 15,
+              "triton": {
+                "wall_ms_median": 11.509929994645063,
+                "gpu_ms_median": 11.28377628326416,
+                "wall_ms_samples": [
+                  11.509929994645063
+                ],
+                "gpu_ms_samples": [
+                  11.28377628326416
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.402909003663808,
+                "gpu_ms_median": 11.391743659973145,
+                "wall_ms_samples": [
+                  11.402909003663808
+                ],
+                "gpu_ms_samples": [
+                  11.391743659973145
+                ]
+              }
+            },
+            {
+              "pair": 16,
+              "cublaslt": {
+                "wall_ms_median": 11.909474000276532,
+                "gpu_ms_median": 11.897919654846191,
+                "wall_ms_samples": [
+                  11.909474000276532
+                ],
+                "gpu_ms_samples": [
+                  11.897919654846191
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.322497004584875,
+                "gpu_ms_median": 11.31049633026123,
+                "wall_ms_samples": [
+                  11.322497004584875
+                ],
+                "gpu_ms_samples": [
+                  11.31049633026123
+                ]
+              }
+            },
+            {
+              "pair": 17,
+              "triton": {
+                "wall_ms_median": 11.305093998089433,
+                "gpu_ms_median": 11.294528007507324,
+                "wall_ms_samples": [
+                  11.305093998089433
+                ],
+                "gpu_ms_samples": [
+                  11.294528007507324
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.903282997081988,
+                "gpu_ms_median": 11.892224311828613,
+                "wall_ms_samples": [
+                  11.903282997081988
+                ],
+                "gpu_ms_samples": [
+                  11.892224311828613
+                ]
+              }
+            },
+            {
+              "pair": 18,
+              "cublaslt": {
+                "wall_ms_median": 11.409932005335577,
+                "gpu_ms_median": 11.398367881774902,
+                "wall_ms_samples": [
+                  11.409932005335577
+                ],
+                "gpu_ms_samples": [
+                  11.398367881774902
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.315413001284469,
+                "gpu_ms_median": 11.30412769317627,
+                "wall_ms_samples": [
+                  11.315413001284469
+                ],
+                "gpu_ms_samples": [
+                  11.30412769317627
+                ]
+              }
+            },
+            {
+              "pair": 19,
+              "triton": {
+                "wall_ms_median": 11.862666004162747,
+                "gpu_ms_median": 11.851712226867676,
+                "wall_ms_samples": [
+                  11.862666004162747
+                ],
+                "gpu_ms_samples": [
+                  11.851712226867676
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.410101993533317,
+                "gpu_ms_median": 11.398176193237305,
+                "wall_ms_samples": [
+                  11.410101993533317
+                ],
+                "gpu_ms_samples": [
+                  11.398176193237305
+                ]
+              }
+            },
+            {
+              "pair": 20,
+              "cublaslt": {
+                "wall_ms_median": 11.382680000679102,
+                "gpu_ms_median": 11.373023986816406,
+                "wall_ms_samples": [
+                  11.382680000679102
+                ],
+                "gpu_ms_samples": [
+                  11.373023986816406
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.929823005630169,
+                "gpu_ms_median": 11.916255950927734,
+                "wall_ms_samples": [
+                  11.929823005630169
+                ],
+                "gpu_ms_samples": [
+                  11.916255950927734
+                ]
+              }
+            },
+            {
+              "pair": 21,
+              "triton": {
+                "wall_ms_median": 11.329699998896103,
+                "gpu_ms_median": 11.317952156066895,
+                "wall_ms_samples": [
+                  11.329699998896103
+                ],
+                "gpu_ms_samples": [
+                  11.317952156066895
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.396997004339937,
+                "gpu_ms_median": 11.385536193847656,
+                "wall_ms_samples": [
+                  11.396997004339937
+                ],
+                "gpu_ms_samples": [
+                  11.385536193847656
+                ]
+              }
+            },
+            {
+              "pair": 22,
+              "cublaslt": {
+                "wall_ms_median": 11.913972004549578,
+                "gpu_ms_median": 11.902591705322266,
+                "wall_ms_samples": [
+                  11.913972004549578
+                ],
+                "gpu_ms_samples": [
+                  11.902591705322266
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.345350001647603,
+                "gpu_ms_median": 11.333919525146484,
+                "wall_ms_samples": [
+                  11.345350001647603
+                ],
+                "gpu_ms_samples": [
+                  11.333919525146484
+                ]
+              }
+            },
+            {
+              "pair": 23,
+              "triton": {
+                "wall_ms_median": 11.317087002680637,
+                "gpu_ms_median": 11.30617618560791,
+                "wall_ms_samples": [
+                  11.317087002680637
+                ],
+                "gpu_ms_samples": [
+                  11.30617618560791
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.879667996254284,
+                "gpu_ms_median": 11.687328338623047,
+                "wall_ms_samples": [
+                  11.879667996254284
+                ],
+                "gpu_ms_samples": [
+                  11.687328338623047
+                ]
+              }
+            },
+            {
+              "pair": 24,
+              "cublaslt": {
+                "wall_ms_median": 11.390435000066645,
+                "gpu_ms_median": 11.378303527832031,
+                "wall_ms_samples": [
+                  11.390435000066645
+                ],
+                "gpu_ms_samples": [
+                  11.378303527832031
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.624136001046281,
+                "gpu_ms_median": 11.612768173217773,
+                "wall_ms_samples": [
+                  11.624136001046281
+                ],
+                "gpu_ms_samples": [
+                  11.612768173217773
+                ]
+              }
+            },
+            {
+              "pair": 25,
+              "triton": {
+                "wall_ms_median": 11.51484900037758,
+                "gpu_ms_median": 11.283519744873047,
+                "wall_ms_samples": [
+                  11.51484900037758
+                ],
+                "gpu_ms_samples": [
+                  11.283519744873047
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.391908003133722,
+                "gpu_ms_median": 11.380864143371582,
+                "wall_ms_samples": [
+                  11.391908003133722
+                ],
+                "gpu_ms_samples": [
+                  11.380864143371582
+                ]
+              }
+            },
+            {
+              "pair": 26,
+              "cublaslt": {
+                "wall_ms_median": 11.9096550042741,
+                "gpu_ms_median": 11.898783683776855,
+                "wall_ms_samples": [
+                  11.9096550042741
+                ],
+                "gpu_ms_samples": [
+                  11.898783683776855
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.316244999761693,
+                "gpu_ms_median": 11.304863929748535,
+                "wall_ms_samples": [
+                  11.316244999761693
+                ],
+                "gpu_ms_samples": [
+                  11.304863929748535
+                ]
+              }
+            },
+            {
+              "pair": 27,
+              "triton": {
+                "wall_ms_median": 11.316564996377565,
+                "gpu_ms_median": 11.305919647216797,
+                "wall_ms_samples": [
+                  11.316564996377565
+                ],
+                "gpu_ms_samples": [
+                  11.305919647216797
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.948036997637246,
+                "gpu_ms_median": 11.936991691589355,
+                "wall_ms_samples": [
+                  11.948036997637246
+                ],
+                "gpu_ms_samples": [
+                  11.936991691589355
+                ]
+              }
+            },
+            {
+              "pair": 28,
+              "cublaslt": {
+                "wall_ms_median": 11.399941999115981,
+                "gpu_ms_median": 11.388671875,
+                "wall_ms_samples": [
+                  11.399941999115981
+                ],
+                "gpu_ms_samples": [
+                  11.388671875
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.323669001285452,
+                "gpu_ms_median": 11.31276798248291,
+                "wall_ms_samples": [
+                  11.323669001285452
+                ],
+                "gpu_ms_samples": [
+                  11.31276798248291
+                ]
+              }
+            },
+            {
+              "pair": 29,
+              "triton": {
+                "wall_ms_median": 11.927118001040071,
+                "gpu_ms_median": 11.91641616821289,
+                "wall_ms_samples": [
+                  11.927118001040071
+                ],
+                "gpu_ms_samples": [
+                  11.91641616821289
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.400013005186338,
+                "gpu_ms_median": 11.388352394104004,
+                "wall_ms_samples": [
+                  11.400013005186338
+                ],
+                "gpu_ms_samples": [
+                  11.388352394104004
+                ]
+              }
+            },
+            {
+              "pair": 30,
+              "cublaslt": {
+                "wall_ms_median": 11.390824998670723,
+                "gpu_ms_median": 11.378751754760742,
+                "wall_ms_samples": [
+                  11.390824998670723
+                ],
+                "gpu_ms_samples": [
+                  11.378751754760742
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.9149739985005,
+                "gpu_ms_median": 11.90396785736084,
+                "wall_ms_samples": [
+                  11.9149739985005
+                ],
+                "gpu_ms_samples": [
+                  11.90396785736084
+                ]
+              }
+            },
+            {
+              "pair": 31,
+              "triton": {
+                "wall_ms_median": 11.318399003357626,
+                "gpu_ms_median": 11.306303977966309,
+                "wall_ms_samples": [
+                  11.318399003357626
+                ],
+                "gpu_ms_samples": [
+                  11.306303977966309
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.398700000427198,
+                "gpu_ms_median": 11.388031959533691,
+                "wall_ms_samples": [
+                  11.398700000427198
+                ],
+                "gpu_ms_samples": [
+                  11.388031959533691
+                ]
+              }
+            },
+            {
+              "pair": 32,
+              "cublaslt": {
+                "wall_ms_median": 11.904966006113682,
+                "gpu_ms_median": 11.893119812011719,
+                "wall_ms_samples": [
+                  11.904966006113682
+                ],
+                "gpu_ms_samples": [
+                  11.893119812011719
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.34963799995603,
+                "gpu_ms_median": 11.338144302368164,
+                "wall_ms_samples": [
+                  11.34963799995603
+                ],
+                "gpu_ms_samples": [
+                  11.338144302368164
+                ]
+              }
+            },
+            {
+              "pair": 33,
+              "triton": {
+                "wall_ms_median": 11.55025700427359,
+                "gpu_ms_median": 11.539360046386719,
+                "wall_ms_samples": [
+                  11.55025700427359
+                ],
+                "gpu_ms_samples": [
+                  11.539360046386719
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.588076995394658,
+                "gpu_ms_median": 11.35763168334961,
+                "wall_ms_samples": [
+                  11.588076995394658
+                ],
+                "gpu_ms_samples": [
+                  11.35763168334961
+                ]
+              }
+            },
+            {
+              "pair": 34,
+              "cublaslt": {
+                "wall_ms_median": 11.388871993403882,
+                "gpu_ms_median": 11.37820816040039,
+                "wall_ms_samples": [
+                  11.388871993403882
+                ],
+                "gpu_ms_samples": [
+                  11.37820816040039
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.609337998379488,
+                "gpu_ms_median": 11.59830379486084,
+                "wall_ms_samples": [
+                  11.609337998379488
+                ],
+                "gpu_ms_samples": [
+                  11.59830379486084
+                ]
+              }
+            },
+            {
+              "pair": 35,
+              "triton": {
+                "wall_ms_median": 11.529527997481637,
+                "gpu_ms_median": 11.302495956420898,
+                "wall_ms_samples": [
+                  11.529527997481637
+                ],
+                "gpu_ms_samples": [
+                  11.302495956420898
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.3937909991364,
+                "gpu_ms_median": 11.382911682128906,
+                "wall_ms_samples": [
+                  11.3937909991364
+                ],
+                "gpu_ms_samples": [
+                  11.382911682128906
+                ]
+              }
+            },
+            {
+              "pair": 36,
+              "cublaslt": {
+                "wall_ms_median": 11.980638999375515,
+                "gpu_ms_median": 11.969887733459473,
+                "wall_ms_samples": [
+                  11.980638999375515
+                ],
+                "gpu_ms_samples": [
+                  11.969887733459473
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.327816995617468,
+                "gpu_ms_median": 11.316415786743164,
+                "wall_ms_samples": [
+                  11.327816995617468
+                ],
+                "gpu_ms_samples": [
+                  11.316415786743164
+                ]
+              }
+            },
+            {
+              "pair": 37,
+              "triton": {
+                "wall_ms_median": 11.313588998746127,
+                "gpu_ms_median": 11.30288028717041,
+                "wall_ms_samples": [
+                  11.313588998746127
+                ],
+                "gpu_ms_samples": [
+                  11.30288028717041
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.904625003808178,
+                "gpu_ms_median": 11.893695831298828,
+                "wall_ms_samples": [
+                  11.904625003808178
+                ],
+                "gpu_ms_samples": [
+                  11.893695831298828
+                ]
+              }
+            },
+            {
+              "pair": 38,
+              "cublaslt": {
+                "wall_ms_median": 11.403017997508869,
+                "gpu_ms_median": 11.39145565032959,
+                "wall_ms_samples": [
+                  11.403017997508869
+                ],
+                "gpu_ms_samples": [
+                  11.39145565032959
+                ]
+              },
+              "triton": {
+                "wall_ms_median": 11.317336997308303,
+                "gpu_ms_median": 11.306943893432617,
+                "wall_ms_samples": [
+                  11.317336997308303
+                ],
+                "gpu_ms_samples": [
+                  11.306943893432617
+                ]
+              }
+            },
+            {
+              "pair": 39,
+              "triton": {
+                "wall_ms_median": 11.914292997971643,
+                "gpu_ms_median": 11.903583526611328,
+                "wall_ms_samples": [
+                  11.914292997971643
+                ],
+                "gpu_ms_samples": [
+                  11.903583526611328
+                ]
+              },
+              "cublaslt": {
+                "wall_ms_median": 11.418647998652887,
+                "gpu_ms_median": 11.402848243713379,
+                "wall_ms_samples": [
+                  11.418647998652887
+                ],
+                "gpu_ms_samples": [
+                  11.402848243713379
+                ]
+              }
+            }
+          ],
+          "wall_ms_medians": {
+            "cublaslt": 11.413442996854428,
+            "triton": 11.338316500768997
+          },
+          "speedup": 1.0066258951300517,
+          "paired_saving_ms_median": 0.06685100379399955,
+          "triton_faster_pairs": 25
+        }
+      }
+    }
+  ],
+  "timing_scope": "graph input copies and owned outputs; excludes load/packing/capture/restoration; two resident graphs per direction",
+  "all_exact": true,
+  "peak_allocated_bytes": 7603831808
+}

@@ -1,0 +1,645 @@
+{
+  "scope": "research-only ordered FP32 component GEMM, not model speedup",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "cublaslt_version": 120804,
+  "tf32": false,
+  "reference": "contiguous flattened 2-D F.linear",
+  "records": [
+    {
+      "shape": [
+        24,
+        5120,
+        1280
+      ],
+      "layer": "encoder.7.transformer.layers.0.linear1",
+      "trials": [
+        {
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "graph_vs_reference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "warm_ms": 0.16799518751061482,
+          "cold": {
+            "gpu_ms_median": 0.17817600071430206,
+            "samples": [
+              1.8257919549942017,
+              1.3734400272369385,
+              1.3406720161437988,
+              1.4469120502471924,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17612800002098083,
+              0.17612800002098083,
+              0.17817600071430206,
+              0.17817600071430206,
+              0.17817600071430206
+            ]
+          }
+        }
+      ],
+      "configuration": {
+        "id": 20,
+        "tile": 16,
+        "split_k": 5,
+        "reduction": 1,
+        "swizzle": 0,
+        "custom": 0,
+        "stage": 28
+      },
+      "selected_vs_reference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 122880
+      },
+      "tiled": [
+        {
+          "tile": [
+            16,
+            32,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 56,
+          "spills": 0,
+          "warm_ms": 0.03533732414245606
+        },
+        {
+          "tile": [
+            16,
+            32,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 80,
+          "spills": 0,
+          "warm_ms": 0.03524113347974874
+        },
+        {
+          "tile": [
+            16,
+            64,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 72,
+          "spills": 0,
+          "warm_ms": 0.026976286809504247
+        },
+        {
+          "tile": [
+            16,
+            64,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 62,
+          "spills": 0,
+          "warm_ms": 0.03022237737128075
+        },
+        {
+          "tile": [
+            16,
+            128,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 66,
+          "spills": 0,
+          "warm_ms": 0.02438820450051317
+        },
+        {
+          "tile": [
+            16,
+            128,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 255,
+          "spills": 10,
+          "warm_ms": 0.03434781765115672
+        },
+        {
+          "tile": [
+            32,
+            32,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 72,
+          "spills": 0,
+          "warm_ms": 0.025909045776002643
+        },
+        {
+          "tile": [
+            32,
+            32,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 80,
+          "spills": 0,
+          "warm_ms": 0.027377363250837294
+        },
+        {
+          "tile": [
+            32,
+            64,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 66,
+          "spills": 0,
+          "warm_ms": 0.020282586143441396
+        },
+        {
+          "tile": [
+            32,
+            64,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 186,
+          "spills": 0,
+          "warm_ms": 0.0217018021130171
+        },
+        {
+          "tile": [
+            32,
+            128,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 166,
+          "spills": 0,
+          "warm_ms": 0.019460984818612782
+        },
+        {
+          "tile": [
+            32,
+            128,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 122880
+          },
+          "registers": 255,
+          "spills": 214,
+          "warm_ms": 0.09722587021303848
+        }
+      ],
+      "baseline": {
+        "warm_ms": 0.028685003624366788,
+        "cold": {
+          "gpu_ms_median": 0.04505600035190582,
+          "samples": [
+            0.04505600035190582,
+            0.043007999658584595,
+            0.04505600035190582,
+            0.04505600035190582,
+            0.043007999658584595,
+            0.04505600035190582,
+            0.043007999658584595,
+            0.04710400104522705,
+            0.04505600035190582,
+            0.04505600035190582,
+            0.04505600035190582,
+            0.04505600035190582,
+            0.043007999658584595,
+            0.043007999658584595,
+            0.04505600035190582
+          ]
+        }
+      }
+    },
+    {
+      "shape": [
+        24,
+        1280,
+        5120
+      ],
+      "layer": "encoder.7.transformer.layers.0.linear2",
+      "trials": [
+        {
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "graph_vs_reference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "warm_ms": 0.1580644376816288,
+          "cold": {
+            "gpu_ms_median": 0.1740799993276596,
+            "samples": [
+              0.1740799993276596,
+              0.1740799993276596,
+              0.17612800002098083,
+              0.17203199863433838,
+              0.17203199863433838,
+              0.17203199863433838,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.1740799993276596,
+              0.17612800002098083,
+              0.1740799993276596
+            ]
+          }
+        }
+      ],
+      "configuration": {
+        "id": 20,
+        "tile": 16,
+        "split_k": 21,
+        "reduction": 2,
+        "swizzle": 0,
+        "custom": 0,
+        "stage": 28
+      },
+      "selected_vs_reference": {
+        "exact": true,
+        "max_abs": 0.0,
+        "rmse": 0.0,
+        "different_elements": 0,
+        "elements": 30720
+      },
+      "tiled": [
+        {
+          "tile": [
+            16,
+            32,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 56,
+          "spills": 0,
+          "warm_ms": 0.03535358872212155
+        },
+        {
+          "tile": [
+            16,
+            32,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 80,
+          "spills": 0,
+          "warm_ms": 0.035276056861235236
+        },
+        {
+          "tile": [
+            16,
+            64,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 72,
+          "spills": 0,
+          "warm_ms": 0.027055171855445048
+        },
+        {
+          "tile": [
+            16,
+            64,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 62,
+          "spills": 0,
+          "warm_ms": 0.030224744980517415
+        },
+        {
+          "tile": [
+            16,
+            128,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 66,
+          "spills": 0,
+          "warm_ms": 0.02422046516392682
+        },
+        {
+          "tile": [
+            16,
+            128,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 255,
+          "spills": 10,
+          "warm_ms": 0.03424490967841998
+        },
+        {
+          "tile": [
+            32,
+            32,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 72,
+          "spills": 0,
+          "warm_ms": 0.02585839237595839
+        },
+        {
+          "tile": [
+            32,
+            32,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 80,
+          "spills": 0,
+          "warm_ms": 0.027249558971774192
+        },
+        {
+          "tile": [
+            32,
+            64,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 66,
+          "spills": 0,
+          "warm_ms": 0.020255547720810462
+        },
+        {
+          "tile": [
+            32,
+            64,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 186,
+          "spills": 0,
+          "warm_ms": 0.021602973796177975
+        },
+        {
+          "tile": [
+            32,
+            128,
+            32,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 166,
+          "spills": 0,
+          "warm_ms": 0.020082892702954283
+        },
+        {
+          "tile": [
+            32,
+            128,
+            64,
+            4
+          ],
+          "chunk": 256,
+          "difference": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "registers": 255,
+          "spills": 214,
+          "warm_ms": 0.09938246767285844
+        }
+      ],
+      "baseline": {
+        "warm_ms": 0.027083541647446686,
+        "cold": {
+          "gpu_ms_median": 0.04710400104522705,
+          "samples": [
+            0.04505600035190582,
+            0.04915200173854828,
+            0.04915200173854828,
+            0.04915200173854828,
+            0.05119999870657921,
+            0.04505600035190582,
+            0.04710400104522705,
+            0.04710400104522705,
+            0.04915200173854828,
+            0.04915200173854828,
+            0.04710400104522705,
+            0.04915200173854828,
+            0.04710400104522705,
+            0.04505600035190582,
+            0.04710400104522705
+          ]
+        }
+      }
+    }
+  ]
+}
