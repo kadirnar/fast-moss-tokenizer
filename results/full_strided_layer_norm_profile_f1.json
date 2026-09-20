@@ -1,0 +1,246 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.08,
+  "batch": 1,
+  "streaming": false,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "triton",
+  "projection_backend": "triton",
+  "ffn_backend": "triton",
+  "norm_backend": "cuda",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 6.785492005292326,
+      "gpu_ms_median": 6.769647836685181,
+      "wall_ms_samples": [
+        6.786579004256055,
+        6.784405006328598,
+        7.312995003303513,
+        6.7665310052689165,
+        6.784043987863697,
+        6.763234996469691,
+        7.014750997768715,
+        6.980204998399131,
+        6.766941995010711,
+        6.786699988879263
+      ],
+      "gpu_ms_samples": [
+        6.768159866333008,
+        6.7711358070373535,
+        7.30025577545166,
+        6.753119945526123,
+        6.7724480628967285,
+        6.751584053039551,
+        6.9991679191589355,
+        6.755583763122559,
+        6.7541117668151855,
+        6.774496078491211
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 6.9252404,
+        "kernels_per_replay": 1460.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 31.0,
+        "decoder_gather_per_replay": 0.0,
+        "ordered_partials_per_replay": 0.0,
+        "ordered_reduce_per_replay": 0.0,
+        "ffn_reduce_per_replay": 0.0,
+        "small_gemv_per_replay": 65.0,
+        "layer_norm_cuda_per_replay": 136.0,
+        "layer_norm_native_per_replay": 0.0,
+        "ffn_gemv_per_replay": 64.0,
+        "small_fixed_per_replay": 73.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 24.0,
+        "small_reduce_per_replay": 24.0,
+        "small_matrix_breakdown_scope": "Already included in groups.small_matrix; do not add again. _ffn_gemv includes its fused epilogue.",
+        "small_matrix_breakdown": {
+          "_small_gemv": {
+            "ms_per_replay": 1.1460138000000002,
+            "percent": 16.548361266996597
+          },
+          "_ffn_gemv": {
+            "ms_per_replay": 2.1298818,
+            "percent": 30.75534821866978
+          },
+          "_small_fixed": {
+            "ms_per_replay": 0.7764476,
+            "percent": 11.211850494027615
+          },
+          "_small_grouped": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_parts": {
+            "ms_per_replay": 0.30705540000000003,
+            "percent": 4.433859075852443
+          },
+          "_small_reduce": {
+            "ms_per_replay": 0.0574908,
+            "percent": 0.8301632388097315
+          }
+        },
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.06526140000000001,
+            "percent": 0.9423701738931692
+          },
+          "attention": {
+            "ms_per_replay": 0.5069612,
+            "percent": 7.320485220989585
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.4168894,
+            "percent": 63.779582294356175
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.6006630000000001,
+            "percent": 8.673532835047864
+          },
+          "layer_norm_cuda": {
+            "ms_per_replay": 0.2694996,
+            "percent": 3.8915558801395553
+          },
+          "layer_norm_native": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        }
+      }
+    },
+    "decode": {
+      "wall_ms_median": 6.034681995515712,
+      "gpu_ms_median": 6.017199993133545,
+      "wall_ms_samples": [
+        6.026421004207805,
+        6.765398997231387,
+        6.0304680082481354,
+        6.015701001160778,
+        6.038784995325841,
+        6.026319999364205,
+        6.610476004425436,
+        6.28986899391748,
+        6.2005799991311505,
+        6.030578995705582
+      ],
+      "gpu_ms_samples": [
+        6.007584095001221,
+        6.571104049682617,
+        6.017183780670166,
+        6.001376152038574,
+        6.025536060333252,
+        6.012800216674805,
+        6.597248077392578,
+        6.276864051818848,
+        5.96614408493042,
+        6.017216205596924
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 6.1304122,
+        "kernels_per_replay": 904.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 0.0,
+        "decoder_gather_per_replay": 1.0,
+        "ordered_partials_per_replay": 0.0,
+        "ordered_reduce_per_replay": 0.0,
+        "ffn_reduce_per_replay": 0.0,
+        "small_gemv_per_replay": 64.0,
+        "layer_norm_cuda_per_replay": 136.0,
+        "layer_norm_native_per_replay": 0.0,
+        "ffn_gemv_per_replay": 64.0,
+        "small_fixed_per_replay": 73.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 24.0,
+        "small_reduce_per_replay": 24.0,
+        "small_matrix_breakdown_scope": "Already included in groups.small_matrix; do not add again. _ffn_gemv includes its fused epilogue.",
+        "small_matrix_breakdown": {
+          "_small_gemv": {
+            "ms_per_replay": 1.196353,
+            "percent": 19.51504990153843
+          },
+          "_ffn_gemv": {
+            "ms_per_replay": 2.1316104,
+            "percent": 34.77107787303437
+          },
+          "_small_fixed": {
+            "ms_per_replay": 0.7233229999999999,
+            "percent": 11.798929279176365
+          },
+          "_small_grouped": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_parts": {
+            "ms_per_replay": 0.3061268,
+            "percent": 4.99357612527262
+          },
+          "_small_reduce": {
+            "ms_per_replay": 0.057517399999999996,
+            "percent": 0.9382305483471404
+          }
+        },
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.06648400000000002,
+            "percent": 1.0844947750821714
+          },
+          "attention": {
+            "ms_per_replay": 0.5058716000000001,
+            "percent": 8.251836638325885
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.4149306,
+            "percent": 72.01686372736893
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.5105502000000001,
+            "percent": 8.328154508109586
+          },
+          "layer_norm_cuda": {
+            "ms_per_replay": 0.2632122,
+            "percent": 4.29354815651711
+          },
+          "layer_norm_native": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        }
+      }
+    }
+  }
+}

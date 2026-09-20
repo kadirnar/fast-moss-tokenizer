@@ -51,7 +51,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     plus fused native one-row GEMV epilogues in both encoder and decoder;
     it requires Triton matrices, residual fusion and the pinned ffn math extra.
     norm_backend='cuda' uses the pinned normalization extra for profiled FP32
-    LayerNorm shapes, preserving the native Welford tree and affine arithmetic.
+    contiguous and dense-transposed LayerNorm shapes, preserving the native
+    Welford tree and affine arithmetic.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")

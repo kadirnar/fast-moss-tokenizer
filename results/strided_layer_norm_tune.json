@@ -1,0 +1,8199 @@
+{
+  "scope": "actual noncontiguous LayerNorm operands, native copy+norm included",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "previous_commit": "6bdd709",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "records": [
+    {
+      "shape": [
+        1,
+        2,
+        768
+      ],
+      "stride": [
+        1536,
+        1,
+        2
+      ],
+      "native_ms": 0.0032682191478132635,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0016608914200748716
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0015978971336569104
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00219171763781239
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002107154279947281
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00220416003039905
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0022792228630610875
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0022704000201295405
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0022641371616295407
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0022575542969363077
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0021921828389167785
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0029052342900208064
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.002858239987066814
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.002918964690145324
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0028976457033838545
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.002931748586041587
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.002829866670072079
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.002803017156464713
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0028960914271218435
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0029735314633165086
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0029598171370370046
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0029644800083977836
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0029342117555001203
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        3,
+        1280
+      ],
+      "stride": [
+        3840,
+        1,
+        3
+      ],
+      "native_ms": 0.0036635000694731964,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.001892205753496715
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0019343058633453706
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0029299200006893704
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0029435428551265173
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003044022832598005
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003038171423333032
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0031066514338765824
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0030820571311882565
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003159911102718777
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0031645176384378884
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.0040957257577351166
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.004194102883338928
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.004171702904360635
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.004176457141126905
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.004233691436903817
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004386377164295741
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.004291264027357101
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004369097096579415
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.004527341179987964
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.004501176494009354
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.004606776553041795
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.004537142813205719
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        4,
+        768
+      ],
+      "stride": [
+        3072,
+        1,
+        4
+      ],
+      "native_ms": 0.004627471912862851,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0016669257198061263
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0017243428634745733
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0022133028507232665
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002192640027829579
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023943314594881875
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023685485550335476
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027397485716002326
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027618742840630666
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002721554296357291
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002754377147981099
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.002909257135220936
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0029820343213421956
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.002866742866379874
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.002937234278236117
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0029544228741100855
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0030231771511690956
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.002872868542160307
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0028981943002768925
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0031088456724371227
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.002954879999160767
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0030338823357049156
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003141577116080693
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        6,
+        768
+      ],
+      "stride": [
+        4608,
+        1,
+        6
+      ],
+      "native_ms": 0.004082540512084961,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0019273142729486737
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0018977882450117785
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002481462891612734
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0024290743044444495
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0025380571612289974
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002517577154295785
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0028929600305855276
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00273206855569567
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0028992914514882223
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0028002742784363883
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0032356999814510345
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0032338424162431196
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003704533332751857
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0034938181891585843
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0035047314422471183
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0035061516638459833
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0037009599804878235
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003975405671766826
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003623520005494356
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.00389457783765263
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035993807017803193
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003458102877650942
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        12,
+        768
+      ],
+      "stride": [
+        9216,
+        1,
+        12
+      ],
+      "native_ms": 0.00694722476020317,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0021855085449559346
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.00216182855623109
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002587337132011141
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002683288893765873
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027373176506336997
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027573942499501364
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0029055085352488927
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0028543085711342947
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003956479983670371
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003990217021533421
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0030350222148829036
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0031476706047268476
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003089920026915414
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0031016228880201067
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003098971460546766
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0031613257314477648
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0031001599984509603
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0030346057457583293
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003586352967164096
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0035085714501993997
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035414588363731608
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003435245688472475
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        40,
+        1280
+      ],
+      "stride": [
+        51200,
+        1,
+        40
+      ],
+      "native_ms": 0.005305906583865484,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.003763474268572671
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.003682194309575217
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.005279623541761847
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004943623525254867
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.005097417150224958
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004821028624262129
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.005991022206015057
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.005867520059858049
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.009628047049045563
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.009239771366119384
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.0049012800678610805
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.005285527218471874
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.005057852558399502
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.0049416227851595195
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.005159400030970573
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.005064594234739031
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.005927405655384063
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.005026248620974051
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.005961806447275223
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.005649919935635158
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.006123062883104597
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.005156751518899745
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        80,
+        768
+      ],
+      "stride": [
+        61440,
+        1,
+        80
+      ],
+      "native_ms": 0.014660599532794628,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.003678445645741054
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0037682285479136877
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004030588269233704
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003949835282914779
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00316319998134585
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00311127273422299
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003704228571483067
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0037011200189590453
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.006113100005313754
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.006049554347991943
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.004374400029579798
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0033718856956277575
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003300114274024963
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003355062838111605
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0032797256750719886
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0033431771610464367
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0031895771196910313
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003193600024237777
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035799771334443773
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0035532799576010023
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0034431999921798705
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0033372342799391063
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        160,
+        768
+      ],
+      "stride": [
+        122880,
+        1,
+        160
+      ],
+      "native_ms": 0.0057546265647135065,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.006247405665261405
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.006339839945236842
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.005982577842142847
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00613735386958489
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004686902889183589
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004671451449394226
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004190981760621071
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004038870597586912
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.006366099929437041
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.006770618124441667
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.004115291408130101
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0041072000232007765
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.004196799950053295
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.004294217186314719
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0038928889359037084
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0046168470426517375
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.004205988581691469
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003998879976570606
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0037099773591419438
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.004072735156561877
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003974222184883224
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.004567199986841943
+        }
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3,
+        1280
+      ],
+      "stride": [
+        3840,
+        1,
+        3
+      ],
+      "native_ms": 0.009843456844030986,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0018198222128881349
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.001847555571132236
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0029330666694376206
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002946651407650539
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0030953777953982354
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0031047110963198874
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0032957333243555493
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0032256888846556348
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0034035555604431363
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0033574222276608148
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.004372845760413579
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.004294399958517816
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.004364622218741311
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.0043378666871123845
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.004335733378926913
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004318222196565734
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.0042641777959134845
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004308400005102158
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.004523245649678366
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.004396622172660298
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.004351644424928559
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.00433448888361454
+        }
+      ]
+    },
+    {
+      "shape": [
+        2,
+        6,
+        768
+      ],
+      "stride": [
+        4608,
+        1,
+        6
+      ],
+      "native_ms": 0.003387245786424613,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0018045257457665034
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0018155555654731062
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023208889075451425
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023787555595239005
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023989333253767757
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023128889087173673
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00260995551943779
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00261875552435716
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003137462862900325
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003011911114056905
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0030628444626927378
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.00305226668715477
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.002982222226758798
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0029696000326010917
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003282666661673122
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003260982802936009
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0031357405354847778
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0032000000071194436
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003460711095896032
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0033822171602930344
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003312822857073375
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003300177761250072
+        }
+      ]
+    },
+    {
+      "shape": [
+        2,
+        12,
+        768
+      ],
+      "stride": [
+        9216,
+        1,
+        12
+      ],
+      "native_ms": 0.003521727116591773,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0021554285500730787
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0020965333407123882
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026089777342147295
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027128888708021904
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027400228381156922
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027085333234734004
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002963555562827322
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002966311097972923
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003908177754945225
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004219733302791914
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0032724444650941427
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003296444440881411
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0032514666517575582
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003287022188305855
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003171778299722327
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0034160889271232816
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0032472685405186244
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003209422238998943
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035789333490861787
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003598133350412051
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035207110974523757
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003741333343916469
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        2,
+        768
+      ],
+      "stride": [
+        1536,
+        1,
+        2
+      ],
+      "native_ms": 0.004310387517782643,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.001822811450277056
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0018950222060084344
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002321210805628751
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002351822228067451
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0024279999857147534
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0024400888838701775
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026847110647294256
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027141565214032714
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003227245679923466
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0030698947608470916
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0031113777516616715
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003111058780375649
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003110933303833008
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0031210666936304834
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0033029332756996156
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003252400029450655
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0032013713887759617
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003201882343958406
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003931822255253792
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003641098007267597
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003636047024937237
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0035344888766606648
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        3,
+        1280
+      ],
+      "stride": [
+        3840,
+        1,
+        3
+      ],
+      "native_ms": 0.005262026518285545,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0021176888710922664
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0020223999936734476
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003047377761039469
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003061511098510689
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0032220444538527066
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0033772444766428733
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0036408889210886425
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0038916443991992206
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0041049777219692865
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0038771556069453557
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.0046293333172798155
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.0049206222097078955
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10240
+          },
+          "ms": 0.004669066684113608
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 10272
+          },
+          "ms": 0.004668708613940648
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.004705280108111246
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004703733325004578
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20480
+          },
+          "ms": 0.004584800079464912
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 20544
+          },
+          "ms": 0.004812072691592303
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.005089920035430363
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.005088592596628048
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 40960
+          },
+          "ms": 0.005065718486353203
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 41088
+          },
+          "ms": 0.004932533411516084
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        4,
+        768
+      ],
+      "stride": [
+        3072,
+        1,
+        4
+      ],
+      "native_ms": 0.0044381533066431686,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0019597241333846388
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.001942755530277888
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026373333194189604
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002700622214211358
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026506666714946427
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002623563615435904
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003087680023163557
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002966399972929674
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0037523200256483896
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003816567769935054
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003217422217130661
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.006033188423940113
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0032680000075035625
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003165422193706036
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003300000002814664
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.00328986667510536
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003264441366853385
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003596888855099678
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0038800889419184793
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.004409333297775851
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.004441945939450651
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0039811556124024925
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        6,
+        768
+      ],
+      "stride": [
+        4608,
+        1,
+        6
+      ],
+      "native_ms": 0.010808628349177606,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.00202322285090174
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.002060434307370867
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0024176888581779266
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002376622251338429
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002414666654335128
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0023532444404231177
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026034666432274713
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002608888865345054
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0032254117376664107
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003036000000105964
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0030017777863476014
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.002999911146859328
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0030233777852522003
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0029915555690725646
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0032660444163613847
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0032647999831371837
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003120444445974297
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003133688908484247
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003435022259751956
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0034322286077908106
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0033133333341942893
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0032586971351078577
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        12,
+        768
+      ],
+      "stride": [
+        9216,
+        1,
+        12
+      ],
+      "native_ms": 0.00427422042654342,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0029653942584991454
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.003049511110617055
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003581066677967707
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0035216000345018174
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002893066695994801
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002929554283618927
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003011545921499665
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002889333334234026
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003984977801640828
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004071497108255114
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.003181244432926178
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0031975111406710413
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.00319599997666147
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0031762666379412012
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003183733340766695
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0031793777727418477
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0031474285892077857
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0031635555335217053
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0034631111348668734
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0034710221820407443
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0034661333594057293
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0034285333628455796
+        }
+      ]
+    },
+    {
+      "shape": [
+        128,
+        2,
+        768
+      ],
+      "stride": [
+        1536,
+        1,
+        2
+      ],
+      "native_ms": 0.004154508622655583,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.002210560015269688
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.0022794057428836825
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0028117942810058595
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0027098666462633345
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0026042666907111806
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0025868444186117915
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002646222213904063
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.002504000026318762
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0030728888801402517
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0029405333515670567
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0031405948675595798
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0030770667104257476
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.002983314309801374
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.003067644416458077
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0032006399546350753
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003362594565024247
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003250844445493486
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0032976889154977267
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.004083368456677386
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.0037017411607153275
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0036850667041209008
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003573599975142214
+        }
+      ]
+    },
+    {
+      "shape": [
+        128,
+        4,
+        768
+      ],
+      "stride": [
+        3072,
+        1,
+        4
+      ],
+      "native_ms": 0.00845293353601784,
+      "trials": [
+        {
+          "config": [
+            false,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.004399634301662445
+        },
+        {
+          "config": [
+            false,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 48
+          },
+          "ms": 0.004374491487230573
+        },
+        {
+          "config": [
+            true,
+            32,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004798311160670386
+        },
+        {
+          "config": [
+            true,
+            32,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.004776228623730796
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0038714514459882465
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.00382043434040887
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003561155539419916
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003547733359866672
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.0037495999700493284
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            false,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 0
+          },
+          "ms": 0.003784685773508889
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0035950628561632974
+        },
+        {
+          "config": [
+            true,
+            64,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0035976228543690273
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6144
+          },
+          "ms": 0.0035253333548704783
+        },
+        {
+          "config": [
+            true,
+            64,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 6176
+          },
+          "ms": 0.0035217371795858658
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.003468799963593483
+        },
+        {
+          "config": [
+            true,
+            128,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.003453066676027245
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12288
+          },
+          "ms": 0.0033809778177075916
+        },
+        {
+          "config": [
+            true,
+            128,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 12352
+          },
+          "ms": 0.0034091555409961278
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.003664888855483797
+        },
+        {
+          "config": [
+            true,
+            256,
+            1,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.00366006857582501
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            0
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 24576
+          },
+          "ms": 0.0035175999419556725
+        },
+        {
+          "config": [
+            true,
+            256,
+            4,
+            true,
+            4
+          ],
+          "bits_equal": [
+            true,
+            true,
+            true
+          ],
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 24704
+          },
+          "ms": 0.003407822259598308
+        }
+      ]
+    }
+  ]
+}

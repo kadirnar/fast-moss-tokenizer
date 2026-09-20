@@ -142,16 +142,20 @@ def compiler():
     return driver, nvrtc
 
 
-def _compile(device, n, config, bindings):
-    key = (device, n, config)
+def _compile(device, n, config, bindings, time=0):
+    key = (device, n, config, time)
     if key in _KERNELS:
         return _KERNELS[key]
     if torch.cuda.is_current_stream_capturing():
         raise RuntimeError('Warm CUDA LayerNorm before graph capture')
     cu, nvrtc = bindings
-    register, threads, unroll = config
+    register, threads, unroll = config[:3]
     definitions = dict(N=n, REGISTER=int(register), THREADS=threads, UNROLL=unroll)
-    source = ('\n'.join(f'#define {k} {v}' for k, v in definitions.items()) + '\n' + SOURCE).encode()
+    kernel_source = SOURCE
+    if time:
+        from .strided_normalization import SOURCE as kernel_source
+        definitions.update(T=time, STAGE=int(config[3]), PAD=config[4])
+    source = ('\n'.join(f'#define {k} {v}' for k, v in definitions.items()) + '\n' + kernel_source).encode()
     program = _check(nvrtc.nvrtcCreateProgram(source, b'layer_norm.cu', 0, [], []))
     try:
         options = [b'--gpu-architecture=sm_120', b'--std=c++17', b'--ftz=false', b'--fmad=true']
@@ -195,6 +199,8 @@ class NormalizationRuntime:
         self.forwards = {}
         self.warmed = set()
         self.calls = 0
+        self.strided_calls = 0
+        self.strided_enabled = True
 
     def __enter__(self):
         if self.used or getattr(self.model, '_fast_norm_runtime', None) is not None:
@@ -234,36 +240,44 @@ class NormalizationRuntime:
             g, b = module.weight, module.bias
             if (len(module.normalized_shape) != 1 or x.ndim < 1
                     or x.device != self.device or x.dtype != torch.float32
-                    or not x.is_contiguous() or module.eps != 1e-5
+                    or module.eps != 1e-5
                     or g is None or b is None or torch.is_autocast_enabled('cuda')
                     or (torch.is_grad_enabled() and any(t.requires_grad for t in (x, g, b)))):
                 return original(x)
             n = module.normalized_shape[0]
             shape = (x.numel() // n, n) if n else (0, 0)
-            if (x.shape[-1] != n or shape not in CONFIGS or g.shape != (n,) or b.shape != (n,)
+            time = 0
+            config = CONFIGS.get(shape) if x.is_contiguous() else None
+            if not x.is_contiguous() and self.strided_enabled and x.ndim == 3:
+                from .strided_normalization import CONFIGS as STRIDED_CONFIGS
+                if x.stride() == (x.shape[1] * n, 1, x.shape[1]):
+                    config = STRIDED_CONFIGS.get(tuple(x.shape))
+                    time = x.shape[1]
+            if (x.shape[-1] != n or config is None or x.data_ptr() % 16
+                    or g.shape != (n,) or b.shape != (n,)
                     or any(t.device != self.device or t.dtype != torch.float32
-                           or not t.is_contiguous() or t.data_ptr() % 16 for t in (x, g, b))):
+                           or not t.is_contiguous() or t.data_ptr() % 16 for t in (g, b))):
                 return original(x)
-            config = CONFIGS[shape]
             cu, _ = self.bindings
             with torch.cuda.device(self.device):
                 stream = torch.cuda.current_stream(self.device).cuda_stream
-                key = (stream, shape)
+                key = (stream, shape, time)
                 if torch.cuda.is_current_stream_capturing() and key not in self.warmed:
                     raise RuntimeError('Warm CUDA LayerNorm shape on this stream before graph capture')
-                _, function = _compile(self.device, n, config, self.bindings)
+                _, function = _compile(self.device, n, config, self.bindings, time)
                 y = torch.empty(x.shape, device=x.device, dtype=x.dtype)
                 mean = torch.empty(shape[0], device=x.device, dtype=x.dtype)
                 rs = torch.empty_like(mean)
                 values = [ctypes.c_void_p(t.data_ptr()) for t in (x, g, b, y, mean, rs)]
                 values += [ctypes.c_float(module.eps), ctypes.c_int(shape[0])]
                 pointers = (ctypes.c_void_p * len(values))(*(ctypes.addressof(v) for v in values))
-                register, threads, _ = config
+                register, threads, _ = config[:3]
                 grid = (shape[0] + threads // 32 - 1) // (threads // 32) if register else shape[0]
                 _check(cu.cuLaunchKernel(function, grid, 1, 1, threads, 1, 1, 0,
                     cu.CUstream(stream), ctypes.addressof(pointers), 0))
                 self.warmed.add(key)
                 self.calls += 1
+                self.strided_calls += bool(time)
                 return y
         return forward
 

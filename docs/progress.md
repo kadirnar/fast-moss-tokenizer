@@ -1049,3 +1049,39 @@ uv build --wheel --out-dir /tmp/moss-native-layer-norm-wheel
 ```
 
 All handles are terminal: initial arithmetic/capture `51809` / `8204`, dynamic sweep/confirmation `87929` / `94242`, first constants/order diagnosis `76476` / `9811`, corrected sweep/confirmation `15640`, research model/tests `56678` / `17637`, initial/corrected focused fixtures `52180` / `38424`, supported model `59923`, CuTe `53631`, streams `83767` / `84666`, profile `54734`, original comparison `49283`, full suite `37916`, resource-audit initial/context-corrected calls `70005` / `62711`, wheel import `94706`. The initial focused failures were training-mode parent test fixtures; the initial resource audit needed an allocated tensor to establish its CUDA context. Both are corrected, and final gates pass. Temporary repository wheel-build output is removed. Final audit verifies the retained arithmetic failures, corrected comparisons, full-model/streaming exactness, profile dispatch, direct speed ratios and package hashes. Further exact matrix work, noncontiguous encoder normalization, physical hardware-counter attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Integrated normalization for transposed encoder inputs
+
+Previous goal turn classification: **progress**, verified at clean commit `6bdd709`, with exact CUDA LayerNorm integration, 554 passing tests, exact corpus/streaming gates and an audited package. The GPU had only the preexisting 29 MiB client, with no task job still running. The 100× goal remains active and unmet.
+
+- Captured actual optimized-runtime LayerNorm inputs without replacing its owned dispatch semantics. Eighteen dense channel/time transposes explain the remaining **48 encoder calls at 80 ms / 112 at 240 ms**. Tested direct strided loads and cooperative shared-memory staging, including aligned padding variants, while retaining the native Welford reduction and affine arithmetic.
+- All **396 configurations** pass captured output/statistic gates. Finalists pass **3,888 eager/graph comparisons**. Confirmed component gains are **1.23–2.18×** versus native copy plus normalization. Initial single-sweep ratios were wider; repeated measurements determine promotion.
+- Extended `norm_backend="cuda"` to the validated layouts, with original fallbacks for other shapes/strides and separate graph warmup keys for contiguous/transposed inputs. The contiguous arithmetic source remains unchanged. No parameter packing, precision conversion or persistent activation workspace is added. The standard fidelity CLI also accepts the normalization option.
+- Research and integrated runtime gates each pass **48 cases**, including the quantizer near-tie regression and 128-lane input. The integrated encoder ablation improves **6.940 → 6.864 ms / 9.143 → 9.038 ms** at batch one/eight for 80 ms inputs, and **8.231 → 8.022 ms / 10.347 → 10.151 ms** at 240 ms. Gains are **1.1–2.6%**; decoder medians stay within **0.09%** of parity. Integrated peak allocation is **7.741 GB** under the expanded four-geometry timing workload.
+- The CuTe combination passes another **48 cases**. Both **162-chunk / 12.96-second** streams match corrected eager streaming exactly: **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**, with peaks **7.526 / 7.696 GB**. Their preexisting decoder difference from offline execution is unchanged.
+- The 80 ms profile removes **48 encoder launches**, leaving **1,460 / 904** encode/decode kernels. Both 80/240 ms profiles show **136 CUDA / zero native LayerNorm calls** per direction at the measured batch-one geometries. Matrix groups remain **73.40% / 81.43%** of 80 ms kernel time, identifying the larger remaining cost.
+- Fresh original/current comparisons measure **6.787 / 6.002 ms** at batch one / 80 ms, or **6.90× / 6.18×** versus original eager and **1.52× / 1.52×** versus original graphs. At 240 ms the totals are **7.897 / 6.582 ms**, or **6.09× / 5.82×** versus eager. These are matched fresh denominators; isolated gains are not multiplied into historical ratios.
+- Focused tests pass **98 in 20.83 seconds**; the full suite passes **598 in 102.03 seconds**. Ten compiler variants use **30–39 registers**, **0–12,288 bytes shared memory**, zero local-memory spills and no matrix Tensor Core instructions. The wheel matches all **25 runtime/profile files** and passes an isolated import. This turn is **progress**, with a verified runtime optimization. The broader 100× goal remains unmet.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.strided_layer_norm_inputs
+.venv/bin/python -m benchmarks.strided_layer_norm_tune
+.venv/bin/python -m benchmarks.strided_layer_norm_confirm
+.venv/bin/python -m benchmarks.strided_layer_norm_model
+.venv/bin/python -m pytest tests/test_strided_layer_norm_research.py tests/test_strided_normalization.py tests/test_normalization.py tests/test_ffn.py -q
+.venv/bin/python -m benchmarks.strided_layer_norm_model --runtime --output results/full_strided_layer_norm_runtime.json
+.venv/bin/python -m benchmarks.strided_layer_norm_model --runtime --fidelity-only --residual-backend cute --output results/full_strided_layer_norm_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_layer_norm_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_layer_norm_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_layer_norm_profile_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --norm-backend cuda --output results/full_codec_strided_layer_norm_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_layer_norm_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --norm-backend cuda --output results/full_codec_strided_layer_norm_f3.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.strided_layer_norm_resources
+uv build --wheel --out-dir /tmp/moss-strided-layer-norm-wheel
+```
+
+All handles are terminal: capture `40433`, sweep `57237`, confirmation `20179`, research model `5658`, focused tests `1642`, integrated model `63892`, sequential CuTe/streams/profiles/original-comparisons/full-suite/resources chain `33314`, isolated wheel import `84105`. The chain checks every subprocess exit before starting the next GPU job. Temporary repository wheel-build output is removed. Final cross-report audit verifies exactness, dispatch and launch counts, direct ratios, compiler resources and package hashes. Further exact matrix scheduling/fusion, physical memory-system counters, broader serving/multi-GPU execution and verified 100× acceleration remain open.
