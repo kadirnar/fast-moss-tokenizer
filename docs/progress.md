@@ -1570,3 +1570,28 @@ uv build --wheel --out-dir /tmp/moss-residual-async-wheel
 The final full suite passes **1,079 tests in 199.50 seconds** and the cross-report audit passes **205 checks**. Fresh matched original/current comparisons measure **6.442 ms encode / 5.727 ms decode** at batch one / 80 ms, or **7.24× / 6.46×** versus original eager and **1.61× / 1.59×** versus original graphs. README retains its simplified layout and now uses these directly measured values and the refreshed 240 ms table. Historical incremental gains are not multiplied. [Integration details](research.md#supported-asynchronous-ffn-contraction).
 
 All handles are terminal: initial regression `85441`, integration tests `71177`, compiler/seven-round/interleaved comparison chain `76270`, CuTe/stream/profile/fresh-comparison/full-suite chain `32286`, CPU wheel audit `10327`, and CPU cross-report audit `27625`. GPU jobs ran sequentially. This turn is **progress**: an exact FFN memory pipeline is integrated into the supported runtime and validated through the full codec. Matrix work remains the dominant optimization target. The broader **100× objective remains active and unmet**.
+
+## 2026-09-20 — Independent projection outputs and direct roundtrip measurement
+
+The previous goal turn (`beb5c32`) is **progress**: it integrated exact asynchronous FFN contraction, passed 1,079 tests and 205 audits, refreshed supported speedups and pushed the result publicly. This turn starts from that clean authoritative state, with prior GPU jobs terminal and only preexisting PID 1718 present.
+
+The next hypothesis targets the largest remaining one-frame group, normalization/projection at **29.18% encode / 33.14% decode**. A standalone CUDA helper assigns one/two/four/eight independent output chains to each eight-thread group while preserving original normalization, FP32 accumulation and reduction. All **244 captured configurations** match normalization and output bits. One/32-weight rings reject the initial apparent warm GELU gain; five-round confirmation over twelve finalists passes **308 stress comparisons**. The best multiple-output QKV cold-ring difference is only **0.15%**, and the best multiple-output GELU configuration regresses. Production promotion is rejected; no full-codec gain is claimed.
+
+The user asked for end-to-end speed and the 24 kHz mono choice during the work. Official current and pinned configurations confirm that the requested original checkpoint is **24 kHz mono**; **v2 is a separate 48 kHz stereo checkpoint**. A scope-choice question was offered, with no answer received during this turn; the explicit original-model scope remains in force. The README now states the distinction without claiming v2 compatibility.
+
+A new direct encoder→decoder benchmark measures the whole dependency in one invocation/graph, preserving exact codes, hidden states, audio and restored outputs. At batch one / 80 ms, original eager **84.048 ms** falls to **12.246 ms (6.86×)**, versus **19.827 ms original graph (1.62×)**. At 240 ms, eager **86.290 ms** falls to **13.515 ms (6.38×)**, versus **22.441 ms original graph (1.66×)**. Three rotating rounds use 200 graph warmups and ten samples per mode/round; copies/owned outputs are included, loading/setup/audio I/O are excluded. These directly measured totals replace the earlier sum-of-separate-medians approximation in the answer to the user's question.
+
+All **17 focused research tests** pass in **8.21 seconds**. Twelve reproduced finalist binaries have **37–40 registers**, **13,360–42,032 shared bytes**, no spills/local instructions and no matrix Tensor Core instructions; ten asynchronous variants contain `LDGSTS`, two synchronous controls do not. All **33 supported runtime files** remain byte-identical to the preceding verified package. The unchanged 1,079-test supported suite is not rerun; no replacement wheel is required. A final audit passes **587 checks**. [Research and direct roundtrip evidence](research.md#independent-output-chains-in-staged-projections).
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.norm_gemv_multi_probe
+.venv/bin/python -m benchmarks.codec_roundtrip
+.venv/bin/python -m benchmarks.norm_gemv_multi_confirm
+.venv/bin/python -m pytest tests/test_norm_gemv_multi_research.py -q
+.venv/bin/python -m benchmarks.norm_gemv_multi_resources
+.venv/bin/python -m benchmarks.norm_gemv_multi_audit
+```
+
+All handles are terminal: exploratory sweep `35749`, direct roundtrip `17875`, fixed confirmation `77197`, focused/compiler chain `60852`, CPU cross-report audit `32238`, and official-model metadata lookup `70749`. GPU jobs ran sequentially. This turn is **progress**: it rejects an unhelpful scheduling direction, directly measures end-to-end codec speed, and clarifies model-version scope. Matrix work remains the next optimization target. The broader **100× objective remains active and unmet**.

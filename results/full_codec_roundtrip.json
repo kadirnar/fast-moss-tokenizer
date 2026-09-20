@@ -1,0 +1,1591 @@
+{
+  "scope": "direct complete codec roundtrip: encode output codes immediately feed decode within one invocation/graph; input and model already on CUDA; graph input copies and owned codes/hidden/audio included; excludes audio I/O, resampling, checkpoint loading, optimization setup, capture and restoration",
+  "previous_commit": "beb5c32",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "model_id": "OpenMOSS-Team/MOSS-Audio-Tokenizer",
+  "sampling_rate": 24000,
+  "channels": 1,
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "cuda",
+    "projection_backend": "triton",
+    "norm_backend": "cuda",
+    "ffn_backend": "triton"
+  },
+  "rounds": 3,
+  "graph_warmups": 200,
+  "cases": [
+    {
+      "batch": 1,
+      "frames": 1,
+      "audio_seconds": 0.08,
+      "rounds": [
+        {
+          "round": 0,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 83.9820184992277,
+            "gpu_ms_median": 83.96825790405273,
+            "wall_ms_samples": [
+              84.25388700561598,
+              84.16056100395508,
+              83.95220700185746,
+              83.87016301276162,
+              83.84847099659964,
+              83.8150680065155,
+              83.8643309980398,
+              84.09028800087981,
+              84.02516499336343,
+              84.01182999659795
+            ],
+            "gpu_ms_samples": [
+              84.22882843017578,
+              84.14604949951172,
+              83.93836975097656,
+              83.85657501220703,
+              83.8344955444336,
+              83.80134582519531,
+              83.85081481933594,
+              84.07689666748047,
+              84.01119995117188,
+              83.9981460571289
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 19.886348498403095,
+            "gpu_ms_median": 19.874544143676758,
+            "wall_ms_samples": [
+              19.35455299098976,
+              19.90479299274739,
+              19.345175998751074,
+              19.961950994911604,
+              19.879194995155558,
+              19.89350200165063,
+              19.973724003648385,
+              19.34473500296008,
+              19.837554995319806,
+              19.906986999558285
+            ],
+            "gpu_ms_samples": [
+              19.332704544067383,
+              19.891616821289062,
+              19.33296012878418,
+              19.950016021728516,
+              19.86739158630371,
+              19.881696701049805,
+              19.962080001831055,
+              19.33318328857422,
+              19.632640838623047,
+              19.895584106445312
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 12.241761498444248,
+            "gpu_ms_median": 12.123039722442627,
+            "wall_ms_samples": [
+              12.422016996424645,
+              12.34470099734608,
+              12.1376600000076,
+              12.671347998548299,
+              12.133582000387833,
+              12.131347990361974,
+              12.688260001596063,
+              12.138821999542415,
+              12.134363991208375,
+              12.598560002516024
+            ],
+            "gpu_ms_samples": [
+              12.398880004882812,
+              12.105504035949707,
+              12.123711585998535,
+              12.659135818481445,
+              12.120575904846191,
+              12.119487762451172,
+              12.674240112304688,
+              12.11900806427002,
+              12.122367858886719,
+              12.398816108703613
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 19.59821899799863,
+            "gpu_ms_median": 19.576927185058594,
+            "wall_ms_samples": [
+              19.58834500692319,
+              19.56629299093038,
+              20.124849004787393,
+              19.597211998188868,
+              20.235346994013526,
+              19.59922599780839,
+              19.561153996619396,
+              20.11929800210055,
+              19.333503994857892,
+              19.876239995937794
+            ],
+            "gpu_ms_samples": [
+              19.567167282104492,
+              19.32464027404785,
+              20.112735748291016,
+              19.32022476196289,
+              20.223295211791992,
+              19.586687088012695,
+              19.322208404541016,
+              20.107135772705078,
+              19.3222713470459,
+              19.864896774291992
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 12.248674996953923,
+            "gpu_ms_median": 12.128464221954346,
+            "wall_ms_samples": [
+              13.01497699751053,
+              12.143651998485439,
+              12.403601998812519,
+              12.353697995422408,
+              12.12553700315766,
+              12.69333899836056,
+              12.131698007578962,
+              12.127980997320265,
+              12.699551996774971,
+              12.136787991039455
+            ],
+            "gpu_ms_samples": [
+              12.995264053344727,
+              12.131232261657715,
+              12.391551971435547,
+              12.10912036895752,
+              12.114015579223633,
+              12.68131160736084,
+              12.120320320129395,
+              12.116352081298828,
+              12.686335563659668,
+              12.125696182250977
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 83.97920050629182,
+            "gpu_ms_median": 83.96520233154297,
+            "wall_ms_samples": [
+              84.03352199820802,
+              84.06192700203974,
+              84.08625298761763,
+              84.01762299763504,
+              83.83887499803677,
+              83.99520099919755,
+              83.92249399912544,
+              83.96320001338609,
+              83.8394260063069,
+              83.7815069971839
+            ],
+            "gpu_ms_samples": [
+              84.01213073730469,
+              84.04742431640625,
+              84.07244873046875,
+              84.00393676757812,
+              83.82518768310547,
+              83.98102569580078,
+              83.90847778320312,
+              83.94937896728516,
+              83.82550048828125,
+              83.76748657226562
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 12.245794503542129,
+            "gpu_ms_median": 12.1244478225708,
+            "wall_ms_samples": [
+              12.14723801240325,
+              12.939735999680124,
+              12.13547600491438,
+              12.699201004579663,
+              12.344350994681008,
+              12.136196994106285,
+              13.010619004489854,
+              12.122942003770731,
+              12.134825010434724,
+              12.948301999131218
+            ],
+            "gpu_ms_samples": [
+              12.12451171875,
+              12.747615814208984,
+              12.123040199279785,
+              12.68511962890625,
+              12.107295989990234,
+              12.124383926391602,
+              12.996735572814941,
+              12.111359596252441,
+              12.122783660888672,
+              12.750975608825684
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 84.2623505013762,
+            "gpu_ms_median": 84.24886703491211,
+            "wall_ms_samples": [
+              84.48587798920926,
+              84.41335099632852,
+              84.2900880088564,
+              84.27366700198036,
+              84.25103400077205,
+              84.19240299554076,
+              84.24539300904144,
+              84.42418099730276,
+              84.20527800626587,
+              84.16611400025431
+            ],
+            "gpu_ms_samples": [
+              84.46492767333984,
+              84.39981079101562,
+              84.2767333984375,
+              84.26016235351562,
+              84.2375717163086,
+              84.17369842529297,
+              84.23165130615234,
+              84.4097900390625,
+              84.19158172607422,
+              84.15337371826172
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 32,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 768,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 1920,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 19.718852505320683,
+            "gpu_ms_median": 19.703375816345215,
+            "wall_ms_samples": [
+              19.37147600983735,
+              19.938476994866505,
+              19.60489701014012,
+              19.581032000132836,
+              19.86717300314922,
+              19.8168170027202,
+              19.98723900760524,
+              19.620888007921167,
+              19.578506995458156,
+              19.866189992171712
+            ],
+            "gpu_ms_samples": [
+              19.344480514526367,
+              19.923391342163086,
+              19.589439392089844,
+              19.339359283447266,
+              19.855167388916016,
+              19.8024959564209,
+              19.975008010864258,
+              19.60425567626953,
+              19.326208114624023,
+              19.85433578491211
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "original_eager": 84.04772450012388,
+        "original_graph": 19.827185999020003,
+        "optimized_graph": 12.245794503542129
+      },
+      "speedups": {
+        "original_eager": 6.86339497823623,
+        "original_graph": 1.6191016428770657
+      },
+      "all_exact": true
+    },
+    {
+      "batch": 1,
+      "frames": 3,
+      "audio_seconds": 0.24,
+      "rounds": [
+        {
+          "round": 0,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 86.351708501752,
+            "gpu_ms_median": 86.33201599121094,
+            "wall_ms_samples": [
+              86.37228200677782,
+              86.27076000266243,
+              86.30339198862202,
+              86.27661199716385,
+              86.33113499672618,
+              86.44911699229851,
+              87.41168599226512,
+              86.58116799779236,
+              86.54567001212854,
+              86.23524301219732
+            ],
+            "gpu_ms_samples": [
+              86.34697723388672,
+              86.25689697265625,
+              86.28943634033203,
+              86.26287841796875,
+              86.31705474853516,
+              86.4333724975586,
+              87.39734649658203,
+              86.56694030761719,
+              86.53177642822266,
+              86.21673583984375
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 22.441315501055215,
+            "gpu_ms_median": 22.335152626037598,
+            "wall_ms_samples": [
+              21.97294100187719,
+              22.624921999522485,
+              22.455593003542162,
+              21.970786998281255,
+              22.605235004448332,
+              22.53662599832751,
+              21.976928008371033,
+              22.427037998568267,
+              22.52963300270494,
+              21.966077998513356
+            ],
+            "gpu_ms_samples": [
+              21.95142364501953,
+              22.61190414428711,
+              22.442304611206055,
+              21.95747184753418,
+              22.593280792236328,
+              22.52332878112793,
+              21.963071823120117,
+              22.22800064086914,
+              22.516767501831055,
+              21.95305633544922
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 13.513088495528791,
+            "gpu_ms_median": 13.49558401107788,
+            "wall_ms_samples": [
+              13.51625399547629,
+              13.483192000421695,
+              14.071975005208515,
+              13.509922995581292,
+              14.1247849969659,
+              13.496507002855651,
+              13.49464399390854,
+              13.979038994875737,
+              13.501837995136157,
+              14.061164009035565
+            ],
+            "gpu_ms_samples": [
+              13.494720458984375,
+              13.47100830078125,
+              14.059679985046387,
+              13.496447563171387,
+              14.112159729003906,
+              13.483200073242188,
+              13.482784271240234,
+              13.77894401550293,
+              13.48902416229248,
+              14.049663543701172
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 22.338982504152227,
+            "gpu_ms_median": 22.324368476867676,
+            "wall_ms_samples": [
+              22.580739998375066,
+              22.21101100440137,
+              22.158733001560904,
+              22.480300001916476,
+              22.18306799477432,
+              22.150315999169834,
+              23.421517995302565,
+              22.466954003903084,
+              21.964746003504843,
+              22.518692989251576
+            ],
+            "gpu_ms_samples": [
+              22.557632446289062,
+              22.196224212646484,
+              21.917600631713867,
+              22.466815948486328,
+              22.169919967651367,
+              21.909984588623047,
+              23.408096313476562,
+              22.452512741088867,
+              21.946975708007812,
+              22.506271362304688
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 13.61169500160031,
+            "gpu_ms_median": 13.598591804504395,
+            "wall_ms_samples": [
+              14.08060098765418,
+              13.50159700086806,
+              14.109686002484523,
+              13.498601998435333,
+              13.497148000169545,
+              14.094836995354854,
+              13.494514001649804,
+              14.130726005532779,
+              13.494654005626217,
+              13.72179300233256
+            ],
+            "gpu_ms_samples": [
+              14.06003189086914,
+              13.48748779296875,
+              14.09763240814209,
+              13.485247611999512,
+              13.484640121459961,
+              14.083040237426758,
+              13.481247901916504,
+              14.119263648986816,
+              13.481599807739258,
+              13.709695816040039
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 86.40956499584718,
+            "gpu_ms_median": 86.39542388916016,
+            "wall_ms_samples": [
+              86.79160600877367,
+              86.53438100009225,
+              86.193376002484,
+              86.45076300308574,
+              86.37800598808099,
+              86.2185839941958,
+              86.44112400361337,
+              86.16785799677018,
+              86.27372799674049,
+              87.23851101240143
+            ],
+            "gpu_ms_samples": [
+              86.7675552368164,
+              86.52019500732422,
+              86.17948913574219,
+              86.43673706054688,
+              86.36412811279297,
+              86.20502471923828,
+              86.42671966552734,
+              86.15420532226562,
+              86.26019287109375,
+              87.22150421142578
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "optimized_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 13.612907503556926,
+            "gpu_ms_median": 13.498047828674316,
+            "wall_ms_samples": [
+              13.818666004226543,
+              13.712526008021086,
+              13.493381993612275,
+              14.09890600189101,
+              13.510414006304927,
+              14.095819991780445,
+              13.513288999092765,
+              13.502349000191316,
+              14.117580998572521,
+              13.497459003701806
+            ],
+            "gpu_ms_samples": [
+              13.795743942260742,
+              13.476672172546387,
+              13.479583740234375,
+              14.086624145507812,
+              13.496447563171387,
+              14.083776473999023,
+              13.499648094177246,
+              13.491071701049805,
+              14.106016159057617,
+              13.484640121459961
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "original_eager",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 86.0807989956811,
+            "gpu_ms_median": 86.06297302246094,
+            "wall_ms_samples": [
+              86.08594399993308,
+              86.06507399235852,
+              85.98698700370733,
+              86.01411800191272,
+              87.35150498978328,
+              86.40126000682358,
+              86.16237899695989,
+              86.07565399142914,
+              86.09079298912548,
+              85.90581300086342
+            ],
+            "gpu_ms_samples": [
+              86.06444549560547,
+              86.05104064941406,
+              85.9735336303711,
+              86.00019073486328,
+              87.336669921875,
+              86.38687896728516,
+              86.14790344238281,
+              86.0615005493164,
+              86.07670593261719,
+              85.89151763916016
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "mode": "original_graph",
+          "checks": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "restored": [
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 96,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 2304,
+              "bits_equal": true
+            },
+            {
+              "exact": true,
+              "max_abs": 0.0,
+              "rmse": 0.0,
+              "different_elements": 0,
+              "elements": 5760,
+              "bits_equal": true
+            }
+          ],
+          "timing": {
+            "wall_ms_median": 22.34552550362423,
+            "gpu_ms_median": 22.3308162689209,
+            "wall_ms_samples": [
+              22.590567998122424,
+              22.507482004584745,
+              21.966489002807066,
+              22.604254001635127,
+              22.55787698959466,
+              22.18036299746018,
+              22.17235900752712,
+              22.559018994797952,
+              22.183569002663717,
+              22.166397000546567
+            ],
+            "gpu_ms_samples": [
+              22.56707191467285,
+              22.491647720336914,
+              21.95238494873047,
+              22.59164810180664,
+              22.543935775756836,
+              22.166624069213867,
+              21.92608070373535,
+              22.54534339904785,
+              22.169984817504883,
+              21.9202880859375
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "original_eager": 86.29000199289294,
+        "original_graph": 22.441315501055215,
+        "optimized_graph": 13.514771497284528
+      },
+      "speedups": {
+        "original_eager": 6.384865775217203,
+        "original_graph": 1.6605027695484356
+      },
+      "all_exact": true
+    }
+  ],
+  "all_exact": true,
+  "peak_allocated_bytes": 7491294208
+}
