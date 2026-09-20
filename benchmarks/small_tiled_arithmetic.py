@@ -42,18 +42,20 @@ def tiled(x,w,chunk=256,lanes=16,bn=8,order='serial',n=None,warps=4):
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--output',default='results/small_tiled_arithmetic.json')
+    parser.add_argument('--rows',type=int,nargs='+',default=[1,3,6,12])
+    parser.add_argument('--chunks',type=int,nargs='+',default=[128,256,512])
     args=parser.parse_args();strict_precision()
     cases=torch.load('results/matrix_inputs.pt',weights_only=True)
     report={'scope':'tiled cyclic FMA order search, all outputs, actual checkpoint matrices',
             'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),'trials':[]}
     for shape,case in cases.items():
         m,n,k=shape
-        if m not in (1,3,6,12):continue
+        if m not in args.rows:continue
         x,w=case['x'],case['weight'];ref=F.linear(x,w)
-        for chunk in (128,256,512):
+        for chunk in args.chunks:
             out=tiled(x,w,chunk)
             d=difference(ref,out)
-            report['trials'].append({'shape':shape,'chunk':chunk,'lanes':16,'difference':d})
+            report['trials'].append({'shape':shape,'chunk':chunk,'lanes':16,'difference':d,'bits_equal':torch.equal(ref.view(torch.int32),out.view(torch.int32))})
             print(shape,chunk,d['exact'],d['different_elements'],d['max_abs'],flush=True)
             Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
 

@@ -24,7 +24,9 @@ def kernel_summary(path,replays=5):
     groups['sgemm']=sum(e['dur'] for e in events if 'sgemm' in e.get('name','').lower()
         and not any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx','splitkreduce']))
     groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
-    groups['small_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_small_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce'])
+    small_names=['_small_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
+    small_times={name:sum(e['dur'] for e in events if e.get('name')==name) for name in small_names}
+    groups['small_matrix']=sum(small_times.values())
     groups['small_vendor_matrix']=sum(e['dur'] for e in events
         if any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx']))
     groups['vendor_split_reduce']=sum(e['dur'] for e in events if 'splitkreduce' in e.get('name','').lower())
@@ -43,6 +45,9 @@ def kernel_summary(path,replays=5):
             'small_grouped_per_replay':sum(e.get('name')=='_small_grouped' for e in events)/replays,
             'small_parts_per_replay':sum(e.get('name')=='_small_parts' for e in events)/replays,
             'small_reduce_per_replay':sum(e.get('name')=='_small_reduce' for e in events)/replays,
+            'small_matrix_breakdown_scope':'Already included in groups.small_matrix; do not add again',
+            'small_matrix_breakdown':{name:{'ms_per_replay':value/replays/1000,
+                'percent':100*value/total if total else 0.} for name,value in small_times.items()},
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}
                       for name,value in groups.items()}}
 

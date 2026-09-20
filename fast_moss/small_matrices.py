@@ -18,16 +18,35 @@ CONFIGS = {
     (1, 1280, 5120): ('gemv', 16, 4, 1, 32),
     (1, 3840, 1280): ('gemv', 8, 8, 1, 32),
     (1, 5120, 1280): ('gemv', 8, 8, 1, 32),
-
+    (2, 640, 768): ('fixed', 2, 4, 1, 4),
+    (2, 768, 640): ('fixed', 2, 4, 1, 4),
+    (2, 768, 768): ('fixed', 2, 4, 1, 4),
+    (2, 768, 3072): ('split', 2, 4, 2, 16),
+    (2, 2304, 768): ('fixed', 2, 4, 1, 16),
+    (2, 3072, 768): ('fixed', 2, 4, 1, 4),
     (3, 768, 1280): ('fixed', 3, 4, 1, 16),
     (3, 1280, 768): ('fixed', 3, 4, 1, 16),
     (3, 1280, 1280): ('fixed', 3, 4, 1, 16),
     (3, 1280, 5120): ('split', 4, 8, 4, 16),
     (3, 3840, 1280): ('fixed', 3, 4, 1, 16),
     (3, 5120, 1280): ('fixed', 3, 4, 1, 16),
+    (4, 768, 3072): ('split', 4, 8, 4, 16),
     (6, 640, 768): ('fixed', 3, 4, 1, 16),
     (6, 768, 768): ('fixed', 3, 4, 1, 16),
     (6, 768, 3072): ('fixed', 8, 4, 2, 16),
+    (8, 240, 768): ('fixed', 3, 4, 1, 16),
+    (8, 384, 768): ('fixed', 3, 4, 1, 16),
+    (8, 768, 240): ('fixed', 4, 4, 1, 16),
+    (8, 768, 384): ('fixed', 3, 4, 2, 4),
+    (8, 768, 768): ('fixed', 4, 4, 1, 4),
+    (8, 768, 1280): ('split', 4, 8, 4, 16),
+    (8, 768, 3072): ('split', 4, 8, 4, 16),
+    (8, 1280, 768): ('fixed', 4, 4, 1, 4),
+    (8, 1280, 1280): ('fixed', 3, 4, 1, 16),
+    (8, 1280, 5120): ('fixed', 3, 4, 1, 16),
+    (8, 3072, 768): ('fixed', 4, 4, 1, 4),
+    (8, 3840, 1280): ('fixed', 4, 4, 1, 4),
+    (8, 5120, 1280): ('fixed', 4, 4, 1, 4),
     (12, 384, 768): ('fixed', 3, 4, 1, 16),
     (12, 768, 3072): ('fixed', 3, 4, 1, 16),
     (12, 3072, 768): ('fixed', 3, 4, 1, 16),
@@ -60,8 +79,7 @@ def _small_gemv(X,W,Y,N:tl.constexpr,K:tl.constexpr,LANES:tl.constexpr,
 
 
 # Separate row accumulators avoid imposing a power-of-two tensor row axis.
-# Three-row tiles dominate the selected cases; one six-row shape benefits
-# from the measured eight-row configuration despite its masked rows.
+# Selected row tiles balance weight reuse, occupancy and masked rows.
 @triton.jit
 def _small_fixed(X,W,Y,M:tl.constexpr,N:tl.constexpr,K:tl.constexpr,
            ROWS:tl.constexpr,BN:tl.constexpr,UNROLL:tl.constexpr):
