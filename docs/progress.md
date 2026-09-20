@@ -306,3 +306,34 @@ Reproduce the experiments sequentially:
 The row filter lists possible cached shapes; the limit prioritizes dominant weights, so these runs do not claim coverage of every requested row count. Supported runtime arithmetic/defaults remain unchanged. The concrete near-tie case rules out using average latent error as a sufficient acceptance gate. Further work should improve exact matrix execution or provide a justified treatment of discrete quantization, while continuing request scheduling, streaming/parallel execution, and wider quality coverage toward the original goal.
 
 All jobs completed: initial TF32 sweep `22749`, compact sweep `47995`, BF16x6 sweep `22730`, paired selection `66186`, initial full probe/tests `36546`, final fixed-code probe `78086`, decision audit `81660`, and both expanded supported-backend fidelity runs `11938`. A progress update based only on the tail of the probe log initially overstated token equality; the full report exposed the speech failure and the update was promptly corrected. The authoritative results and conclusions above include that failure. No GPU benchmark or download is intentionally left running.
+
+
+## 2026-09-20, automatic streaming request refill and fused gather
+
+Previous goal turn classification: **progress**, verified against clean commit `f6a17c3`, the rejected tensor-core probe, its first-decision audit, the expanded exact fidelity corpus, and 104 passing tests. This turn is also **progress**: automatic request scheduling now connects the existing lane controls into a usable queue, a new Triton gather packs its inputs, and matched full-model evidence establishes a substantial queue-completion improvement while preserving tested outputs. The 100× whole-model objective remains active and unmet.
+
+Implementation:
+
+- `fast_moss.batching.StreamingBatcher` accepts finite unbatched CUDA audio/code requests and emits owned `BatchChunk` outputs. It assigns FIFO requests to stable lanes, refills finished/cancelled lanes on the next step, resets their state before reuse, handles partial tails and empty requests, and supports submissions between steps. It bounds active plus queued request count, owns contiguous copies of submitted tensors, and releases them on completion/cancellation/exit. A single model/session/stream retains the captured graph throughout.
+- A Triton pointer-table gather copies all selected request chunks into the fixed batch in one launch and masks absent inputs. This does not change matrix arithmetic, weights, quantizers, attention reduction, or the supported backend selection.
+- `tests/test_batching.py` checks independent original eager timelines in both directions and eager/graph execution; stable lanes; delayed submission; active and queued cancellation; partial tails; empty completion without capture; source/output ownership; capacity and input validation; construction-stream enforcement; and context cleanup. References preserve the batch shape to avoid confounding scheduling with vendor dispatch changes.
+- `benchmarks.request_batching` provides full-checkpoint exactness and alternating matched queue timings. `benchmarks.request_gather` isolates the packing component separately. README includes the public API, ownership/length semantics, and numerical/benchmark scope.
+
+Evidence:
+
+- `results/full_request_batching.json`: all exact in three paired rounds per direction. Sixteen heterogeneous real-audio-derived requests contain **34.073 seconds of original samples**; inputs repeat their hashed sources explicitly and two requests exceed ten seconds. The decoder uses their original eager encoded tokens. Each comparison covers **13,632 tokens** or **817,920 waveform samples** against independent original eager timelines at batch eight / three frames. Graph identity remains unchanged across completed queues and different admission policies.
+- FIFO refill reduces **86 model steps to 44**, with the same **142 active chunk slots**, improving slot occupancy **20.64% → 40.34%**. Median queue times are **1837.353 → 941.753 ms encode** (**1.951×**) and **1669.982 → 857.258 ms decode** (**1.948×**). The baseline uses the same scheduler/runtime with groups admitted only after the previous group finishes. Timings include input copies, metadata/gather, resets, output copies, and concatenation; model loading, graph capture, and reference construction are excluded from both sides. This is a workload-dependent scheduling gain, not an additional batch-one model multiplier.
+- `results/full_request_batching_cute.json`: a separate full-checkpoint CuTe residual run is exact, with **1836.164 → 941.267 ms encode** and **1671.508 → 855.359 ms decode**. The new gather remains Triton in both runs.
+- `results/request_gather.json`: all six batch/direction component cases are exact against per-lane PyTorch copies. At batch eight, graph packing is **5.749 → 0.853 μs audio**, **5.114 → 0.859 μs codes**. Larger component ratios reach approximately 29×/25× at batch 128. These resident-metadata microbenchmarks exclude metadata upload and are not model gains.
+- `results/tests.txt`: **110 passed in 18.30 seconds**. `git diff --check` is clean.
+
+Reproduction (GPU jobs run sequentially):
+
+```bash
+.venv/bin/python -m benchmarks.request_batching
+.venv/bin/python -m benchmarks.request_gather
+.venv/bin/python -m benchmarks.request_batching --backend cute --repeats 1 --output results/full_request_batching_cute.json
+.venv/bin/python -m pytest -q
+```
+
+All jobs are terminal: initial scheduler tests `15096`, full Triton queue benchmark `91969`, gather benchmark `72922`, full CuTe queue benchmark `59247`, and full suite `83983`. No GPU benchmark or download is intentionally left running. The scheduler accepts complete input tensors; incremental input fragment queues/network serving and multi-GPU execution remain open. Dense FP32 arithmetic is still the principal model bottleneck, and the supported single-request speed remains approximately 5×. Further work must preserve these fidelity gates while addressing those larger remaining costs.

@@ -74,6 +74,35 @@ Partial final encoder frames are explicitly zero-padded and retained. Save the o
 
 Known CUDA streaming states reset together in one Triton launch. Use `fast_reset=False` on `StreamingSession` to retain the original reset methods for diagnostics. On the full model, resetting selected lanes takes about 0.063 ms versus 6.38 ms previously—roughly 100× for reset alone, not for encoding or decoding. A 71-step, three-lane schedule crosses the cache context and retains exact valid outputs ([evidence](results/full_lane_completion.json)).
 
+## Queued streaming requests
+
+`StreamingBatcher` automatically assigns finite requests to lanes, emits chunks immediately, and refills finished lanes from a FIFO queue. A Triton gather kernel packs the next chunk from each request. It uses the same streaming cache, reset, and graph paths described above.
+
+```python
+from fast_moss.batching import StreamingBatcher
+
+# Unbatched mono FP32 CUDA audio; requests can have different lengths.
+audio_requests = [torch.zeros(1, 24000, device="cuda"),
+                  torch.zeros(1, 5777, device="cuda")]
+outputs = {}
+with torch.inference_mode(), optimized(model, residual_backend="triton",
+                                      rope_backend="triton", kv_backend="triton",
+                                      share_rope_tables=True, attention_mask_backend="triton"):
+    with StreamingBatcher(model, "encode", batch_size=8, chunk_frames=3) as queue:
+        for audio in audio_requests:
+            request_id = queue.submit(audio)
+            outputs[request_id] = []
+        while queue.pending:
+            for chunk in queue.step():
+                outputs[chunk.request_id].append(chunk.data)
+                # chunk.offset locates this output; chunk.final marks completion.
+codes = {request_id: torch.cat(parts, dim=-1) for request_id, parts in outputs.items()}
+```
+
+Decoder requests use shape `(32, frames)` and int64 CUDA data. `submit()` owns a contiguous copy; returned chunks are also owned. New requests may arrive between `step()` calls. `max_pending` limits the number of active and waiting requests (default 128); reaching it raises `BufferError`. `cancel(request_id)` discards the remaining input and makes its lane available. Empty requests produce one empty final output. The scheduler accepts complete input tensors and streams their outputs; incremental input queues and network serving remain future work. Use one host thread and CUDA stream per batcher. Retain each encoder request's original sample count for trimming decoded audio.
+
+On a reproducible uneven queue of 16 requests, batch eight / 240 ms chunks, immediate refill uses **44 model steps versus 86** when each group of eight must finish before the next starts. Median queue time falls **1837 → 942 ms encode** and **1670 → 857 ms decode**, about **1.95×** against the same optimized runtime and batch size. All **13,632 tokens and 817,920 waveform samples** match independent original eager timelines at the same batch shape. Two requests cross the ten-second cache context. Timings include request copies, gathering, resets, owned outputs, and concatenation after graph warmup. This is a workload-dependent queue-completion gain, not a new single-request kernel speedup or a 100× model result. [Triton evidence](results/full_request_batching.json), [CuTe evidence](results/full_request_batching_cute.json).
+
 ## Fidelity and benchmark scope
 
 `benchmarks.compare` records exact equality, mismatching element counts, maximum error, and RMSE, and exits with failure on any mismatch. It compares equal batches, audio lengths, FP32 arithmetic, and quantizer counts. Wall-clock and CUDA-event samples include graph input copies/output ownership; amortized kernel-only measurements are labeled separately. Synthetic inputs and small structural tests are development gates, not proof of quality across real speech, music, or sound effects.
@@ -88,4 +117,4 @@ A later search screened 12,422 vendor configurations. Its selected alternatives 
 
 Multi-pass tensor-core experiments keep FP32 weight storage but change arithmetic. A TF32x3 QKV probe changes 24 tokens in the near-tie speech case and produces up to 0.152 waveform error, despite small hidden-state errors. It is rejected as an exact replacement and remains outside the runtime. [Full probe](results/full_tensorcore_probe.json), [first changed decision](results/tensorcore_quantizer_tie.json).
 
-Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, automatic request scheduling, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).
+Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, incremental input scheduling, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).
