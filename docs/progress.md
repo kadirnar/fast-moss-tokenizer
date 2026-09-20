@@ -859,3 +859,52 @@ uv build --wheel --out-dir /tmp/moss-mid-wheel
 All GPU handles are terminal: native profiling `82785`, arithmetic `76834`, tuning `74392`, legacy zero/confirmation `3529`, corrected zero `69055`, corrected tests/confirmation/model `77341`, integrated focused tests `29928`, and runtime/CuTe/streams/incremental/profile/resources/upstream comparisons/full-suite chain `37173`. No benchmark is left running. Small-matrix scheduling and weight reuse, remaining vendor attribution, matrix/FFN fusion, broader fidelity and scheduling corpora, network serving, multi-GPU execution and verified 100× acceleration remain open.
 
 Final audit: all new passing reports, retained legacy failure counts, compiler resources, profile subgroup accounting and wheel/source hashes agree with the documentation; Python compilation and `git diff --check` pass. Only the pre-existing desktop GPU process remains.
+
+## Narrow grids and explicit row layouts
+
+Previous goal turn classification: **progress**, verified at clean commit `fd559c3`, its 44 native-layout and 34 ordered configurations, corrected signed-zero behavior and 419 passing tests. The 100× whole-model goal remains active and unmet.
+
+The latest batch-eight one-frame profile identifies native-layout small matrices as the largest kernel-time group (52.19% encode / 59.93% decode). This turn tests one/two output columns per block and more row reuse, preserving the established arithmetic. `narrow_baseline.json` snapshots the current tables before any replacement. `narrow_rows.py` measures the actual runtime kernels with alternative launch configurations against those tables. A separate research-only Gluon kernel specifies the lane/column/row layout explicitly and extends register-resident row reuse to sixteen rows.
+
+- The narrow-grid sweep completes **564 bit-exact, spill-free configurations**. Repeated confirmation passes **3,528 eager/graph comparisons** on 31 promising shapes. Thirty retain warm improvements; a 25-shape set also passes the evicted gate.
+- The full 48-case corpus passes for the broad narrow selection, but model timing rejects both broad sets: improvements on batch-one one-frame inputs coexist with regressions on batch-eight one-frame and batch-one eight-frame inputs. Component timing alone is insufficient for adoption.
+- The Gluon probe passes 144 actual-input configurations, **750 stress comparisons**, and **48 model cases**. Its component gains do not establish a consistent whole-model advantage; it remains research-only.
+- Grouped model ablation selects **ten one-/two-row configurations**: four GEMV and six two-row tiles. Batch-one / one-frame gains are **1.0105× encode / 1.0088× decode**, with other measured geometries within 0.3% of parity. Replacing one two-row split path also removes a kernel launch. Runtime shape counts stay 44 small / 34 ordered, with four split shapes. The default-runtime, CuTe, long-stream and full-suite gates follow before commit.
+- CPU inspection of six captured checkpoint weights rejects exact BF16/FP16 storage round-trips. A lossless block exponent representation has an estimated **1.135–1.138×** size ratio, including the stated metadata allowance; no codec or GPU speedup is implemented. This is a potential research direction, not a runtime precision change.
+
+
+The integrated default-table gate (`full_narrow_runtime.json`) passes **48 cases**. Batch-one / one-frame encode improves **7.170 → 7.097 ms (1.0102×)** and decode **6.323 → 6.261 ms (1.0098×)**. Other measured cases stay within 0.3% of parity, including batch-two / one-frame; no additional gain is claimed for them. Three alternating restored contexts time five samples of ten graph calls, including copies and owned outputs, excluding setup/packing/capture/restoration. Peak allocation is **7.747 GB**. Wheel verification matches all **23 runtime/profile files** byte-for-byte.
+
+
+The CuTe residual combination passes the same **48-case corpus** (`full_narrow_cute.json`). Two streams span **162 one-frame chunks over 12.96 seconds**, with one and two lanes. All **5,184 / 10,368 tokens** and **311,040 / 622,080 samples** match corrected original eager streaming chunk by chunk. Encoder codes also match offline. Original and optimized streaming share the same maximum waveform differences from offline decoding: **1.349e-6 / 1.952e-6**. Peak allocations are **7.526 / 7.696 GB** (`full_narrow_streaming_b1.json`, `full_narrow_streaming_b2.json`).
+
+The batch-one / one-frame profile (`full_narrow_profile.json`) has **1,572 / 968 kernels** for encode/decode, down twelve per direction from the previous same-geometry profile. Fixed-row calls rise from 61 to **73**, while split/reduction pairs fall from 36 to **24**. There are still **129 / 128 GEMV calls**, consuming **45.26% / 51.24%** of kernel time. All disjoint matrix groups sum to **69.72% / 77.77%**; the nested small-kernel breakdown is already included. The compiler audit covers all **44 configurations**, with **40–128 registers**, zero spills and no matrix Tensor Core instructions (`narrow_resources.json`).
+
+The fresh original/current comparison (`full_codec_narrow.json`) measures one-frame batch-one encode **46.434 / 10.339 / 7.010 ms** and decode **36.813 / 9.088 / 6.188 ms**, for original eager / original graph / current optimized graph. Direct total ratios are **6.62× / 5.95×** versus eager and **1.47× / 1.47×** versus original graphs. Batch-eight encode is **46.231 / 14.057 / 9.160 ms**, decode **37.406 / 12.509 / 7.874 ms**: **5.05× / 4.75×** versus eager and **1.53× / 1.59×** versus original graphs. All outputs and restored executions are exact. Three rotating rounds use ten single-call samples; graph copies and owned outputs are included, loading/packing/capture/restoration excluded. These totals have fresh denominators; historical incremental gains are not multiplied together.
+
+The full suite passes **419 tests in 68.70 seconds**. The existing shape-driven tests exercise all ten changed configurations, random weights, arithmetic edge cases, native storage, hooks and graph lifetime without adding implementation-mirroring tests. This turn is **progress**: ten validated launch configurations, rejection of broader sets that regress codec latency, and new explicit-layout/storage evidence. **100× whole-model acceleration remains unmet.** The next investigations should quantify weight traffic and consider exact storage/decode or scheduling changes beyond warm-cache tile tuning; the block-format estimate is not an implemented optimization.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.narrow_rows
+.venv/bin/python -m benchmarks.narrow_confirm
+.venv/bin/python -m benchmarks.small_layout
+.venv/bin/python -m benchmarks.small_layout_confirm
+.venv/bin/python -m benchmarks.narrow_model
+.venv/bin/python -m benchmarks.narrow_model --groups --output results/full_narrow_groups.json
+.venv/bin/python -m benchmarks.narrow_model --runtime --only-rows 1 2 --selection warm --output results/full_narrow_runtime.json
+.venv/bin/python -m benchmarks.narrow_model --runtime --only-rows 1 2 --selection warm --fidelity-only --residual-backend cute --output results/full_narrow_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_narrow_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_narrow_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_narrow_profile.json
+.venv/bin/python -m benchmarks.small_matrix_resources --output results/narrow_resources.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --output results/full_codec_narrow.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.weight_storage
+uv build --wheel --out-dir /tmp/moss-narrow-wheel
+```
+
+All handles are terminal: narrow sweep `83835`, confirmation/initial Gluon compilation `4823` (confirmation completed; prototype compilation failed), corrected prototype attempt `2851` (compiler error), successful Gluon sweep `75929`, broad model comparison `82618`, Gluon stress `65087`, grouped model comparison `45108`, and runtime/CuTe/streams/profile/resources/upstream comparison/full-suite chain `64806`. CPU storage audit handles `66721` and `59614` are also complete. Only the pre-existing desktop GPU process remains; no benchmark is left running. Broader exact optimizations, serving/multi-GPU work and verified 100× whole-model acceleration remain open.
+
+Final audit verifies the baseline snapshot against `fd559c3`, all ten runtime table replacements, unchanged ordered tables, exact report counts and outputs, compiler resource claims, profile subgroup accounting and wheel/source hashes. Python compilation and `git diff --check` pass. No GPU benchmark remains active.

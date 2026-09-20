@@ -1,0 +1,151 @@
+{
+  "baseline": "fd559c3",
+  "selection": "warm",
+  "rows": [
+    1,
+    2
+  ],
+  "reason": "Isolated one/two-row set improves batch-one one-frame latency; broad narrow-grid sets regress eight-row model geometries; explicit-layout combination has no consistent codec advantage.",
+  "configs": [
+    {
+      "shape": [
+        1,
+        768,
+        1280
+      ],
+      "config": [
+        "gemv",
+        32,
+        1,
+        1,
+        4
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        768
+      ],
+      "config": [
+        "gemv",
+        16,
+        2,
+        1,
+        32
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        1280
+      ],
+      "config": [
+        "gemv",
+        16,
+        2,
+        1,
+        4
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "config": [
+        "gemv",
+        16,
+        2,
+        1,
+        32
+      ]
+    },
+    {
+      "shape": [
+        2,
+        640,
+        768
+      ],
+      "config": [
+        "fixed",
+        2,
+        2,
+        1,
+        16
+      ]
+    },
+    {
+      "shape": [
+        2,
+        768,
+        640
+      ],
+      "config": [
+        "fixed",
+        2,
+        1,
+        1,
+        4
+      ]
+    },
+    {
+      "shape": [
+        2,
+        768,
+        768
+      ],
+      "config": [
+        "fixed",
+        2,
+        2,
+        1,
+        4
+      ]
+    },
+    {
+      "shape": [
+        2,
+        768,
+        3072
+      ],
+      "config": [
+        "fixed",
+        2,
+        2,
+        1,
+        4
+      ]
+    },
+    {
+      "shape": [
+        2,
+        2304,
+        768
+      ],
+      "config": [
+        "fixed",
+        2,
+        2,
+        1,
+        16
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3072,
+        768
+      ],
+      "config": [
+        "fixed",
+        2,
+        2,
+        1,
+        16
+      ]
+    }
+  ]
+}
