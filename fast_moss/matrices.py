@@ -70,6 +70,8 @@ class MatrixRuntime:
         self.small_warmed = set()
         self.ffn_calls = 0
         self.ffn_gemv_calls = 0
+        self.ffn_short_enabled = True
+        self.ffn_short_calls = 0
         self.ffn_gemv_enabled = True
         self.ffn_staged_calls = 0
         self.ffn_enabled = True
@@ -191,6 +193,18 @@ class MatrixRuntime:
                     if torch.cuda.is_current_stream_capturing():
                         raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
                     self.small_warmed.add(key)
+                if _fast_epilogue is not None and self.backend == 'cuda' and self.ffn_short_enabled:
+                    from .short_ffn import CONFIGS as SHORT_FFN, linear as short_ffn_linear
+                    if shape in SHORT_FFN:
+                        mode,residual,scale,library = _fast_epilogue
+                        self.ffn_calls += 1
+                        self.ffn_short_calls += 1
+                        if SHORT_FFN[shape][0] == 'fixed':
+                            self.small_calls += 1
+                            self.triton_calls += 1
+                        return short_ffn_linear(x.reshape(shape[0],shape[-1]),module.weight,mode,
+                            residual.reshape(shape[0],module.out_features) if residual is not None else None,
+                            scale,library,self.cuda_bindings).reshape(*x.shape[:-1],module.out_features)
                 if wide_shape:
                     from .wide_matrices import linear as wide_linear
                     self.wide_calls += 1

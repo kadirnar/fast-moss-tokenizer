@@ -1171,3 +1171,45 @@ Fresh matched comparisons give **6.711 / 5.924 ms** batch-one encode/decode at 8
 The full suite passes **686 tests in 128.37 seconds**. Six compiler variants use **38–40 registers**, **3,072–24,576 shared bytes**, zero local-memory bytes and no matrix Tensor Core instructions. Source hashes and selected configurations match the research/runtime reports, and the 27-file package audit passes. This turn is **progress**, with a verified integrated optimization; the 100× goal remains active and unmet.
 
 All handles are terminal: sweep `45296`; confirmation/research-test chain `84459`; research model `49341`; five-round timing repeat `53615`; focused integration tests `52046`; integrated model `89065`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `46076`; isolated wheel import `75565`. GPU jobs ran sequentially and only the preexisting 29 MiB client remains. Temporary repository wheel-build output is removed. Final audit verifies arithmetic/source provenance, selection, output equality, negative-control counts, launch removal, direct ratios, compiler resources and package bytes. Further exact matrix/FFN fusion, physical memory-system counters, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Integrated short-row FFN epilogues
+
+Previous goal turn classification: **progress**, verified at clean commit `c67e3a9`, with six long-K CUDA replacements, 686 passing tests, exact corpus/streaming gates, audited package and measured launch removal. Only the preexisting 29 MiB GPU client remained; no previous task job was active. The 100× goal remains active and unmet.
+
+- Added research GELU/residual epilogues to sixteen short-row native matrix geometries. NVRTC GELU matches **2,097,163 inputs** with explicit outer FP32 rounding. Existing matrix accumulation order is retained, and Triton math retains its pinned libdevice.
+- The initial probe passes **960 eager/graph comparisons** and exact outputs on **48 allocation rings**. Two initially slow CUDA epilogues trigger an epilogue-aware retune: **252 configurations**, **200 additional comparisons**, six rings, and recovered **1.0746× / 1.0631×** component gains. Other shapes retain their matrix schedules.
+- All **48 research model cases** pass bitwise gates. Encoder GELU-only and residual-only timing ablations do not beat fusing both. The integrated path extends `ffn_backend="triton"` with CUDA matrices while preserving legacy one-row and 24-row paths, observer/custom-forward fallbacks, native weight storage and graph lifetime rules.
+- Research tests pass **17 in 7.02 seconds**; focused runtime/fusion/matrix tests pass **113 in 29.38 seconds**.
+- All **48 integrated cases** remain bit-identical. Five rotating timing rounds give batch-one / 80 ms encode/decode **6.783 → 6.757 ms / 5.998 → 5.939 ms**, approximately **0.4% / 1.0% lower latency**. Batch-eight gains are **1.0068× / 1.0074×**. At 240 ms, encode is nearly unchanged (**1.0022×**), while decode improves **6.432 → 6.316 ms (1.0183×)**. Peak allocation is **7.723 GB**.
+- The wheel matches all **28 runtime/profile files** and passes isolated import. A source audit confirms the Triton matrix body is unchanged except for epilogue calls/signature, while CUDA derivation asserts its splice points.
+
+- The CuTe combination passes **48 cases**. Both 162-chunk streams remain bit-identical to corrected eager streaming, producing **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**. Their preexisting decoder/offline discrepancy is unchanged.
+- Profiles show **24 / 72 short-FFN calls** at 80 ms encode/decode, removing the same number of launches and leaving **1,412 / 808** kernels. At 240 ms the encoder makes **zero** new calls and retains **1,522** launches, so its 0.2% timing difference is a control. The decoder makes **112** fused calls and removes 112 launches, leaving **883**. All directions retain 136 CUDA LayerNorm calls. Matrices including fused epilogues still occupy **73.25% / 82.66%** of 80 ms kernel time.
+- Fresh original comparisons measure batch-one **6.685 / 5.867 ms** at 80 ms, **7.06× / 6.35×** versus eager and **1.55× / 1.55×** versus original graphs. At 240 ms, **7.874 / 6.213 ms** gives **6.03× / 6.10×** versus eager. Direct ratios use their own measured denominators; no historical ratios are multiplied.
+- The full suite passes **748 tests in 135.22 seconds**. Sixteen compiler variants use **39–80 registers**, **8–24,576 shared bytes**, zero local bytes/local load-store instructions and no matrix Tensor Core instructions. Triton reports zero spills. Source/configuration provenance and the 28-file wheel audit pass.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.short_ffn_cuda_math
+.venv/bin/python -m benchmarks.short_ffn_probe
+.venv/bin/python -m benchmarks.short_ffn_retune
+.venv/bin/python -m benchmarks.short_ffn_confirm
+.venv/bin/python -m benchmarks.short_ffn_model --rounds 5 --output results/full_short_ffn.json
+.venv/bin/python -m benchmarks.short_ffn_model --timing-only --encoder-epilogues residual --output results/full_short_ffn_encoder_residual.json
+.venv/bin/python -m benchmarks.short_ffn_model --timing-only --encoder-epilogues gelu --output results/full_short_ffn_encoder_gelu.json
+.venv/bin/python -m pytest tests/test_short_ffn_runtime.py tests/test_short_ffn_research.py tests/test_cuda_matrix_runtime.py tests/test_wide_matrix_runtime.py tests/test_ffn.py -q
+.venv/bin/python -m benchmarks.short_ffn_model --runtime --rounds 5 --output results/full_short_ffn_runtime.json
+.venv/bin/python -m benchmarks.short_ffn_model --runtime --fidelity-only --residual-backend cute --output results/full_short_ffn_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_short_ffn_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_short_ffn_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_short_ffn_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_short_ffn_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --output results/full_codec_short_ffn_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --output results/full_codec_short_ffn_f3.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.short_ffn_resources
+uv build --wheel --out-dir /tmp/moss-short-ffn-wheel
+```
+
+All handles are terminal: math probe `99623`; initial probe `77373`; CUDA retune `46879`; confirmation `34900`; research model `92373`; research tests `57663`; encoder ablations `61278`; focused integration tests `69200`; integrated model `71240`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `93215`; isolated wheel import `27941`. GPU jobs ran sequentially, and only the preexisting 29 MiB client remains. Temporary repository wheel-build output is removed. This turn is **progress**, with an integrated verified improvement; the goal remains active and unmet. Further exact matrix scheduling, encoder fusion coverage, physical memory-system attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.

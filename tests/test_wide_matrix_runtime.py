@@ -69,7 +69,8 @@ def test_wide_coexists_with_ffn_and_norm(monkeypatch,width,rows,residual):
     with optimized(model,matrix_backend='cuda',ffn_backend='triton',residual_backend=residual,norm_backend='cuda'):
         exact(layer._ff_block(x),ref)
         owner=model._fast_matrix_runtime
-        assert owner.wide_calls==(0 if rows==1 else 1)
+        assert owner.wide_calls==0
+        assert owner.ffn_short_calls==(0 if rows==1 else 2)
         assert owner.ffn_gemv_calls==(2 if rows==1 else 0)
         graph=GraphedCallable(lambda z:(layer._ff_block(z),),x);exact(graph(x)[0],ref)
     exact(layer._ff_block(x),ref)

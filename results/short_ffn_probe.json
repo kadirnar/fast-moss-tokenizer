@@ -1,0 +1,5746 @@
+{
+  "scope": "short FFN epilogues on current matrix schedules; exact stress and distinct-allocation component rings; copies and capture excluded",
+  "previous_commit": "c67e3a9",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "cuda_source_sha256": {
+    "cuda": "cf2b7218017f50e14b02640c20ec88252d940be95851d2543b20962d95b0cad0",
+    "wide": "fa6cc306c627f788c81d5505809c1bc0a5c7a6a48a3242ddab1d1e02a415411f"
+  },
+  "records": [
+    {
+      "shape": [
+        2,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "wide",
+      "config": [
+        2,
+        2,
+        12,
+        16,
+        true
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 40,
+        "local_bytes": 0,
+        "shared_bytes": 3072
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.007206362310233426
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.00879826610185053
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.00491071451815028
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.005408174606389874
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.0054064605416370036
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.004863805850679406
+            }
+          ],
+          "medians_ms": {
+            "current": 0.005408174606389874,
+            "fused": 0.00491071451815028
+          },
+          "speedup": 1.101300958628516
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013006488896078534
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.012506409463165813
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.012534433540545013
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013012311028109656
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.01321324395806822
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.012541122870011762
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013012311028109656,
+            "fused": 0.012534433540545013
+          },
+          "speedup": 1.038125176221076
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.012995944337712393
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.012542319427365842
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.012512152091316555
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013010242189231672
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013006994376579921
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.012486365178357
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013006994376579921,
+            "fused": 0.012512152091316555
+          },
+          "speedup": 1.0395489346398519
+        }
+      ]
+    },
+    {
+      "shape": [
+        2,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        2,
+        2,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 74,
+        "local_bytes": 0,
+        "shared_bytes": 8
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.005340701852525984
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.004456420816248629
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.004444318969777767
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.005335065015232126
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.005343322866025637
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.004493077289943354
+            }
+          ],
+          "medians_ms": {
+            "current": 0.005340701852525984,
+            "fused": 0.004456420816248629
+          },
+          "speedup": 1.198428531042931
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013697936154213271
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.012799981166058638
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.012851196943327437
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.01370354733191246
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013612406839758662
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.012813012301921844
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013697936154213271,
+            "fused": 0.012813012301921844
+          },
+          "speedup": 1.0690644659849968
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013796222498339991
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.012947194142775103
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.012966496776789427
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013734909699809167
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013786906292361598
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.012925963600476584
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013786906292361598,
+            "fused": 0.012947194142775103
+          },
+          "speedup": 1.064856689436072
+        }
+      ]
+    },
+    {
+      "shape": [
+        3,
+        1280,
+        5120
+      ],
+      "mode": "residual",
+      "family": "wide",
+      "config": [
+        3,
+        2,
+        4,
+        4,
+        true
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 39,
+        "local_bytes": 0,
+        "shared_bytes": 7680
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 26214400,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.014886420608585717
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.014070866908832944
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.014048612363053938
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.01500721018365089
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.014970187848928023
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.014080843466595126
+            }
+          ],
+          "medians_ms": {
+            "current": 0.014970187848928023,
+            "fused": 0.014070866908832944
+          },
+          "speedup": 1.0639136839202517
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 209715200,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.03548302816020118
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.0357558603556651
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.03556758097882541
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03569605052471161
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03570453921953837
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.03552702074853059
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03569605052471161,
+            "fused": 0.03556758097882541
+          },
+          "speedup": 1.0036119843506557
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 838860800,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.03591920038064321
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.035695815544862015
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.03586345016956329
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.0356306556198332
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03561563856071896
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.03564654221901527
+            }
+          ],
+          "medians_ms": {
+            "current": 0.0356306556198332,
+            "fused": 0.035695815544862015
+          },
+          "speedup": 0.9981745780553208
+        }
+      ]
+    },
+    {
+      "shape": [
+        3,
+        5120,
+        1280
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        3,
+        4,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 26214400,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.011657960676772789
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.010963324296821668
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.011031965033648766
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.011787400563557943
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.011848796684893198
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.011089012240836634
+            }
+          ],
+          "medians_ms": {
+            "current": 0.011787400563557943,
+            "fused": 0.011031965033648766
+          },
+          "speedup": 1.0684769692076628
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 209715200,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.03415876309806054
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.03346508251769202
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.03339636473529107
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.034161677491774255
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03419545182475337
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.0334134646824428
+            }
+          ],
+          "medians_ms": {
+            "current": 0.034161677491774255,
+            "fused": 0.0334134646824428
+          },
+          "speedup": 1.0223925539132912
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 838860800,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.034127543687820436
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.033359478201184956
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.033456693163939885
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03415243338655542
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03414004147052765
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.033416110702923364
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03414004147052765,
+            "fused": 0.033416110702923364
+          },
+          "speedup": 1.0216641240520234
+        }
+      ]
+    },
+    {
+      "shape": [
+        4,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "wide",
+      "config": [
+        4,
+        2,
+        4,
+        16,
+        false
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 40,
+        "local_bytes": 0,
+        "shared_bytes": 6144
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.0071237602171282275
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.006759486616454897
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.006731042623093388
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.007136987631719158
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.007093615776936527
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.006780872502169766
+            }
+          ],
+          "medians_ms": {
+            "current": 0.0071237602171282275,
+            "fused": 0.006759486616454897
+          },
+          "speedup": 1.0538907200121626
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.014103005660904779
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013763772628524087
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.0137847596792866
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.014158922102716234
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.014261534890613041
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013798458388682162
+            }
+          ],
+          "medians_ms": {
+            "current": 0.014158922102716234,
+            "fused": 0.0137847596792866
+          },
+          "speedup": 1.0271431952485803
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.014139272272586823
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013864676200825234
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.01385421960250191
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.014132516748375363
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.014377073865187795
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013858080558154894
+            }
+          ],
+          "medians_ms": {
+            "current": 0.014139272272586823,
+            "fused": 0.013858080558154894
+          },
+          "speedup": 1.0202908125156236
+        }
+      ]
+    },
+    {
+      "shape": [
+        4,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "cuda",
+      "config": [
+        4,
+        8,
+        4,
+        false
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 40,
+        "local_bytes": 0,
+        "shared_bytes": 6144
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.007455728414520344
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.006783344134248019
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.006749494326379053
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.007345387826160509
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.007406831731890688
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.006748493635446929
+            }
+          ],
+          "medians_ms": {
+            "current": 0.007406831731890688,
+            "fused": 0.006749494326379053
+          },
+          "speedup": 1.0973906153150708
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013829343672841787
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013201972252544873
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.013176738648187547
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013801122002485322
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013822883092440091
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013177556296189627
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013822883092440091,
+            "fused": 0.013177556296189627
+          },
+          "speedup": 1.0489716592170482
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013953094184398652
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013229023592144836
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.01322727158384503
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013986688151079067
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013817060625914371
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013147348827785916
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013953094184398652,
+            "fused": 0.01322727158384503
+          },
+          "speedup": 1.054873191039647
+        }
+      ]
+    },
+    {
+      "shape": [
+        6,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "wide",
+      "config": [
+        6,
+        4,
+        12,
+        4,
+        false
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 40,
+        "local_bytes": 0,
+        "shared_bytes": 18432
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.010311239610338425
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.01134190094304877
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.01132866489484586
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.010161523404328719
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.01016799670372864
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.011426529546178
+            }
+          ],
+          "medians_ms": {
+            "current": 0.01016799670372864,
+            "fused": 0.01134190094304877
+          },
+          "speedup": 0.8964984577792849
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013673650798663287
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.0134051254240133
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.01342820576259068
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.01353056679169337
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013542316605647404
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013447394478792524
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013542316605647404,
+            "fused": 0.01342820576259068
+          },
+          "speedup": 1.008497847372478
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.013496544377671348
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013416211207707723
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.013430998046347436
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.013604361067215602
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.013621566692988078
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013414365182752195
+            }
+          ],
+          "medians_ms": {
+            "current": 0.013604361067215602,
+            "fused": 0.013416211207707723
+          },
+          "speedup": 1.0140240680915775
+        }
+      ]
+    },
+    {
+      "shape": [
+        6,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "cuda",
+      "config": [
+        6,
+        8,
+        4,
+        false
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 40,
+        "local_bytes": 0,
+        "shared_bytes": 9216
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.009852100660719138
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.00925082028922388
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.009314782986447313
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.010136879191679113
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.009946511943283177
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.009386643875382348
+            }
+          ],
+          "medians_ms": {
+            "current": 0.009946511943283177,
+            "fused": 0.009314782986447313
+          },
+          "speedup": 1.067820040225844
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.014444615598767996
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013798898650753882
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.013762273326996834
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.014396428037434817
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.014468931406736375
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013735115904557078
+            }
+          ],
+          "medians_ms": {
+            "current": 0.014444615598767996,
+            "fused": 0.013762273326996834
+          },
+          "speedup": 1.0495806365386335
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.01449718800458041
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.013814795868737358
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.013786571609730623
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.014486402995658643
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.014505761861801147
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.013770961153263948
+            }
+          ],
+          "medians_ms": {
+            "current": 0.01449718800458041,
+            "fused": 0.013786571609730623
+          },
+          "speedup": 1.0515440977616386
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "wide",
+      "config": [
+        8,
+        4,
+        12,
+        4,
+        false
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 39,
+        "local_bytes": 0,
+        "shared_bytes": 24576
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.010721800039554464
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.010871966646708128
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.010914906268381368
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.010738430445707298
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.010790590681824107
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.010840141463106058
+            }
+          ],
+          "medians_ms": {
+            "current": 0.010738430445707298,
+            "fused": 0.010871966646708128
+          },
+          "speedup": 0.9877173831248587
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.015251050061649746
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.017107963287967376
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.017162218313107547
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.015295092824479224
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.015315305524402195
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.017093497785654936
+            }
+          ],
+          "medians_ms": {
+            "current": 0.015295092824479224,
+            "fused": 0.017107963287967376
+          },
+          "speedup": 0.894033530878383
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.015359188781844245
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.017144643742105236
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.017083967509477035
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.015458066761493682
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.015388768440798709
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.0170638391505117
+            }
+          ],
+          "medians_ms": {
+            "current": 0.015388768440798709,
+            "fused": 0.017083967509477035
+          },
+          "speedup": 0.9007725185769673
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        1280,
+        5120
+      ],
+      "mode": "residual",
+      "family": "fixed",
+      "config": [
+        3,
+        4,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 26214400,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.031493019288586034
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.030891545319262845
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.030939374311690762
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03161082155122532
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03153730866493778
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.030910453047276985
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03153730866493778,
+            "fused": 0.030910453047276985
+          },
+          "speedup": 1.0202797292133514
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 209715200,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.039576672635427336
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.03883727039258505
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.038941945980504614
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03941182337309185
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03930495786078182
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.03894447395482014
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03941182337309185,
+            "fused": 0.038941945980504614
+          },
+          "speedup": 1.0120660994399835
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 838860800,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.03930173317591349
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.03895182510217031
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.03875232257626274
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03931906194913955
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.03929912419546218
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.039011492083470024
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03930173317591349,
+            "fused": 0.03895182510217031
+          },
+          "speedup": 1.0089830982970727
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        4,
+        4,
+        1,
+        4
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.010547706232232562
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.009803547243495563
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.009904772848256777
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.010571615357216589
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.010650740468755682
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.009768231622103987
+            }
+          ],
+          "medians_ms": {
+            "current": 0.010571615357216589,
+            "fused": 0.009803547243495563
+          },
+          "speedup": 1.0783459389386452
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.015313842016107896
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.014548220825195312
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.014699431136250496
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.015285630027453104
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.015296060045560202
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.014567066595806338
+            }
+          ],
+          "medians_ms": {
+            "current": 0.015296060045560202,
+            "fused": 0.014567066595806338
+          },
+          "speedup": 1.0500439429557995
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.015471587354137051
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.014660899867029752
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.014611162524670363
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.015348093451992157
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.015448867794006102
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.014646148591330557
+            }
+          ],
+          "medians_ms": {
+            "current": 0.015448867794006102,
+            "fused": 0.014646148591330557
+          },
+          "speedup": 1.0548075282501705
+        }
+      ]
+    },
+    {
+      "shape": [
+        8,
+        5120,
+        1280
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        4,
+        4,
+        1,
+        4
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 26214400,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.02443456428638403
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.023543563938973368
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.023634141248313575
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.024458919945409743
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.024435960126845218
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.023614436094001805
+            }
+          ],
+          "medians_ms": {
+            "current": 0.024435960126845218,
+            "fused": 0.023614436094001805
+          },
+          "speedup": 1.0347890599450766
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 209715200,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.04332472154463845
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.04264912307262421
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.042608939127975635
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.043215739449789355
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.043239976893896345
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.04277186827226118
+            }
+          ],
+          "medians_ms": {
+            "current": 0.043239976893896345,
+            "fused": 0.04264912307262421
+          },
+          "speedup": 1.0138538328271371
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 838860800,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.04327110449473063
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.04266927063465119
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.04264890903776342
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.043176764845848085
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.0433067003885905
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.042624622854319484
+            }
+          ],
+          "medians_ms": {
+            "current": 0.04327110449473063,
+            "fused": 0.04264890903776342
+          },
+          "speedup": 1.0145887777906883
+        }
+      ]
+    },
+    {
+      "shape": [
+        12,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "fixed",
+      "config": [
+        3,
+        4,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.017891137520627733
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.01716524615432277
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.017188212076822917
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.017820793557837306
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.01782321894934418
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.017278597152128247
+            }
+          ],
+          "medians_ms": {
+            "current": 0.01782321894934418,
+            "fused": 0.017188212076822917
+          },
+          "speedup": 1.036944323800701
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.0198094780852155
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.019276694226856073
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.019304763581141953
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.019879126839521453
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.019833658526583416
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.019262194837260452
+            }
+          ],
+          "medians_ms": {
+            "current": 0.019833658526583416,
+            "fused": 0.019276694226856073
+          },
+          "speedup": 1.0288931438748137
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.01989680486066001
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.019380584359169006
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.019410799972472654
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.019858190417289735
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.019875255078077317
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.01937075122710197
+            }
+          ],
+          "medians_ms": {
+            "current": 0.019875255078077317,
+            "fused": 0.019380584359169006
+          },
+          "speedup": 1.025524035278858
+        }
+      ]
+    },
+    {
+      "shape": [
+        12,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        3,
+        4,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.01686211345226035
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.016004359987046985
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.016007962047805045
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.01687019690151872
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.016845162709554037
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.01606826663017273
+            }
+          ],
+          "medians_ms": {
+            "current": 0.01686211345226035,
+            "fused": 0.016007962047805045
+          },
+          "speedup": 1.0533579103888757
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.02182994325955709
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.021115924429705762
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.021133228050645932
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.02192650020122528
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.021794542417687884
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.020964850508977496
+            }
+          ],
+          "medians_ms": {
+            "current": 0.02182994325955709,
+            "fused": 0.021115924429705762
+          },
+          "speedup": 1.0338142349499437
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.021810277431241927
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.02101439093098496
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.02094127728093055
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.021660970872448337
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.02172583553098863
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.02098796656637481
+            }
+          ],
+          "medians_ms": {
+            "current": 0.02172583553098863,
+            "fused": 0.02098796656637481
+          },
+          "speedup": 1.035156762913658
+        }
+      ]
+    },
+    {
+      "shape": [
+        16,
+        768,
+        3072
+      ],
+      "mode": "residual",
+      "family": "fixed",
+      "config": [
+        4,
+        4,
+        1,
+        4
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 72,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.01998569439715288
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.019595756836159606
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.019631366787360154
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.0200232393820925
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.02009717012519267
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.019624317129978176
+            }
+          ],
+          "medians_ms": {
+            "current": 0.0200232393820925,
+            "fused": 0.019624317129978176
+          },
+          "speedup": 1.0203279558454001
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.02280289390940725
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.022275493144989014
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.022250558522121967
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.022588474750518797
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.02274284377330687
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.02226699502014917
+            }
+          ],
+          "medians_ms": {
+            "current": 0.02274284377330687,
+            "fused": 0.02226699502014917
+          },
+          "speedup": 1.0213701378532267
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.022791323917252675
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.022247622666820403
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.022313271835446357
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.022833299920672463
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.02285947132678259
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.02230987176299095
+            }
+          ],
+          "medians_ms": {
+            "current": 0.022833299920672463,
+            "fused": 0.02230987176299095
+          },
+          "speedup": 1.0234617286572578
+        }
+      ]
+    },
+    {
+      "shape": [
+        16,
+        3072,
+        768
+      ],
+      "mode": "gelu",
+      "family": "fixed",
+      "config": [
+        8,
+        4,
+        1,
+        16
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "native",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "subnormal",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "tiny",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "large",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "sparse",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "fused",
+          "input": "positive_weight_underflow",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "all_exact": true,
+      "resources": {
+        "registers": 80,
+        "local_bytes": 0,
+        "shared_bytes": 16
+      },
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 9437184,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.016211362081031275
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.01549352093057318
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.015486870901925224
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.015966772839305848
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.015920969009399415
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.015348150474090789
+            }
+          ],
+          "medians_ms": {
+            "current": 0.015966772839305848,
+            "fused": 0.015486870901925224
+          },
+          "speedup": 1.0309876630611654
+        },
+        {
+          "length": 8,
+          "logical_weight_bytes": 75497472,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.020959328816941947
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.02028387486934662
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.020434601362361464
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.020903428132868995
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.02097803955235757
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.020245181024074556
+            }
+          ],
+          "medians_ms": {
+            "current": 0.020959328816941947,
+            "fused": 0.02028387486934662
+          },
+          "speedup": 1.0333000450824161
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 301989888,
+          "checks": {
+            "current": {
+              "eager": true,
+              "graph": true
+            },
+            "fused": {
+              "eager": true,
+              "graph": true
+            }
+          },
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.02096630334854126
+            },
+            {
+              "round": 0,
+              "backend": "fused",
+              "per_call_ms": 0.020223097187100032
+            },
+            {
+              "round": 1,
+              "backend": "fused",
+              "per_call_ms": 0.02028667258493828
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.021020219210655458
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.020959325759641587
+            },
+            {
+              "round": 2,
+              "backend": "fused",
+              "per_call_ms": 0.020306206291372125
+            }
+          ],
+          "medians_ms": {
+            "current": 0.02096630334854126,
+            "fused": 0.02028667258493828
+          },
+          "speedup": 1.033501342359494
+        }
+      ]
+    }
+  ]
+}

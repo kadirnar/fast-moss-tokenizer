@@ -49,7 +49,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     shapes, including six long-K kernels; it requires the pinned cuda extra.
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
-    ffn_backend='triton' uses two stages and decoder epilogues for 24-row FFNs,
+    ffn_backend='triton' adds sixteen short-row epilogues with CUDA matrices,
+    and uses two stages and decoder epilogues for 24-row FFNs,
     plus fused native one-row GEMV epilogues in both encoder and decoder;
     it requires Triton matrices, residual fusion and the pinned ffn math extra.
     norm_backend='cuda' uses the pinned normalization extra for profiled FP32
@@ -183,8 +184,10 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
             for module in model.modules():
                 if (type(module).__name__ == 'MossAudioTokenizerTransformerLayer'
                         and id(module.linear1) in owned and id(module.linear2) in owned
-                        and tuple(module.linear1.weight.shape) == (5120,1280)
-                        and tuple(module.linear2.weight.shape) == (1280,5120)):
+                        and ((tuple(module.linear1.weight.shape) == (5120,1280)
+                              and tuple(module.linear2.weight.shape) == (1280,5120))
+                             or (matrix_backend == 'cuda' and tuple(module.linear1.weight.shape) == (3072,768)
+                                 and tuple(module.linear2.weight.shape) == (768,3072)))):
                     replace(module,'_fast_original_ffn',module._ff_block)
                     replace(module,'_fast_observed_ffn',original_ffn[id(module)])
                     replace(module,'_fast_ffn_runtime',runtime)

@@ -144,10 +144,14 @@ def forward(self, x):
     runtime = self._fast_ffn_runtime
     if observed(self):
         return self._fast_observed_ffn(x)
+    short = False
+    if runtime.backend == 'cuda' and runtime.ffn_short_enabled and x.ndim >= 2 and x.shape[-1] in (768,1280):
+        from .short_ffn import PAIRS
+        short = (x.numel()//x.shape[-1],x.shape[-1]) in PAIRS
     if (not runtime.ffn_enabled or runtime.backend not in {'triton','cuda'} or self.activation is not F.gelu or self.gating is not None
             or self.weights_per_step or type(self.norm2) is not torch.nn.LayerNorm
             or ('forward' in self.norm2.__dict__ and not owned_norm_forward(self.norm2))
-            or x.ndim < 2 or x.shape[-1] != 1280 or x.numel() not in (1280,24*1280)
+            or x.ndim < 2 or (not short and (x.shape[-1] != 1280 or x.numel() not in (1280,24*1280)))
             or (x.numel()==1280 and not runtime.ffn_gemv_enabled)
             or x.dtype != torch.float32 or x.device != runtime.device or x.requires_grad
             or not x.is_contiguous() or torch.is_autocast_enabled('cuda')):
@@ -158,7 +162,7 @@ def forward(self, x):
     if observed(self) or self.activation is not F.gelu:
         update = self.linear2(self.activation(self.linear1(normalized)))
         return x.to(update) + self.layer_scale_2(update)
-    if not self._fast_ffn_fuse and x.numel()!=1280:
+    if not self._fast_ffn_fuse and x.numel()!=1280 and not short:
         hidden = self.activation(self.linear1(normalized,_fast_stages=2))
         update = self.linear2(hidden,_fast_stages=2)
         return self._fast_scale_add(x,update,self.layer_scale_2.scale)
