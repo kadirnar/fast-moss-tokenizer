@@ -1595,3 +1595,28 @@ Reproduction (GPU jobs sequential):
 ```
 
 All handles are terminal: exploratory sweep `35749`, direct roundtrip `17875`, fixed confirmation `77197`, focused/compiler chain `60852`, CPU cross-report audit `32238`, and official-model metadata lookup `70749`. GPU jobs ran sequentially. This turn is **progress**: it rejects an unhelpful scheduling direction, directly measures end-to-end codec speed, and clarifies model-version scope. Matrix work remains the next optimization target. The broader **100× objective remains active and unmet**.
+
+## 2026-09-20 — Exact quantizer preparation fusion candidate
+
+The immediately preceding question-answer turn verified public HEAD `9e9ec47`, current model-version scope and existing timing evidence, but did not change optimization state: **no progress toward additional acceleration**. This continuation revalidated the clean worktree and idle GPU, then implemented and measured a new CUDA preparation kernel. The explicit original 24 kHz mono checkpoint remains the target; no response selecting v2 has arrived.
+
+The candidate combines six per-codebook operations while preserving both native normalization reduction orders, FP32 division, epsilon handling and output layouts. Vendor dot products and discrete selection remain unchanged. Independent stress coverage preserves all **1,025,028 compared elements**; **24 tests** pass in **4.66 seconds**. Both residual backends pass **48 full-codec cases** and **6,144 actual preparation intermediate checks each**, with exact eager, graph and restored outputs. The research compiler reports 34 registers and zero local/shared bytes.
+
+Five paired rounds show **6.520 → 6.365 ms encoder** and **12.323 → 12.175 ms direct roundtrip** at batch one / 80 ms: **1.0244× / 1.0122×** over the supported runtime. All four batch/frame geometries improve. Isolated preparation gains of 3.02–6.14× are kept distinct from model speedups. The one/two-stream, 162-chunk tests remain bit-exact against corrected eager streaming. Profiles show **160 fewer encoder launches**, with decoder counts unchanged. [Detailed evidence and tables](research.md#exact-quantizer-normalization-and-distance-preparation).
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.quantizer_prepare_model
+.venv/bin/python -m pytest tests/test_quantizer_prepare_research.py -q
+.venv/bin/python -m benchmarks.quantizer_prepare_probe
+.venv/bin/python -m benchmarks.quantizer_prepare_model --fidelity-only --residual-backend cute --output results/full_quantizer_prepare_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.quantizer_prepare_extra streaming --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_quantizer_prepare_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.quantizer_prepare_extra profile --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_quantizer_prepare_profile_f1.json
+.venv/bin/python -m benchmarks.quantizer_prepare_extra profile --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_quantizer_prepare_profile_f3.json
+.venv/bin/python -m benchmarks.quantizer_prepare_audit
+```
+
+All handles are terminal: initial arithmetic probe `51327`, paired full-model run `99699`, focused tests `23792`, sequential component/CuTe/stream/profile chain `13089`, and CPU cross-report audit `60434`. The audit passes **106 checks**, including byte identity of the **33 supported runtime files**. The unchanged supported suite is not rerun and no replacement wheel is needed. The candidate is research-only; guarded runtime integration and refreshed supported measurements are the next action. This turn is **progress**, with a measured exact codec improvement ready for integration. The broader **100× objective remains active and unmet**.

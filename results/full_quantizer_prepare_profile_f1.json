@@ -1,0 +1,361 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.08,
+  "batch": 1,
+  "streaming": false,
+  "extra_warmup_replays": 200,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "cuda",
+  "projection_backend": "triton",
+  "ffn_backend": "triton",
+  "norm_backend": "cuda",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 6.293763508438133,
+      "gpu_ms_median": 6.279919862747192,
+      "wall_ms_samples": [
+        6.3193219975801185,
+        6.283173002884723,
+        6.789751001633704,
+        6.2996350025059655,
+        6.2768409989075735,
+        6.298272011918016,
+        6.285557989031076,
+        6.8462469935184345,
+        6.28925500495825,
+        6.283284004894085
+      ],
+      "gpu_ms_samples": [
+        6.295616149902344,
+        6.270304203033447,
+        6.589759826660156,
+        6.284607887268066,
+        6.264959812164307,
+        6.2863359451293945,
+        6.274176120758057,
+        6.834080219268799,
+        6.275231838226318,
+        6.271935939788818
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 6.408339600000001,
+        "kernels_per_replay": 1024.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 31.0,
+        "decoder_gather_per_replay": 0.0,
+        "ordered_partials_per_replay": 0.0,
+        "ordered_reduce_per_replay": 0.0,
+        "ffn_reduce_per_replay": 0.0,
+        "strided_ffn_fixed_per_replay": 24.0,
+        "strided_ffn_cuda_per_replay": 24.0,
+        "short_ffn_fixed_per_replay": 24.0,
+        "short_ffn_cuda_per_replay": 24.0,
+        "wide_cta_per_replay": 0.0,
+        "cuda_cta_per_replay": 0.0,
+        "small_gemv_per_replay": 1.0,
+        "layer_norm_cuda_per_replay": 72.0,
+        "layer_norm_native_per_replay": 0.0,
+        "attention_residual_cuda_per_replay": 12.0,
+        "residual_gemv_async_per_replay": 32.0,
+        "norm_gemv_async_per_replay": 64.0,
+        "norm_projection_per_replay": 0.0,
+        "ffn_gemv_per_replay": 32.0,
+        "small_fixed_per_replay": 13.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 0.0,
+        "small_reduce_per_replay": 0.0,
+        "small_matrix_breakdown_scope": "Already included in groups.small_matrix; do not add again. Attention residual shares GEMV/fixed kernel names and adds its CUDA name; normalization/projection and norm_gemv_async include fused LayerNorm; FFN GEMV, residual_gemv_async, short-row and strided FFN kernels include their fused epilogues.",
+        "small_matrix_breakdown": {
+          "residual_gemv_async": {
+            "ms_per_replay": 1.0573768,
+            "percent": 16.50001195317427
+          },
+          "norm_gemv_async": {
+            "ms_per_replay": 1.9705031999999998,
+            "percent": 30.749044573105955
+          },
+          "attention_residual": {
+            "ms_per_replay": 0.0498112,
+            "percent": 0.7772871462679662
+          },
+          "norm_gemv": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_strided_ffn_fixed": {
+            "ms_per_replay": 0.12216400000000002,
+            "percent": 1.9063284349037934
+          },
+          "strided_ffn_cuda": {
+            "ms_per_replay": 0.30842240000000004,
+            "percent": 4.812828583553843
+          },
+          "_short_fixed": {
+            "ms_per_replay": 0.32885919999999996,
+            "percent": 5.131738024620294
+          },
+          "short_ffn_cuda": {
+            "ms_per_replay": 0.3276364,
+            "percent": 5.112656638858527
+          },
+          "wide_cta": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "cta_tiled": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_gemv": {
+            "ms_per_replay": 0.0057025999999999995,
+            "percent": 0.08898716915689049
+          },
+          "_ffn_gemv": {
+            "ms_per_replay": 0.28033460000000004,
+            "percent": 4.374527841814126
+          },
+          "_small_fixed": {
+            "ms_per_replay": 0.1210888,
+            "percent": 1.889550297864988
+          },
+          "_small_grouped": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_parts": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        },
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.0659976,
+            "percent": 1.029870514352891
+          },
+          "attention": {
+            "ms_per_replay": 0.5528997999999999,
+            "percent": 8.627816790483449
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.5718992,
+            "percent": 71.34296066332065
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.37533679999999997,
+            "percent": 5.857005455828214
+          },
+          "layer_norm_cuda": {
+            "ms_per_replay": 0.13024619999999998,
+            "percent": 2.0324484676186634
+          },
+          "layer_norm_native": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        },
+        "quantizer_prepare_per_replay": 32.0,
+        "quantizer_prepare_ms_per_replay": 0.035161000000000005
+      }
+    },
+    "decode": {
+      "wall_ms_median": 5.7566329996916465,
+      "gpu_ms_median": 5.743631839752197,
+      "wall_ms_samples": [
+        5.773650002083741,
+        5.755716003477573,
+        5.751457996666431,
+        5.75754999590572,
+        5.754604993853718,
+        6.210425999597646,
+        5.772238000645302,
+        5.755486010457389,
+        5.745438000303693,
+        5.762789995060302
+      ],
+      "gpu_ms_samples": [
+        5.751743793487549,
+        5.741919994354248,
+        5.73740816116333,
+        5.744383811950684,
+        5.741951942443848,
+        6.010879993438721,
+        5.756959915161133,
+        5.742879867553711,
+        5.732416152954102,
+        5.7500481605529785
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 5.7600504,
+        "kernels_per_replay": 676.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 0.0,
+        "decoder_gather_per_replay": 1.0,
+        "ordered_partials_per_replay": 0.0,
+        "ordered_reduce_per_replay": 0.0,
+        "ffn_reduce_per_replay": 0.0,
+        "strided_ffn_fixed_per_replay": 24.0,
+        "strided_ffn_cuda_per_replay": 0.0,
+        "short_ffn_fixed_per_replay": 24.0,
+        "short_ffn_cuda_per_replay": 48.0,
+        "wide_cta_per_replay": 0.0,
+        "cuda_cta_per_replay": 0.0,
+        "small_gemv_per_replay": 0.0,
+        "layer_norm_cuda_per_replay": 72.0,
+        "layer_norm_native_per_replay": 0.0,
+        "attention_residual_cuda_per_replay": 12.0,
+        "residual_gemv_async_per_replay": 32.0,
+        "norm_gemv_async_per_replay": 64.0,
+        "norm_projection_per_replay": 0.0,
+        "ffn_gemv_per_replay": 32.0,
+        "small_fixed_per_replay": 13.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 0.0,
+        "small_reduce_per_replay": 0.0,
+        "small_matrix_breakdown_scope": "Already included in groups.small_matrix; do not add again. Attention residual shares GEMV/fixed kernel names and adds its CUDA name; normalization/projection and norm_gemv_async include fused LayerNorm; FFN GEMV, residual_gemv_async, short-row and strided FFN kernels include their fused epilogues.",
+        "small_matrix_breakdown": {
+          "residual_gemv_async": {
+            "ms_per_replay": 1.0588228,
+            "percent": 18.38217943370773
+          },
+          "norm_gemv_async": {
+            "ms_per_replay": 1.9200612000000001,
+            "percent": 33.334104159921935
+          },
+          "attention_residual": {
+            "ms_per_replay": 0.0506498,
+            "percent": 0.8793291114258305
+          },
+          "norm_gemv": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_strided_ffn_fixed": {
+            "ms_per_replay": 0.12206120000000001,
+            "percent": 2.119099513434813
+          },
+          "strided_ffn_cuda": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_short_fixed": {
+            "ms_per_replay": 0.3928088,
+            "percent": 6.819537551268649
+          },
+          "short_ffn_cuda": {
+            "ms_per_replay": 0.636338,
+            "percent": 11.047438057139223
+          },
+          "wide_cta": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "cta_tiled": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_gemv": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_ffn_gemv": {
+            "ms_per_replay": 0.2796576,
+            "percent": 4.855124184330053
+          },
+          "_small_fixed": {
+            "ms_per_replay": 0.12079400000000001,
+            "percent": 2.0970997059331284
+          },
+          "_small_grouped": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_parts": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "_small_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        },
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.0657476,
+            "percent": 1.1414414012766279
+          },
+          "attention": {
+            "ms_per_replay": 0.5076396,
+            "percent": 8.813110385284128
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.5811934,
+            "percent": 79.53391171716137
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.2823758,
+            "percent": 4.902314743634883
+          },
+          "layer_norm_cuda": {
+            "ms_per_replay": 0.12304839999999999,
+            "percent": 2.1362382523597363
+          },
+          "layer_norm_native": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.0,
+            "percent": 0.0
+          }
+        },
+        "quantizer_prepare_per_replay": 0.0,
+        "quantizer_prepare_ms_per_replay": 0.0
+      }
+    }
+  },
+  "quantizer_prepare_research": true,
+  "enabled_in_runtime": false,
+  "quantizer_prepare_counts": [
+    {
+      "candidate_calls": 160,
+      "fallback_calls": 0,
+      "audit": false,
+      "preparation_checks": 0
+    }
+  ]
+}

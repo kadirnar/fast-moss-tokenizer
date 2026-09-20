@@ -914,3 +914,30 @@ The user asked for end-to-end speed and why the README uses 24 kHz mono. The req
 | 240 ms | 86.290 ms | 22.441 ms | 13.515 ms | 6.38× | 1.66× |
 
 Every measured and restored call preserves tokens, hidden-state bits and waveform bits. These are direct codec roundtrip results, replacing the initially communicated approximation formed by summing separately timed encode/decode medians. They are not cold-start or audio-file processing measurements, and do not apply to v2. README now includes this table and an explicit checkpoint distinction. [Full measurement](../results/full_codec_roundtrip.json). Verified 100× acceleration remains unmet.
+
+## Exact quantizer normalization and distance preparation
+
+The supported quantizer still performs six small operations for every codebook: L2 norm, epsilon clamp, division, squaring, row sum and multiplication by two. `benchmarks.quantizer_prepare` combines them into one CUDA kernel for canonical FP32 B,8,T latents. It retains the vendor dot product, both distance roundings, index selection, original embeddings and straight-through arithmetic. The candidate remains research-only pending supported dispatch and lifecycle integration.
+
+PyTorch 2.8's [Reduce.cuh](https://github.com/pytorch/pytorch/blob/v2.8.0/aten/src/ATen/native/cuda/Reduce.cuh) and [NormTwoOps](https://github.com/pytorch/pytorch/blob/v2.8.0/aten/src/ATen/native/SharedReduceOps.h) require different accumulation orders for the two input layouts. Contiguous eight-element rows use an adjacent-pair tree. Single-batch, multi-frame latents retain transposed rows, whose norm uses four cyclic FMA accumulators. The new kernel reproduces these orders explicitly, followed by correctly rounded square root/division, the original epsilon clamp and the separate normalized-square reduction. Its normalized and doubled outputs preserve the native strides so the vendor matrix dispatch remains unchanged.
+
+The stress probe checks **72 eager/graph output comparisons over 1,025,028 elements**, including random finite FP32 bit patterns and values around the epsilon boundary. All bits and strides match. The **24 focused tests** pass in **4.66 seconds**, covering changed graph inputs, signed zeros, underflow, overflow, infinities, NaNs, offset storage, invalid inputs and a changed default dtype. The compiled kernel uses **34 registers**, zero local bytes and no shared memory; independent processes reproduce its source and CUBIN hashes. [Probe](../results/quantizer_prepare_probe.json), [tests](../results/quantizer_prepare_tests.txt).
+
+Five alternating component rounds use 32 preparations per graph, 200 warmups and nine samples of ten raw graph replays. The seven measured geometries improve **3.02–6.14×** for preparation alone. These timings exclude vendor dot products, selection, input copies, owned output copies and the rest of the codec; they are not whole-model speedups.
+
+Both Triton and CuTe residual configurations pass all **48 full-checkpoint cases** against original eager execution, including the near-tie speech regression. Each run additionally checks **6,144 preparation intermediates** and their strides on actual quantizer latents. Eager, captured and restored tokens, encoder hidden states and reconstructed audio all match bit for bit. No case falls back from preparation fusion. [Triton corpus and timing](../results/full_quantizer_prepare.json), [CuTe corpus](../results/full_quantizer_prepare_cute.json).
+
+Five alternating rounds compare independently restored current/candidate contexts, with 200 owned graph warmups and five samples of ten calls per direction. The roundtrip directly feeds encoder codes to the decoder. Copies and owned outputs are included; loading, setup and capture are excluded. These are additional gains over the supported runtime, not comparisons with original eager execution:
+
+| Batch / frames | Encoder current → candidate | Encoder gain | Direct roundtrip current → candidate | Roundtrip gain |
+| --- | ---: | ---: | ---: | ---: |
+| 1 / 1 | 6.520 → 6.365 ms | 1.0244× | 12.323 → 12.175 ms | 1.0122× |
+| 8 / 1 | 8.920 → 8.753 ms | 1.0191× | 16.674 → 16.502 ms | 1.0104× |
+| 1 / 3 | 7.447 → 7.318 ms | 1.0176× | 13.716 → 13.585 ms | 1.0097× |
+| 8 / 3 | 10.164 → 9.959 ms | 1.0205× | 18.972 → 18.792 ms | 1.0096× |
+
+One and two parallel mono streams each pass **162 chunks / 12.96 seconds** against corrected eager streaming: **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**. Every chunk preserves bits. The existing decoder/offline difference is unchanged. Peak allocation remains **7,521,828,864 / 7,694,623,744 bytes**. [One stream](../results/full_quantizer_prepare_streaming_b1.json), [two streams](../results/full_quantizer_prepare_streaming_b2.json).
+
+Profiles confirm **32 preparation kernels** and **160 fewer encoder launches**: one frame drops **1,184 → 1,024**, three frames **1,242 → 1,082**. Decoder counts stay **676 / 827** with no preparation calls. Matrix groups still occupy **78.23% / 85.58%** of one-frame encoder/decoder kernel time and **83.21% / 83.97%** at three frames. These are kernel-duration shares, not physical memory-traffic counters. [One-frame profile](../results/full_quantizer_prepare_profile_f1.json), [three-frame profile](../results/full_quantizer_prepare_profile_f3.json).
+
+The cross-report audit passes **106 checks** and confirms all **33 supported runtime files** still match the preceding verified package. The supported 1,079-test suite is unchanged and was not rerun for this research addition. README retains supported measurements; the candidate gain will require a guarded runtime integration and fresh release measurements before promotion. The next step is that integration, followed by further work on remaining matrix and quantizer input-projection costs. The **100× objective remains unmet**. [Audit](../results/quantizer_prepare_audit.json).
