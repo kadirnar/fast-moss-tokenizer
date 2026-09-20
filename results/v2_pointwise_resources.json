@@ -1,0 +1,76 @@
+{
+  "scope": "representative Triton BF16/FP32 rotary and residual binaries; separate FP32 multiply/add and no FTZ",
+  "torch": "2.8.0+cu128",
+  "triton": "3.4.0",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "source_sha256": "e0e875f482c4f20fc8e3d004cbb2c5d61a54410e61810bb049ba681f3b50f842",
+  "kernels": [
+    {
+      "name": "rotate_torch.float32",
+      "registers": 36,
+      "spills": 0,
+      "shared_bytes": 1024,
+      "ptx_sha256": "0e0d31950f59ca80280d4d8727ae84cebdb96a84eae95767b927a43dc8a96253",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 16,
+      "fp32_add_sub_instructions": 8
+    },
+    {
+      "name": "rotate_torch.bfloat16",
+      "registers": 34,
+      "spills": 0,
+      "shared_bytes": 512,
+      "ptx_sha256": "9b3f0267bdc46f4cf2f1e04656c8ef2df4982fcb271c3d357a065c75dbfce2ad",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 16,
+      "fp32_add_sub_instructions": 8
+    },
+    {
+      "name": "scale_add_torch.float32_torch.float32",
+      "registers": 20,
+      "spills": 0,
+      "shared_bytes": 0,
+      "ptx_sha256": "417ea34c680fe47181406d99b0cdaf60ab585cfd9a13ccc1bb6dafa6bb1d6eea",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 2,
+      "fp32_add_sub_instructions": 2
+    },
+    {
+      "name": "scale_add_torch.float32_torch.bfloat16",
+      "registers": 18,
+      "spills": 0,
+      "shared_bytes": 0,
+      "ptx_sha256": "e0730650e75aa4e0ba2b833d78fb3cd3cb71e60b92cb8eece604447b51ced2b5",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 2,
+      "fp32_add_sub_instructions": 2
+    },
+    {
+      "name": "scale_add_torch.bfloat16_torch.float32",
+      "registers": 18,
+      "spills": 0,
+      "shared_bytes": 0,
+      "ptx_sha256": "bfcbfc2b32f818e47ec8cf7a646444a83644c7e944ac0e944a87b194d2886da9",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 2,
+      "fp32_add_sub_instructions": 2
+    },
+    {
+      "name": "scale_add_torch.bfloat16_torch.bfloat16",
+      "registers": 16,
+      "spills": 0,
+      "shared_bytes": 0,
+      "ptx_sha256": "c9722757c04daf56f49d2d9fa928f7bafa8343c22ea330cfa94b3fffc7669afb",
+      "fma_instructions": 0,
+      "ftz_instructions": 0,
+      "fp32_mul_instructions": 2,
+      "fp32_add_sub_instructions": 2
+    }
+  ],
+  "all_passed": true
+}

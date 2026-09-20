@@ -34,8 +34,10 @@ def main():
                     'assert kernel.__file__.startswith('+repr(temporary)+');'
                     'assert hashlib.sha256(kernel.SOURCE.encode()).hexdigest()=='+repr(source_hash)+';'
                     'import fast_moss.v2 as v2;'
+                    'import fast_moss.v2_pointwise as pointwise;'
                     'from fast_moss import load_model_v2;'
                     'assert v2.__file__.startswith('+repr(temporary)+');'
+                    'assert pointwise.__file__.startswith('+repr(temporary)+');'
                     'assert v2.load_model is load_model_v2;'
                     'assert v2.MODEL_ID=="OpenMOSS-Team/MOSS-Audio-Tokenizer-v2";'
                     'print("isolated import passed")')
