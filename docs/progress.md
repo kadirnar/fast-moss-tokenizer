@@ -933,3 +933,25 @@ Reproduction (GPU commands sequential):
 All handles are terminal: initial traffic `49362`; variable-width compile attempt `48424` and successful probe `27349`; fixed28 indexing attempt `99834` and corrected probe `82504`; discarded Gluon attempt `2964` and diagnostics `93195`, `50887`, `95743`; successful CUDA cooperative probe `16027`; focused tests/refreshed traffic/full-suite chain `1500`. No benchmark remains running. Actual memory-system counters, further exact kernel schedules, broader serving/multi-GPU work and verified 100× acceleration remain open.
 
 Final audit verifies all 23 production runtime/profile hashes against the preceding wheel, 2,352 exact component comparisons, rejection of every tested packed variant on both timing regimes, actual encoded sizes, repeated logical call counts and the 432-test report. Python compilation and diff checks pass. Only the pre-existing desktop GPU process remains.
+
+## CUDA vector loads and ordered GEMV prefetch
+
+Previous goal turn classification: **progress**, verified at clean commit `936b0e4`, with exact lossless packing probes, logical weight attribution and 432 passing tests. The 100× whole-model goal remains active and unmet.
+
+- Added research CUDA/NVRTC kernels that vectorize consecutive native FP32 lanes and prefetch ordered windows without changing the arithmetic. The **336-configuration** sweep is captured-input bit-exact and spill-free. Twenty-two finalists pass **660 eager/graph stress comparisons**, with another 360 passing control comparisons.
+- Generated-instruction inspection covers **24 kernels**. All eleven vectorized examples emit actual 64-/128-bit global loads; the scalar controls remain scalar. No inspected kernel spills or uses matrix Tensor Core instructions. Corrected a PTX counter that missed qualified loads; removed its incomplete sweep fields and retained the corrected finalist/SASS evidence. The first inspection invocation failed for lack of a materialized CUDA context and was rerun successfully after fixing initialization.
+- Only the one-row 1280→5120 FFN projection retains a warm gain: **1.0499×**, versus **0.9091×** after eviction. Its full-model ablation passes **48 cases**, including exact token, hidden-state, waveform and restored-output bits. It regresses one-frame batch-one encode/decode by **0.47% / 0.49%**. Other geometries do not call the candidate and show only timing variation. The candidate is rejected for runtime adoption.
+- Added thirteen arithmetic, graph and input-contract regressions. Focused tests pass **13 in 5.19 seconds**; the complete suite passes **445 in 71.43 seconds**. All **23 runtime/profile hashes** still match `narrow_package.json`. No new codec speedup or runtime memory reduction is claimed. This turn is **research progress**, with a measured rejection of wider loads/prefetch as a default GEMV replacement.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.gemv_vector_tune
+.venv/bin/python -m benchmarks.gemv_vector_confirm
+.venv/bin/python -m benchmarks.gemv_vector_instructions
+.venv/bin/python -m pytest tests/test_gemv_vector_research.py -q
+.venv/bin/python -m benchmarks.gemv_vector_model
+.venv/bin/python -m pytest -q
+```
+
+All handles are terminal: sweep `11540`, confirmation `91168`, initial instruction inspection `11530` (context initialization error, no tests run), corrected instruction inspection/focused tests/model chain `30038`, full suite `74126`. The final audit checks every comparison, candidate dispatch counts, emitted load widths, unchanged production hashes, compilation and diff hygiene. Actual memory-system counters, more effective exact data-access schedules, broader serving/multi-GPU work and the 100× whole-model goal remain open.
