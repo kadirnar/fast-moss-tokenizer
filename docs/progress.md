@@ -806,3 +806,56 @@ uv build --wheel --out-dir /tmp/moss-short-rows-wheel
 ```
 
 All GPU handles are terminal: native/arithmetic chain `3359`, 558-configuration sweep `76259`, stress/research-model chain `35078`, focused tests `96510`, and runtime/CuTe/two long streams/incremental/two profiles/resources/upstream comparison/full-tests chain `6623`. No benchmark is intentionally left running. Further native 16/32/64-row replacements, GEMV memory traffic, matrix/FFN fusion, broader fidelity and scheduling corpora, network serving, multi-GPU execution and verified 100× whole-model acceleration remain open.
+
+## Medium-row matrix work and underflow correction
+
+Previous goal turn classification: **progress**, verified at clean commit `31b95eb`, its 38 native-layout shapes, exact model/stream evidence and **343 passing tests**. The 100× whole-model goal remains active and unmet.
+
+- Native launch and full-output arithmetic probes cover all **twenty** 16/32/64-row shapes. The large-K `(32,3072,768)` kernel requires a **512 + 256** partition; `(64,768,240)` needs an **80-term** boundary, where a rounded 96-term guess fails. Six 16-row shapes retain 256-term small-N arithmetic. The initial sweep records **288 exact actual-input configurations**.
+- A stronger signed-zero audit finds **42 failing case pairs**, including **23 on previously supported ordered configurations**, despite ordinary numerical equality. Retained failing evidence is in `mid_zero.json` and `mid_confirm_unfixed.json`. Runtime ordered kernels now reproduce the native shape-specific final addition and avoid zero FMAs beyond the two affected preserving tails; the fused FFN residual epilogue also canonicalizes its second projection before scaling.
+- The corrected audit passes **288 eager/graph bit comparisons** with actual and forced-positive weights across 72 non-GEMV configurations. New ordered and fused-FFN underflow regressions pass in the **89-test focused suite**. Subsequent table ablations share the correction between both arms and state that baseline scope explicitly.
+- Corrected confirmation passes **2,072 eager/graph comparisons** on fourteen activation variants. Twenty candidates have warm component ratios **1.073–2.683×** and evicted ratios **0.650–1.900×**; the latter explicitly includes regressions. A seventeen-shape conservative subset is also compared at model level.
+- `full_mid_rows.json` passes **39 model cases** and favors the full twenty-shape selection over that subset in all affected measured geometries. Research-mode encode/decode ratios are **1.1338× / 1.1563×** at batch-eight / one-frame, **1.1338× / 1.1645×** at batch-four / two-frame, and **1.1398× / 1.1682×** at batch-one / eight-frame. Independent packing/restoration contexts prevent shared-storage contamination. Both arms share the signed-zero correction, so these are configuration-table increments rather than an unqualified comparison to the legacy arithmetic implementation.
+- `mid_selection.json` selects **six native-layout and fourteen packed additions**, bringing support to **44 small and 34 ordered shapes**. Existing ownership, layout fallback, stream warmup and graph lifetime gates remain active. **227 focused tests pass in 72.08 seconds**; wheel verification matches all **23 runtime/profile files** and temporary build output is removed.
+- `full_mid_runtime.json` passes **39 cases** through the default tables, as does `full_mid_cute.json`. Integrated encode/decode improves **10.444 → 9.240 ms / 9.241 → 8.021 ms** at batch-eight / one-frame (**1.1304× / 1.1520×**), **10.370 → 9.142 ms / 8.953 → 7.700 ms** at batch-four / two-frame (**1.1343× / 1.1627×**), and **10.273 → 9.030 ms / 8.769 → 7.503 ms** at batch-one / eight-frame (**1.1377× / 1.1687×**). Control ratios stay within 0.4% of one. Three alternating contexts use five samples of ten graph calls; copies/owned outputs are included, setup/packing/capture excluded. Peak allocation is **7.740 GB**.
+
+Long-stream gates pass chunk-by-chunk equality against corrected original eager streaming: **41,472 tokens / 2,488,320 samples** over 162 one-frame chunks in eight lanes (`full_mid_streaming_b8.json`), and **5,120 tokens / 307,200 samples** over twenty eight-frame chunks in one lane (`full_mid_streaming_f8.json`). Both cross the ten-second cache boundary. Encoder codes also match offline. Original and optimized streaming share the same maximum waveform differences from offline: **2.703e-5** and **1.125e-6**, respectively. Peak allocations are **8.798 GB / 7.597 GB**. The incremental scheduler retains exact **11,072 tokens / 664,320 samples** through arrivals, pauses, tails and lane reuse. One/three-fragment schedules take **721.725/723.854 ms encode** and **660.962/661.612 ms decode** (`full_incremental_mid.json`); these single-repeat regression measurements are not new paired speedup or network-latency claims.
+
+The batch-eight / one-frame profile (`full_mid_profile.json`) runs **1,581 / 1,038 kernels** for encode/decode, including **98 / 97 ordered main/reduction pairs** and **176 fixed-row kernels** per direction. Vendor SGEMM falls to **8.56% / 1.31%** of kernel time and vendor small matrices to **0.71% / 0%**. Ordered kernels take **14.89% / 16.56%**, native-layout small kernels **52.19% / 59.93%**, and all disjoint matrix groups **76.34% / 77.81%**. The nested small-kernel breakdown is already included in its parent group. Scheduling and weight reuse in our small kernels are now the largest target at this geometry; the remaining encoder vendor SGEMM still needs layer attribution. Kernel relabeling alone is not a performance gain.
+
+Resource audits cover all **44 small and 34 ordered configurations**, with actual-input bit equality, zero spills and no matrix Tensor Core instructions. Small-kernel register counts span **36–128**, ordered main kernels **56–254** (`mid_small_resources.json`, `mid_ordered_resources.json`). The latter records the corrected signed-zero/tail flags.
+
+Fresh original/current comparisons use three rotating rounds of ten single-call samples, including graph input copies and owned outputs, excluding load/packing/capture/restoration. In `full_codec_mid_one.json`, one-frame batch-one encode is **46.758 / 10.343 / 7.064 ms**, decode **36.976 / 9.093 / 6.241 ms**, for original eager / original graph / optimized graph: **6.62× / 5.92×** versus eager, **1.46× / 1.46×** versus original graphs. At batch eight, encode is **46.483 / 13.896 / 9.086 ms**, decode **37.642 / 12.300 / 7.870 ms**: **5.12× / 4.78×** versus eager and **1.53× / 1.56×** versus original graphs.
+
+In `full_codec_mid_three.json`, three-frame batch-one encode is **47.867 / 11.811 / 8.115 ms**, decode **38.253 / 10.169 / 6.707 ms**: **5.90× / 5.70×** versus eager and **1.46× / 1.52×** versus original graphs. Batch-eight encode is **49.835 / 19.070 / 10.164 ms**, decode **39.870 / 17.362 / 8.613 ms**: **4.90× / 4.63×** versus eager and **1.88× / 2.02×** versus original graphs. Every comparison and restored execution is exact. These are direct totals with fresh denominators, not products of historical incremental ratios.
+
+The complete suite passes **419 tests in 64.26 seconds**. Wheel verification matches all **23 runtime/profile files**. This turn is **progress**: twenty measured configurations and a signed-zero correctness repair, with exact corpus and streaming gates. The requested **100× whole-model acceleration remains unmet**.
+
+Reproduction (run GPU commands sequentially):
+
+```bash
+.venv/bin/python -m benchmarks.small_matrix_orders --rows 16 32 64 --all-captured --output results/mid_native_orders.json
+.venv/bin/python -m benchmarks.mid_arithmetic
+.venv/bin/python -m benchmarks.mid_rows --legacy
+.venv/bin/python -m benchmarks.mid_zero --legacy --output results/mid_zero.json
+.venv/bin/python -m benchmarks.mid_confirm --legacy --output results/mid_confirm_unfixed.json
+.venv/bin/python -m benchmarks.mid_zero
+.venv/bin/python -m benchmarks.mid_confirm
+.venv/bin/python -m benchmarks.mid_model
+.venv/bin/python -m benchmarks.mid_model --runtime --selection warm --output results/full_mid_runtime.json
+.venv/bin/python -m benchmarks.mid_model --runtime --selection warm --fidelity-only --residual-backend cute --output results/full_mid_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 8 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_mid_streaming_b8.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 160 --chunk-frames 8 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_mid_streaming_f8.json
+.venv/bin/python -m benchmarks.incremental_batching --matrix-backend triton --projection-backend triton --ffn-backend triton --repeats 1 --output results/full_incremental_mid.json
+.venv/bin/python -m benchmarks.profile_graph --batch 8 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_mid_profile.json
+.venv/bin/python -m benchmarks.small_matrix_resources --output results/mid_small_resources.json
+.venv/bin/python -m benchmarks.ordered_shapes_resources --output results/mid_ordered_resources.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --output results/full_codec_mid_one.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --output results/full_codec_mid_three.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-mid-wheel
+```
+
+All GPU handles are terminal: native profiling `82785`, arithmetic `76834`, tuning `74392`, legacy zero/confirmation `3529`, corrected zero `69055`, corrected tests/confirmation/model `77341`, integrated focused tests `29928`, and runtime/CuTe/streams/incremental/profile/resources/upstream comparisons/full-suite chain `37173`. No benchmark is left running. Small-matrix scheduling and weight reuse, remaining vendor attribution, matrix/FFN fusion, broader fidelity and scheduling corpora, network serving, multi-GPU execution and verified 100× acceleration remain open.
+
+Final audit: all new passing reports, retained legacy failure counts, compiler resources, profile subgroup accounting and wheel/source hashes agree with the documentation; Python compilation and `git diff --check` pass. Only the pre-existing desktop GPU process remains.

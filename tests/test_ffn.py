@@ -139,3 +139,18 @@ def test_gelu_special_values_and_math_library_contents(monkeypatch):
     monkeypatch.setattr('fast_moss.ffn.LIBDEVICE_SHA256','invalid')
     with pytest.raises(ValueError,match='validated CUDA'):
         math_library()
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('mode',['gelu','residual'])
+def test_fused_projection_signed_zero_before_epilogue(mode):
+    strict_precision()
+    k,n=(1280,5120) if mode=='gelu' else (5120,1280)
+    x=torch.full((24,k),-1.401298464324817e-45,device='cuda')
+    w=torch.full((n,k),.125,device='cuda');packed=w.T.contiguous()
+    residual=torch.full((24,n),-0.,device='cuda');scale=torch.ones(n,device='cuda')
+    raw=F.linear(x,w);ref=F.gelu(raw) if mode=='gelu' else residual+raw*scale
+    library=math_library();fn=lambda z:(linear(z,packed,mode,residual,scale,library),)
+    graph=GraphedCallable(fn,x)
+    assert torch.equal(ref.view(torch.int32),fn(x)[0].view(torch.int32))
+    assert torch.equal(ref.view(torch.int32),graph(x)[0].view(torch.int32))

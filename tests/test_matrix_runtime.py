@@ -283,3 +283,20 @@ def test_ordered_without_vendor_plan_cleanup_and_capture_warmup():
     assert torch.equal(model(x),ref)
     with pytest.raises(RuntimeError,match='storage changed'):
         graph(x)
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('shape',sorted(CONFIGS))
+def test_ordered_signed_zero_and_underflow_tail(shape):
+    from fast_moss.loading import strict_precision
+    from fast_moss.ordered_matrices import linear
+    strict_precision();torch.manual_seed(772)
+    m,n,k=shape
+    x=torch.full((m,k),-1.401298464324817e-45,device='cuda')
+    for w in [torch.full((n,k),.125,device='cuda'),torch.randn(n,k,device='cuda')*.05]:
+        packed=w.T.contiguous();ref=torch.nn.functional.linear(x,w)
+        fn=lambda z:(linear(z,packed),)
+        graph=GraphedCallable(fn,x)
+        assert torch.equal(ref.view(torch.int32),fn(x)[0].view(torch.int32))
+        assert torch.equal(ref.view(torch.int32),graph(x)[0].view(torch.int32))
+        del graph

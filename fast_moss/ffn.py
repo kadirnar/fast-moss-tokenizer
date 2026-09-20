@@ -51,6 +51,8 @@ def _ffn_reduce(P, X, S, Y, NUMEL:tl.constexpr, N:tl.constexpr, PARTS:tl.constex
         erf = libdevice.erf(_mul(acc,0.7071067811865476))
         acc = _mul(half,_add(erf,1.0))
     else:
+        # The native second projection canonicalizes zero before scaling.
+        acc = _add(acc,0.0)
         residual = tl.load(X+i,i<NUMEL,0)
         scale = tl.load(S+i%N,i<NUMEL,0)
         acc = _add(residual,_mul(acc,scale))

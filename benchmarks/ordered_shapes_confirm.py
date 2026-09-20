@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 import triton
 from triton.testing import do_bench_cudagraph
-from fast_moss.ordered_matrices import _partials, _reduce
+from fast_moss.ordered_matrices import _partials, _reduce, PRESERVE_SIGNED_ZERO
 from fast_moss.cublaslt import LinearPlan
 from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import strict_precision, REVISION
@@ -15,7 +15,7 @@ from benchmarks.compare import difference
 from benchmarks.matrices import evicted_replay
 
 
-def linear(x,packed,config,return_kernel=False):
+def linear(x,packed,config,return_kernel=False,*,exact_zero=False):
     m,k=x.shape;n=packed.shape[1]
     chunk,bm,bn,bk,warps,stages=config
     parts=triton.cdiv(k,chunk)
@@ -23,8 +23,10 @@ def linear(x,packed,config,return_kernel=False):
     out=torch.empty((m,n),device=x.device,dtype=x.dtype)
     kernel=_partials[(triton.cdiv(m,bm),triton.cdiv(n,bn),parts)](
         x,packed,p,m,n,k,chunk,bm,bn,bk,num_warps=warps,
-        num_stages=stages,enable_fp_fusion=False)
-    _reduce[(triton.cdiv(m*n,256),)](p,out,m*n,parts,256,enable_fp_fusion=False)
+        num_stages=stages,enable_fp_fusion=False,
+        EXACT_TAIL=exact_zero and (m,n,k) in PRESERVE_SIGNED_ZERO and k%chunk!=0)
+    _reduce[(triton.cdiv(m*n,256),)](p,out,m*n,parts,256,enable_fp_fusion=False,
+        ADD_ZERO=exact_zero and (m,n,k) not in PRESERVE_SIGNED_ZERO)
     return (out,kernel) if return_kernel else out
 
 
