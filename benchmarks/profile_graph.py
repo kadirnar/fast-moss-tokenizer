@@ -36,6 +36,8 @@ def kernel_summary(path,replays=5):
             'matrix_grouping':'SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions',
             'total_ms_per_replay':total/replays/1000,'kernels_per_replay':len(events)/replays,
             'quantizer_select_per_replay':sum(e.get('name')=='_select' for e in events)/replays,
+            'quantizer_prepare_per_replay':sum(e.get('name')=='quantizer_prepare' for e in events)/replays,
+            'quantizer_prepare_ms_per_replay':sum(e['dur'] for e in events if e.get('name')=='quantizer_prepare')/replays/1000,
             'quantizer_update_per_replay':sum(e.get('name')=='_update' for e in events)/replays,
             'projection_update_per_replay':sum(e.get('name')=='_project_update' for e in events)/replays,
             'decoder_gather_per_replay':sum(e.get('name') in ['_decode','_decode_tokens'] for e in events)/replays,

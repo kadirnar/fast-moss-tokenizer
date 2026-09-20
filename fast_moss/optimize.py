@@ -61,6 +61,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     the Triton attention-mask path also folds normalization into QKV projections.
     Both one-row projections stage native FP32 weights with asynchronous shared
     copies while preserving their original accumulation and normalization order.
+    With Triton quantizers, CUDA normalization also folds eight-channel LFQ
+    normalization and distance preparation into one exact kernel. Its frozen
+    wrapper ownership, input layout and per-stream warmup are checked at dispatch.
     CUDA matrices, FFN fusion and Triton attention masks also fuse square attention
     projections with scale/residual addition for nine native small-row shapes,
     retaining canonical contiguous or dense-transposed output layouts.
@@ -181,6 +184,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                 replace(module, "_sa_block", MethodType(_sa_block, module))
                 replace(module, "_ff_block", MethodType(_ff_block, module))
             if kind == "MossAudioTokenizerLFQ" and cache_codebooks:
+                native_quantizer = (getattr(module.decode_latents, '__func__', None) is type(module).decode_latents
+                                    and getattr(module.forward, '__func__', None) is type(module).forward)
                 cb = F.normalize(module.codebook.weight.float())
                 replace(module, "_fast_codebook", cb)
                 replace(module, "_fast_codebook_norm", cb.pow(2).sum(1, keepdim=True).t())
@@ -189,6 +194,10 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     from .quantizer import decode_latents, forward
                     replace(module, "decode_latents", MethodType(decode_latents, module))
                     replace(module, "forward", MethodType(forward, module))
+                    if norm_backend == 'cuda' and native_quantizer:
+                        runtime = model._fast_norm_runtime
+                        runtime.quantizer_forwards[module] = (module.decode_latents, module.forward)
+                        replace(module, '_fast_quantizer_prepare_runtime', runtime)
         if ffn_backend == 'triton':
             from .ffn import forward as ffn_forward
             runtime = model._fast_matrix_runtime

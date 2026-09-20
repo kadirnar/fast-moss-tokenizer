@@ -18,6 +18,7 @@ from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import load_model, REVISION
 from fast_moss.optimize import optimized
 
+RUNTIME = False
 
 @contextmanager
 def selected(model, enabled=True):
@@ -25,6 +26,22 @@ def selected(model, enabled=True):
     original = quantizer.decode_latents
     saved = []
     counts = {'candidate_calls': 0, 'fallback_calls': 0, 'audit': False, 'preparation_checks': 0}
+    runtime = getattr(model, '_fast_norm_runtime', None)
+    previous_enabled = getattr(runtime, 'quantizer_prepare_enabled', None)
+    if RUNTIME:
+        if previous_enabled is None:
+            raise ValueError('Supported quantizer preparation requires the CUDA normalization runtime')
+        before = runtime.quantizer_prepare_calls
+        runtime.quantizer_prepare_enabled = enabled
+        try:
+            yield counts
+        finally:
+            counts['candidate_calls'] = runtime.quantizer_prepare_calls-before
+            runtime.quantizer_prepare_enabled = previous_enabled
+        return
+    # Keep historical research ablations meaningful after supported integration.
+    if previous_enabled is not None:
+        runtime.quantizer_prepare_enabled = False
 
     def candidate(module, latents, *, straight_through=False):
         if (not enabled or latents.ndim != 3 or latents.shape[1] != 8
@@ -55,27 +72,32 @@ def selected(model, enabled=True):
         quantizer.decode_latents = original
         for q, method in saved:
             q.decode_latents = method
+        if previous_enabled is not None:
+            runtime.quantizer_prepare_enabled = previous_enabled
 
 
 @torch.inference_mode()
 def main():
+    global RUNTIME
     p = argparse.ArgumentParser()
     p.add_argument('--output', default='results/full_quantizer_prepare.json')
     p.add_argument('--rounds', type=int, default=5)
+    p.add_argument('--runtime', action='store_true')
     p.add_argument('--fidelity-only', action='store_true')
     p.add_argument('--timing-only', action='store_true')
     p.add_argument('--residual-backend', choices=['triton', 'cute'], default='triton')
     a = p.parse_args()
+    RUNTIME = a.runtime
     if a.rounds < 1 or (a.fidelity_only and a.timing_only):
         p.error('Invalid benchmark options')
     model = load_model()
     clips, sources = audio_sources()
     opts = dict(options(), matrix_backend='cuda', norm_backend='cuda', ffn_backend='triton')
     opts['residual_backend'] = a.residual_backend
-    report = {'scope': 'research LFQ preparation fusion; original FP32 full codec and paired supported runtime',
-              'previous_commit': '9e9ec47', 'revision': REVISION, 'torch': torch.__version__,
+    report = {'scope': ('supported' if RUNTIME else 'research')+' LFQ preparation fusion; original FP32 full codec and paired preparation-disabled runtime',
+              'previous_commit': 'c37dd7a' if RUNTIME else '9e9ec47', 'revision': REVISION, 'torch': torch.__version__,
               'gpu': torch.cuda.get_device_name(), 'options': opts, 'sources': sources,
-              'enabled_in_runtime': False, 'cases': [], 'timings': [],
+              'enabled_in_runtime': RUNTIME, 'intermediate_audit': not RUNTIME, 'cases': [], 'timings': [],
               'timing_scope': f'{a.rounds} alternating-order rounds, 200 owned graph warmups, five samples of ten calls; copies and owned outputs included; loading/setup/capture excluded'}
     def save():
         Path(a.output).write_text(json.dumps(report, indent=2)+'\n')
@@ -142,7 +164,11 @@ def main():
         record['speedups'] = {k: v['current']/v['candidate'] for k,v in record['medians_ms'].items()}
         report['timings'].append(record)
         save()
-    report['resources'] = compile_kernel()[2]
+    if RUNTIME:
+        from fast_moss.quantizer_prepare import compile_kernel as production_compile
+        report['resources'] = production_compile()[2]
+    else:
+        report['resources'] = compile_kernel()[2]
     report['all_exact'] = (all(c['all_exact'] for c in report['cases']) and
                           all(c['bits_equal'] for t in report['timings'] for r in t['rounds']
                               for v in r['results'].values() for c in v['checks']))

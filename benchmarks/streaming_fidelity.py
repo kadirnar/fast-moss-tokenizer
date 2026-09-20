@@ -66,6 +66,7 @@ def main():
             norm_projection_calls=getattr(runtime,'norm_gemv_calls',0)
             norm_async_calls=getattr(runtime,'norm_async_calls',0)
             residual_async_calls=getattr(runtime,'residual_async_calls',0)
+            quantizer_prepare_calls=getattr(getattr(model,'_fast_norm_runtime',None),'quantizer_prepare_calls',0)
             attention_residual_calls=getattr(runtime,'attention_residual_calls',0)
         ref=torch.cat(reference,dim=-1)
         cand=torch.cat(actual,dim=-1)
@@ -76,6 +77,7 @@ def main():
                 "small_matrix_calls":small_calls,"norm_projection_calls":norm_projection_calls,
                 "attention_residual_calls":attention_residual_calls,"norm_async_calls":norm_async_calls,
                 "residual_async_calls":residual_async_calls,
+                "quantizer_prepare_calls":quantizer_prepare_calls,
                 "per_chunk_bits_equal":[torch.equal(r.view(torch.int32),c.view(torch.int32)) if r.dtype==torch.float32 else torch.equal(r,c) for r,c in zip(reference,actual)]}
         report["results"][direction]=result
         print(direction,result,flush=True)

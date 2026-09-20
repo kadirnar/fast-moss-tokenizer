@@ -201,6 +201,10 @@ class NormalizationRuntime:
         self.calls = 0
         self.strided_calls = 0
         self.strided_enabled = True
+        self.quantizer_prepare_enabled = True
+        self.quantizer_prepare_calls = 0
+        self.quantizer_prepare_warmed = set()
+        self.quantizer_forwards = {}
 
     def __enter__(self):
         if self.used or getattr(self.model, '_fast_norm_runtime', None) is not None:
@@ -281,6 +285,30 @@ class NormalizationRuntime:
                 return y
         return forward
 
+    def prepare_quantizer(self, module, x):
+        """Return exact distance operands for an unchanged owned LFQ wrapper."""
+        if not self.active or get_ident() != self.thread:
+            raise RuntimeError('Quantizer preparation outside its active owner thread')
+        owned = self.quantizer_forwards.get(module)
+        if (not self.quantizer_prepare_enabled or owned is None
+                or module.decode_latents is not owned[0] or module.forward is not owned[1]
+                or x.ndim != 3 or x.shape[1] != 8 or x.shape[0] < 1 or x.shape[2] < 1
+                or x.device != self.device or x.dtype != torch.float32
+                or not x.is_contiguous() or x.numel() > 2147483647
+                or torch.is_autocast_enabled('cuda')
+                or (torch.is_grad_enabled() and x.requires_grad)):
+            return None
+        from .quantizer_prepare import prepare
+        with torch.cuda.device(self.device):
+            stream = torch.cuda.current_stream(self.device).cuda_stream
+            key = (id(module), tuple(x.shape), stream)
+            if torch.cuda.is_current_stream_capturing() and key not in self.quantizer_prepare_warmed:
+                raise RuntimeError('Warm quantizer preparation on this stream before graph capture')
+            _, norm, twice, _ = prepare(x)
+            self.quantizer_prepare_warmed.add(key)
+            self.quantizer_prepare_calls += 1
+            return norm, twice
+
     def close(self):
         if not self.active:
             return
@@ -292,6 +320,8 @@ class NormalizationRuntime:
                 module.__dict__.pop('forward', None)
                 module.__dict__.pop('_fast_norm_runtime', None)
             self.forwards.clear()
+            self.quantizer_forwards.clear()
+            self.quantizer_prepare_warmed.clear()
             del self.model._fast_norm_runtime
             self.active = False
 

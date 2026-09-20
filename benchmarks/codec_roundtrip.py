@@ -4,6 +4,7 @@ from contextlib import nullcontext
 from pathlib import Path
 import torch
 from benchmarks.baseline import measure
+from benchmarks.codec_compare import source_state
 from benchmarks.lane_completion import audio_sources
 from benchmarks.ordered_model import options
 from benchmarks.residual_gemv_async_model import compare
@@ -23,7 +24,7 @@ def main():
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='cuda',norm_backend='cuda',ffn_backend='triton')
     report={'scope':'direct complete codec roundtrip: encode output codes immediately feed decode within one invocation/graph; input and model already on CUDA; graph input copies and owned codes/hidden/audio included; excludes audio I/O, resampling, checkpoint loading, optimization setup, capture and restoration',
-        'previous_commit':'beb5c32','revision':REVISION,'model_id':'OpenMOSS-Team/MOSS-Audio-Tokenizer','sampling_rate':model.sampling_rate,'channels':1,
+        **source_state(),'revision':REVISION,'model_id':'OpenMOSS-Team/MOSS-Audio-Tokenizer','sampling_rate':model.sampling_rate,'channels':1,
         'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'options':opts,
         'rounds':args.rounds,'graph_warmups':args.warmups,'cases':[]}
     def run(x):

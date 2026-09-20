@@ -1,5 +1,7 @@
 # Implementation and usage reference
 
+This page documents the legacy 24 kHz mono runtime. See [v2](v2.md) for the active 48 kHz stereo target.
+
 Detailed API guidance and historical optimization measurements. For current setup and headline benchmarks, see the [README](../README.md).
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
@@ -52,7 +54,7 @@ The model loader pins Hugging Face revision `3cd226ba2947efa357ef453bcad111b6eaf
 
 ```python
 import torch
-from fast_moss import load_model
+from fast_moss.loading import load_model
 from fast_moss.graphs import GraphedCallable
 from fast_moss.optimize import optimized
 
@@ -200,7 +202,7 @@ All **864 learned-projection component checks**, both **13-case full-model corpo
 
 ```python
 import torch
-from fast_moss import load_model
+from fast_moss.loading import load_model
 from fast_moss.optimize import optimized
 from fast_moss.streaming import StreamingSession
 
@@ -223,6 +225,8 @@ with torch.inference_mode(), optimized(model, residual_backend="triton",
 `attention_mask_backend="triton"` constructs the same FP32 zero/negative-infinity attention bias with aligned row strides and shares it within synchronized stages. This removes repeated mask construction, conversion, and padding while preserving the attention calculation.
 
 Quantizer fusion is opt-in through `optimized(..., quantizer_backend="triton")`. Direct quantizer calls retain their quantized vectors, codes, and lengths. The pinned encoder omits accumulated vectors and the final projection it does not return; installed forward hooks retain the complete path. The fused selector preserves both distance-rounding steps and first-index tie behavior, including the near-tie speech regression. Unsupported latent layouts keep the original straight-through additions. Decoder arithmetic is unchanged.
+
+Combining `quantizer_backend="triton"` with `norm_backend="cuda"` also fuses eight-channel LFQ normalization and distance preparation. It preserves both native reduction orders, epsilon handling, FP32 rounding and the matrix operand layouts. The vendor dot product and discrete selection remain unchanged. Dispatch requires the validated checkpoint/GPU/library environment, contiguous nonempty FP32 B,8,T latents and unchanged owned LFQ methods. Other layouts and gradient/autocast inputs retain the preceding preparation operations. The CUDA normalization owner enforces one host thread and per-module, shape and stream warmup; `GraphedCallable` performs that warmup. Context exit clears ownership and invalidates managed graphs. The README quick start already selects this combination.
 
 Shared RoPE tables are opt-in and require `rope_backend="triton"`. They reuse identical positions within each transformer stage, including synchronized session lanes. External upstream streaming falls back to per-layer tables because its offsets may differ.
 

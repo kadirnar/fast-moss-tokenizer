@@ -4,6 +4,8 @@ import argparse
 import json
 from pathlib import Path
 import statistics
+import hashlib
+import subprocess
 import torch
 from benchmarks.baseline import measure
 from benchmarks.compare import difference
@@ -13,6 +15,13 @@ from fast_moss.loading import load_model, REVISION
 from fast_moss.optimize import optimized
 from fast_moss.graphs import GraphedCallable
 
+
+def source_state():
+    """Identify the actual runtime tree, including uncommitted integration work."""
+    return {'source_commit': subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'working_tree_dirty': bool(subprocess.check_output(['git','status','--porcelain'],text=True).strip()),
+            'runtime_sha256': {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+                               for p in sorted(Path('fast_moss').glob('*')) if p.suffix in ('.py','.json')}}
 
 @torch.inference_mode()
 def main():
@@ -29,6 +38,7 @@ def main():
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend=args.matrix_backend,ffn_backend='triton',norm_backend=args.norm_backend)
     report={'scope':'full checkpoint, original eager/original graph/current optimized graph',
+            **source_state(),
             'revision':REVISION,'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),
             'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'options':opts,
             'input':f'speech source (index 1), cyclic {args.frames*1920}-sample windows with lane*1920-sample offsets',

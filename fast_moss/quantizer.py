@@ -70,10 +70,16 @@ def select(dots, row_norm, codebook_norm, codebook, latents, *, straight_through
 
 
 def decode_latents(module, latents, *, straight_through=False):
-    encodings = latents.transpose(1, 2).reshape(-1, latents.shape[1]).float()
-    encodings = F.normalize(encodings)
-    row_norm = encodings.pow(2).sum(1, keepdim=True)
-    dots = (2 * encodings) @ module._fast_codebook.t()
+    runtime = getattr(module, '_fast_quantizer_prepare_runtime', None)
+    prepared = runtime.prepare_quantizer(module, latents) if runtime is not None else None
+    if prepared is None:
+        encodings = latents.transpose(1, 2).reshape(-1, latents.shape[1]).float()
+        encodings = F.normalize(encodings)
+        row_norm = encodings.pow(2).sum(1, keepdim=True)
+        twice = 2 * encodings
+    else:
+        row_norm, twice = prepared
+    dots = twice @ module._fast_codebook.t()
     return select(dots, row_norm, module._fast_codebook_norm, module.codebook.weight,
                   latents, straight_through=straight_through)
 

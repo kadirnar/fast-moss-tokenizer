@@ -1620,3 +1620,47 @@ done
 ```
 
 All handles are terminal: initial arithmetic probe `51327`, paired full-model run `99699`, focused tests `23792`, sequential component/CuTe/stream/profile chain `13089`, and CPU cross-report audit `60434`. The audit passes **106 checks**, including byte identity of the **33 supported runtime files**. The unchanged supported suite is not rerun and no replacement wheel is needed. The candidate is research-only; guarded runtime integration and refreshed supported measurements are the next action. This turn is **progress**, with a measured exact codec improvement ready for integration. The broader **100× objective remains active and unmet**.
+
+## 2026-09-20 — Switch to native 48 kHz stereo v2
+
+The user explicitly selected **48 kHz stereo MOSS-Audio-Tokenizer-v2**. This supersedes the earlier v1 checkpoint target. V1's 24 kHz mono configuration belonged to the original checkpoint; it was not a limitation of v2. The new loader pins `OpenMOSS-Team/MOSS-Audio-Tokenizer-v2` at `f6e20e543b33d2c252a7ef71bdf8aa71e5ff9169` and preserves the model's native BF16 codec compute, FP32 parameters/quantizer, stereo interleave and 32 quantizers. Both comparison paths use SDPA and disable TF32.
+
+Before the selection arrived, the exact LFQ preparation kernel was integrated into the legacy guarded runtime. All **64 focused tests**, both **48-case** full-model residual-backend gates and the five-round integration ablation passed. The batch-one / 80 ms roundtrip changed **12.330 → 12.163 ms**, a **1.0138×** incremental gain. The subsequently started v1 streaming/profile/refresh chain was intentionally stopped during v1 streaming loading after the user's target change. It did not finish and supplies no new streaming or headline timing claim. The later full repository suite includes the legacy integration tests. The integrated kernel is also reused by v2.
+
+V2 has 2,123,701,248 parameters. Its new reversible runtime caches native BF16 casts for **760 linear modules**, normalized FP32 convolution weights for **66 modules**, and normalized FP32 codebooks for **32 quantizers**. CUDA preparation and Triton selection retain the vendor quantizer dot product and original straight-through arithmetic. Cache storage is **4,247,994,368 bytes**; the benchmark's peak allocated memory is **13,149,366,784 bytes**. Parameter values, storage and precision remain unchanged. Loading explicitly preserves parameter version counters even inside an inference context.
+
+The fixed offline graph adapter removes upstream's `.item()` length synchronization only for equal-length complete 80 ms frames. Original eager, original graph adapter and optimized graph share the same checkpoint, precision and tensor arithmetic. A 44.1 kHz real stereo recording is resampled to 48 kHz while retaining both independent channels. Three rotating rounds, 200 extra graph warmups and 30 measured calls per mode/shape give:
+
+| Batch | Audio per item | Original eager | Original graph adapter | Optimized graph | vs. eager | vs. graph |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | 80 ms | 139.535 ms | 30.785 ms | 22.166 ms | 6.29× | 1.39× |
+| 1 | 240 ms | 140.878 ms | 32.045 ms | 23.138 ms | 6.09× | 1.38× |
+| 2 | 80 ms | 139.594 ms | 31.036 ms | 22.361 ms | 6.24× | 1.39× |
+| 2 | 240 ms | 141.711 ms | 33.476 ms | 24.303 ms | 5.83× | 1.38× |
+
+These are directly measured **encode → decode** calls with owned outputs. They exclude I/O, resampling, loading, cache construction and capture. The preliminary baseline and one-round smoke report are retained as development evidence, not headline comparisons. A convenience `load_model_v2` export was added after the timing run began; all numerical runtime source hashes match the final package. The main README now follows the concise benchmark/quick-start style of `kadirnar/fast-dacvae`. Historical v1 documentation and speed claims moved to [v1.md](v1.md).
+
+All **14 v2 corpus cases** preserve token, hidden-state and waveform bits for native optimized eager, fixed adapter, graph, changed graph input, replay and restoration. Changed-input references are computed before entering the optimization context. Native 48 kHz independent 18/21 kHz tones, isolated/swapped channels, silence, channel impulses and tiny signals supplement the real stereo source. Native streaming passes **162 chunks / 12.96 seconds** for batches one and two, comparing codes, lengths, hidden states and both reconstructed channels with original v2 streaming. This validates the upstream streaming APIs under the cache context; the offline graph helper and legacy v1 streaming scheduler are not v2 stateful graph APIs.
+
+The full repository suite passes **1,146 tests in 221.19 seconds**, including **11 focused v2 tests**. Wheel `0.2.0` reproduces all **36 runtime files**, and isolated imports resolve the new v2 loader and LFQ kernel outside the source checkout. The cross-report audit passes **202 checks**, including source hashes, precision policy, exact outputs, streaming sample counts, timing medians/ratios and README rows. [V2 methods and reproduction](v2.md) · [Timing](../results/v2_compare.json) · [Fidelity](../results/v2_fidelity.json) · [Batch-one streaming](../results/v2_streaming_b1.json) · [Batch-two streaming](../results/v2_streaming_b2.json) · [Package](../results/v2_package.json) · [Audit](../results/v2_audit.json).
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m pytest tests/test_v2_runtime.py -q
+.venv/bin/python -m benchmarks.v2_compare --warmups 200
+.venv/bin/python -m benchmarks.v2_fidelity
+.venv/bin/python -m benchmarks.v2_fidelity --streaming --batch 1 --output results/v2_streaming_b1.json
+.venv/bin/python -m benchmarks.v2_fidelity --streaming --batch 2 --output results/v2_streaming_b2.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.v2_profile
+uv build --wheel --out-dir /tmp/fast-moss-v2-dist
+.venv/bin/python -m benchmarks.quantizer_prepare_package /tmp/fast-moss-v2-dist/fast_moss_tokenizer-0.2.0-py3-none-any.whl
+.venv/bin/python -m benchmarks.v2_audit
+```
+
+This turn makes **progress** by implementing and validating the newly selected model version. The broader **100× objective remains active and unmet**, now scoped to v2. V1 speedups are not reused for v2.
+
+The final v2 profile records **14,402 → 13,030 kernels** and **31.047 → 22.250 ms** aggregate kernel duration per 80 ms roundtrip. The largest BF16 conversion family drops **11.790 → 0.893 ms**; the largest remaining family is BF16 GEMV at **3.848 ms / 17.29%**. FP32 pointwise arithmetic, casts and LayerNorm remain important. Exact BF16 projection and pointwise fusion are the next targets. Profile durations are diagnostic, not substitutes for the paired wall-clock table. [Profile](../results/v2_profile.json).
+
+All owned GPU jobs are terminal: v2 baseline `57423`, smoke `43175`, initial fidelity `62623`, paired comparison `91699`, focused v2 tests `39461`, sequential fidelity/streaming/full-suite chain `49845`, and v2 profile `36771`. GPU work ran sequentially. The unrelated pre-existing Python GPU process was left untouched.
