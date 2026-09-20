@@ -1335,3 +1335,52 @@ The full suite passes **884 tests in 163.81 seconds**. Two older coexistence ass
 This turn is **progress**, with a verified supported-runtime optimization. The full objective remains active and unmet. Further projection/residual fusion, matrix memory traffic, broader serving/multi-GPU work and verified 100× acceleration remain open.
 
 Final cross-report audit passes **83 checks** covering selection/source provenance, corpus and timing bits, dispatch controls, streaming bits and unchanged offline discrepancy, launch removal, direct ratios, compiler resources and package bytes. All handles are terminal: initial focused checks `36341` (gradient fallback failures resolved); focused repeat `93002`; integrated model `74933`; sequential focused/CuTe/streams/profiles/comparisons/compiler/full-suite chain `71028` (two stale count assertions resolved); warmed comparison/full-suite/wheel chain `43567`; final audit `68748`. The first CPU audit invocation `8066` lacked the repository benchmark import path; rerunning with `PYTHONPATH=.` passed. GPU jobs ran sequentially, and only the preexisting PID 1718 / 29 MiB client remains. No task benchmark is left running.
+
+
+## Attention output projection/residual research
+
+Previous goal turn classification: **progress**, verified at clean commit `84caafc`: exact one-row normalization/projection fusion, 884 passing tests, exact corpus/streaming gates and audited production package. Worktree and GPU process state were rechecked; no task job remained, only PID 1718 / 29 MiB. The full 100× objective remains active and unmet.
+
+The remaining attention output projections feed separate scaling/residual kernels. The next experiment reuses the existing exact native GEMV/fixed-row/CUDA CTA reductions and computes the scale and residual addition before the output store, as motivated by NVIDIA's [CUTLASS epilogue discussion](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/efficient_gemm.html). It spans **nine square projection shapes**: 1280-wide with 1, 3 or 8 rows, and 768-wide with 2, 4, 6, 8, 12 or 16 rows. Seven use Triton schedules, two use CUDA. Dense transposed BTC residual/output layouts are retained. No production dispatch is changed.
+
+All **31 batch/time layouts** pass **558 bitwise component comparisons** with captured checkpoint matrices and synthetic residuals/scales. Coverage includes underflow, signed zero, large activations and zero/subnormal scales. Fixed 32-allocation graph rings use 200 warmups and five rotating rounds of nine ten-replay samples, excluding copies/clones. Contiguous component ratios range **1.034–1.155×**; dense transposed ratios range **1.158–1.462×**. These allocations provide synthetic cache pressure, not physical DRAM-counter measurements. Compiler output uses **40–80 registers**, **8–9,216 shared bytes**, zero local bytes/load-store instructions and no matrix Tensor Core instructions.
+
+All **48 full-checkpoint cases** pass original token/hidden/audio bit checks, graph replay and restored execution. Five rotating paired rounds with 200 extra owned graph warmups give:
+
+| Batch / frames | Encode current → candidate | Encode ratio | Decode current → candidate | Decode ratio |
+| --- | ---: | ---: | ---: | ---: |
+| 1 / 1 | 6.663260 → 6.566741 ms | 1.014698× | 5.907904 → 5.855466 ms | 1.008955× |
+| 8 / 1 | 8.972305 → 8.920738 ms | 1.005781× | 7.780248 → 7.790872 ms | 0.998636× |
+| 1 / 3 | 7.565258 → 7.441712 ms | 1.016602× | 6.309537 → 6.285398 ms | 1.003841× |
+| 8 / 3 | 10.155920 → 10.150529 ms | 1.000531× | 8.810658 → 8.806773 ms | 1.000441× |
+
+Batch eight / three frames is a no-call control, within 0.06% of parity. Batch-eight / one-frame decode is 0.14% slower in this repeat; the initial pre-fix report was near parity. It is not an established benefit, and its direction/layout selection needs checking before production promotion. This is a research ablation against the supported runtime, not a fresh original-eager comparison; historical overall ratios are not multiplied by these increments.
+
+
+The new tests exposed noncanonical contiguous singleton output strides: `(N,1,1)` instead of the native `(N,N,1)`. Values were exact, but downstream dispatch can inspect strides. The helper now allocates canonical contiguous outputs while retaining dense transposed outputs. All **32 focused tests pass in 10.63 seconds**, including positive-weight subnormal underflow. The full 48-case corpus and five-round timing comparison above were rerun after the fix. The initial report is retained separately as `full_attention_residual_initial.json`; the headline research numbers use the fixed run.
+
+The CuTe combination also passes **48 cases**. Both **162-chunk / 12.96-second** streams pass per-chunk bit equality against corrected eager streaming, with **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, and **7.522 / 7.695 GB** peak allocations. New attention fusion is active in both streams; the existing decoder/offline discrepancy is unchanged.
+
+Profiles verify **92 / 68 fewer encoder/decoder launches** at 80 ms, leaving **1,184 / 676**; at 240 ms they remove **112 / 56**, leaving **1,242 / 827**. Matrix groups, including fused normalization and epilogues, occupy **77.22% / 84.92%** of one-frame device kernel time. The larger encoder reduction reflects eliminating two pointwise launches for dense transposed residuals. Shared kernel names retain their existing matrix grouping, and the distinct CUDA attention epilogue is added once.
+
+The post-allocation-fix compiler audit reproduces all **31 component-probe binaries and resource records**. All **30 production runtime/profile files** remain byte-identical to the verified `84caafc` package. No new wheel is needed for this research-only change, and no new supported-runtime/overall-speedup claim is made. The full suite passes **916 tests in 170.71 seconds**.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.attention_residual_probe
+.venv/bin/python -m pytest tests/test_attention_residual_research.py -q
+.venv/bin/python -m benchmarks.attention_residual_model --rounds 5 --extra-warmup-replays 200
+.venv/bin/python -m benchmarks.attention_residual_model --fidelity-only --residual-backend cute --output results/full_attention_residual_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.attention_residual_gate stream --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_attention_residual_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.attention_residual_gate profile --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_attention_residual_profile_f1.json
+.venv/bin/python -m benchmarks.attention_residual_gate profile --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_attention_residual_profile_f3.json
+.venv/bin/python -m benchmarks.attention_residual_resources
+.venv/bin/python -m pytest -q
+```
+
+This turn is **progress**: it establishes exact attention epilogue fusion across nine matrix shapes and 31 layouts, fixes a singleton allocation mismatch, and verifies whole-model/streaming gains and actual launch removal. Production integration should replace the research call-scoped interception with owned attention epilogue dispatch, preserving normalization/QKV fusion and observers, and verifying folded-matrix guards, custom forwards, host threads, capture warmup and packed-storage graph invalidation. Batch-eight decoder direction/layout selection remains to be resolved. The broader 100× objective remains active and unmet.
+
+Final audit passes **122 cross-report checks** for component/corpus bits, all nine exercised shapes, timing controls and direct ratios, streaming bits and unchanged offline discrepancy, launch counts, disjoint matrix grouping, compiler provenance and unchanged production bytes. All handles are terminal: initial probe `40263` (tuple-output harness error resolved); component probe `17879`; initial model `7869`; first gate chain `85714` (nine singleton-stride assertions resolved); fixed tests/model/CuTe/streams/profiles/compiler/full-suite chain `79702`; final CPU audit `94817`. GPU jobs ran sequentially. Only preexisting PID 1718 / 29 MiB remains; no task benchmark is left running.
