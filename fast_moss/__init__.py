@@ -2,6 +2,7 @@
 
 from .v2 import codec, encode_fixed, load_model, optimized
 from .graphs import GraphedCallable
+from .streaming import StreamingCodec
 
 load_model_v2 = load_model
 
@@ -12,4 +13,5 @@ __all__ = [
     "codec",
     "encode_fixed",
     "GraphedCallable",
+    "StreamingCodec",
 ]

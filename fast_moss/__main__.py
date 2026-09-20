@@ -7,6 +7,7 @@ import soundfile as sf
 import torch
 
 from .v2 import load_model, optimized
+from .streaming import StreamingCodec
 
 
 def main():
@@ -27,17 +28,9 @@ def main():
 
     model = load_model()
     waveform = torch.from_numpy(audio.T.copy()).unsqueeze(0).cuda()
-    # The native encoder drops incomplete frames; pad the tail before encoding
-    # and trim the reconstruction back to the original sample count below.
-    padding = (-waveform.shape[-1]) % model.downsample_rate
-    if padding:
-        waveform = torch.nn.functional.pad(waveform, (0, padding))
-    with torch.inference_mode(), optimized(model):
-        encoded = model.encode(waveform, return_dict=True, chunk_duration=0.08)
-        decoded = model.decode(
-            encoded.audio_codes, return_dict=True, chunk_duration=0.08
-        )
-        output = decoded.audio[0, :, : len(audio)].float().cpu().T.numpy()
+    with torch.inference_mode(), optimized(model), StreamingCodec(model) as codec:
+        _, _, reconstructed = codec(waveform)
+        output = reconstructed[0].float().cpu().T.numpy()
 
     sf.write(args.output, output, sample_rate, subtype="FLOAT")
     print(f"Saved {args.output}: {sample_rate} Hz stereo, {len(output)} samples")

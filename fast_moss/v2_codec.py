@@ -28,8 +28,13 @@ def encode_fixed(model, audio):
         )
     if any(getattr(m, "is_streaming", False) for m in model.modules()):
         raise RuntimeError(
-            "Fixed v2 graphs are offline; use upstream streaming methods for stateful input"
+            "Fixed v2 graphs are offline; use StreamingCodec for stateful input"
         )
+    return _encode_complete(model, audio)
+
+
+def _encode_complete(model, audio):
+    """Native arithmetic for complete frames, including an active stream."""
     lengths = torch.full(
         (audio.shape[0],), audio.shape[-1], device=audio.device, dtype=torch.long
     )
