@@ -1496,3 +1496,38 @@ uv build --wheel --out-dir /tmp/moss-norm-async-wheel
 ```
 
 All GPU handles are terminal: initial regression tests `83482`, focused/compiler/seven-round model chain `70490`, and paired/CuTe/stream/profile/fresh-comparison/full-suite chain `55129`. Jobs ran sequentially. The CPU package and cross-report audits passed, and the generated build directory was removed. This turn is **progress**: exact asynchronous staging is integrated and validated in the supported runtime. Matrix work remains the dominant target for further optimization. The broader 100× objective remains active and unmet.
+
+## 2026-09-20 — Residual GEMV asynchronous staging research
+
+The previous turn (`b2a1086`) is **progress**: it integrated the exact asynchronous normalization/projection kernels, passed 1,040 tests and refreshed supported overall speedups to **7.24× encode / 6.44× decode** versus original eager. This turn targets the remaining 16-lane FFN contraction and attention-output GEMVs while retaining that integration.
+
+The research CUDA helper stages native FP32 weight tiles with `cp.async`, preserving cyclic FMA order, shuffle reduction and separately rounded residual arithmetic. It explores direct, fully shared and tile-staged input vectors, buffer counts, padding and unroll. All **188 schedules** match captured output bits. Initial apparent attention gains disappear under controlled confirmation; attention staging is rejected. Seventeen finalists pass **532 eager/graph comparisons**. The selected FFN configuration `(64,320,2,0,16,1,2)` improves a 32-distinct-weight ring by **1.47%**, despite warm-cache regressions. This confirms why warm-only rankings cannot select these kernels.
+
+Both **48-case Triton/CuTe checkpoint gates** pass original token, hidden-state and waveform bit checks in eager, graph and restored execution. Five rotating independently restored timing rounds measure batch-one / 80 ms encode **6.535143 → 6.520110 ms (1.00231×)** and decode **5.825695 → 5.809729 ms (1.00275×)**. Forty interleaved pairs at stable weight addresses/layouts measure **6.535316 → 6.517695 ms (1.00270×)** and **5.828429 → 5.812643 ms (1.00272×)**, with **36 / 40** and **32 / 40** candidate wins. Controls deviate by up to 0.24%; the gain is modest and remains research evidence pending owned runtime integration.
+
+Both **162-chunk / 12.96-second** streams preserve per-chunk bits against corrected eager execution: **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, and **7.522 / 7.695 GB** peak allocations. One lane uses the candidate; two lanes make no candidate calls. The prior decoder/offline discrepancy remains unchanged. Profiles show **32 residual staging kernels per direction**, replacing half the prior `_ffn_gemv` calls. Total launches stay **1,184 / 676**. Matrix groups still consume **76.30% / 84.89%** of kernel time.
+
+The own-kernel SASS audit reproduces all **17 binaries**, with `LDGSTS` in fifteen asynchronous variants and none in the two synchronous controls. All have zero local load/store and matrix Tensor Core instructions. The selected kernel uses **40 registers / 12,800 shared bytes / zero local bytes**. All **15 focused tests** pass in **4.84 seconds**.
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.residual_gemv_async_probe
+.venv/bin/python -m benchmarks.residual_gemv_async_ring
+.venv/bin/python -m benchmarks.residual_gemv_async_confirm
+.venv/bin/python -m pytest tests/test_residual_gemv_async_research.py -q
+.venv/bin/python -m benchmarks.residual_gemv_async_model --rounds 5 --extra-warmup-replays 200
+.venv/bin/python -m benchmarks.residual_gemv_async_paired
+.venv/bin/python -m benchmarks.residual_gemv_async_resources
+.venv/bin/python -m benchmarks.residual_gemv_async_model --fidelity-only --residual-backend cute --output results/full_residual_gemv_async_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.residual_gemv_async_gate stream --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_residual_gemv_async_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.residual_gemv_async_gate profile --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_residual_gemv_async_profile.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.residual_gemv_async_audit
+```
+
+The full suite passes **1,055 tests in 196.52 seconds**. A final audit passes **312 cross-report checks**, including byte identity for all **32 supported runtime/profile files** against the previous package. No production source changed and no new wheel is required. [Research and evidence](research.md#asynchronous-staging-for-residual-gemv).
+
+All handles are terminal: exploratory sweep `86109`, distinct-weight sweep `80326`, finalist confirmation `41715`, focused tests `95984`, full-model timing/fidelity `69359`, interleaved pairs `16364`, compiler/CuTe/stream/profile/full-suite chain `38499`, and CPU cross-report audit `65340`. GPU jobs ran sequentially. This turn is **progress**: attention staging is rejected and a small exact FFN improvement is validated as a research candidate. Owned dispatch integration and lifecycle checks are the next step; supported headline speedups remain **7.24× / 6.44×** against original eager. The broader **100× objective remains active and unmet**.

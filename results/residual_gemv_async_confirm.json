@@ -1,0 +1,5300 @@
+{
+  "scope": "research residual GEMV staging; five rotating rounds, 200 warmups, nine samples of ten fixed graph replays; copies/clones excluded; distinct allocations model cache pressure, not physical DRAM traffic",
+  "previous_commit": "b2a1086",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "source_sha256": "c6d0b2545ea376eb9ee3f14194272d4fe118ddf16bfb878095d6b343c1261238",
+  "records": [
+    {
+      "shape": [
+        1,
+        1280,
+        1280
+      ],
+      "configs": [
+        [
+          64,
+          128,
+          2,
+          0,
+          4,
+          1,
+          0
+        ],
+        [
+          32,
+          128,
+          2,
+          16,
+          4,
+          1,
+          0
+        ],
+        [
+          128,
+          320,
+          2,
+          0,
+          4,
+          1,
+          1
+        ],
+        [
+          64,
+          128,
+          2,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          64,
+          128,
+          1,
+          0,
+          4,
+          1,
+          0
+        ],
+        [
+          64,
+          128,
+          2,
+          0,
+          16,
+          1,
+          0
+        ],
+        [
+          64,
+          128,
+          2,
+          16,
+          4,
+          1,
+          0
+        ],
+        [
+          64,
+          128,
+          2,
+          0,
+          4,
+          1,
+          1
+        ],
+        [
+          64,
+          128,
+          2,
+          0,
+          4,
+          1,
+          2
+        ]
+      ],
+      "resources": {
+        "[64, 128, 2, 0, 4, 1, 0]": {
+          "registers": 31,
+          "local_bytes": 0,
+          "shared_bytes": 4096,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 4,
+          "cubin_sha256": "227ce30e3877389d33217c4a85e4a7c10b37aeac3e9ef07f16a9fd6542c83659"
+        },
+        "[32, 128, 2, 16, 4, 1, 0]": {
+          "registers": 34,
+          "local_bytes": 0,
+          "shared_bytes": 2304,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 4,
+          "cubin_sha256": "230b14a0194c95c577d51e5d4c1c50e0411a0ad2c192fee3cfa81223ad5815d6"
+        },
+        "[128, 320, 2, 0, 4, 1, 1]": {
+          "registers": 38,
+          "local_bytes": 0,
+          "shared_bytes": 25600,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 10,
+          "cubin_sha256": "69df3808956d7780bfda82ac456f8b929e96190896d4df8b51859219b009460d"
+        },
+        "[64, 128, 2, 0, 4, 0, 0]": {
+          "registers": 34,
+          "local_bytes": 0,
+          "shared_bytes": 4096,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 0,
+          "cubin_sha256": "248ba0e7638607477a98f202ec3d8c0bc6d8fde9903b37b126b5c320581fcb1f"
+        },
+        "[64, 128, 1, 0, 4, 1, 0]": {
+          "registers": 31,
+          "local_bytes": 0,
+          "shared_bytes": 2048,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 2,
+          "cubin_sha256": "5e4ebf8af4f92819901a9a28fd65a351b1694618da39e273105d82af55d39091"
+        },
+        "[64, 128, 2, 0, 16, 1, 0]": {
+          "registers": 38,
+          "local_bytes": 0,
+          "shared_bytes": 4096,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 4,
+          "cubin_sha256": "a883bd6f7476c6f82b9e7fba2634a0a900d7e9c4db5a0d7485056a0916bbed13"
+        },
+        "[64, 128, 2, 16, 4, 1, 0]": {
+          "registers": 33,
+          "local_bytes": 0,
+          "shared_bytes": 4608,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 4,
+          "cubin_sha256": "df96502fea0c3ddaa213fc5598a49487cefc3d0d60ed458d8af7bf58d0fa6da5"
+        },
+        "[64, 128, 2, 0, 4, 1, 1]": {
+          "registers": 34,
+          "local_bytes": 0,
+          "shared_bytes": 9216,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 4,
+          "cubin_sha256": "adeea3fd16547bcb878d8d170e0b00009f1857ad02c2adab866fd46a576392a4"
+        },
+        "[64, 128, 2, 0, 4, 1, 2]": {
+          "registers": 35,
+          "local_bytes": 0,
+          "shared_bytes": 5120,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 6,
+          "cubin_sha256": "e50c6babf053aeef55e57682c987314eb3b7c55b3e0e3179eedea84791a9896a"
+        }
+      },
+      "checks": [
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[32, 128, 2, 16, 4, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[128, 320, 2, 0, 4, 1, 1]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 0, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 1, 0, 4, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 16, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 16, 4, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 1]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 128, 2, 0, 4, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 6553600,
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.004518400132656098,
+              "samples_ms": [
+                0.004691199958324432,
+                0.004604800045490265,
+                0.004518400132656098,
+                0.00453759990632534,
+                0.004476799815893173,
+                0.004467200115323066,
+                0.004608000069856644,
+                0.004499199986457825,
+                0.0044096000492572784
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.0065151996910572055,
+              "samples_ms": [
+                0.006703999638557434,
+                0.0065311998128890995,
+                0.006537599861621857,
+                0.0065151996910572055,
+                0.006451199948787689,
+                0.006499200314283371,
+                0.006451199948787689,
+                0.006470400094985962,
+                0.00655680000782013
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006438399851322174,
+              "samples_ms": [
+                0.006604799628257751,
+                0.0065600000321865085,
+                0.00647680014371872,
+                0.0064351998269557955,
+                0.006428799778223038,
+                0.006518399715423584,
+                0.006425599753856659,
+                0.0064351998269557955,
+                0.006438399851322174
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006547199934720993,
+              "samples_ms": [
+                0.006656000018119812,
+                0.006579200178384781,
+                0.006598400324583054,
+                0.006547199934720993,
+                0.0064351998269557955,
+                0.0066143997013568875,
+                0.006499200314283371,
+                0.006486400216817856,
+                0.006412799656391144
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.008483199775218964,
+              "samples_ms": [
+                0.008515200018882752,
+                0.00841279998421669,
+                0.008483199775218964,
+                0.008479999750852585,
+                0.008320000022649765,
+                0.008320000022649765,
+                0.016748799383640288,
+                0.00859839990735054,
+                0.022668799757957457
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.008515200018882752,
+              "samples_ms": [
+                0.008700799942016602,
+                0.008633600175380706,
+                0.008646400272846222,
+                0.008499199897050858,
+                0.008563199639320373,
+                0.008483199775218964,
+                0.008515200018882752,
+                0.008448000252246856,
+                0.0084927998483181
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.006297600269317627,
+              "samples_ms": [
+                0.006620799750089645,
+                0.006364800035953522,
+                0.006294400244951248,
+                0.0062720000743865965,
+                0.006425599753856659,
+                0.006275200098752975,
+                0.006415999680757523,
+                0.006297600269317627,
+                0.006278400123119354
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.0066592000424861904,
+              "samples_ms": [
+                0.00700799971818924,
+                0.006771200150251388,
+                0.0068063996732234955,
+                0.006656000018119812,
+                0.006592000275850296,
+                0.0066592000424861904,
+                0.0066880002617835995,
+                0.006598400324583054,
+                0.0066143997013568875
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.0062720000743865965,
+              "samples_ms": [
+                0.006508799642324448,
+                0.006387200206518173,
+                0.00621119998395443,
+                0.006307200342416763,
+                0.0062720000743865965,
+                0.006239999830722809,
+                0.00615679994225502,
+                0.006185600161552429,
+                0.006284800171852112
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.006662400066852569,
+              "samples_ms": [
+                0.006972800195217133,
+                0.006639999896287918,
+                0.006787200272083282,
+                0.006723199784755707,
+                0.006662400066852569,
+                0.006646399945020675,
+                0.006496000289916992,
+                0.006483200192451477,
+                0.006672000139951706
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.006592000275850296,
+              "samples_ms": [
+                0.006723199784755707,
+                0.00663359984755516,
+                0.006592000275850296,
+                0.0065311998128890995,
+                0.0065760001540184024,
+                0.006617599725723266,
+                0.006569600105285645,
+                0.006598400324583054,
+                0.006518399715423584
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006735999882221222,
+              "samples_ms": [
+                0.006908799707889557,
+                0.006735999882221222,
+                0.006697600334882736,
+                0.006694400310516357,
+                0.0066880002617835995,
+                0.006649599969387054,
+                0.01170239970088005,
+                0.0068800002336502075,
+                0.006822399795055389
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006249599903821945,
+              "samples_ms": [
+                0.006508799642324448,
+                0.0065151996910572055,
+                0.0061760000884532925,
+                0.006431999802589417,
+                0.006150399893522262,
+                0.006246399879455566,
+                0.006179200112819671,
+                0.006249599903821945,
+                0.006297600269317627
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.008553600311279297,
+              "samples_ms": [
+                0.008780799806118011,
+                0.008524800091981888,
+                0.008575999736785888,
+                0.008591999858617782,
+                0.008553600311279297,
+                0.008528000116348267,
+                0.008534400165081025,
+                0.008656000345945358,
+                0.008463999629020691
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.008348800241947174,
+              "samples_ms": [
+                0.00857279971241951,
+                0.008380799740552902,
+                0.008339200168848038,
+                0.008294399827718735,
+                0.008323200047016144,
+                0.00833280012011528,
+                0.008441600203514098,
+                0.008444800227880477,
+                0.008348800241947174
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.006572800129652024,
+              "samples_ms": [
+                0.006774400174617767,
+                0.00660799965262413,
+                0.006569600105285645,
+                0.0066143997013568875,
+                0.0064800001680850984,
+                0.006406400352716446,
+                0.006623999774456024,
+                0.006467200070619583,
+                0.006572800129652024
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.00650240033864975,
+              "samples_ms": [
+                0.006652799993753433,
+                0.006604799628257751,
+                0.006518399715423584,
+                0.006438399851322174,
+                0.006460800021886826,
+                0.006460800021886826,
+                0.006566400080919266,
+                0.0064800001680850984,
+                0.00650240033864975
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006543999910354615,
+              "samples_ms": [
+                0.00676800012588501,
+                0.006543999910354615,
+                0.006572800129652024,
+                0.006460800021886826,
+                0.006470400094985962,
+                0.006470400094985962,
+                0.006553599983453751,
+                0.006592000275850296,
+                0.006483200192451477
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.0065600000321865085,
+              "samples_ms": [
+                0.006627199798822403,
+                0.006489600241184235,
+                0.006617599725723266,
+                0.00655680000782013,
+                0.006569600105285645,
+                0.0065600000321865085,
+                0.006486400216817856,
+                0.006572800129652024,
+                0.00647680014371872
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.004707200080156326,
+              "samples_ms": [
+                0.004944000020623207,
+                0.004742399975657463,
+                0.004707200080156326,
+                0.004707200080156326,
+                0.0047136001288890835,
+                0.0044064000248909,
+                0.004639999940991402,
+                0.004454400017857551,
+                0.004639999940991402
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.00658240020275116,
+              "samples_ms": [
+                0.0061760000884532925,
+                0.006627199798822403,
+                0.006668800115585327,
+                0.0066143997013568875,
+                0.00658240020275116,
+                0.0065760001540184024,
+                0.006483200192451477,
+                0.0064800001680850984,
+                0.006681600213050842
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006492800265550614,
+              "samples_ms": [
+                0.006860800087451935,
+                0.0066143997013568875,
+                0.00650240033864975,
+                0.006467200070619583,
+                0.006451199948787689,
+                0.00663359984755516,
+                0.006492800265550614,
+                0.0064351998269557955,
+                0.006492800265550614
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.008326400071382523,
+              "samples_ms": [
+                0.008499199897050858,
+                0.008380799740552902,
+                0.00838399976491928,
+                0.008367999643087386,
+                0.008291199803352356,
+                0.008300799876451492,
+                0.008220800012350083,
+                0.008300799876451492,
+                0.008326400071382523
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.008544000238180161,
+              "samples_ms": [
+                0.008726400136947633,
+                0.008633600175380706,
+                0.00865280032157898,
+                0.008528000116348267,
+                0.008528000116348267,
+                0.008617600053548813,
+                0.008524800091981888,
+                0.008544000238180161,
+                0.008441600203514098
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.006281600147485733,
+              "samples_ms": [
+                0.006486400216817856,
+                0.0063680000603199005,
+                0.006467200070619583,
+                0.00631679967045784,
+                0.006255999952554703,
+                0.006278400123119354,
+                0.006259199976921081,
+                0.006281600147485733,
+                0.00618240013718605
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006684800237417221,
+              "samples_ms": [
+                0.00687360018491745,
+                0.006899199634790421,
+                0.006716799736022949,
+                0.006649599969387054,
+                0.006675200164318084,
+                0.006684800237417221,
+                0.006604799628257751,
+                0.006604799628257751,
+                0.006803199648857117
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006259199976921081,
+              "samples_ms": [
+                0.006547199934720993,
+                0.006345599889755249,
+                0.006227200105786324,
+                0.005948799848556519,
+                0.006259199976921081,
+                0.0062304001301527025,
+                0.006172800064086914,
+                0.006291200220584869,
+                0.006278400123119354
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.006691200286149978,
+              "samples_ms": [
+                0.0069023996591567995,
+                0.0067552000284194945,
+                0.006819199770689011,
+                0.006691200286149978,
+                0.006703999638557434,
+                0.006627199798822403,
+                0.006646399945020675,
+                0.006441599875688553,
+                0.00663359984755516
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.004543999955058098,
+              "samples_ms": [
+                0.0047231998294591905,
+                0.004636799916625023,
+                0.004412800073623657,
+                0.0044895999133586885,
+                0.004534399881958961,
+                0.004556800052523613,
+                0.004396799951791763,
+                0.004652800038456917,
+                0.004543999955058098
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.006691200286149978,
+              "samples_ms": [
+                0.007039999961853028,
+                0.006892800331115723,
+                0.00671359971165657,
+                0.006630399823188781,
+                0.006691200286149978,
+                0.006675200164318084,
+                0.00660799965262413,
+                0.0066143997013568875,
+                0.006697600334882736
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006265600025653839,
+              "samples_ms": [
+                0.006380800157785416,
+                0.0060095999389886854,
+                0.006265600025653839,
+                0.0064351998269557955,
+                0.006185600161552429,
+                0.005967999994754791,
+                0.006185600161552429,
+                0.006291200220584869,
+                0.006409599632024765
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.008511999994516373,
+              "samples_ms": [
+                0.008803199976682663,
+                0.008646400272846222,
+                0.008511999994516373,
+                0.008495999872684479,
+                0.008451200276613235,
+                0.008473599702119828,
+                0.008524800091981888,
+                0.008656000345945358,
+                0.008508799970149994
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.008329600095748901,
+              "samples_ms": [
+                0.008687999844551087,
+                0.008416000008583068,
+                0.008364800363779068,
+                0.008310399949550629,
+                0.008320000022649765,
+                0.008489599823951722,
+                0.00830719992518425,
+                0.00830719992518425,
+                0.008329600095748901
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.006499200314283371,
+              "samples_ms": [
+                0.006748799979686737,
+                0.006620799750089645,
+                0.006499200314283371,
+                0.006441599875688553,
+                0.006483200192451477,
+                0.006566400080919266,
+                0.006636799871921539,
+                0.006444799900054932,
+                0.00647680014371872
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006483200192451477,
+              "samples_ms": [
+                0.02231999933719635,
+                0.006297600269317627,
+                0.006684800237417221,
+                0.006499200314283371,
+                0.006483200192451477,
+                0.006483200192451477,
+                0.006473600119352341,
+                0.006489600241184235,
+                0.006473600119352341
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006553599983453751,
+              "samples_ms": [
+                0.00695360004901886,
+                0.006649599969387054,
+                0.0065151996910572055,
+                0.006662400066852569,
+                0.006553599983453751,
+                0.006483200192451477,
+                0.006486400216817856,
+                0.00647680014371872,
+                0.006598400324583054
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.006566400080919266,
+              "samples_ms": [
+                0.006735999882221222,
+                0.006681600213050842,
+                0.006604799628257751,
+                0.006441599875688553,
+                0.006447999924421311,
+                0.006441599875688553,
+                0.006678400188684463,
+                0.0065600000321865085,
+                0.006566400080919266
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "current",
+              "per_call_ms": 0.004569600149989128,
+              "samples_ms": [
+                0.00498879998922348,
+                0.004758400097489357,
+                0.004662400111556053,
+                0.0044895999133586885,
+                0.0045471999794244765,
+                0.004678399860858917,
+                0.00453759990632534,
+                0.004569600149989128,
+                0.004464000090956688
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.006563200056552887,
+              "samples_ms": [
+                0.006787200272083282,
+                0.006636799871921539,
+                0.006511999666690827,
+                0.006563200056552887,
+                0.006572800129652024,
+                0.006415999680757523,
+                0.006496000289916992,
+                0.006700800359249115,
+                0.0064800001680850984
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006675200164318084,
+              "samples_ms": [
+                0.00692799985408783,
+                0.006892800331115723,
+                0.006726399809122085,
+                0.006723199784755707,
+                0.006672000139951706,
+                0.0066592000424861904,
+                0.0066592000424861904,
+                0.00660799965262413,
+                0.006675200164318084
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.00833280012011528,
+              "samples_ms": [
+                0.008553600311279297,
+                0.008444800227880477,
+                0.00835840031504631,
+                0.008291199803352356,
+                0.008303999900817871,
+                0.008303999900817871,
+                0.00833280012011528,
+                0.008336000144481659,
+                0.00833280012011528
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.008700799942016602,
+              "samples_ms": [
+                0.008883199840784072,
+                0.008752000331878663,
+                0.00873280018568039,
+                0.008684799820184708,
+                0.00862400010228157,
+                0.008700799942016602,
+                0.00862400010228157,
+                0.008687999844551087,
+                0.008726400136947633
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.0063231997191905975,
+              "samples_ms": [
+                0.00650240033864975,
+                0.006384000182151794,
+                0.006486400216817856,
+                0.0063231997191905975,
+                0.006470400094985962,
+                0.006249599903821945,
+                0.006255999952554703,
+                0.005958399921655655,
+                0.005974400043487549
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.006867200136184692,
+              "samples_ms": [
+                0.007113599777221679,
+                0.006963200122117996,
+                0.006723199784755707,
+                0.006819199770689011,
+                0.006867200136184692,
+                0.0069311998784542085,
+                0.006745599955320358,
+                0.006867200136184692,
+                0.0067391999065876005
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006054399907588959,
+              "samples_ms": [
+                0.00658240020275116,
+                0.006054399907588959,
+                0.00597120001912117,
+                0.006335999816656113,
+                0.006044799834489823,
+                0.005999999865889549,
+                0.005936000123620033,
+                0.006086400151252747,
+                0.0063391998410224915
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.0068512000143527985,
+              "samples_ms": [
+                0.007097599655389785,
+                0.0068512000143527985,
+                0.006777600198984146,
+                0.038473600149154664,
+                0.0472896009683609,
+                0.006118400022387505,
+                0.0069023996591567995,
+                0.006726399809122085,
+                0.006649599969387054
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "current",
+              "per_call_ms": 0.004681599885225296,
+              "samples_ms": [
+                0.00483199991285801,
+                0.004662400111556053,
+                0.004687999933958053,
+                0.0046847999095916745,
+                0.0047136001288890835,
+                0.004681599885225296,
+                0.004595199972391129,
+                0.004678399860858917,
+                0.00461760014295578
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.006838399916887283,
+              "samples_ms": [
+                0.006915199756622315,
+                0.006774400174617767,
+                0.006819199770689011,
+                0.00671359971165657,
+                0.006844799965620041,
+                0.006819199770689011,
+                0.006860800087451935,
+                0.0069023996591567995,
+                0.006838399916887283
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.00658240020275116,
+              "samples_ms": [
+                0.006995200365781784,
+                0.006809599697589874,
+                0.006569600105285645,
+                0.006620799750089645,
+                0.006697600334882736,
+                0.00658240020275116,
+                0.006527999788522721,
+                0.0064800001680850984,
+                0.006428799778223038
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.006620799750089645,
+              "samples_ms": [
+                0.006864000111818314,
+                0.006684800237417221,
+                0.006598400324583054,
+                0.006553599983453751,
+                0.0065760001540184024,
+                0.006620799750089645,
+                0.006678400188684463,
+                0.006665600091218948,
+                0.006534399837255478
+              ],
+              "bits_equal": true
+            }
+          ],
+          "medians_ms": {
+            "current": 0.004569600149989128,
+            "[64, 128, 2, 0, 4, 1, 0]": 0.006592000275850296,
+            "[32, 128, 2, 16, 4, 1, 0]": 0.00658240020275116,
+            "[128, 320, 2, 0, 4, 1, 1]": 0.006492800265550614,
+            "[64, 128, 2, 0, 4, 0, 0]": 0.008483199775218964,
+            "[64, 128, 1, 0, 4, 1, 0]": 0.008515200018882752,
+            "[64, 128, 2, 0, 16, 1, 0]": 0.0063231997191905975,
+            "[64, 128, 2, 16, 4, 1, 0]": 0.0066592000424861904,
+            "[64, 128, 2, 0, 4, 1, 1]": 0.0062720000743865965,
+            "[64, 128, 2, 0, 4, 1, 2]": 0.006662400066852569
+          },
+          "speedups": {
+            "[64, 128, 2, 0, 4, 1, 0]": 0.6932038772403872,
+            "[32, 128, 2, 16, 4, 1, 0]": 0.6942148774362324,
+            "[128, 320, 2, 0, 4, 1, 1]": 0.7037949672092075,
+            "[64, 128, 2, 0, 4, 0, 0]": 0.538664686801058,
+            "[64, 128, 1, 0, 4, 1, 0]": 0.5366403771908916,
+            "[64, 128, 2, 0, 16, 1, 0]": 0.7226721205911966,
+            "[64, 128, 2, 16, 4, 1, 0]": 0.6862085717255436,
+            "[64, 128, 2, 0, 4, 1, 1]": 0.7285714438445755,
+            "[64, 128, 2, 0, 4, 1, 2]": 0.6858789781664799
+          }
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 209715200,
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.008903700113296508,
+              "samples_ms": [
+                0.008921600133180618,
+                0.008903700113296508,
+                0.00889040008187294,
+                0.008857499808073044,
+                0.008875299990177155,
+                0.008934400230646133,
+                0.008883699774742126,
+                0.009692700207233429,
+                0.008906800299882889
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.00917859971523285,
+              "samples_ms": [
+                0.00917859971523285,
+                0.009190499782562256,
+                0.009955000132322311,
+                0.009212099760770798,
+                0.00916299968957901,
+                0.009144099801778794,
+                0.009209699928760529,
+                0.009151100367307662,
+                0.00916529968380928
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.00911400020122528,
+              "samples_ms": [
+                0.00909689962863922,
+                0.00911400020122528,
+                0.009132400155067444,
+                0.009099800139665604,
+                0.00912569984793663,
+                0.00911870002746582,
+                0.009098300337791443,
+                0.009151999652385712,
+                0.009101299941539765
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009719000011682511,
+              "samples_ms": [
+                0.009715399891138076,
+                0.009719000011682511,
+                0.0097461998462677,
+                0.010675399750471114,
+                0.009695299714803696,
+                0.009694799780845642,
+                0.00967089980840683,
+                0.009770599752664566,
+                0.009734000265598296
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.009753700345754623,
+              "samples_ms": [
+                0.009805499762296676,
+                0.009748599678277969,
+                0.009753700345754623,
+                0.009752199798822404,
+                0.009726399928331375,
+                0.009765599668025971,
+                0.01058190017938614,
+                0.009807000309228897,
+                0.009753300249576569
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.00957529991865158,
+              "samples_ms": [
+                0.009575899690389633,
+                0.009563600271940231,
+                0.009542299807071686,
+                0.00961740016937256,
+                0.009573099762201309,
+                0.009604299813508988,
+                0.009569700062274932,
+                0.00957529991865158,
+                0.010442599654197693
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.008998999744653702,
+              "samples_ms": [
+                0.009036599844694137,
+                0.008998999744653702,
+                0.008980099856853486,
+                0.00899140015244484,
+                0.009866400063037873,
+                0.009021800011396408,
+                0.009022899717092515,
+                0.008977100253105164,
+                0.008979500085115433
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009209299832582474,
+              "samples_ms": [
+                0.009209299832582474,
+                0.009217199683189393,
+                0.009203500300645828,
+                0.00918319970369339,
+                0.009260399639606476,
+                0.009202799946069717,
+                0.00920950025320053,
+                0.009213600307703018,
+                0.009194199740886689
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009894999861717223,
+              "samples_ms": [
+                0.00990160033106804,
+                0.009915199875831605,
+                0.009875000268220902,
+                0.010686500370502472,
+                0.009950400143861771,
+                0.00987590029835701,
+                0.009881500154733658,
+                0.00988140031695366,
+                0.009894999861717223
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.00916370004415512,
+              "samples_ms": [
+                0.009186399728059768,
+                0.009160400182008744,
+                0.009155000001192093,
+                0.00916370004415512,
+                0.009151600301265717,
+                0.009214600175619125,
+                0.009164799749851228,
+                0.00916929990053177,
+                0.009163500368595123
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.00916460007429123,
+              "samples_ms": [
+                0.00915530025959015,
+                0.009213300049304962,
+                0.00916460007429123,
+                0.009164299815893173,
+                0.009156700223684311,
+                0.00994120016694069,
+                0.00918940007686615,
+                0.009216299653053284,
+                0.009163200110197067
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009118100255727768,
+              "samples_ms": [
+                0.009911300241947174,
+                0.010050100088119508,
+                0.009137599915266036,
+                0.009118100255727768,
+                0.009113799780607224,
+                0.009100700169801712,
+                0.009094399958848953,
+                0.00910630002617836,
+                0.009158200025558472
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.00971980020403862,
+              "samples_ms": [
+                0.009754399955272674,
+                0.009691300243139267,
+                0.009746299684047699,
+                0.009700900316238404,
+                0.009720399975776672,
+                0.010681699961423874,
+                0.009711699932813645,
+                0.00971980020403862,
+                0.00970190018415451
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.009758300334215163,
+              "samples_ms": [
+                0.01072319969534874,
+                0.009735199809074401,
+                0.0098191998898983,
+                0.009758300334215163,
+                0.009746800363063812,
+                0.009758500009775161,
+                0.00972519963979721,
+                0.009759300202131272,
+                0.00975089967250824
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.009605699777603149,
+              "samples_ms": [
+                0.009593900293111801,
+                0.009583400189876556,
+                0.00961270034313202,
+                0.009586700052022935,
+                0.010373900085687638,
+                0.009642600268125533,
+                0.009594500064849854,
+                0.009612300246953965,
+                0.009605699777603149
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.0090038001537323,
+              "samples_ms": [
+                0.008995000272989273,
+                0.009954799711704255,
+                0.009010899811983109,
+                0.009009400010108947,
+                0.009047000110149384,
+                0.008996599912643432,
+                0.008995900303125382,
+                0.0090038001537323,
+                0.008978299796581268
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009222699701786042,
+              "samples_ms": [
+                0.009267400205135345,
+                0.00921270027756691,
+                0.009222699701786042,
+                0.009189700335264206,
+                0.009210000187158585,
+                0.009273400157690048,
+                0.009199000149965286,
+                0.010012300312519073,
+                0.010130299627780915
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009905999898910523,
+              "samples_ms": [
+                0.00994969978928566,
+                0.010685499757528305,
+                0.009905999898910523,
+                0.009885200113058091,
+                0.009882400184869767,
+                0.009943199902772903,
+                0.00990699976682663,
+                0.009899400174617767,
+                0.009887500107288361
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.009169699996709824,
+              "samples_ms": [
+                0.009227599948644638,
+                0.00916759967803955,
+                0.00917920023202896,
+                0.009156800061464309,
+                0.00915139988064766,
+                0.009156999737024307,
+                0.009209799766540527,
+                0.009169699996709824,
+                0.00918160006403923
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.008893900364637376,
+              "samples_ms": [
+                0.008879999816417693,
+                0.00892300009727478,
+                0.008900800347328186,
+                0.00889509990811348,
+                0.008868400007486343,
+                0.00885540023446083,
+                0.00888269990682602,
+                0.008932100236415863,
+                0.008893900364637376
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009117899835109711,
+              "samples_ms": [
+                0.009117899835109711,
+                0.00910080000758171,
+                0.009107500314712524,
+                0.009165900200605393,
+                0.00911249965429306,
+                0.00911170020699501,
+                0.009896799921989441,
+                0.009118399769067764,
+                0.009167300164699554
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009728600084781647,
+              "samples_ms": [
+                0.010670699924230576,
+                0.00971129983663559,
+                0.009752900153398514,
+                0.009728600084781647,
+                0.009696000069379807,
+                0.00969569981098175,
+                0.009695599973201751,
+                0.009785100072622299,
+                0.009735199809074401
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.009754200279712678,
+              "samples_ms": [
+                0.009749100357294083,
+                0.009772499650716781,
+                0.009753400087356567,
+                0.009752500057220458,
+                0.010719799995422363,
+                0.009754200279712678,
+                0.009785100072622299,
+                0.009752999991178513,
+                0.009758400171995163
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.009582000225782395,
+              "samples_ms": [
+                0.009582000225782395,
+                0.00958079993724823,
+                0.009600599855184555,
+                0.00958089977502823,
+                0.009554199874401093,
+                0.009573099762201309,
+                0.009606199711561203,
+                0.009586499631404876,
+                0.010404899716377258
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.008999300003051759,
+              "samples_ms": [
+                0.008999300003051759,
+                0.009034100174903869,
+                0.008997400104999543,
+                0.00899830013513565,
+                0.009956700354814529,
+                0.008971799910068513,
+                0.008985300362110139,
+                0.009049899876117706,
+                0.009004700183868408
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009213799983263016,
+              "samples_ms": [
+                0.009223300218582153,
+                0.009210699796676635,
+                0.00926010012626648,
+                0.009213799983263016,
+                0.010220699757337571,
+                0.009210199862718583,
+                0.009182800352573395,
+                0.009190099686384201,
+                0.009266699850559234
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009911400079727174,
+              "samples_ms": [
+                0.009911700338125228,
+                0.009936600178480148,
+                0.009899900108575822,
+                0.01085989996790886,
+                0.009882500022649765,
+                0.00986879989504814,
+                0.00993790030479431,
+                0.009911400079727174,
+                0.009904900193214416
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.00916450023651123,
+              "samples_ms": [
+                0.00916450023651123,
+                0.009172400087118148,
+                0.009128300100564956,
+                0.009161800146102905,
+                0.00919559970498085,
+                0.010124000161886216,
+                0.00917930006980896,
+                0.009164299815893173,
+                0.009145600348711013
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.008876899629831314,
+              "samples_ms": [
+                0.008902399986982345,
+                0.008859200030565261,
+                0.008872400224208831,
+                0.008926499634981155,
+                0.009838800132274627,
+                0.008884000033140183,
+                0.008864600211381912,
+                0.008876899629831314,
+                0.008864299952983856
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.009163600206375123,
+              "samples_ms": [
+                0.009168999642133713,
+                0.00917230024933815,
+                0.009139999747276306,
+                0.009162899851799012,
+                0.009221000224351883,
+                0.009163600206375123,
+                0.009170500189065933,
+                0.009130500257015228,
+                0.0091389998793602
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009711699932813645,
+              "samples_ms": [
+                0.0097181998193264,
+                0.009677299857139587,
+                0.00966460034251213,
+                0.010526899993419648,
+                0.009711699932813645,
+                0.00972680002450943,
+                0.009698499739170075,
+                0.009668800234794616,
+                0.009757299721240998
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.009754499793052674,
+              "samples_ms": [
+                0.009752299636602402,
+                0.009801699966192245,
+                0.009752999991178513,
+                0.009764999896287919,
+                0.0097461998462677,
+                0.009754499793052674,
+                0.010572600364685058,
+                0.00982780009508133,
+                0.009747599810361862
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.009584899991750717,
+              "samples_ms": [
+                0.009575700014829635,
+                0.010607700049877166,
+                0.009556400030851364,
+                0.009595099836587906,
+                0.010495200008153915,
+                0.00957849994301796,
+                0.009638699889183044,
+                0.009580499678850173,
+                0.009584899991750717
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.009009599685668945,
+              "samples_ms": [
+                0.009001299738883972,
+                0.009013199806213379,
+                0.009047599881887436,
+                0.008996199816465378,
+                0.009009599685668945,
+                0.009003199636936188,
+                0.00899910032749176,
+                0.00995289981365204,
+                0.009064999967813491
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009208299964666367,
+              "samples_ms": [
+                0.009214799851179123,
+                0.009198299795389175,
+                0.009971299767494201,
+                0.009277100116014481,
+                0.009208299964666367,
+                0.009210299700498581,
+                0.00919020026922226,
+                0.009177199751138686,
+                0.009188400208950042
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009899599850177765,
+              "samples_ms": [
+                0.009878099709749222,
+                0.009871099889278413,
+                0.00993890017271042,
+                0.009899599850177765,
+                0.00989369973540306,
+                0.010685800015926361,
+                0.009898599982261658,
+                0.009943799674510955,
+                0.009914100170135498
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.009177099913358688,
+              "samples_ms": [
+                0.010110700130462646,
+                0.009161599725484849,
+                0.009233800321817398,
+                0.00916450023651123,
+                0.009183000028133392,
+                0.009177099913358688,
+                0.009159500151872635,
+                0.009169799834489822,
+                0.009196799993515015
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "current",
+              "per_call_ms": 0.008883699774742126,
+              "samples_ms": [
+                0.00890600010752678,
+                0.008865699917078019,
+                0.008946900069713593,
+                0.008885099738836288,
+                0.008883699774742126,
+                0.008875899761915208,
+                0.008880700170993804,
+                0.008874399960041046,
+                0.00892229974269867
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.009170900285243987,
+              "samples_ms": [
+                0.009161499887704849,
+                0.009147699922323227,
+                0.009170900285243987,
+                0.009204500168561936,
+                0.009151100367307662,
+                0.00996059998869896,
+                0.009195200353860854,
+                0.00916230008006096,
+                0.00920189991593361
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009125400334596634,
+              "samples_ms": [
+                0.009915299713611603,
+                0.009130600094795226,
+                0.009103800356388091,
+                0.009133300185203553,
+                0.009125400334596634,
+                0.009119600057601929,
+                0.009138499945402145,
+                0.00910319983959198,
+                0.009092599898576737
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 0, 0]",
+              "per_call_ms": 0.009763800352811814,
+              "samples_ms": [
+                0.009763800352811814,
+                0.009735900163650512,
+                0.009785400331020355,
+                0.009751900285482406,
+                0.010771200060844421,
+                0.009765800088644028,
+                0.009753900021314621,
+                0.009791799634695054,
+                0.0097461000084877
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 1, 0, 4, 1, 0]",
+              "per_call_ms": 0.00959250032901764,
+              "samples_ms": [
+                0.00959250032901764,
+                0.009537500143051148,
+                0.009627000242471696,
+                0.009581799805164336,
+                0.009581100195646286,
+                0.009604900330305099,
+                0.009585600346326828,
+                0.009606199711561203,
+                0.010378000140190125
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 16, 1, 0]",
+              "per_call_ms": 0.008999799937009811,
+              "samples_ms": [
+                0.009025900065898896,
+                0.008995600044727325,
+                0.008985599875450135,
+                0.009054700285196305,
+                0.00977569967508316,
+                0.008999799937009811,
+                0.008991999924182892,
+                0.008993399888277053,
+                0.009049800038337708
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009200800210237503,
+              "samples_ms": [
+                0.00924530029296875,
+                0.009213799983263016,
+                0.009198500216007233,
+                0.009178899973630906,
+                0.009259899705648422,
+                0.009195999801158905,
+                0.009221900254487991,
+                0.009194699674844741,
+                0.009200800210237503
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009911099821329117,
+              "samples_ms": [
+                0.009911099821329117,
+                0.009891200065612792,
+                0.00992790013551712,
+                0.010686299949884414,
+                0.009931199997663499,
+                0.009897100180387497,
+                0.009874200075864792,
+                0.009939300268888474,
+                0.009906499832868575
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.009170100092887878,
+              "samples_ms": [
+                0.009169799834489822,
+                0.009160400182008744,
+                0.00922200009226799,
+                0.009171999990940094,
+                0.009184700250625611,
+                0.009170100092887878,
+                0.009158200025558472,
+                0.009163799881935119,
+                0.009881100058555603
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "current",
+              "per_call_ms": 0.008881200104951859,
+              "samples_ms": [
+                0.008886899799108505,
+                0.008878300338983536,
+                0.008928199857473373,
+                0.008881200104951859,
+                0.008882900327444076,
+                0.008869300037622452,
+                0.00885149985551834,
+                0.008861599862575531,
+                0.00975409969687462
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 128, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.009158100187778472,
+              "samples_ms": [
+                0.009181799739599228,
+                0.009155599772930146,
+                0.009150999784469604,
+                0.009997399896383286,
+                0.009214700013399125,
+                0.009172700345516205,
+                0.009145499765872955,
+                0.009158100187778472,
+                0.009144999831914902
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[32, 128, 2, 16, 4, 1, 0]",
+              "per_call_ms": 0.009119799733161927,
+              "samples_ms": [
+                0.00914829969406128,
+                0.009116899967193604,
+                0.009094099700450897,
+                0.009093599766492844,
+                0.009159199893474579,
+                0.00913110002875328,
+                0.009131500124931335,
+                0.009119799733161927,
+                0.009100999683141708
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[128, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.009726200252771378,
+              "samples_ms": [
+                0.009735099971294403,
+                0.00971129983663559,
+                0.009689299762248993,
+                0.010512199997901917,
+                0.009726200252771378,
+                0.009737999737262725,
+                0.009735000133514405,
+                0.009683000296354294,
+                0.009715799987316132
+              ],
+              "bits_equal": true
+            }
+          ],
+          "medians_ms": {
+            "current": 0.008883699774742126,
+            "[64, 128, 2, 0, 4, 1, 0]": 0.00916460007429123,
+            "[32, 128, 2, 16, 4, 1, 0]": 0.009118100255727768,
+            "[128, 320, 2, 0, 4, 1, 1]": 0.00971980020403862,
+            "[64, 128, 2, 0, 4, 0, 0]": 0.009754499793052674,
+            "[64, 128, 1, 0, 4, 1, 0]": 0.009584899991750717,
+            "[64, 128, 2, 0, 16, 1, 0]": 0.008999799937009811,
+            "[64, 128, 2, 16, 4, 1, 0]": 0.009209299832582474,
+            "[64, 128, 2, 0, 4, 1, 1]": 0.009905999898910523,
+            "[64, 128, 2, 0, 4, 1, 2]": 0.009169699996709824
+          },
+          "speedups": {
+            "[64, 128, 2, 0, 4, 1, 0]": 0.969349420894307,
+            "[32, 128, 2, 16, 4, 1, 0]": 0.9742928379364554,
+            "[128, 320, 2, 0, 4, 1, 1]": 0.9139796691552271,
+            "[64, 128, 2, 0, 4, 0, 0]": 0.910728378001428,
+            "[64, 128, 1, 0, 4, 1, 0]": 0.9268432411801811,
+            "[64, 128, 2, 0, 16, 1, 0]": 0.9870996952065293,
+            "[64, 128, 2, 16, 4, 1, 0]": 0.9646444285928909,
+            "[64, 128, 2, 0, 4, 1, 1]": 0.8967999056530547,
+            "[64, 128, 2, 0, 4, 1, 2]": 0.9688102967305019
+          }
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "configs": [
+        [
+          64,
+          320,
+          2,
+          0,
+          4,
+          1,
+          2
+        ],
+        [
+          64,
+          256,
+          2,
+          0,
+          4,
+          1,
+          2
+        ],
+        [
+          64,
+          320,
+          2,
+          0,
+          4,
+          0,
+          2
+        ],
+        [
+          64,
+          320,
+          1,
+          0,
+          4,
+          1,
+          2
+        ],
+        [
+          64,
+          320,
+          2,
+          0,
+          16,
+          1,
+          2
+        ],
+        [
+          64,
+          320,
+          2,
+          16,
+          4,
+          1,
+          2
+        ],
+        [
+          64,
+          320,
+          2,
+          0,
+          4,
+          1,
+          0
+        ],
+        [
+          64,
+          320,
+          2,
+          0,
+          4,
+          1,
+          1
+        ]
+      ],
+      "resources": {
+        "[64, 320, 2, 0, 4, 1, 2]": {
+          "registers": 40,
+          "local_bytes": 0,
+          "shared_bytes": 12800,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 12,
+          "cubin_sha256": "e4baa80054de7d066baa6da38ba6de514c631e0a8c5f7500e17a8fddd8e30e06"
+        },
+        "[64, 256, 2, 0, 4, 1, 2]": {
+          "registers": 38,
+          "local_bytes": 0,
+          "shared_bytes": 10240,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 10,
+          "cubin_sha256": "1ab84825381553729689f8e4767b8a153a7acd7759e8c4dee786ad9d397f0c91"
+        },
+        "[64, 320, 2, 0, 4, 0, 2]": {
+          "registers": 40,
+          "local_bytes": 0,
+          "shared_bytes": 12800,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 0,
+          "cubin_sha256": "8ebeb0e1e67d2f9b32c1c5a9ce028c62850a7c41ac25792618a9c0aaebbcdf37"
+        },
+        "[64, 320, 1, 0, 4, 1, 2]": {
+          "registers": 39,
+          "local_bytes": 0,
+          "shared_bytes": 6400,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 6,
+          "cubin_sha256": "9f8ac762ba5efdfa812440a286b2d61c83ada42c8b7045fb752dee43889c130e"
+        },
+        "[64, 320, 2, 0, 16, 1, 2]": {
+          "registers": 40,
+          "local_bytes": 0,
+          "shared_bytes": 12800,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 12,
+          "cubin_sha256": "0f25ca04ef80420bd892d8c601e661b76e183a07e8711055ba1952684a0a026c"
+        },
+        "[64, 320, 2, 16, 4, 1, 2]": {
+          "registers": 40,
+          "local_bytes": 0,
+          "shared_bytes": 13312,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 12,
+          "cubin_sha256": "37f75368b6d94d9306a815a5e582efe31e77574d063f7668c8b41ce0d9e6e858"
+        },
+        "[64, 320, 2, 0, 4, 1, 0]": {
+          "registers": 38,
+          "local_bytes": 0,
+          "shared_bytes": 10240,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 10,
+          "cubin_sha256": "efa8facfbfd111d2ef731dd209603cdabe175072d12a9e11c499942fc386eab3"
+        },
+        "[64, 320, 2, 0, 4, 1, 1]": {
+          "registers": 38,
+          "local_bytes": 0,
+          "shared_bytes": 30720,
+          "local_loads": 0,
+          "local_stores": 0,
+          "matrix_instructions": 0,
+          "async_copies": 10,
+          "cubin_sha256": "094ce79870c25da0ff4351bb603fe6331cfd87dcc90db0ae74854e6f63b2adb9"
+        }
+      },
+      "checks": [
+        {
+          "backend": "current",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "current",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 256, 2, 0, 4, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 0, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 1, 0, 4, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 16, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 16, 4, 1, 2]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 0]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "actual",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "negative",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "negative_zero",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "tiny_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "large_input",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "random",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "positive_underflow",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "zero_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_scale",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "subnormal_weight",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "cancel",
+          "eager": true,
+          "graph": true
+        },
+        {
+          "backend": "[64, 320, 2, 0, 4, 1, 1]",
+          "input": "scale_cancel",
+          "eager": true,
+          "graph": true
+        }
+      ],
+      "rings": [
+        {
+          "length": 1,
+          "logical_weight_bytes": 26214400,
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.010908800363540649,
+              "samples_ms": [
+                0.011004800349473954,
+                0.010908800363540649,
+                0.011084800213575363,
+                0.010623999685049058,
+                0.010815999656915664,
+                0.010931199789047242,
+                0.010556799918413162,
+                0.011267200112342834,
+                0.01074879989027977
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014710399508476257,
+              "samples_ms": [
+                0.014905600249767304,
+                0.014771200716495514,
+                0.014771200716495514,
+                0.014739200472831726,
+                0.014633600413799287,
+                0.014710399508476257,
+                0.014636799693107605,
+                0.014643199741840363,
+                0.014684799313545226
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014758400619029999,
+              "samples_ms": [
+                0.01483519971370697,
+                0.014758400619029999,
+                0.014748799800872802,
+                0.01470080018043518,
+                0.014812800288200378,
+                0.014703999459743499,
+                0.014761599898338317,
+                0.014630399644374847,
+                0.014764800667762756
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.024803200364112855,
+              "samples_ms": [
+                0.027804800868034364,
+                0.024991999566555022,
+                0.024732799828052522,
+                0.024835200607776643,
+                0.024751999974250795,
+                0.02479040026664734,
+                0.02489279955625534,
+                0.024700799584388734,
+                0.024803200364112855
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.016735999286174773,
+              "samples_ms": [
+                0.016969600319862367,
+                0.016857600212097167,
+                0.016735999286174773,
+                0.016675199568271636,
+                0.016828800737857818,
+                0.016832000017166136,
+                0.016697600483894348,
+                0.016704000532627106,
+                0.016707199811935424
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.01472959965467453,
+              "samples_ms": [
+                0.014918400347232819,
+                0.014723199605941772,
+                0.01472959965467453,
+                0.014713600277900696,
+                0.01462399959564209,
+                0.014735999703407287,
+                0.01475519984960556,
+                0.014640000462532044,
+                0.01640959978103638
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.014726400375366211,
+              "samples_ms": [
+                0.014873600006103516,
+                0.014800000190734863,
+                0.014707200229167938,
+                0.01467519998550415,
+                0.014812800288200378,
+                0.014726400375366211,
+                0.014672000706195832,
+                0.014662399888038635,
+                0.014800000190734863
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.019036799669265747,
+              "samples_ms": [
+                0.018963199853897095,
+                0.0188511997461319,
+                0.019446399807929993,
+                0.019036799669265747,
+                0.01902720034122467,
+                0.0191103994846344,
+                0.01913599967956543,
+                0.018931199610233308,
+                0.019065600633621217
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.02004159986972809,
+              "samples_ms": [
+                0.0204352006316185,
+                0.01950400024652481,
+                0.02024320065975189,
+                0.02004159986972809,
+                0.020127999782562255,
+                0.02003840059041977,
+                0.020777599513530733,
+                0.019814400374889372,
+                0.019756799936294554
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.01472959965467453,
+              "samples_ms": [
+                0.014860799908638,
+                0.014767999947071075,
+                0.014662399888038635,
+                0.014726400375366211,
+                0.01472959965467453,
+                0.014815999567508698,
+                0.014742399752140044,
+                0.014643199741840363,
+                0.014633600413799287
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014688000082969666,
+              "samples_ms": [
+                0.014847999811172486,
+                0.014825600385665893,
+                0.014742399752140044,
+                0.014713600277900696,
+                0.014688000082969666,
+                0.014636799693107605,
+                0.014643199741840363,
+                0.01465280055999756,
+                0.014688000082969666
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.024780799448490144,
+              "samples_ms": [
+                0.025062400102615356,
+                0.024931199848651886,
+                0.024864000082015992,
+                0.026284798979759216,
+                0.024736000597476958,
+                0.024710400402545928,
+                0.02476480007171631,
+                0.024780799448490144,
+                0.024745599925518037
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.016780799627304076,
+              "samples_ms": [
+                0.022099199891090392,
+                0.016896000504493712,
+                0.01676799952983856,
+                0.016748799383640288,
+                0.01679999977350235,
+                0.016780799627304076,
+                0.016755199432373045,
+                0.01668799966573715,
+                0.016809600591659545
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.014713600277900696,
+              "samples_ms": [
+                0.014851200580596923,
+                0.014752000570297241,
+                0.014764800667762756,
+                0.014713600277900696,
+                0.014723199605941772,
+                0.014697599411010741,
+                0.014537599682807923,
+                0.014608000218868256,
+                0.01465280055999756
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.014703999459743499,
+              "samples_ms": [
+                0.014867199957370758,
+                0.014819200336933135,
+                0.014720000326633453,
+                0.014681600034236908,
+                0.014681600034236908,
+                0.014668799936771393,
+                0.014710399508476257,
+                0.014703999459743499,
+                0.014636799693107605
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.01886080056428909,
+              "samples_ms": [
+                0.01913280040025711,
+                0.01886080056428909,
+                0.01902720034122467,
+                0.01892160028219223,
+                0.01873600035905838,
+                0.018723200261592864,
+                0.01892160028219223,
+                0.01881600022315979,
+                0.01871040016412735
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.01974720060825348,
+              "samples_ms": [
+                0.019596800208091736,
+                0.019724799692630766,
+                0.020070399343967437,
+                0.019123199582099914,
+                0.020160000026226043,
+                0.01966080069541931,
+                0.01974720060825348,
+                0.019756799936294554,
+                0.01977279931306839
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.010950399935245514,
+              "samples_ms": [
+                0.01656319946050644,
+                0.010889600217342376,
+                0.011049599945545196,
+                0.016204799711704253,
+                0.010950399935245514,
+                0.0110944002866745,
+                0.010627199709415436,
+                0.010831999778747558,
+                0.010543999820947647
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014633600413799287,
+              "samples_ms": [
+                0.014851200580596923,
+                0.01478399932384491,
+                0.01478080004453659,
+                0.014611199498176575,
+                0.014633600413799287,
+                0.01459839940071106,
+                0.014614400267601014,
+                0.014601600170135499,
+                0.014646400511264802
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.024879999458789825,
+              "samples_ms": [
+                0.024953599274158477,
+                0.02497279942035675,
+                0.024911999702453613,
+                0.024742400646209715,
+                0.02479040026664734,
+                0.024911999702453613,
+                0.024879999458789825,
+                0.024694399535655977,
+                0.024736000597476958
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.016710400581359863,
+              "samples_ms": [
+                0.01688639968633652,
+                0.016726399958133697,
+                0.016700799763202667,
+                0.01666879951953888,
+                0.016739200055599212,
+                0.016652800142765045,
+                0.016681599617004394,
+                0.016710400581359863,
+                0.016710400581359863
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.014710399508476257,
+              "samples_ms": [
+                0.014912000298500061,
+                0.014777599275112152,
+                0.01478399932384491,
+                0.014710399508476257,
+                0.014723199605941772,
+                0.01451839953660965,
+                0.01465280055999756,
+                0.014633600413799287,
+                0.014636799693107605
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.014691199362277984,
+              "samples_ms": [
+                0.014867199957370758,
+                0.014761599898338317,
+                0.014668799936771393,
+                0.014707200229167938,
+                0.014643199741840363,
+                0.014691199362277984,
+                0.01472959965467453,
+                0.014646400511264802,
+                0.014672000706195832
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.01876160055398941,
+              "samples_ms": [
+                0.018972800672054292,
+                0.018799999356269838,
+                0.01876160055398941,
+                0.018812799453735353,
+                0.018972800672054292,
+                0.018742400407791137,
+                0.01871040016412735,
+                0.01873600035905838,
+                0.01875839978456497
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.020000000298023225,
+              "samples_ms": [
+                0.01956160068511963,
+                0.02539840042591095,
+                0.019990399479866028,
+                0.02534720003604889,
+                0.020201599597930907,
+                0.020000000298023225,
+                0.01955839991569519,
+                0.020284800231456755,
+                0.01934719979763031
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.010771200060844421,
+              "samples_ms": [
+                0.010751999914646149,
+                0.010652799904346467,
+                0.010771200060844421,
+                0.010822399705648422,
+                0.010652799904346467,
+                0.010595200210809707,
+                0.01093439981341362,
+                0.011462400108575821,
+                0.010985600203275681
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014662399888038635,
+              "samples_ms": [
+                0.014876799285411834,
+                0.014787200093269347,
+                0.014688000082969666,
+                0.014681600034236908,
+                0.01462399959564209,
+                0.014591999351978302,
+                0.014633600413799287,
+                0.014646400511264802,
+                0.014662399888038635
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.024732799828052522,
+              "samples_ms": [
+                0.03213759958744049,
+                0.024831999838352204,
+                0.02476799935102463,
+                0.0247296005487442,
+                0.02476799935102463,
+                0.024732799828052522,
+                0.024665600061416625,
+                0.024691200256347655,
+                0.024700799584388734
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.01671359986066818,
+              "samples_ms": [
+                0.01690559983253479,
+                0.01674239933490753,
+                0.016803200542926788,
+                0.016764800250530242,
+                0.016672000288963318,
+                0.01669439971446991,
+                0.016700799763202667,
+                0.016700799763202667,
+                0.01671359986066818
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.014672000706195832,
+              "samples_ms": [
+                0.014854399859905243,
+                0.01478399932384491,
+                0.014694400131702423,
+                0.014748799800872802,
+                0.014636799693107605,
+                0.014630399644374847,
+                0.014643199741840363,
+                0.01465280055999756,
+                0.014672000706195832
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.014710399508476257,
+              "samples_ms": [
+                0.014851200580596923,
+                0.014723199605941772,
+                0.014713600277900696,
+                0.014710399508476257,
+                0.014710399508476257,
+                0.01470080018043518,
+                0.014627200365066529,
+                0.014665600657463074,
+                0.014665600657463074
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.01879040002822876,
+              "samples_ms": [
+                0.018956799805164338,
+                0.01926079988479614,
+                0.018848000466823576,
+                0.01879040002822876,
+                0.01879359930753708,
+                0.018787199258804323,
+                0.018755200505256652,
+                0.018755200505256652,
+                0.01875839978456497
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.019814400374889372,
+              "samples_ms": [
+                0.025811201333999632,
+                0.020080000162124634,
+                0.02041600048542023,
+                0.019814400374889372,
+                0.01974080055952072,
+                0.019113600254058838,
+                0.01979839950799942,
+                0.019939200580120088,
+                0.01958400011062622
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "current",
+              "per_call_ms": 0.0108255997300148,
+              "samples_ms": [
+                0.01141119971871376,
+                0.010659199953079224,
+                0.01098880022764206,
+                0.010835199803113937,
+                0.010531199723482132,
+                0.0108255997300148,
+                0.010768000036478043,
+                0.010579200088977813,
+                0.010995200276374817
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014732800424098969,
+              "samples_ms": [
+                0.014876799285411834,
+                0.014748799800872802,
+                0.014742399752140044,
+                0.014732800424098969,
+                0.014732800424098969,
+                0.014726400375366211,
+                0.01465280055999756,
+                0.014646400511264802,
+                0.014672000706195832
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014688000082969666,
+              "samples_ms": [
+                0.014902399480342865,
+                0.014819200336933135,
+                0.014707200229167938,
+                0.014688000082969666,
+                0.014636799693107605,
+                0.014681600034236908,
+                0.014640000462532044,
+                0.01465280055999756,
+                0.014723199605941772
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.01672320067882538,
+              "samples_ms": [
+                0.01690240055322647,
+                0.016764800250530242,
+                0.016710400581359863,
+                0.016752000153064727,
+                0.016790400445461272,
+                0.01666239947080612,
+                0.01672320067882538,
+                0.01668799966573715,
+                0.016707199811935424
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.014716799557209014,
+              "samples_ms": [
+                0.014867199957370758,
+                0.014748799800872802,
+                0.014739200472831726,
+                0.014713600277900696,
+                0.01465280055999756,
+                0.014707200229167938,
+                0.014633600413799287,
+                0.014716799557209014,
+                0.014822399616241455
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.01472959965467453,
+              "samples_ms": [
+                0.014867199957370758,
+                0.01483200043439865,
+                0.01472959965467453,
+                0.014819200336933135,
+                0.014611199498176575,
+                0.014611199498176575,
+                0.014672000706195832,
+                0.01475519984960556,
+                0.014697599411010741
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.018863999843597413,
+              "samples_ms": [
+                0.019392000138759614,
+                0.01887039989233017,
+                0.018863999843597413,
+                0.018796800076961516,
+                0.018739199638366698,
+                0.01880960017442703,
+                0.018745599687099455,
+                0.01897599995136261,
+                0.018943999707698823
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.01980479955673218,
+              "samples_ms": [
+                0.019808000326156615,
+                0.019177600741386414,
+                0.019251200556755065,
+                0.020236800611019134,
+                0.019971199333667755,
+                0.020371200144290925,
+                0.019359999895095827,
+                0.01980479955673218,
+                0.019539199769496918
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "current",
+              "per_call_ms": 0.010822399705648422,
+              "samples_ms": [
+                0.011161600053310395,
+                0.011107199639081956,
+                0.010761599987745285,
+                0.010995200276374817,
+                0.010611200332641601,
+                0.010822399705648422,
+                0.011135999858379365,
+                0.010726399719715118,
+                0.010745599865913391
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.01470080018043518,
+              "samples_ms": [
+                0.014905600249767304,
+                0.014735999703407287,
+                0.01467519998550415,
+                0.014707200229167938,
+                0.01470080018043518,
+                0.01470080018043518,
+                0.014668799936771393,
+                0.014640000462532044,
+                0.014636799693107605
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.014662399888038635,
+              "samples_ms": [
+                0.01483519971370697,
+                0.014720000326633453,
+                0.01465280055999756,
+                0.014716799557209014,
+                0.014636799693107605,
+                0.014659200608730317,
+                0.014662399888038635,
+                0.014662399888038635,
+                0.014659200608730317
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.02483839988708496,
+              "samples_ms": [
+                0.0251008003950119,
+                0.02483839988708496,
+                0.024707199633121492,
+                0.024748800694942473,
+                0.02476799935102463,
+                0.024857600033283234,
+                0.024879999458789825,
+                0.024684800207614897,
+                0.024860799312591553
+              ],
+              "bits_equal": true
+            }
+          ],
+          "medians_ms": {
+            "current": 0.0108255997300148,
+            "[64, 320, 2, 0, 4, 1, 2]": 0.014710399508476257,
+            "[64, 256, 2, 0, 4, 1, 2]": 0.014688000082969666,
+            "[64, 320, 2, 0, 4, 0, 2]": 0.024803200364112855,
+            "[64, 320, 1, 0, 4, 1, 2]": 0.01672320067882538,
+            "[64, 320, 2, 0, 16, 1, 2]": 0.014713600277900696,
+            "[64, 320, 2, 16, 4, 1, 2]": 0.014710399508476257,
+            "[64, 320, 2, 0, 4, 1, 0]": 0.01886080056428909,
+            "[64, 320, 2, 0, 4, 1, 1]": 0.019814400374889372
+          },
+          "speedups": {
+            "[64, 320, 2, 0, 4, 1, 2]": 0.7359147332318879,
+            "[64, 256, 2, 0, 4, 1, 2]": 0.7370370144923125,
+            "[64, 320, 2, 0, 4, 0, 2]": 0.43645979434484977,
+            "[64, 320, 1, 0, 4, 1, 2]": 0.6473401795460114,
+            "[64, 320, 2, 0, 16, 1, 2]": 0.7357546437002551,
+            "[64, 320, 2, 16, 4, 1, 2]": 0.7359147332318879,
+            "[64, 320, 2, 0, 4, 1, 0]": 0.5739735009187211,
+            "[64, 320, 2, 0, 4, 1, 1]": 0.5463501052362904
+          }
+        },
+        {
+          "length": 32,
+          "logical_weight_bytes": 838860800,
+          "rounds": [
+            {
+              "round": 0,
+              "backend": "current",
+              "per_call_ms": 0.03313249945640564,
+              "samples_ms": [
+                0.033128300309181215,
+                0.03479970097541809,
+                0.03315179944038391,
+                0.03311049938201904,
+                0.03477570116519928,
+                0.0331250011920929,
+                0.03313249945640564,
+                0.03476090133190155,
+                0.03312369883060455
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032744300365447995,
+              "samples_ms": [
+                0.03451820015907288,
+                0.03272550106048584,
+                0.03270899951457977,
+                0.03449639976024628,
+                0.032744300365447995,
+                0.03269470036029816,
+                0.034490999579429624,
+                0.03276950120925903,
+                0.03272440135478973
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032794898748397826,
+              "samples_ms": [
+                0.032762500643730166,
+                0.032813999056816104,
+                0.03279010057449341,
+                0.03371570110321045,
+                0.03283210098743439,
+                0.03276560008525849,
+                0.03448649942874908,
+                0.032794898748397826,
+                0.03277600109577179
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.040907299518585204,
+              "samples_ms": [
+                0.040876200795173644,
+                0.0408625990152359,
+                0.042769399285316465,
+                0.04091669917106629,
+                0.04265699982643127,
+                0.040857499837875365,
+                0.040906700491905215,
+                0.04270690083503723,
+                0.040907299518585204
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.03424620032310486,
+              "samples_ms": [
+                0.03424620032310486,
+                0.03505569994449616,
+                0.034192800521850586,
+                0.034256601333618165,
+                0.03499000072479248,
+                0.03417240083217621,
+                0.03424240052700043,
+                0.035003799200057986,
+                0.03421739935874939
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.03264720141887665,
+              "samples_ms": [
+                0.033491098880767824,
+                0.032620099186897275,
+                0.03267459869384766,
+                0.032629698514938354,
+                0.03341419994831085,
+                0.03264720141887665,
+                0.03261229991912842,
+                0.03365600109100342,
+                0.032639500498771665
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.03307380080223084,
+              "samples_ms": [
+                0.033072999119758605,
+                0.03307380080223084,
+                0.033787000179290774,
+                0.034044700860977176,
+                0.03305779993534088,
+                0.03379980027675629,
+                0.034031298756599423,
+                0.033032399415969846,
+                0.03302280008792877
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.03393320143222809,
+              "samples_ms": [
+                0.03393320143222809,
+                0.035648098587989806,
+                0.03383660018444061,
+                0.03390310108661652,
+                0.035619300603866574,
+                0.03383040130138397,
+                0.03389500081539154,
+                0.03566690087318421,
+                0.03431409895420075
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 0,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.0369147002696991,
+              "samples_ms": [
+                0.03721269965171814,
+                0.0369147002696991,
+                0.036933299899101255,
+                0.03830400109291077,
+                0.03637999892234802,
+                0.03633379936218262,
+                0.03807750046253204,
+                0.03639520108699799,
+                0.03633379936218262
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.03277319967746735,
+              "samples_ms": [
+                0.03277319967746735,
+                0.03273490071296692,
+                0.033677101135253906,
+                0.032781898975372314,
+                0.03273980021476745,
+                0.03448300063610077,
+                0.03274379968643189,
+                0.0326992005109787,
+                0.03419069945812225
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.0327657014131546,
+              "samples_ms": [
+                0.03276450037956238,
+                0.034534800052642825,
+                0.032778000831604,
+                0.0327657014131546,
+                0.034525200724601746,
+                0.03276360034942627,
+                0.03273980021476745,
+                0.0345425009727478,
+                0.03273229897022247
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.04192560017108917,
+              "samples_ms": [
+                0.04098049998283386,
+                0.04274730086326599,
+                0.04192560017108917,
+                0.042729800939559935,
+                0.041753700375556944,
+                0.04091059863567352,
+                0.04272629916667938,
+                0.04088360071182251,
+                0.04271590113639832
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.03425990045070648,
+              "samples_ms": [
+                0.03425990045070648,
+                0.03421140015125275,
+                0.03591679930686951,
+                0.03422200083732605,
+                0.0342072993516922,
+                0.03586319983005524,
+                0.03427039980888367,
+                0.03424420058727264,
+                0.03589160144329071
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.032667899131774904,
+              "samples_ms": [
+                0.032657301425933837,
+                0.03426159918308258,
+                0.03261860013008118,
+                0.03263869881629944,
+                0.03415519893169403,
+                0.03266879916191101,
+                0.03265039920806885,
+                0.03435850143432617,
+                0.032667899131774904
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.03367930054664612,
+              "samples_ms": [
+                0.034003400802612306,
+                0.03301379978656769,
+                0.03367930054664612,
+                0.03395430147647858,
+                0.03307859897613526,
+                0.03379710018634796,
+                0.033972200751304624,
+                0.03308489918708801,
+                0.032998600602149965
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.03387449979782105,
+              "samples_ms": [
+                0.033838200569152835,
+                0.035716000199317935,
+                0.03388479948043823,
+                0.03384209871292114,
+                0.03571659922599792,
+                0.03386769890785217,
+                0.033847498893737796,
+                0.035724198818206786,
+                0.03387449979782105
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.036389699578285216,
+              "samples_ms": [
+                0.03639769852161408,
+                0.037913501262664795,
+                0.036389699578285216,
+                0.03634450137615204,
+                0.03810009956359863,
+                0.036364099383354186,
+                0.036364799737930296,
+                0.03815970122814179,
+                0.036361700296401976
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 1,
+              "backend": "current",
+              "per_call_ms": 0.03314929902553558,
+              "samples_ms": [
+                0.03469350039958954,
+                0.033153501152992246,
+                0.03311580121517181,
+                0.0347802996635437,
+                0.03313170075416565,
+                0.03308809995651245,
+                0.03478640019893646,
+                0.03314929902553558,
+                0.03308849930763245
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032790499925613406,
+              "samples_ms": [
+                0.03279710114002228,
+                0.032773399353027345,
+                0.034504300355911253,
+                0.032790499925613406,
+                0.032734799385070804,
+                0.034423598647117616,
+                0.03277119994163513,
+                0.03275780081748962,
+                0.03440519869327545
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.04090969860553741,
+              "samples_ms": [
+                0.04090240001678467,
+                0.04090969860553741,
+                0.04274410009384155,
+                0.040909001231193544,
+                0.04272310137748718,
+                0.040914100408554074,
+                0.04087400138378143,
+                0.041972500085830686,
+                0.040889900922775266
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.034259301424026486,
+              "samples_ms": [
+                0.03424519896507263,
+                0.0359158992767334,
+                0.03420700132846832,
+                0.034259700775146486,
+                0.03590089976787567,
+                0.03417969942092895,
+                0.034259301424026486,
+                0.03589900135993958,
+                0.03418239951133728
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.032671698927879335,
+              "samples_ms": [
+                0.03440229892730713,
+                0.03261109888553619,
+                0.03265790045261383,
+                0.03435620069503784,
+                0.032656300067901614,
+                0.03264380097389221,
+                0.03341859877109528,
+                0.03484199941158295,
+                0.032671698927879335
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.03305329978466034,
+              "samples_ms": [
+                0.033013200759887694,
+                0.03305329978466034,
+                0.0347898006439209,
+                0.033030000329017636,
+                0.03303599953651428,
+                0.034718099236488345,
+                0.033074700832366945,
+                0.03304409980773926,
+                0.03476429879665375
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.033882299065589906,
+              "samples_ms": [
+                0.03568029999732971,
+                0.033882299065589906,
+                0.033865898847579956,
+                0.03565259873867035,
+                0.033913299441337585,
+                0.03379729986190796,
+                0.03568550050258636,
+                0.03388040065765381,
+                0.03381890058517456
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.03639659881591797,
+              "samples_ms": [
+                0.03816289901733398,
+                0.03635329902172089,
+                0.03639659881591797,
+                0.03808299899101257,
+                0.03636060059070587,
+                0.03637009859085083,
+                0.03728190064430237,
+                0.03638980090618134,
+                0.03714590072631836
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "current",
+              "per_call_ms": 0.033158999681472776,
+              "samples_ms": [
+                0.03310439884662628,
+                0.033158999681472776,
+                0.033927300572395326,
+                0.0340158998966217,
+                0.033155199885368344,
+                0.03388859927654266,
+                0.034026899933815004,
+                0.033124500513076784,
+                0.03310790061950684
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 2,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.03275609910488129,
+              "samples_ms": [
+                0.03275609910488129,
+                0.03267660140991211,
+                0.03446910083293915,
+                0.03276500105857849,
+                0.03274509906768799,
+                0.034483599662780764,
+                0.032749098539352414,
+                0.03271510004997254,
+                0.034324800968170165
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.040884798765182494,
+              "samples_ms": [
+                0.040899500250816345,
+                0.04086210131645203,
+                0.042734599113464354,
+                0.04087829887866974,
+                0.042716598510742186,
+                0.040884798765182494,
+                0.04085629880428314,
+                0.04274089932441712,
+                0.04087240099906921
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.03421379923820496,
+              "samples_ms": [
+                0.03421379923820496,
+                0.03591789901256561,
+                0.03419429957866669,
+                0.03420149981975555,
+                0.03593930006027222,
+                0.03420760035514832,
+                0.034228000044822696,
+                0.03592529892921448,
+                0.03418709933757782
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.03267009854316712,
+              "samples_ms": [
+                0.034382599592208865,
+                0.03267009854316712,
+                0.03263800144195557,
+                0.03432610034942627,
+                0.032690098881721495,
+                0.0326104998588562,
+                0.03435739874839783,
+                0.032649099826812744,
+                0.03264769911766052
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.033089300990104674,
+              "samples_ms": [
+                0.03307749927043915,
+                0.03301860094070434,
+                0.03476940095424652,
+                0.033089300990104674,
+                0.033048498630523684,
+                0.0345973014831543,
+                0.03309119939804077,
+                0.03302290141582489,
+                0.03477210104465485
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.03397420048713684,
+              "samples_ms": [
+                0.03463940024375915,
+                0.03398880064487457,
+                0.033872300386428834,
+                0.03473179936408997,
+                0.03397420048713684,
+                0.03386659920215607,
+                0.03474160134792328,
+                0.03395639955997467,
+                0.03384610116481781
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.03638469874858856,
+              "samples_ms": [
+                0.0381727010011673,
+                0.03639110028743744,
+                0.03632780015468597,
+                0.03816759884357453,
+                0.03638469874858856,
+                0.03631260097026825,
+                0.03815859854221344,
+                0.036367401480674744,
+                0.03635649979114532
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "current",
+              "per_call_ms": 0.033124899864196776,
+              "samples_ms": [
+                0.03482330143451691,
+                0.03314529955387115,
+                0.033102399110794066,
+                0.03477729856967926,
+                0.033124899864196776,
+                0.03305020034313202,
+                0.034866800904273985,
+                0.03310480117797852,
+                0.033072400093078616
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032750099897384644,
+              "samples_ms": [
+                0.03275589942932129,
+                0.032721498608589174,
+                0.03453049957752228,
+                0.032740500569343564,
+                0.03270730078220367,
+                0.0345196008682251,
+                0.03269869983196259,
+                0.032750099897384644,
+                0.034321099519729614
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 3,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032813501358032224,
+              "samples_ms": [
+                0.03286679983139038,
+                0.034535500407218936,
+                0.032764801383018495,
+                0.032796600461006166,
+                0.03450590074062347,
+                0.03278110027313232,
+                0.032813501358032224,
+                0.034479400515556334,
+                0.03281140029430389
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 1, 0, 4, 1, 2]",
+              "per_call_ms": 0.03427320122718811,
+              "samples_ms": [
+                0.03422299921512604,
+                0.03498550057411194,
+                0.035205098986625674,
+                0.03421919941902161,
+                0.03590709865093231,
+                0.03423320055007935,
+                0.03419559895992279,
+                0.03593179881572724,
+                0.03427320122718811
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 16, 1, 2]",
+              "per_call_ms": 0.032680800557136534,
+              "samples_ms": [
+                0.034362098574638365,
+                0.032681599259376526,
+                0.032630398869514465,
+                0.03438299894332886,
+                0.032680800557136534,
+                0.032655200362205504,
+                0.03434469997882843,
+                0.03264339864253998,
+                0.032604101300239566
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 16, 4, 1, 2]",
+              "per_call_ms": 0.033070901036262514,
+              "samples_ms": [
+                0.03308480083942413,
+                0.03305929899215698,
+                0.034740298986434937,
+                0.033070901036262514,
+                0.03303709924221039,
+                0.03461380004882812,
+                0.03306779861450195,
+                0.03303619921207428,
+                0.03478280007839203
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 0]",
+              "per_call_ms": 0.033930298686027524,
+              "samples_ms": [
+                0.03572680056095123,
+                0.034373301267623904,
+                0.033930298686027524,
+                0.03581250011920929,
+                0.03392220139503479,
+                0.03387109935283661,
+                0.035717698931694034,
+                0.033871299028396605,
+                0.033860400319099426
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 1]",
+              "per_call_ms": 0.03640750050544739,
+              "samples_ms": [
+                0.038213199377059935,
+                0.036380800604820254,
+                0.03637720048427582,
+                0.03807249963283539,
+                0.03640750050544739,
+                0.037174999713897705,
+                0.036368900537490846,
+                0.036393800377845766,
+                0.03818309903144836
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "current",
+              "per_call_ms": 0.033877798914909364,
+              "samples_ms": [
+                0.033154499530792234,
+                0.033877798914909364,
+                0.0340362012386322,
+                0.03313769996166229,
+                0.03389939963817597,
+                0.034033799171447755,
+                0.033136799931526184,
+                0.03308669924736023,
+                0.03469879925251007
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.03276289999485016,
+              "samples_ms": [
+                0.03451400101184845,
+                0.0327208012342453,
+                0.03276770114898682,
+                0.034498599171638486,
+                0.032735800743103026,
+                0.03274930119514465,
+                0.034260699152946474,
+                0.032738101482391355,
+                0.03276289999485016
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 256, 2, 0, 4, 1, 2]",
+              "per_call_ms": 0.032779800891876223,
+              "samples_ms": [
+                0.03283489942550659,
+                0.032779800891876223,
+                0.034446099400520326,
+                0.03288820087909698,
+                0.032769900560379026,
+                0.0327428013086319,
+                0.03376370072364807,
+                0.032776498794555665,
+                0.0327580988407135
+              ],
+              "bits_equal": true
+            },
+            {
+              "round": 4,
+              "backend": "[64, 320, 2, 0, 4, 0, 2]",
+              "per_call_ms": 0.040964001417160036,
+              "samples_ms": [
+                0.04099299907684326,
+                0.04094560146331787,
+                0.04278550148010254,
+                0.040964001417160036,
+                0.040911498665809634,
+                0.04272580146789551,
+                0.040929201245307925,
+                0.042708998918533324,
+                0.0409375011920929
+              ],
+              "bits_equal": true
+            }
+          ],
+          "medians_ms": {
+            "current": 0.03314929902553558,
+            "[64, 320, 2, 0, 4, 1, 2]": 0.03275609910488129,
+            "[64, 256, 2, 0, 4, 1, 2]": 0.032790499925613406,
+            "[64, 320, 2, 0, 4, 0, 2]": 0.04090969860553741,
+            "[64, 320, 1, 0, 4, 1, 2]": 0.034259301424026486,
+            "[64, 320, 2, 0, 16, 1, 2]": 0.03267009854316712,
+            "[64, 320, 2, 16, 4, 1, 2]": 0.03307380080223084,
+            "[64, 320, 2, 0, 4, 1, 0]": 0.033930298686027524,
+            "[64, 320, 2, 0, 4, 1, 1]": 0.03639659881591797
+          },
+          "speedups": {
+            "[64, 320, 2, 0, 4, 1, 2]": 1.0120038689404167,
+            "[64, 256, 2, 0, 4, 1, 2]": 1.0109421661986284,
+            "[64, 320, 2, 0, 4, 0, 2]": 0.8103041614940814,
+            "[64, 320, 1, 0, 4, 1, 2]": 0.9675999698665062,
+            "[64, 320, 2, 0, 16, 1, 2]": 1.0146678615534415,
+            "[64, 320, 2, 16, 4, 1, 2]": 1.0022827199013562,
+            "[64, 320, 2, 0, 4, 1, 0]": 0.9769822344412913,
+            "[64, 320, 2, 0, 4, 1, 1]": 0.9107801306708311
+          }
+        }
+      ]
+    }
+  ],
+  "all_exact": true
+}

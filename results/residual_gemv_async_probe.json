@@ -1,0 +1,4355 @@
+{
+  "scope": "exploratory native residual GEMV, exact captured matrix plus synthetic residual/scale, warm graph timing only",
+  "previous_commit": "b2a1086",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "source_sha256": "c6d0b2545ea376eb9ee3f14194272d4fe118ddf16bfb878095d6b343c1261238",
+  "records": [
+    {
+      "shape": [
+        1,
+        1280,
+        1280
+      ],
+      "current_ms": 0.00554592833021358,
+      "trials": [
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 1024,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "a299f53df6c20c2b4824a5b1b4ebcb7e5edab44f718e6fbcf480615fbfc70a03"
+          },
+          "ms": 0.005210533365607261
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 23,
+            "local_bytes": 0,
+            "shared_bytes": 6144,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "40509ebd703b6dd93cfa8f477fca22e87fd07f5b7a19fbc81937f61280bf99e8"
+          },
+          "ms": 0.004759733316799005
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 1536,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "bcc928b58e921f7db30fd74b69cc50e4dd295879f171c6b0a82d1a99ebfb2bf8"
+          },
+          "ms": 0.0071872000272075335
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 1280,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "4e1452f23025b78ecb98a03fea70b02bc58ee36123ad11a500667e1702ddc7b1"
+          },
+          "ms": 0.00516940001398325
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 6400,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "2344dddbaa36ad44147f5e42139e72fee63018a3ed59783f95d239983a864d9b"
+          },
+          "ms": 0.004799066701283057
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 1792,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "787f1c159e12f6987dcf0088157f36b3104d38c5800824c65ad5196d8bd54126"
+          },
+          "ms": 0.007169519886374474
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 2048,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "56e563f966bb99d47b4393c26137b20cca9822746033ca383a5fc0298e488520"
+          },
+          "ms": 0.005274133353183667
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 7168,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "e7f88ff58977ce19c4a333df57e48692db1ede0dd2c5e67e4d28ba2b11a5428a"
+          },
+          "ms": 0.0047391999512910845
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 3072,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "da8793ec3d6d3a7bdc76c9a3a3ffc6b2a2f40e69df31dd8c7c4523d6115dde73"
+          },
+          "ms": 0.0070870000248154
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 2304,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "230b14a0194c95c577d51e5d4c1c50e0411a0ad2c192fee3cfa81223ad5815d6"
+          },
+          "ms": 0.005211733343700568
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 7424,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "d4d623e2d23e5c30a376202f8fa1ca07e6e922bf22081e045ad6446374abda80"
+          },
+          "ms": 0.004759466710189978
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 3328,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "fe55592602ccfe13b5bca3e3bd89a0d0b00f0fe9f0163bf612e698acca790252"
+          },
+          "ms": 0.007062533311545849
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "a8d9ed80f9e4317d11f30df936a35fd4922502e6071ae7397380e204873e9062"
+          },
+          "ms": 0.005426859602015069
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "432b04028656bebb130e2c76724abf4a49e274ad5eb44cb14f17956d6b7b22af"
+          },
+          "ms": 0.004737933352589607
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 6144,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "ff5d22245e427e406dbab264e57f34ba65164a5e6e7505c434cde48131ec0b18"
+          },
+          "ms": 0.0070574666683872545
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 4352,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "56de1d15aba206430ad359885c26590aa47b75d1d06d1832dbdb68c3eb497bf8"
+          },
+          "ms": 0.005402000000079473
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 9472,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "6435d912ea56b764f939fd56ceafcb647d03ba4ab29039bff357a7037947270d"
+          },
+          "ms": 0.005510599973301093
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 6400,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "dfe09c5f27818d6ecdbace4b0a2d1dfce5dd1bcdb1a64e2170764fe1d9aae038"
+          },
+          "ms": 0.007198066699008147
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "36133646009c28a84eaee0e379807fc207e31cfe2387e4f1eb7bfe3915252868"
+          },
+          "ms": 0.005672933347523212
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "9f731c355c160344352a22bdb2716acea70103f04231963e2a57975d220f74d7"
+          },
+          "ms": 0.005404266652961572
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 7680,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "bd31afc88639c5bb4676c052d627b980f68fa9f26d03c369285669b4cef595f6"
+          },
+          "ms": 0.007094330308230027
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 5376,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "3605b0a8a7b561c149c2e2444935d02cd0822422930f46306d4a424c972d8380"
+          },
+          "ms": 0.005716933310031891
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 10496,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "9b43877275bb3a2a28f7cd656c500cde65c0c5ae7829b4274748fd6d03d6a212"
+          },
+          "ms": 0.005726533321042855
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 7936,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "416a1ebd2216c93bfab4894a8c61a9c4a6b4385fdba8f9e028eddbcd1133608e"
+          },
+          "ms": 0.0071962000181277595
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 2048,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "1e6c7d155dd7f82b68a40b4a670254fb7c2ee43d262de310aa20ecc364768885"
+          },
+          "ms": 0.005197753202407918
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 23,
+            "local_bytes": 0,
+            "shared_bytes": 7168,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "22eff633476c3fae4d4fba295e11928ef3e912460aa2a92aa3b376ac39a2c181"
+          },
+          "ms": 0.0042089999963839855
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 2560,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "c6e35d0bf3ef272183737ecad02e39438697bba987f7f73b3814748bb11278c2"
+          },
+          "ms": 0.005376599977413813
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 2560,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "ff81a3a5915367af130819abd958fb0adaaded37cc70b094535e3371cce78e72"
+          },
+          "ms": 0.005109400022774935
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 7680,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "284629ce839749b14a666f966be46df21d8357c9f422a6dcb73bdad9dd5a62cd"
+          },
+          "ms": 0.004272333315263192
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 3072,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "7333fb4667e67d180d365edec0e4d1b1cbebe5dab36370f424cb4e172636cd42"
+          },
+          "ms": 0.0053048665945728615
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "227ce30e3877389d33217c4a85e4a7c10b37aeac3e9ef07f16a9fd6542c83659"
+          },
+          "ms": 0.005257800066222747
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "adeea3fd16547bcb878d8d170e0b00009f1857ad02c2adab866fd46a576392a4"
+          },
+          "ms": 0.004573257115422463
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "e50c6babf053aeef55e57682c987314eb3b7c55b3e0e3179eedea84791a9896a"
+          },
+          "ms": 0.006468799989670515
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 4608,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "df96502fea0c3ddaa213fc5598a49487cefc3d0d60ed458d8af7bf58d0fa6da5"
+          },
+          "ms": 0.005663466670860847
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 9728,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "ddb0caac351208df6f14395502058f91a74110e1c5e6527668ba6a271c1e9ea5"
+          },
+          "ms": 0.004404427417337078
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 5632,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "701f6be6166936535bbdf5ae172ff4c913585b8637d81e46dda28ddf39c049f2"
+          },
+          "ms": 0.005348882155540662
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "150a7d70558247c624304a26f20a4d3841b166146bf7ad706bff474666887177"
+          },
+          "ms": 0.005860266586144765
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 13312,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "e16f0cc6f98f75634b1a88e9690071808c8c67fe95869a8953f27a1273cd0e22"
+          },
+          "ms": 0.007037666688362757
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "6cef26041af1df219108b3766df38644ab4f778726a8bb164513e8b3d4337314"
+          },
+          "ms": 0.005477933337291082
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 8704,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "5bc9d98daafa84ada921884a9d3152ac8219cc8a783c389bf222d95c17cd1546"
+          },
+          "ms": 0.006037212339873166
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 13824,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "19e06ef62841b389fac0c067c24aebd2615fbf24fe0691bbf985af52c7026692"
+          },
+          "ms": 0.004868600020805995
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "ef12b244d4d1eeec0f635d6d42a4e09e67f3fc24f3ccae44078f6707e4eb4de1"
+          },
+          "ms": 0.005521634062553973
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "fbf482402694dbbb6a7e4e515b01a1091ea790b7b5800682785b4d8c0f715ebb"
+          },
+          "ms": 0.0061310665681958195
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 15360,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "668ab2e1ec4db42ce1ddc3eb2de2c6e3648b131f18eb300066e7693872ac3582"
+          },
+          "ms": 0.00455679992834727
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 12800,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "f6a4910b5432648e90e3e0586f9e99866de1f4bf1273906b68843bba6116d551"
+          },
+          "ms": 0.005500799976289272
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "3a207553eaad64815bfb32e6fef1d316a344e6283ecc5b37de3ba65b9b3cd457"
+          },
+          "ms": 0.006088666555782159
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 15872,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "833e2b9cd55b54283d2451210984c832786c91360a4591d6ac48c0610e2e8fbf"
+          },
+          "ms": 0.0045553999952971935
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 13312,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "77290264581aaa9d19c6150a7fdd2cf921717955e4f38ac7b1baf5f509eb9969"
+          },
+          "ms": 0.005737531977765104
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "1de484f191ce89e8072d68622504db933f8aa0a2065fe2ff5cf39dc605507205"
+          },
+          "ms": 0.005569893881982687
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 23,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "6d692e2f210330a10d9cae121e5967e5a7fc977c7ad9b4010ced9f03da582ff7"
+          },
+          "ms": 0.005167880292250731
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 4608,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "6ebcfcb7aeba12112d51913a9aee2a9ed632020fbade1f11b68018002d6f97ad"
+          },
+          "ms": 0.005541999979565541
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "90bffda3621c9bb62862b46378792a42ddde7088bea1233945ae177b0efd65eb"
+          },
+          "ms": 0.008100266692539056
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "07809a0887559c4e31bd62c654c11031a1feacd0ddaf9d125af4fc0a3c971242"
+          },
+          "ms": 0.0053518666885793206
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 5632,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "f8efd6510b47b6ac8cc7211d59d28dc9dc6588db163ff415713427222c86ea9f"
+          },
+          "ms": 0.007354483484749435
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "762452df9b4dbdc2c7670ac5cc39df3d6c0b90586bb54423187d1f87f2e7dc93"
+          },
+          "ms": 0.005298933324714501
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 13312,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "fe0b5023e478d9ff050d5428a4759dc51871b90e4787a483e30494c3125e72c7"
+          },
+          "ms": 0.0042812666855752465
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "80dd1b8c74a7ca4631c4480d7e95a675e1a62fbe6a6f626b8c28a71e2d6a6707"
+          },
+          "ms": 0.004183533259977897
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "84488543d2a6597fa00872c98a912fd6ef9befeeec2dfe41c95fbfd49ee26644"
+          },
+          "ms": 0.005436266710360845
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 14336,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "54f0b3f0dd5721be5c533e37e686ed3c7a8775a2663fd16b92106af4e2133887"
+          },
+          "ms": 0.004227399981270234
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "6f249f5039a6c687dd60f9a5d4d598d22fd7365b06e68ac9cd4381934ac3ccdc"
+          },
+          "ms": 0.004257361685976069
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 16384,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "4af3f881228f3aa7ed8120f045703e545df3f42ba0067204582b9341e863c102"
+          },
+          "ms": 0.005437400067845981
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 21504,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "6373d870fca1e946590db6259df1ad2a7fd68e0cf3d8c230ffd185e0d17cb5a3"
+          },
+          "ms": 0.004146333318203688
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 18432,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "f74397e31a3a84fcec23dadd7e64158cb5d3ac204a7be61617d1dd125f40b90d"
+          },
+          "ms": 0.0041655333402256176
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 17408,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "61440331acd618d21c6661775fe230aa52999e78c3605ba34ce8e1f8633c545f"
+          },
+          "ms": 0.005404408184849486
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 22528,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "9718dcf4b855fc8ef4dbb26af510d3112fabbdbba5d4c1b29aade545b36c1ea2"
+          },
+          "ms": 0.004172466633220514
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 19456,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "94b9baf7170b598787822e4c89808889360c6bc7a5943d5c75149af831ec8e83"
+          },
+          "ms": 0.004170533362776041
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 20480,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "c0666ebe5d7a49c6d8fe1f7a77f69d39f5b6bbe693d7d8fd474d6fc1d29397e6"
+          },
+          "ms": 0.005646399967372417
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 25600,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "69df3808956d7780bfda82ac456f8b929e96190896d4df8b51859219b009460d"
+          },
+          "ms": 0.0040500173750131025
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 47,
+            "local_bytes": 0,
+            "shared_bytes": 23040,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "0dedbd9e2428418f603c1cdbda4dfb166477ff245bac12e5dd8bd985a1e418f2"
+          },
+          "ms": 0.004254266619682312
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 21504,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "855e3849976cb7a1122f0bf23d8b75c5ccc4c0f8c1daef389af1c02e0271d709"
+          },
+          "ms": 0.005654266662895679
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 26624,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "45f7c11dd097aae0c9a6154b9aa615d196884e919c4737ac40ef3dc0c869c6f3"
+          },
+          "ms": 0.004107666667550802
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 47,
+            "local_bytes": 0,
+            "shared_bytes": 24064,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "ad7418b53befebe0d8d43fa9ed3f7274ad92715ed0b902f42f48961a98a7404d"
+          },
+          "ms": 0.004183400018761555
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "1d7a179e92ab6e35e87945b8296da7c0ff4cc6244eec0863c2d6bc314835552a"
+          },
+          "ms": 0.005498621248184367
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 23,
+            "local_bytes": 0,
+            "shared_bytes": 13312,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "49b032d748cf14a249e125cdeb49552eb21cce0c0acaa28e98f0458a66aa4d46"
+          },
+          "ms": 0.005315399977068106
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 8704,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "2ede1f1b3817bcfdb3914e018d10a1b43f0cca9244e5bef8fe779ece039388f0"
+          },
+          "ms": 0.0050159333584209286
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "08156149b11dcd1fa27f371b58d73c254b5a4ce219a66ebc71309ae4ddc32f16"
+          },
+          "ms": 0.005442200042307377
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 15360,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "5cc78adcdbee86c6f283145dfdf03ddda6dcf98b1cea8e1d5ff8a9dd7b615019"
+          },
+          "ms": 0.005386733387907346
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "76f9318dbe6f84ede9ec8a197307c12b71963694fe253d853f676f07e42b3c88"
+          },
+          "ms": 0.004989799981315931
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 16384,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "0f4c5234ae8160c1d30e12076217be08826a2de1c43ba4cd5a8c423c9663a8a5"
+          },
+          "ms": 0.005634933275481065
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 21504,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "554fd2bc171a31576c8c5d44ffde4b5f42e696acc6f203f4748c89967a28d7b6"
+          },
+          "ms": 0.00533246664951245
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 17408,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "b4a6be1c7b6f110bb05fa6faac7c9eee3087bfa7361fd05994179d425a653da1"
+          },
+          "ms": 0.004800866668423017
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 18432,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "1bce18747e0ed26dc7fd37ca58ccca0751dbad2fa459e56db5b528212916413f"
+          },
+          "ms": 0.005541733341912429
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 23552,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "1fb6b48cec777e4bfba6a05990c17b29b82a68d6630b40fb36afe8210c71eff1"
+          },
+          "ms": 0.005340133359034856
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 19456,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "7ebd59ba18c2c274c8d17dc6184cbb63220668fa7d35786d69378f486cbd84c9"
+          },
+          "ms": 0.004789133338878552
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 32768,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "dc5909f9e767ccd6efc605fc18d94d11e08387d98717d8a10a645bee015beade"
+          },
+          "ms": 0.005594000096122424
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 37888,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "d12bace832b66d56c701cbadb9b0346a50aff310648f308f118de43a842de043"
+          },
+          "ms": 0.005027666687965393
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 34816,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "bf94d33443e90138db62613e3044246df3004da6307ddd553def468aafdb5c9f"
+          },
+          "ms": 0.0049240666441619394
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 34816,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "00e0f1bc99a7b2e7d5f20a984275cffe691e434588b9170736c22c8a9fb9491a"
+          },
+          "ms": 0.006109200045466423
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 39936,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "ace3de76643916ee5222c584ca373c24d4f2c1fafb4752ed61ba1376e72c748a"
+          },
+          "ms": 0.005531533341854811
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 36864,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "f8f7e81b6a893bfac624c2e756d625e2b433dd19326a54a767ef4fd714c698c7"
+          },
+          "ms": 0.004978666671862204
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 40960,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "6b87a012844e50c236e8bf38fc5a25b2121f8c5c135ab91787506ec61924fad3"
+          },
+          "ms": 0.0061402000486850735
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 46080,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "fc5eac53b80e5748e6963ffd6b7817542cd29b1a72a5ff11341d1ff14b8f429b"
+          },
+          "ms": 0.005373648964628881
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 43520,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "5685c6f386b80a357f33f37e61e4f4bae5efd23dc6aa9b4d18dfd377c6536ea7"
+          },
+          "ms": 0.005069533300896486
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 43008,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "5d2629d94be76fe5a7f24d43a11f8ab71029248061bc0c858a1a113729bba5c3"
+          },
+          "ms": 0.006312639936804771
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 48128,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "6b09979c563d3886c13c6b953836e3a94cab68be735376c91427fb2902eb5da4"
+          },
+          "ms": 0.005595533363521099
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 45568,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "54a37d4f4c06f73cb281d3ec068f8987e671fc9cc6c34ac3b2b340e8aa35d219"
+          },
+          "ms": 0.0057854792981777555
+        }
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "current_ms": 0.01432159994329725,
+      "trials": [
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 1024,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "28b26feac61ff3942c29020ec21758826488a7691b5ac8c8cf7f642df04333ad"
+          },
+          "ms": 0.020963339183641516
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 21504,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "55227d3131d08b82d31247538c71aba9e27ceef087185763ec14916d9aa6a156"
+          },
+          "ms": 0.029622857424677636
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 1536,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "7007fc0aebe70c14bab13ceee312da34c5054014d036617ce0763a1d2c43821b"
+          },
+          "ms": 0.023331286456133866
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 1280,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "115d2e5fe1cc370195b7c06c46b8173967761c11a827a8b7b24975598f01f447"
+          },
+          "ms": 0.025300786711952905
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 21760,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "02c20e9932c1a00d9fe486b9416d0e46408318d1369b86e6796a4a24c0e23545"
+          },
+          "ms": 0.04278400007047151
+        },
+        {
+          "config": [
+            32,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 1792,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "229cf30305a521db97587b0e0c9348ab56b7af0643ecea926fbb3f779aa0cc53"
+          },
+          "ms": 0.022578400102528658
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 2048,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "5b9e66ca52b69165e976f8042455bb0fa957ca60792a00ea6e5bd923e994f113"
+          },
+          "ms": 0.01959433319667975
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 22528,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "c582dfed444f2ffcfeea55e760a71884c8a034bb575a6601e9c8b7d167bb8563"
+          },
+          "ms": 0.024907466769218446
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 3072,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "05919d3d6eb71adca77f7e590d5780c143668b9216123e8a2067899d749898cf"
+          },
+          "ms": 0.0878168339314668
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 2304,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "8a64f0ad3cfa216b2683a956fb57299c406962d5a65ba0873b9584b778955fb4"
+          },
+          "ms": 0.01763135822195756
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 22784,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "08175b67fa62ff6227de69adfffbba4cd87669d427f64bedfeb3ced31b19715d"
+          },
+          "ms": 0.022777123400505552
+        },
+        {
+          "config": [
+            32,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 3328,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "8e42b3e6e5d0ca0e95706573dfe3b083437579c91ca8de58877659733b8c7a32"
+          },
+          "ms": 0.019838910660845168
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "4143d562d9cbd833fbcff1fe10f68818af6274fc09705437960bbfa15fb960cf"
+          },
+          "ms": 0.017499370143768636
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 24576,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "3b7f43f0a68b0aeaac1be66100b7d0b28d47ab1b39997684a42d5cdd4ee6db25"
+          },
+          "ms": 0.020638466502229374
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 6144,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "a1d20d7d1e1364572bd6ad9259801d686a8327779b790cfcbcdc853b769d4e8f"
+          },
+          "ms": 0.018553600087761878
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 4352,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "4822390014de618bf4578401799711406f8d223c69734ba99b53d5196eef5f48"
+          },
+          "ms": 0.01745540015399456
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 24832,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "6323a98cda76f097b3d04f15be788bce55284751b6bc5022fa6a73fbb46f6519"
+          },
+          "ms": 0.024834655447209135
+        },
+        {
+          "config": [
+            32,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 6400,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "e53ff696c1ef6c15afa5bb76b43389ade7af459e7d01f79790d8237a6497c5e6"
+          },
+          "ms": 0.01874233179904045
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "2badf44663c6686cb36f9def1a389099e16227dbfe653a2bffaf985bb6c88981"
+          },
+          "ms": 0.018435800075531007
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 25600,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "cc6493cdceebe0fcc54827c88dd737cad7f07bcf7f7d9f091c3c1bdb994b7a3c"
+          },
+          "ms": 0.023459880910021193
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 7680,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "5e7f69818733a3ee7b5a6711c5d45b63c6d568d61fc128288b65336d9b7608d2"
+          },
+          "ms": 0.01723391983244154
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 5376,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "951bcb5348e4da7e18d5c584de273d0fefb28f8b785e5382e66ff996bb44e90f"
+          },
+          "ms": 0.018750502200836832
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 25856,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "0704de0fe4c7c0df105a876187191c507db0307c1460c1a8a8774dd173ed7bf7"
+          },
+          "ms": 0.023084436492486433
+        },
+        {
+          "config": [
+            32,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 7936,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "97e85e5239ef2747731d256278a111691dc74b5c9011449956fa79862083c7d1"
+          },
+          "ms": 0.017442416293280465
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 2048,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "d0aabf0c4515b15b3cf4aa8c245e6a99d649b7648c15bc639d25e90bc7b323ab"
+          },
+          "ms": 0.017737400035063425
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 22528,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "abbe372e521636473141831547db8a1124d1e7c517dbf43d6274499d5d213d0b"
+          },
+          "ms": 0.021275642577638018
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 2560,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "cec794a00aaf51a91b45239a780919b8c3d09f564fcba17c2d022b767484d326"
+          },
+          "ms": 0.01576864004135132
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 2560,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "80b7b3bb6f79e19f275a5c31391e324247db47294540918f1cb395bf446a06e7"
+          },
+          "ms": 0.01747440012792746
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 23040,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "d29d98cecbe91aa720c3beb3bf4b9489a90d9970c648d46dd79e1f0821f7d736"
+          },
+          "ms": 0.021312953182991513
+        },
+        {
+          "config": [
+            64,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 3072,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "a05daf18675c4eb853055389fb9bad7085ac5b646d042cbaa50e5c36077736c8"
+          },
+          "ms": 0.01584435764779436
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "05e03dee3a210d35aaa6b61518540defba9dc72cfd48db846e9358125441b4b9"
+          },
+          "ms": 0.01807259991765022
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 24576,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "4eeec38d14aa631597b28f381f4a03a2b7781bc96cf8c1774cb7f90117874128"
+          },
+          "ms": 0.017872748983667253
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "5e3a4c68f7a9d18c4560039f6e5130552655bb54edb5cd44583834eb3b989b65"
+          },
+          "ms": 0.015193209706283198
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 4608,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "1a9810aaf8769580bfe48a63789017c1646666a23ad41a310a9461cb7285fcbb"
+          },
+          "ms": 0.01794029108502648
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 25088,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "018af148b25fc13f438a75265ea8ba202a4a6b6491655f6a59f7e8ca36288e0c"
+          },
+          "ms": 0.017313498004953912
+        },
+        {
+          "config": [
+            64,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 5632,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "b0baaf0262990e368926b53de9cd7db22084d8428180c1211c78057b7068e776"
+          },
+          "ms": 0.014972323559700174
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "e8c10c149bc0754747fe39651ec51d2bcea54feb4fdd64f1d0a5ddb7f1e2aa02"
+          },
+          "ms": 0.017331131975701516
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 28672,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "16848933704f1d0ebe5de6e7fd3afa323b5ca9de858dfef6c6dc8fff98209f7f"
+          },
+          "ms": 0.016200238339444423
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "1ab84825381553729689f8e4767b8a153a7acd7759e8c4dee786ad9d397f0c91"
+          },
+          "ms": 0.013871999877564451
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 8704,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "00fa8cb3f45a3112b6126c08d6b9db401cd99e1674404711e570931c7a0c6780"
+          },
+          "ms": 0.0174236863267188
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 29184,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "16408203e15d045bc04c2e226da7ed26dc9c490df62573209893dbaab1f8a655"
+          },
+          "ms": 0.015939590262203682
+        },
+        {
+          "config": [
+            64,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "14617005399863b229118c05786a0d1b1975e38cd4493d2fb7b0e988a450df00"
+          },
+          "ms": 0.014472333341836929
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "efa8facfbfd111d2ef731dd209603cdabe175072d12a9e11c499942fc386eab3"
+          },
+          "ms": 0.018236266697446504
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 30720,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "094ce79870c25da0ff4351bb603fe6331cfd87dcc90db0ae74854e6f63b2adb9"
+          },
+          "ms": 0.01784552728587931
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 12800,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "e4baa80054de7d066baa6da38ba6de514c631e0a8c5f7500e17a8fddd8e30e06"
+          },
+          "ms": 0.013548382727996163
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "0273d84a086da37b0ef96dbab52bbe205a49f8d2a30e1cfc929b67ec5d96ec73"
+          },
+          "ms": 0.017916452236797498
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 31232,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "a3d76d8df9f09276d17438450d9a61a4379d54771065e2c101675e0028029076"
+          },
+          "ms": 0.01753899581888889
+        },
+        {
+          "config": [
+            64,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 13312,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "37f75368b6d94d9306a815a5e582efe31e77574d063f7668c8b41ce0d9e6e858"
+          },
+          "ms": 0.013790266339977583
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 4096,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "c8b3714143544a49c503ef1c872ef95b8765cc79199045069133dc34a94ff7e5"
+          },
+          "ms": 0.017573733379443485
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 24576,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "89c33b68f992dd912711da8df00f586599edfd581d4f6307b099fc67ff7472d6"
+          },
+          "ms": 0.015504544719736627
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 4608,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "875a014355b63fb83faf56afd0559255a217b319ef80c6b58ff384dfbe5d32c9"
+          },
+          "ms": 0.015757821214959975
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 5120,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "a4bad9b20b65c58f16934ea711e60b23bda13e5bbc4c82edcbcfe2980f2a91e9"
+          },
+          "ms": 0.018800200149416923
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 25600,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "08ae547c90646609a531c95eecff046ef4a8d40f129609c3337da2714682dbab"
+          },
+          "ms": 0.015624866510430973
+        },
+        {
+          "config": [
+            128,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 5632,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "0c7d449f0ab8a859ed42192f9c20dd9b67f5e71e48f146fe9be601c527a4a127"
+          },
+          "ms": 0.01594403398797867
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "4969244fa813f874d9f85394fefc4da86f6d6805a63c26d712cab3ebccdf2e58"
+          },
+          "ms": 0.025060221489439618
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 28672,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "39200c33285c7e46b093ffbfcbb2c838f9ced163da08c3eabfecca62633d20b5"
+          },
+          "ms": 0.01832873299717903
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "41d2346cfae133c2ecb2fa66098080bc0c8f2f01b1da4a0c972397264daecb52"
+          },
+          "ms": 0.016934000328183173
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 9216,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "d34a6fa89180981a6d6846596073f1b5b1a119a4fb7a7d844865a72ad0dd0dfb"
+          },
+          "ms": 0.02023293301463127
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 29696,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "3cf664232452657972e4c8731a7f62c866dbcb43446b4b90ae35adc3ebf0b3f6"
+          },
+          "ms": 0.01524833341439565
+        },
+        {
+          "config": [
+            128,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "a2bf678bf771fa2ef2c7c5ee3ebad957ee99a8275be1d57f03ec709fb9f781e4"
+          },
+          "ms": 0.014988600090146064
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 16384,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "19f8a29dd841eb99b6d4f51169b96ef4dc8f6cef1dbebfa8d453c9ed59741d89"
+          },
+          "ms": 0.019703717558991675
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 36864,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "1a518f55ba8921de1ff4c1b36915d025446863ae25a0b81bb29df01662bd2d10"
+          },
+          "ms": 0.017117733508348464
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 18432,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "95710b3551afa011cc42c930a7ba74ef555e0acc26f4ff55e4667e8dd2433ee1"
+          },
+          "ms": 0.01417820006608963
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 17408,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "f30526c9475fcdbf3dd446dee0dbdb983ee3812202dbf48f735ba5de7d3d2dc1"
+          },
+          "ms": 0.020002199709415434
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 36,
+            "local_bytes": 0,
+            "shared_bytes": 37888,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "d7dc604232b5c256bea18a7ba8d52768af2ac0c18a624f2aa243d977819b859f"
+          },
+          "ms": 0.019009225419227112
+        },
+        {
+          "config": [
+            128,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 39,
+            "local_bytes": 0,
+            "shared_bytes": 19456,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "2c6a86323c3268045a17fcaaa42f1aab8f8afe8f497e7295614f1616635064e9"
+          },
+          "ms": 0.01618233323097229
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 20480,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "6b163c467652c9b8f931d3a0e85fa038a942822e6bf4324b765e6ce20acff3ea"
+          },
+          "ms": 0.023313133666912712
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 40960,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "7d8ab56d1b995e7030aae9f4e19d297e87c8020777dc003635e2be3a5863e873"
+          },
+          "ms": 0.024141133204102518
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 47,
+            "local_bytes": 0,
+            "shared_bytes": 23040,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "4d4402c82fdeda59ebe79d8873a63f03faf9a16c9c070e30d81df89981320a3f"
+          },
+          "ms": 0.025515733446393695
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 21504,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "9ed2800947dc24ace84377e9bc67f0001e4ad8b79711345480fa581b06733e3c"
+          },
+          "ms": 0.030766533687710762
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 41984,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "be2a6f28f7c59fed56ad23d9c367601acbfda2e25542633d267727aaf62982ab"
+          },
+          "ms": 0.018828466658790906
+        },
+        {
+          "config": [
+            128,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 47,
+            "local_bytes": 0,
+            "shared_bytes": 24064,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "7cf350e4bf45a9c3fc3480b282515771b81d9454f83288682271a1014d6071cf"
+          },
+          "ms": 0.014590800056854885
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 8192,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "3bf36d7077d5f7a924fc232da8e33edfc618703130066aa9f09f1e161cf71dfc"
+          },
+          "ms": 0.020865856051445007
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 25,
+            "local_bytes": 0,
+            "shared_bytes": 28672,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "300e24f8e9fcd4cfde02563b5af448a26c69a283a112ebcd3723e07a1cf69634"
+          },
+          "ms": 0.019397266581654547
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 30,
+            "local_bytes": 0,
+            "shared_bytes": 8704,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "035766c080368aba2547202cf712e380d58d0de61645c26810e2885b9dca13b9"
+          },
+          "ms": 0.025546176075935362
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 28,
+            "local_bytes": 0,
+            "shared_bytes": 10240,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "7f7535c9fe1c81dc74c31783a30aff18453850a3360ce6efc37ad5b689496a90"
+          },
+          "ms": 0.027377599716186522
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 26,
+            "local_bytes": 0,
+            "shared_bytes": 30720,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 2,
+            "cubin_sha256": "8d0eb4bb2bedf81af48bc477996be62413b9425aa84085a64f3e32ce72b21fc3"
+          },
+          "ms": 0.04911206687490145
+        },
+        {
+          "config": [
+            256,
+            64,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 32,
+            "local_bytes": 0,
+            "shared_bytes": 10752,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "c61c3d7605f4c5c5b82cc0f3a9f097d2b9b4f57dcded65ac9acd0988500affbe"
+          },
+          "ms": 0.019042199974258742
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 31,
+            "local_bytes": 0,
+            "shared_bytes": 16384,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "b81cca829a91baccefe0159c0165df0acfcdcd7417553efc7c112172b1fc6003"
+          },
+          "ms": 0.025587880865056464
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 36864,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "3713c47f83cd1702ab68d3819bbf3bbc5f0025e4d6c7c3b432de4cb6913816f4"
+          },
+          "ms": 0.025481066852807998
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 17408,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "bf4d137b70945756dceef9bfcc2de8b452d1082bbcaca44429fb26599704c4c3"
+          },
+          "ms": 0.030868400633335114
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 18432,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "f9297f6eb6416c7c2a64cc4ada93cbe8f9a1233ff1a181561f616798bbfd8d50"
+          },
+          "ms": 0.027980868233011123
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            1
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 34,
+            "local_bytes": 0,
+            "shared_bytes": 38912,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 4,
+            "cubin_sha256": "361c98c41db04c8f67a440b898337fd7d08b033f8c73b0eee5040b62ccbeb70d"
+          },
+          "ms": 0.05301766626688899
+        },
+        {
+          "config": [
+            256,
+            128,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 19456,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 6,
+            "cubin_sha256": "3927d9ccdc1ff321d8c82f25455b2222c151f8b42712381ce0604ce489df2312"
+          },
+          "ms": 0.017054733261466025
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 33,
+            "local_bytes": 0,
+            "shared_bytes": 32768,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "9c532a812ea1cbda19f2f565d3bf717dbd472ca8b1bb9d9bf16b81a6ffdc8c4a"
+          },
+          "ms": 0.020896204101278428
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 37,
+            "local_bytes": 0,
+            "shared_bytes": 34816,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "61961d0f3fa2a4a4f782e3ab4f4dd9d5a043bd22b36428522868c9e06f378b03"
+          },
+          "ms": 0.01629453313847383
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 35,
+            "local_bytes": 0,
+            "shared_bytes": 34816,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 8,
+            "cubin_sha256": "a7d8d77adf9cd2994d236f4fbdf2064d1fb31c10082714849cb75c9464cf8e53"
+          },
+          "ms": 0.021793210667532845
+        },
+        {
+          "config": [
+            256,
+            256,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 36864,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "ce4412b216f744d2767f67d6af3ccd2674a288c004b73780ff677a30541498eb"
+          },
+          "ms": 0.03480066694319248
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            0,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 40960,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "7bc5b679cf861b9e4789616575fa998e6cf25e3acfaea96dba9f4f62b3eedb4a"
+          },
+          "ms": 0.021007866660753886
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            0,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 43520,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "49f0eedffae70f47046cd83d1f2c6a6e57b078f973f236b8d27ab152558100a4"
+          },
+          "ms": 0.015405376195907592
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            16,
+            4,
+            1,
+            0
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 38,
+            "local_bytes": 0,
+            "shared_bytes": 43008,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 10,
+            "cubin_sha256": "165c6b60ec233fc59f3f3b1ed534eab5cef09e379f51c18daac4708da120a1dd"
+          },
+          "ms": 0.02075033336877823
+        },
+        {
+          "config": [
+            256,
+            320,
+            2,
+            16,
+            4,
+            1,
+            2
+          ],
+          "bits_equal": true,
+          "resources": {
+            "registers": 40,
+            "local_bytes": 0,
+            "shared_bytes": 45568,
+            "local_loads": 0,
+            "local_stores": 0,
+            "matrix_instructions": 0,
+            "async_copies": 12,
+            "cubin_sha256": "d59e3e4820c82c2064e1c477dbfb944546b5b08549601c98ecf652f32c9b1f03"
+          },
+          "ms": 0.04804766637583573
+        }
+      ]
+    }
+  ],
+  "all_exact": true
+}
