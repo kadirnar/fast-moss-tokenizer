@@ -1085,3 +1085,45 @@ uv build --wheel --out-dir /tmp/moss-strided-layer-norm-wheel
 ```
 
 All handles are terminal: capture `40433`, sweep `57237`, confirmation `20179`, research model `5658`, focused tests `1642`, integrated model `63892`, sequential CuTe/streams/profiles/original-comparisons/full-suite/resources chain `33314`, isolated wheel import `84105`. The chain checks every subprocess exit before starting the next GPU job. Temporary repository wheel-build output is removed. Final cross-report audit verifies exactness, dispatch and launch counts, direct ratios, compiler resources and package hashes. Further exact matrix scheduling/fusion, physical memory-system counters, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Integrated single-block matrix partitions
+
+Previous goal turn classification: **progress**, verified at commit `c2e4722`, with exact strided CUDA normalization, 598 passing tests and audited corpus, streams and package. No previous task GPU job remained active. The 100× goal remains active and unmet.
+
+- Profiled remaining native matrices without observer hooks or replacing the optimized forward path. Actual ATen operator/shape entries identify eight small-row transformer geometries; custom-launch runtime API associations are retained with an explicit attribution limitation. Eager attribution timings are not whole-codec graph measurements.
+- Implemented single-block CUDA K partitions with shared-memory exchange, one barrier, explicit FP32 FMA/add ordering and original contiguous weights. Corrected an initial shuffle-membership assumption before promotion; initial empirical reports/source are retained as superseded evidence. The corrected CUDA sweep passes **432 configurations**, and the alternative Triton layout passes **288**.
+- Each implementation passes **480 eager/graph stress comparisons** plus exact output checks on **24 allocation-ring cases**. Synthetic distinct-allocation rings inform selection; no physical memory-counter claim is made. Five CUDA shapes show **1.06–1.43×** component gains. The less consistent warm-selected set and the Triton port remain research evidence, not additional runtime optimizations.
+- Added optional `matrix_backend="cuda"` and pinned `cuda` extra. Existing matrix ownership, fallbacks, packing for other shapes, FFN fusion, stream warmup and graph lifetime rules remain active. The five new kernels add neither persistent weight storage nor a global partial-results buffer.
+- Research ring/warm selections and integrated runtime each pass **48 full-model cases**. The integrated paired batch-one / 80 ms encode/decode improves **6.860 → 6.833 ms / 6.072 → 6.047 ms**, about **0.4%**. At 240 ms it improves **8.027 → 7.971 ms / 6.664 → 6.620 ms**, about **0.7%**. Batch-eight controls make no new calls and stay within **0.11%** of parity. Peak allocation is **7.723 GB**. These paired increments are separate from fresh original/current ratios.
+- Focused research/runtime tests pass **53 in 20.02 seconds**. The wheel matches all **26 runtime/profile files** byte-for-byte and passes an isolated CUDA-module import. Compute Sanitizer was not found in the searched tool locations; no sanitizer result is claimed.
+- The CuTe combination passes **48 cases**. Both **162-chunk / 12.96-second** streams match corrected eager streaming, with **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**. Peak allocations are **7.526 / 7.696 GB**; their existing decoder differences from offline execution are unchanged.
+- The full suite passes **651 tests in 117.71 seconds**. The five production kernels use **40 registers**, **2,304–9,216 bytes shared memory**, zero local-memory spills and no matrix Tensor Core instructions. Corrected research/production source hashes match. This turn is **progress**, with a verified runtime improvement; the 100× objective remains unmet.
+- Fresh matched original/current comparisons give **6.758 / 5.970 ms** encode/decode at batch one / 80 ms, or **7.01× / 6.28×** versus eager and **1.53× / 1.52×** versus original graphs. At 240 ms, totals are **7.866 / 6.541 ms**, or **6.10× / 5.85×** versus eager. Historical ratios are not multiplied.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.native_matrix_attribution
+.venv/bin/python -m benchmarks.cta_tiled_tune
+.venv/bin/python -m benchmarks.cta_tiled_confirm
+.venv/bin/python -m benchmarks.cta_tiled_triton_tune
+.venv/bin/python -m benchmarks.cta_tiled_triton_confirm
+.venv/bin/python -m benchmarks.cta_tiled_model --output results/full_cta_tiled_ring.json
+.venv/bin/python -m benchmarks.cta_tiled_model --selection warm --output results/full_cta_tiled_warm.json
+.venv/bin/python -m pytest tests/test_cta_tiled_research.py tests/test_cuda_matrix_runtime.py -q
+.venv/bin/python -m benchmarks.cta_tiled_model --runtime --output results/full_cta_tiled_runtime.json
+.venv/bin/python -m benchmarks.cta_tiled_model --runtime --fidelity-only --residual-backend cute --output results/full_cta_tiled_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_cta_tiled_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_cta_tiled_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_cta_tiled_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_cta_tiled_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --output results/full_codec_cta_tiled_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --output results/full_codec_cta_tiled_f3.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.cta_tiled_resources
+uv build --wheel --out-dir /tmp/moss-cta-matrix-wheel
+```
+
+The profiles verify **24 / 36 new CUDA calls per direction** for one-/three-frame inputs, unchanged total launch counts and 136 CUDA normalization calls per direction. Two initial short-chunk encoder profile measurements remain slow despite identical dispatch; they are preserved. Added an explicit, reported `--warmup-replays` option. Repeating the one-frame command with `--warmup-replays 200 --output results/full_cta_tiled_profile_f1_warm.json` yields **6.753 ms** encoder wall time, consistent with the independently rotated codec comparison. Its matrix groups still occupy **72.49% / 81.95%** of kernel time. The device-state cause of the earlier transient is not established.
+
+All handles are terminal: eager attribution `5249`; superseded initial CUDA sweep/confirmation/model `68878` / `51223` / `58834`; Triton sweep `50931`; corrected sequential confirmation/sweep/model chain `95200`; focused tests `41949`; integrated runtime `17340`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `62435`; isolated wheel import `85375`; repeated/warmed short profile `18020` / `67885`. GPU jobs ran sequentially. The final audit checks source/configuration provenance, exactness, profile dispatch, directly computed speed ratios, compiler resources and package bytes. Temporary repository wheel-build output is removed. Further exact matrix work, physical counter attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.

@@ -22,7 +22,7 @@ def main():
     p.add_argument("--output",default="results/full_streaming_fidelity.json")
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
-    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
+    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton", "cuda"], default="none")
     for name in ['quantizer','projection','ffn']:
         p.add_argument(f"--{name}-backend", choices=["none", "triton"], default="none")
     p.add_argument("--norm-backend", choices=["none", "cuda"], default="none")

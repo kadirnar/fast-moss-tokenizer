@@ -1,0 +1,39 @@
+
+__device__ __forceinline__ float add(float a,float b){
+    float value;asm("add.rn.f32 %0, %1, %2;":"=f"(value):"f"(a),"f"(b));return value;
+}
+extern "C" __global__ void cta_tiled(const float* X,const float* W,float* Y){
+    constexpr int PARTS=K/256;
+    int lane=threadIdx.x%16;
+    int output=(threadIdx.x/16)%COLS;
+    int part=threadIdx.x/(16*COLS);
+    int n=blockIdx.x*COLS+output,m=blockIdx.y*ROWS;
+    float acc[ROWS]={};
+    #pragma unroll UNROLL
+    for(int step=0;step<16;++step){
+        int k=part*256+step*16+lane;
+        float w=n<N?W[n*K+k]:0.f;
+        #pragma unroll
+        for(int r=0;r<ROWS;++r){
+            float x=m+r<M?X[(m+r)*K+k]:0.f;
+            acc[r]=__fmaf_rn(x,w,acc[r]);
+        }
+    }
+    __shared__ float partial[PARTS*ROWS*COLS*16];
+    #pragma unroll
+    for(int r=0;r<ROWS;++r)partial[((part*ROWS+r)*COLS+output)*16+lane]=acc[r];
+    __syncthreads();
+    #pragma unroll
+    for(int r=0;r<ROWS;++r){
+        if(part==(DISTRIBUTE ? r%PARTS : 0)){
+            float sum=0.f;
+            #pragma unroll
+            for(int p=0;p<PARTS;++p)sum=add(sum,partial[((p*ROWS+r)*COLS+output)*16+lane]);
+            unsigned mask=__activemask();
+            float value=__shfl_sync(mask,sum,0,16);
+            #pragma unroll
+            for(int l=1;l<16;++l)value=add(value,__shfl_sync(mask,sum,l,16));
+            if(lane==0 && m+r<M && n<N)Y[(m+r)*N+n]=value;
+        }
+    }
+}

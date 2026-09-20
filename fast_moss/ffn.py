@@ -144,7 +144,7 @@ def forward(self, x):
     runtime = self._fast_ffn_runtime
     if observed(self):
         return self._fast_observed_ffn(x)
-    if (not runtime.ffn_enabled or runtime.backend != 'triton' or self.activation is not F.gelu or self.gating is not None
+    if (not runtime.ffn_enabled or runtime.backend not in {'triton','cuda'} or self.activation is not F.gelu or self.gating is not None
             or self.weights_per_step or type(self.norm2) is not torch.nn.LayerNorm
             or ('forward' in self.norm2.__dict__ and not owned_norm_forward(self.norm2))
             or x.ndim < 2 or x.shape[-1] != 1280 or x.numel() not in (1280,24*1280)

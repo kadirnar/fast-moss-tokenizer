@@ -51,13 +51,14 @@ class MatrixRuntime:
     not a claim that all pedantic algorithms reproduce PyTorch's reduction.
     backend='triton' substitutes ordered SIMT kernels for profiled attention/FFN shapes;
     it retains the same packing, fallbacks, per-stream plans and lifetime guards.
-    Validated small-row shapes use native storage without persistent workspace.
+    backend='cuda' additionally uses pinned CUDA kernels for five native small-row
+    shapes. Validated small-row shapes use native storage without persistent workspace.
     """
 
     def __init__(self, model, *, backend='cublaslt', _profile=None):
-        if backend not in {'cublaslt', 'triton'}:
+        if backend not in {'cublaslt', 'triton', 'cuda'}:
             raise ValueError('Unknown matrix backend')
-        if backend == 'triton':
+        if backend in {'triton', 'cuda'}:
             import triton
             if triton.__version__ != '3.4.0':
                 raise ValueError('Ordered matrices require the validated Triton 3.4.0 compiler')
@@ -72,6 +73,11 @@ class MatrixRuntime:
         self.ffn_staged_calls = 0
         self.ffn_enabled = True
         self.profile = load_profile(model) if _profile is None else _profile
+        self.cuda_enabled = True
+        self.cuda_calls = 0
+        if backend == 'cuda':
+            from .cuda_matrices import compiler
+            self.cuda_bindings = compiler()
         self.selected = {tuple(r['shape']): r for r in self.profile['records']}
         self.device = next(model.parameters()).device
         self.thread = get_ident()
@@ -98,11 +104,14 @@ class MatrixRuntime:
         if torch.cuda.is_current_stream_capturing():
             raise RuntimeError('Enter matrix optimization before CUDA graph capture')
         shapes = {shape[1:] for shape in self.selected}
-        if self.backend == 'triton':
+        if self.backend in {'triton', 'cuda'}:
             from .ordered_matrices import SHAPES
             from .small_matrices import SHAPES as SMALL_SHAPES
             shapes.update(shape[1:] for shape in SHAPES)
             shapes.update(shape[1:] for shape in SMALL_SHAPES)
+        if self.backend == 'cuda':
+            from .cuda_matrices import CONFIGS as CUDA_CONFIGS
+            shapes.update(shape[1:] for shape in CUDA_CONFIGS)
         modules = [m for m in self.model.modules() if type(m) is torch.nn.Linear
                    and tuple(m.weight.shape) in shapes and m.bias is None and 'forward' not in m.__dict__]
         # Include registered buffers and repeated/tied parameter names. External
@@ -149,19 +158,23 @@ class MatrixRuntime:
             shape = (x.numel() // x.shape[-1], *module.weight.shape)
             ordered_shape = False
             small_shape = False
-            if self.backend == 'triton':
+            cuda_shape = False
+            if self.backend in {'triton', 'cuda'}:
                 from .ordered_matrices import SHAPES
                 from .small_matrices import SHAPES as SMALL_SHAPES
                 ordered_shape = shape in SHAPES
                 small_shape = shape in SMALL_SHAPES and module.weight.is_contiguous()
-            if ((shape not in self.selected and not ordered_shape and not small_shape) or module.bias is not None or x.device != self.device
+            if self.backend == 'cuda' and self.cuda_enabled:
+                from .cuda_matrices import CONFIGS as CUDA_CONFIGS
+                cuda_shape = shape in CUDA_CONFIGS and module.weight.is_contiguous()
+            if ((shape not in self.selected and not ordered_shape and not small_shape and not cuda_shape) or module.bias is not None or x.device != self.device
                     or x.dtype != torch.float32 or not x.is_contiguous() or not folds_to_mm(x)
                     or x.data_ptr() % 256 or x.requires_grad or torch.is_autocast_enabled('cuda')):
                 return finish(F.linear(x, module.weight.contiguous(), module.bias)
                               if id(module.weight) in self.packed else original(x))
             stream = torch.cuda.current_stream(self.device).cuda_stream
             key = (id(module), shape, stream)
-            if small_shape:
+            if small_shape or cuda_shape:
                 # Native-layout kernels do not pack weights or retain workspace.
                 # If a larger call later packs this parameter, the normal native
                 # fallback above restores contiguous arithmetic for small calls.
@@ -169,6 +182,11 @@ class MatrixRuntime:
                     if torch.cuda.is_current_stream_capturing():
                         raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
                     self.small_warmed.add(key)
+                if cuda_shape:
+                    from .cuda_matrices import linear as cuda_linear
+                    self.cuda_calls += 1
+                    return finish(cuda_linear(x.reshape(shape[0], shape[-1]), module.weight,
+                        self.cuda_bindings).reshape(*x.shape[:-1], module.out_features))
                 from .small_matrices import linear as small_linear
                 with torch.cuda.device(self.device):
                     self.triton_calls += 1
@@ -216,7 +234,7 @@ class MatrixRuntime:
                     self.plans[key] = (plan, index)
             plan, index = self.plans[key]
             with torch.cuda.device(self.device):
-                if self.backend == 'triton':
+                if self.backend in {'triton', 'cuda'}:
                     from .ordered_matrices import linear
                     if ordered_shape:
                         self.triton_calls += 1

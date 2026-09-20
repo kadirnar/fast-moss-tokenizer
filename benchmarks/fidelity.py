@@ -52,7 +52,7 @@ def main():
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
-    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
+    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton", "cuda"], default="none")
     p.add_argument("--projection-backend", choices=["none", "triton"], default="none")
     p.add_argument("--ffn-backend", choices=["none", "triton"], default="none")
     p.add_argument("--norm-backend", choices=["none", "cuda"], default="none")

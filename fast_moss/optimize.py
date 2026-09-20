@@ -45,6 +45,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     it invalidates managed graphs on this device and requires the bundled profile.
     matrix_backend='triton' additionally uses ordered FP32 kernels for validated
     attention/FFN shapes; other shapes retain the supported cuBLASLt/native dispatch.
+    matrix_backend='cuda' adds exact single-block K partitions for five small-row
+    shapes; it requires the pinned cuda extra and retains other Triton dispatch.
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
     ffn_backend='triton' uses two stages and decoder epilogues for 24-row FFNs,
@@ -72,14 +74,14 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Unknown quantizer backend")
     if quantizer_backend == "triton" and not cache_codebooks:
         raise ValueError("Quantizer fusion requires cached codebooks")
-    if matrix_backend not in {"none", "cublaslt", "triton"}:
+    if matrix_backend not in {"none", "cublaslt", "triton", "cuda"}:
         raise ValueError("Unknown matrix backend")
     if norm_backend not in {"none", "cuda"}:
         raise ValueError("Unknown normalization backend")
     if ffn_backend not in {'none','triton'}:
         raise ValueError('Unknown FFN backend')
     if ffn_backend == 'triton':
-        if matrix_backend != 'triton' or residual_backend == 'none':
+        if matrix_backend not in {'triton','cuda'} or residual_backend == 'none':
             raise ValueError('FFN fusion requires Triton matrices and an enabled residual backend')
         from .ffn import math_library
         ffn_library = math_library()
@@ -103,7 +105,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
 
     try:
         replace(model, "_fast_optimization_active", True)
-        if matrix_backend in {'cublaslt', 'triton'}:
+        if matrix_backend in {'cublaslt', 'triton', 'cuda'}:
             from .matrices import MatrixRuntime
             matrix_stack.enter_context(MatrixRuntime(model, backend=matrix_backend))
         if norm_backend == 'cuda':
