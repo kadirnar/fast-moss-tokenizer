@@ -24,7 +24,7 @@ def kernel_summary(path,replays=5):
     groups['sgemm']=sum(e['dur'] for e in events if 'sgemm' in e.get('name','').lower()
         and not any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx','splitkreduce']))
     groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
-    small_names=['_strided_ffn_fixed','strided_ffn_cuda','_short_fixed','short_ffn_cuda','wide_cta','cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
+    small_names=['norm_gemv','_strided_ffn_fixed','strided_ffn_cuda','_short_fixed','short_ffn_cuda','wide_cta','cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
     small_times={name:sum(e['dur'] for e in events if e.get('name')==name) for name in small_names}
     groups['small_matrix']=sum(small_times.values())
     groups['small_vendor_matrix']=sum(e['dur'] for e in events
@@ -51,12 +51,13 @@ def kernel_summary(path,replays=5):
             'small_gemv_per_replay':sum(e.get('name')=='_small_gemv' for e in events)/replays,
             'layer_norm_cuda_per_replay':sum(e.get('name')=='layer_norm' for e in events)/replays,
             'layer_norm_native_per_replay':sum('vectorized_layer_norm_kernel' in e.get('name','') for e in events)/replays,
+            'norm_projection_per_replay':sum(e.get('name')=='norm_gemv' for e in events)/replays,
             'ffn_gemv_per_replay':sum(e.get('name')=='_ffn_gemv' for e in events)/replays,
             'small_fixed_per_replay':sum(e.get('name')=='_small_fixed' for e in events)/replays,
             'small_grouped_per_replay':sum(e.get('name')=='_small_grouped' for e in events)/replays,
             'small_parts_per_replay':sum(e.get('name')=='_small_parts' for e in events)/replays,
             'small_reduce_per_replay':sum(e.get('name')=='_small_reduce' for e in events)/replays,
-            'small_matrix_breakdown_scope':'Already included in groups.small_matrix; do not add again. FFN GEMV, short-row and strided FFN kernels include their fused epilogues.',
+            'small_matrix_breakdown_scope':'Already included in groups.small_matrix; do not add again. Normalization/projection includes fused LayerNorm; FFN GEMV, short-row and strided FFN kernels include their fused epilogues.',
             'small_matrix_breakdown':{name:{'ms_per_replay':value/replays/1000,
                 'percent':100*value/total if total else 0.} for name,value in small_times.items()},
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}

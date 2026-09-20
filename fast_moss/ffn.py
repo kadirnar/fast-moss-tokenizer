@@ -142,7 +142,8 @@ def observed(layer):
 
 def forward(self, x):
     runtime = self._fast_ffn_runtime
-    if observed(self):
+    if (x.requires_grad or torch.is_autocast_enabled('cuda') or observed(self) or runtime.forwards.get(self.linear1) is not self.linear1.forward
+            or runtime.forwards.get(self.linear2) is not self.linear2.forward):
         return self._fast_observed_ffn(x)
     short = False
     if runtime.backend == 'cuda' and runtime.ffn_short_enabled and x.ndim >= 2 and x.shape[-1] in (768,1280):
@@ -158,6 +159,11 @@ def forward(self, x):
             or x.dtype != torch.float32 or x.device != runtime.device or x.requires_grad
             or (not x.is_contiguous() and not strided) or torch.is_autocast_enabled('cuda')):
         return self._fast_original_ffn(x)
+    if runtime.backend == "cuda":
+        from .norm_projection import project
+        hidden = project(runtime,x,self.norm2,self.linear1,"gelu")
+        if hidden is not None:
+            return self.linear2(hidden,_fast_epilogue=("residual",x,self.layer_scale_2.scale,self._fast_ffn_library))
     normalized = self.norm2(x)
     # A norm forward can install hooks or replace the activation. Recheck before
     # fusing, and reuse its output so an observer is not called twice.

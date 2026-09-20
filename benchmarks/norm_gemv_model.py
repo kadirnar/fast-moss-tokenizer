@@ -18,6 +18,7 @@ from benchmarks.ordered_model import options
 from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import REVISION, load_model
 from fast_moss.optimize import optimized
+RUNTIME=False
 
 
 @contextmanager
@@ -25,6 +26,16 @@ def selected(model,configs):
     from benchmarks.norm_gemv import linear as fused
     from fast_moss.normalization import owned_forward
     runtime=model._fast_matrix_runtime;counts={'candidate_calls':0,'qkv_calls':0,'ffn_calls':0};saved=[]
+    previous=getattr(runtime,'norm_gemv_enabled',None)
+    if RUNTIME:
+        before=(runtime.norm_gemv_calls,runtime.norm_qkv_calls,runtime.norm_ffn_calls)
+        runtime.norm_gemv_enabled=bool(configs)
+        try:yield counts
+        finally:
+            counts.update(candidate_calls=runtime.norm_gemv_calls-before[0],qkv_calls=runtime.norm_qkv_calls-before[1],ffn_calls=runtime.norm_ffn_calls-before[2])
+            runtime.norm_gemv_enabled=previous
+        return
+    if previous is not None:runtime.norm_gemv_enabled=False
     owned={id(m) for m,_ in runtime.saved};library=math_library()
     def set_method(module,name,fn):
         saved.append((module,name,getattr(module,name)));setattr(module,name,MethodType(fn,module))
@@ -72,6 +83,7 @@ def selected(model,configs):
     finally:
         torch.cuda.synchronize()
         for module,name,original in reversed(saved):setattr(module,name,original)
+        if previous is not None:runtime.norm_gemv_enabled=previous
 
 
 def compare(ref,out):
@@ -82,7 +94,9 @@ def compare(ref,out):
 
 @torch.inference_mode()
 def main():
+    global RUNTIME
     parser=argparse.ArgumentParser()
+    parser.add_argument('--runtime',action='store_true')
     parser.add_argument('--confirmation',default='results/norm_gemv_confirm.json')
 
     parser.add_argument('--fidelity-only', action='store_true')
@@ -91,23 +105,26 @@ def main():
     parser.add_argument('--extra-warmup-replays',type=int,default=0)
     parser.add_argument('--residual-backend', choices=['triton','cute'], default='triton')
     parser.add_argument('--output', default='results/full_norm_gemv.json')
-    args=parser.parse_args()
+    args=parser.parse_args();RUNTIME=args.runtime
     if args.rounds<1 or args.extra_warmup_replays<0 or (args.timing_only and args.fidelity_only):parser.error('Invalid timing options')
     confirmation=json.loads(Path(args.confirmation).read_text())
     configs={}
     for r in confirmation['records']:
         speeds=r['rings'][-1]['speedups'];name=max(speeds,key=speeds.get)
         if speeds[name]>1.005:configs[r['mode']]=tuple(json.loads(name))
+    if RUNTIME:
+        from fast_moss.norm_projection import CONFIGS
+        if configs!=CONFIGS:raise SystemExit('Selection differs from supported runtime configs')
     if not configs:raise SystemExit('No exact faster selected configurations')
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='cuda',ffn_backend='triton',norm_backend='cuda');opts['residual_backend']=args.residual_backend
-    report={'scope':'research LayerNorm/projection fusions'+', full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
-        'selection_report':args.confirmation,'previous_commit':'b240bd2','revision':REVISION,'torch':torch.__version__,
+    report={'scope':('supported normalization/projection runtime' if RUNTIME else 'research LayerNorm/projection fusions')+', full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
+        'selection_report':args.confirmation,'integration_parent':'3dd4e27','previous_commit':'b240bd2','revision':REVISION,'torch':torch.__version__,
         'gpu':torch.cuda.get_device_name(),'sources':sources,'options':opts,
         'configs':configs,
         'fidelity_skipped':args.timing_only,'timing_rounds':args.rounds,
         'timing_scope':'rotating independently restored contexts; five samples of ten graph calls, input copies and owned outputs included; setup/capture/restoration excluded',
-        'cases':[],'timings':[],'enabled_in_runtime':False,'extra_warmup_replays':args.extra_warmup_replays}
+        'cases':[],'timings':[],'enabled_in_runtime':RUNTIME,'extra_warmup_replays':args.extra_warmup_replays}
     output=Path(args.output)
     def save():output.write_text(json.dumps(report,indent=2)+'\n')
     def run(x):
@@ -147,7 +164,7 @@ def main():
                 with optimized(model,**opts),selected(model,configs if backend=='candidate' else {}) as counts:
                     for _,fn,inp in fns:fn(inp)
                     for name,fn,inp in fns:
-                        before=counts['candidate_calls']
+                        before=(model._fast_matrix_runtime.norm_gemv_calls if RUNTIME else counts['candidate_calls'])
                         graph=GraphedCallable(fn,inp)
                         checks=compare(refs[name],graph(inp))
                         if not all(c['bits_equal'] for c in checks):raise SystemExit('Timing fidelity mismatch')
@@ -156,7 +173,7 @@ def main():
                         def run_many():
                             for _ in range(10):graph(inp)
                         timing=measure(run_many,warmup=2,repeats=5)
-                        after=counts['candidate_calls']
+                        after=(model._fast_matrix_runtime.norm_gemv_calls if RUNTIME else counts['candidate_calls'])
                         entry['results'][name]={'checks':checks,'candidate_capture_calls':after-before,'wall_ms':[v/10 for v in timing['wall_ms_samples']]}
                         del graph
                 entry.update(counts);record['rounds'].append(entry)

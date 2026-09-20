@@ -54,7 +54,7 @@ def causal_mask(offset, positions, length, context, additive=False):
     return out[..., :k]
 
 
-def forward(self, query, key, value):
+def forward(self, query, key, value, *, _fast_projected=None):
     # The upstream self-attention also projects query for Q, K, and V.
     if not query.is_cuda or query.dtype != torch.float32:
         return self._fast_original_attention(query, key, value)
@@ -62,7 +62,7 @@ def forward(self, query, key, value):
     b, t = query.shape[:2]
     offset = (torch.zeros(b, device=query.device, dtype=torch.long)
               if state is None else state.offset)
-    projected = self.in_projs[0](query)
+    projected = self.in_projs[0](query) if _fast_projected is None else _fast_projected
     projected = projected.reshape(b, t, 3, self.num_heads, self.embed_dim // self.num_heads)
     projected = projected.permute(2, 0, 3, 1, 4)
     q, k, v = projected[0], projected[1], projected[2]

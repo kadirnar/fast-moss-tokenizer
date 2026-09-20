@@ -61,18 +61,21 @@ def main():
                        share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,**extra):
             with StreamingSession(model,direction,a.batch,a.chunk_frames) as session:
                 actual=[session.push(part)[0] for part in inputs]
-            small_calls=getattr(getattr(model,'_fast_matrix_runtime',None),'small_calls',0)
+            runtime=getattr(model,'_fast_matrix_runtime',None)
+            small_calls=getattr(runtime,'small_calls',0)
+            norm_projection_calls=getattr(runtime,'norm_gemv_calls',0)
         ref=torch.cat(reference,dim=-1)
         cand=torch.cat(actual,dim=-1)
         result={"graph_vs_corrected_eager":difference(ref,cand),
                 "corrected_eager_vs_offline":difference(offline,ref),
                 "graph_vs_offline":difference(offline,cand),
                 "per_chunk_exact":[torch.equal(r,c) for r,c in zip(reference,actual)],
-                "small_matrix_calls":small_calls}
+                "small_matrix_calls":small_calls,"norm_projection_calls":norm_projection_calls,
+                "per_chunk_bits_equal":[torch.equal(r.view(torch.int32),c.view(torch.int32)) if r.dtype==torch.float32 else torch.equal(r,c) for r,c in zip(reference,actual)]}
         report["results"][direction]=result
         print(direction,result,flush=True)
         Path(a.output).write_text(json.dumps(report,indent=2)+"\n")
-    report["graph_exact"]=all(r["graph_vs_corrected_eager"]["exact"] for r in report["results"].values())
+    report["graph_exact"]=all(r["graph_vs_corrected_eager"]["exact"] and all(r["per_chunk_bits_equal"]) for r in report["results"].values())
     report["offline_exact"]=all(r["graph_vs_offline"]["exact"] for r in report["results"].values())
     report["peak_memory_bytes"]=torch.cuda.max_memory_allocated()
     Path(a.output).write_text(json.dumps(report,indent=2)+"\n")

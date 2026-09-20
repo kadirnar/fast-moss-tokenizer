@@ -56,7 +56,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     it requires Triton matrices, residual fusion and the pinned ffn math extra.
     norm_backend='cuda' uses the pinned normalization extra for profiled FP32
     contiguous and dense-transposed LayerNorm shapes, preserving the native
-    Welford tree and affine arithmetic.
+    Welford tree and affine arithmetic. Combined with CUDA matrices and FFN
+    fusion, it folds one-row 1280-wide normalization into GELU projections;
+    the Triton attention-mask path also folds normalization into QKV projections.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -99,6 +101,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         from .cute_kernels import scale_add as kernel
     saved = []
     original_ffn = {}
+    original_sa = {}
     matrix_stack = ExitStack()
 
     def replace(obj, name, value):
@@ -126,6 +129,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
             kind = type(module).__name__
             if kind == 'MossAudioTokenizerTransformerLayer' and ffn_backend == 'triton':
                 original_ffn[id(module)] = module._ff_block
+                original_sa[id(module)] = module._sa_block
             if kind == "MossAudioTokenizerResidualLFQ" and quantizer_backend == "triton":
                 from .quantizer import residual_forward
                 replace(module, "_fast_codes_only", False)
@@ -195,6 +199,13 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     replace(module,'_fast_ffn_library',ffn_library)
                     replace(module,'_fast_ffn_fuse',id(module) not in encoder)
                     replace(module,'_ff_block',MethodType(ffn_forward,module))
+                    if (matrix_backend == 'cuda' and norm_backend == 'cuda' and attention_mask_backend == 'triton'
+                            and len(module.self_attn.in_projs)==1 and id(module.self_attn.in_projs[0]) in owned
+                            and tuple(module.self_attn.in_projs[0].weight.shape)==(3840,1280)):
+                        from .norm_projection import attention_block
+                        replace(module,'_fast_original_sa',module._sa_block)
+                        replace(module,'_fast_observed_sa',original_sa[id(module)])
+                        replace(module,'_sa_block',MethodType(attention_block,module))
         if projection_backend == 'triton':
             from .projections import forward as project_forward, decode_codes
             q = model.quantizer

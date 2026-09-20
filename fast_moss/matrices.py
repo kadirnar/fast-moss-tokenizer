@@ -90,6 +90,10 @@ class MatrixRuntime:
         self.thread = get_ident()
         self.packed, self.plans, self.workspaces = {}, {}, {}
         self.saved = []
+        self.forwards = {}
+        self.norm_gemv_enabled = True
+        self.norm_gemv_calls = self.norm_qkv_calls = self.norm_ffn_calls = 0
+        self.norm_gemv_warmed = set()
         self.active = self.used = False
 
     @torch.inference_mode()
@@ -146,6 +150,7 @@ class MatrixRuntime:
                 for module in modules:
                     self.saved.append((module, module.forward))
                     module.forward = MethodType(self._wrap(module.forward), module)
+                    self.forwards[module] = module.forward
             return self
         except BaseException:
             self.close()
@@ -308,6 +313,8 @@ class MatrixRuntime:
         for module, _ in reversed(self.saved):
             del module.forward
         self.saved.clear()
+        self.forwards.clear()
+        self.norm_gemv_warmed.clear()
         with torch.cuda.device(self.device):
             for plan, _ in self.plans.values():
                 if plan is not None:

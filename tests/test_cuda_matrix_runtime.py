@@ -71,7 +71,8 @@ def test_cuda_coexists_with_ffn_and_norm(monkeypatch,width,rows,residual):
         owner=model._fast_matrix_runtime
         assert owner.cuda_calls==0
         assert owner.ffn_short_calls==(0 if rows==1 else 2)
-        assert owner.ffn_gemv_calls==(2 if width==1280 else 0)
+        assert owner.ffn_gemv_calls==(1 if width==1280 else 0)
+        assert owner.norm_ffn_calls==(1 if width==1280 else 0)
         graph=GraphedCallable(lambda z:(layer._ff_block(z),),x);exact(graph(x)[0],ref)
     exact(layer._ff_block(x),ref)
 

@@ -18,11 +18,13 @@ from fast_moss.graphs import GraphedCallable
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--frames',type=int,default=3)
+    parser.add_argument('--extra-warmup-replays',type=int,default=0)
     parser.add_argument('--batches',type=int,nargs='+',default=[1,8])
     parser.add_argument('--output',default='results/full_codec_current.json')
     parser.add_argument("--norm-backend", choices=["none", "cuda"], default="none")
     parser.add_argument("--matrix-backend", choices=["triton", "cuda"], default="triton")
     args=parser.parse_args()
+    if args.extra_warmup_replays<0:parser.error('Warmup replays must be nonnegative')
     if args.frames<1 or any(b<1 for b in args.batches):parser.error('Frames and batches must be positive')
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend=args.matrix_backend,ffn_backend='triton',norm_backend=args.norm_backend)
@@ -31,7 +33,7 @@ def main():
             'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'options':opts,
             'input':f'speech source (index 1), cyclic {args.frames*1920}-sample windows with lane*1920-sample offsets',
             'timing_scope':'three rotating-order rounds, ten single-call samples after three warmups per direction/mode; independent restored contexts, one live graph at a time; graph times include input copies and owned outputs; excludes load, packing, capture and restoration',
-            'cases':[]}
+            'extra_graph_warmup_replays':args.extra_warmup_replays,'cases':[]}
     def encode(z):
         e=model._encode_frame(z)
         return e.audio_codes,e.encoder_hidden_states
@@ -55,6 +57,9 @@ def main():
                         graph=None if mode=='original_eager' else GraphedCallable(fn,inp)
                         run=fn if graph is None else graph
                         checks=[difference(ref,out) for ref,out in zip(refs[direction],run(inp))]
+                        if graph is not None:
+                            for _ in range(args.extra_warmup_replays):run(inp)
+                            torch.cuda.synchronize()
                         timing=measure(lambda:run(inp),warmup=3,repeats=10)
                         row['results'][direction]={'checks':checks,'timing':timing}
                         del run,graph

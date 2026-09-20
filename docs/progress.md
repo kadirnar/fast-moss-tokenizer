@@ -1291,3 +1291,47 @@ The next step is supported-runtime integration of the steady-selected QKV and GE
 The full suite passes **857 tests in 157.93 seconds**. Final audit passes source/arithmetic provenance, selection, component/corpus bits, control counts, actual launch removal, direct timing ratios, compiler resources and unchanged production bytes. This turn is **progress**: it establishes a new exact fused-kernel candidate, resolves an unreliable component-timing method, and narrows the next implementation step without changing the full objective.
 
 All handles are terminal: initial arithmetic check `11941`; sweep `14015`; initial confirmation `35104`; QKV-only model `31386`; steady graph confirmation `83009`; combined model `45716`; cache policies `20297`; focused tests `40787`; warmed model repeat `47312`; sequential research profile/compiler/full-suite chain `87996`; CPU audit `52725`. GPU jobs ran sequentially. Only the preexisting 29 MiB GPU client remains. The supported runtime stays at `b240bd2`; production integration of the validated candidate and the broader 100× goal remain unfinished.
+
+## Supported normalization/projection fusion
+
+Previous goal turn classification: **progress**, verified at clean commit `3dd4e27`. It established exact normalization/projection candidates and stable warmed timing, with 857 passing tests and unchanged production files. The current turn integrates that candidate; the 100× objective remains active and unmet.
+
+`fast_moss/norm_projection.py` selects QKV `(0,1,128,2,4)` and GELU `(1,1,256,2,4)`. Generated CUDA and selected CUBIN hashes match the research implementation. The runtime uses native FP32 weights, exact Welford/affine arithmetic and explicit ordered projection/GELU rounding. Shared normalized values have unique writers and a CTA barrier before consumption. There is no weight copy, quantization or persistent activation workspace.
+
+The existing CUDA matrix/CUDA normalization/Triton FFN combination enables GELU fusion; Triton attention masks also enable QKV fusion through an internal prepared-projection argument. Dispatch checks owned forwards, geometry, epsilon, alignment, frozen operands, host thread and capture-stream warmup. Hooks preserve module observations, replaced normalization/projection forwards fall back, gradient/autocast inputs use original block arithmetic, and context/storage transitions retain graph invalidation and cleanup. The first focused run exposed a gradient fallback through an inference-only residual kernel; routing it through original block arithmetic resolved both failures.
+
+Both Triton and CuTe residual combinations pass **48 full-checkpoint cases** each, including exact original tokens, hidden-state bits, waveform bits, graph replay and restored execution. Seven rotating paired rounds with **200 extra graph warmups** measure **6.692445 → 6.668650 ms encode (1.003568×)** and **5.942794 → 5.916626 ms decode (1.004423×)** for batch one / 80 ms. No-call controls remain within **0.22%** of parity; these are small incremental gains, not a new 100× claim.
+
+Both **162-chunk / 12.96-second** streams pass every chunk's bit comparison against corrected eager streaming: **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, and peak allocations **7.522 / 7.695 GB**. One-lane captures use the new fusion, while two-lane controls do not. The existing decoder/offline discrepancy is unchanged.
+
+The 80 ms profile verifies **64 new kernels per direction**, reduces separate CUDA LayerNorm calls **136 → 72**, and removes **64 total launches per direction**, leaving **1,276 / 744** encoder/decoder launches. The 240 ms control stays **1,354 / 883**, with 136 LayerNorm calls and no new fused calls. Matrix groups, including fused normalization and epilogues, occupy **76.09% / 84.80%** of one-frame device kernel time. Physical DRAM counters remain unavailable; these are duration shares.
+
+The two selected compiled kernels use **31 / 40 registers**, **5,168 / 5,120 shared bytes**, zero local bytes/local load-store instructions and no matrix Tensor Core instructions. Captured-operand outputs, source and CUBIN hashes match the research variants. Explicit cache-policy variants remain outside production dispatch.
+
+The initial fresh one-frame original/current comparison exposed a timing transient: its first optimized encoder round was about 11 ms, versus roughly 6.6 ms in later rounds. That report is retained as `full_codec_norm_projection_f1.json`; it is not the headline. A repeat with **200 extra graph warmups per context** (`full_codec_norm_projection_f1_warm.json`) measures batch-one encode **47.230558 / 10.340940 / 6.586197 ms** and decode **37.554284 / 9.095398 / 5.834595 ms**, for original eager / original graph / optimized graph. Direct ratios are **7.1711× / 6.4365×** versus eager and **1.5701× / 1.5589×** versus graphs. These overall ratios use fresh denominators and are separate from the paired incremental gain.
+
+The fresh 240 ms comparison measures batch-one encode **48.160401 / 11.830059 / 7.469780 ms**, decode **38.395908 / 10.187895 / 6.217930 ms**: **6.4474× / 6.1750×** versus eager, **1.5837× / 1.6385×** versus graphs. Batch-eight optimized times are **9.996896 / 8.623292 ms**. All direct comparisons and restored outputs pass. No-call control geometry is unchanged by this fusion.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.norm_gemv_model --runtime --confirmation results/norm_gemv_steady.json --rounds 7 --extra-warmup-replays 200 --output results/full_norm_projection_runtime.json
+.venv/bin/python -m benchmarks.norm_gemv_model --runtime --confirmation results/norm_gemv_steady.json --fidelity-only --residual-backend cute --output results/full_norm_projection_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.streaming_fidelity --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_norm_projection_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_projection_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_projection_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_norm_projection_f1_warm.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --output results/full_codec_norm_projection_f3.json
+.venv/bin/python -m benchmarks.norm_projection_resources
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-norm-projection-wheel
+```
+
+
+The full suite passes **884 tests in 163.81 seconds**. Two older coexistence assertions initially expected two FFN GEMVs; their exact-output checks passed, and the assertions now verify one normalization/projection call plus one residual GEMV. The new tests also verify normalized intermediate bits, hook values, replaced forwards, gradient/autocast and layout fallbacks, capture warmup, host-thread ownership, exception cleanup, original storage restoration and graph invalidation after packing. All **30 package files** match source bytes, and the wheel imports in isolation. Temporary repository wheel-build output is removed.
+
+This turn is **progress**, with a verified supported-runtime optimization. The full objective remains active and unmet. Further projection/residual fusion, matrix memory traffic, broader serving/multi-GPU work and verified 100× acceleration remain open.
+
+Final cross-report audit passes **83 checks** covering selection/source provenance, corpus and timing bits, dispatch controls, streaming bits and unchanged offline discrepancy, launch removal, direct ratios, compiler resources and package bytes. All handles are terminal: initial focused checks `36341` (gradient fallback failures resolved); focused repeat `93002`; integrated model `74933`; sequential focused/CuTe/streams/profiles/comparisons/compiler/full-suite chain `71028` (two stale count assertions resolved); warmed comparison/full-suite/wheel chain `43567`; final audit `68748`. The first CPU audit invocation `8066` lacked the repository benchmark import path; rerunning with `PYTHONPATH=.` passed. GPU jobs ran sequentially, and only the preexisting PID 1718 / 29 MiB client remains. No task benchmark is left running.
