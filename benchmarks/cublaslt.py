@@ -37,6 +37,10 @@ def library():
             'cublasLtMatmulPreferenceSetAttribute':[P,I,P,SZ],
             'cublasLtMatmulAlgoGetHeuristic':[P,P,P,P,P,P,P,I,C.POINTER(Heuristic),C.POINTER(I)],
             'cublasLtMatmulAlgoConfigGetAttribute':[C.POINTER(Algo),I,P,SZ,C.POINTER(SZ)],
+            'cublasLtMatmulAlgoConfigSetAttribute':[C.POINTER(Algo),I,P,SZ],
+            'cublasLtMatmulAlgoCapGetAttribute':[C.POINTER(Algo),I,P,SZ,C.POINTER(SZ)],
+            'cublasLtMatmulAlgoGetIds':[P,I,I,I,I,I,I,I,C.POINTER(I),C.POINTER(I)],
+            'cublasLtMatmulAlgoInit':[P,I,I,I,I,I,I,I,C.POINTER(Algo)],
             'cublasLtMatmulAlgoCheck':[P,P,P,P,P,P,C.POINTER(Algo),C.POINTER(Heuristic)],
             'cublasLtMatmul':[P,P,P,P,P,P,P,P,P,P,P,P,C.POINTER(Algo),P,SZ,P],
         }

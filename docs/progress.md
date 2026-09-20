@@ -232,3 +232,37 @@ Reproduce memory and broader coverage with sequential GPU jobs:
 The ignored cached matrix inputs can be regenerated using the previous section's capture command. Performance remains hardware/library/shape-specific. These changes stay in the research path, with no supported-runtime default changes and no experimental attention enabled. Next work should target the measured remaining SGEMM cost, investigate exact batched-GEMM acceleration and native-layout tuning, and develop a validated runtime interface for resident weights. Broader quality/corpus validation, request scheduling, multi-GPU work, and the requested 100× whole-model objective remain outstanding.
 
 All GPU jobs completed, including resident/large-sweep session `74770`, diagnostic audit `95360`, and final corrected audit/batching/profile/test session `11333`. The initially rejected batch run `44997` was terminal before follow-up work. No GPU benchmark or download is intentionally left running.
+
+
+## 2026-09-20, bounded vendor-kernel search and rejected marginal alternatives
+
+Previous goal turn classification: **progress**, verified against clean commit `d040ccd`, its single-copy implementation, 96-test result, and full-model/profile evidence. This turn is also **progress**: new capability-level search and confirmation tools test a much wider hardware configuration space, full-codec validation establishes exactness of its finalists, and matched measurements show that the proposed alternatives do not materially improve the previous prototype. This changes the next action: further repeated tuning of these vendor shapes is a lower priority than a different matrix execution approach. The goal remains active; there is no 100× result and no new supported-runtime speedup in this turn.
+
+New research tooling:
+
+- `cublaslt_search.py`: ABI-backed algorithm/capability enumeration, bounded custom-option sampling, tile/stage/swizzle variation, and split-K/reduction sweeps. Candidates retain pedantic FP32 data/compute and explicit FMA/FP32 capability flags. Descriptor support/workspace checks precede execution. Heuristic seeds and split factors are preserved so a limited manual sweep cannot accidentally discard existing choices.
+- `cublaslt_tune.py`: exactness screening on actual checkpoint matrices, warm ranking, and graph/cache-evicted checks for finalists. Reports distinguish every tested configuration from the much smaller finalist set.
+- `cublaslt_confirm.py`: fresh baseline/candidate/baseline timing around warm/cold finalists. This detects initial-baseline drift and prevents inflated long-search ratios from becoming performance claims.
+- `cublaslt_ablation.py`: previous/new/ new/previous/previous/new whole-codec rounds at three relevant batch/frame geometries, with exact token/hidden/audio gates at every round. It compares against the previous resident matrix prototype, not just the original unoptimized model.
+
+Evidence:
+
+- `results/cublaslt_config_search.json`: **12,422 valid configuration/layout/shape combinations**, **350 exact tuning outputs**, and 108 finalist/baseline records. Eight matrix geometries cover rows 1/3/24/384 and the dominant 1,280↔5,120 FFN dimensions. No runtime failures occurred in the final sweep. Custom ranges above 127 are sampled, so this is not an exhaustive claim. `cublaslt_config_no_split.json` preserves the preliminary unsplit-only experiment; its omissions motivated retaining heuristic split factors.
+- The final component rules change three previous choices: one row-one expansion GEMV custom option and two split-K reduction variants. `results/cublaslt_config_fidelity.json` passes **696 exact stress comparisons/graph replays across 58 shapes**.
+- `results/full_cublaslt_config_batching.json`: all **18 real-audio cases** remain exact in eager/graph modes and after restoration, including **52,608 tokens and 3,156,480 waveform samples per execution mode**, plus hidden states. These results establish fidelity for the tested inputs, not a universal proof or a new supported default.
+- `results/full_cublaslt_config_ablation.json`: previous/new median combined latency **14.795/14.689 ms** at batch one / 80 ms (**1.0072×**); **26.043/26.033 ms** at batch eight / 240 ms (**1.0004×**); **147.561/147.173 ms** at batch 128 / 240 ms (**1.0026×**). Changes remain below 1%. Previous/default tuning is retained; do not attribute the pre-existing 1.19× or 1.16× matrix-prototype gains to this search.
+- `results/cublaslt_config_confirmation.json`: nine fresh finalist checks, all exact. The initial row-one expansion baseline was approximately **65.18 μs**, versus **34.12 μs** in fresh bracketing. The apparent 6× warm ratio is therefore not a reliable matched gain; confirmation finds roughly 3.1× warm and only about 1.1× under the eviction protocol for the selected custom option. The selected new configuration still has less than 1% whole-model effect. The physical cause of the initial timing difference was not isolated.
+- `results/cublaslt_unknown_capability.json`: six default-layout probes for numerical-flags-zero algorithm ID 76 return status 15 (`NOT_SUPPORTED`); no execution or performance result is claimed for that ID.
+- `results/tests.txt`: **97 passed in 12.40 seconds**. The new GPU test exercises capability enumeration, FP32 numerical flags, serialized restoration, closeness to FP64, and exact eager/graph replay for sampled configurations.
+
+Reproduce the configuration experiment after generating the previously documented cached matrix inputs:
+
+```bash
+.venv/bin/python -m benchmarks.cublaslt_tune
+.venv/bin/python -m benchmarks.cublaslt_confirm
+.venv/bin/python -m benchmarks.cublaslt_fidelity --packed-only --tuning results/matrices_cublaslt.json results/matrices_cublaslt_codec8.json results/matrices_cublaslt_large.json results/cublaslt_config_search.json --output results/cublaslt_config_fidelity.json
+.venv/bin/python -m benchmarks.cublaslt_batching --tuning results/matrices_cublaslt.json results/matrices_cublaslt_codec8.json results/matrices_cublaslt_large.json results/cublaslt_config_search.json --output results/full_cublaslt_config_batching.json
+.venv/bin/python -m benchmarks.cublaslt_ablation
+```
+
+All GPU jobs completed, including final capability sweep `19132`, full validation/ablation/tests `15298`, confirmation `72956`, and support probe `76596`. The initial capability enumeration `66540` was deliberately interrupted after discovering an advertised 262,144-value custom range; it was replaced by the documented bounded search, not restarted because of an observation timeout. No benchmark or download is intentionally left running. The main remaining bottleneck is still dense FP32 matrix execution; request scheduling, broader quality validation, multi-GPU support, and the original 100× whole-model objective remain open.
