@@ -157,3 +157,39 @@ Authoritative evidence:
 Reproduce heterogeneous completion with `.venv/bin/python -m benchmarks.lane_completion`. Existing comparison/fidelity scripts explicitly disable fast reset in eager references. No experimental attention reduction was enabled, and no weights/precision/quantizer counts changed. Automatic request scheduling, broader corpus/experimental-attention quality checks, matrix execution, and multi-GPU execution remain useful next work toward the original objective.
 
 All benchmark/test jobs completed successfully, including lane validation session 2680, test session 48905, and final comparison session 5981. No GPU benchmark or download is intentionally left running.
+
+
+## 2026-09-20, exact FP32 cuBLASLt layout and algorithm research
+
+Previous goal turn classification: **progress**, verified against clean commit `371d242`, the lane completion/reset implementation, and its full-checkpoint results. This turn is also **progress**: a vendor-kernel binding and actual-weight tuning pipeline found useful exact matrix replacements, and full-codec/long-stream checks establish a measured improvement on the tested hardware. The goal remains active. The supported batch-one result is still approximately 5×, and the requested 100× whole-model result is unachieved.
+
+Research changes, all under `benchmarks/`:
+
+- `cublaslt.py`: ctypes binding matching the installed 12.8 headers; own cuBLASLt handle, strict `CUBLAS_COMPUTE_32F_PEDANTIC`, unchanged FP32 weights/inputs, current stream, validated alignment, shared workspace, and explicit descriptor cleanup. Original, row, and transposed-contiguous weight layouts can be measured. It does not change PyTorch's global BLAS math mode.
+- `matrices.py`: batch sweeps, cached actual inputs, row filters, all available heuristic candidates, and separate warm/cache-evicted component timing, with FP64 diagnostics and graph fidelity.
+- `cublaslt_model.py`: reversible experimental linear replacement. It selects only exact component/graph choices exceeding both timing thresholds and falls back for other shapes/layouts. Every layer retains its original learned weights; selected layers gain an additional FP32 transpose. Shared workspace limits memory overhead.
+- A first streaming attempt failed when a fresh heuristic shortlist omitted a measured algorithm; a diagnostic retry succeeded, showing the shortlist is not a stable lookup mechanism here. The final implementation restores the measured descriptor, rejects different GPU/PyTorch/cuBLASLt versions, and validates it through `cublasLtMatmulAlgoCheck`. Final stress/offline/streaming jobs reran after this change.
+- `cublaslt_fidelity.py`: twelve input variants per selected actual-weight matrix, including subnormal/tiny/large values, sparsity, and four random inputs.
+- `cublaslt_streaming.py`: same-shaped optimized graph reference, eight lanes, 240 ms chunks, 54 schedule steps, plus separately filled-history timing. Includes independently paused lanes, delayed starts, short tails, empty completion, and reset/reuse. Continuous lanes reach 12.96 seconds, crossing the ten-second cache context. Audio source hashes, cyclic filling/offsets, and per-step schedules are recorded.
+
+Authoritative evidence:
+
+- `results/matrices_cublaslt.json`: 276 measurements across 16 shape groups, selected from batches 1/8/128 and one/three codec frames. `results/matrices_cublaslt_codec8.json`: 842 measurements across all 34 cached stage shapes for batch eight / three frames. Some groups overlap. Several selected exact matrix components improve roughly 1.3–1.8×; changed-rounding alternatives are excluded.
+- `results/cublaslt_fidelity.json`: all **324 comparisons**, across 27 selected shapes and twelve activation variants, exactly match both PyTorch and their graph replays. This finite gate does not prove universal equality.
+- `results/full_cublaslt_experiment.json`: **14 cases**, all exact in eager and graph modes. Music, speech, and environmental audio each use batch/frame pairs (8,3), (4,6), (2,12), (1,24); silence and tiny signals add two cases. Per execution mode, **10,752 tokens and 645,120 waveform samples** match, as do encoder hidden states. Combined batch-eight encode/decode **30.913 → 26.043 ms (1.187×, 15.8% lower latency)** against the already optimized graph. Copies/owned outputs are included; packing/setup is separate. 315 plans add **5,692,227,584 bytes** of packed FP32 weights; peak allocated memory **13,252,793,856 bytes**.
+- `results/full_cublaslt_streaming.json`: all valid outputs/lengths and graph reuse exact: **38,080 tokens and 2,282,880 waveform samples**. Filled-history encode **21.361 → 18.908 ms (1.130×)**; decode **19.364 → 16.856 ms (1.149×)**. These are **11.5% / 13.0% lower latency**, not multipliers for the different batch-one benchmark. Each direction packs roughly 2.85 GB separately; peak allocated memory **11,639,704,576 bytes**.
+- `results/tests.txt`: **90 passed in 10.69 seconds**. New tests cover ABI/layout interpretation, graph replay, explicit pedantic behavior while PyTorch TF32 is enabled, preservation of global math mode, serialized descriptor validation, shared workspace, and invalid input/alignment/lifetime rejection.
+
+Reproduction (run GPU jobs sequentially):
+
+```bash
+.venv/bin/python -m benchmarks.matrices --cublaslt --batches 1 8 128 --frames 1 3 --limit 16 --save-inputs results/matrix_inputs.pt --output results/matrices_cublaslt.json
+.venv/bin/python -m benchmarks.matrices --cublaslt --inputs results/matrix_inputs.pt --rows 24 48 96 192 --output results/matrices_cublaslt_codec8.json
+.venv/bin/python -m benchmarks.cublaslt_fidelity
+.venv/bin/python -m benchmarks.cublaslt_model
+.venv/bin/python -m benchmarks.cublaslt_streaming
+```
+
+No supported runtime defaults changed, no experimental attention was enabled, and no lower-precision checkpoint or operands were introduced. These improvements are specific to measured shapes and the installed RTX 5070 Ti / PyTorch 2.8 / cuBLASLt 12.8.4 environment. Further work should investigate reducing packed-weight memory overhead, extending exact algorithm coverage to small batches and larger batched workloads, and a validated optional runtime interface. Automatic request scheduling, multi-GPU execution, broader corpus checks, and the original 100× objective remain outstanding.
+
+Final sequential validation session `94535` completed successfully, including final stress, offline, streaming, and full tests. No GPU benchmark or download is intentionally left running.
