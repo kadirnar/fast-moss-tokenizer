@@ -1,6 +1,6 @@
 """Run streaming/profile gates with the selected research shared-staging helper."""
 from contextlib import contextmanager
-import gzip,json,sys
+import json,sys
 from pathlib import Path
 from benchmarks.norm_gemv_async_model import selected
 
@@ -25,12 +25,6 @@ def main():
         original_summary=harness.kernel_summary
         def summary(path,replays=5):
             result=original_summary(path,replays)
-            with gzip.open(path,'rt') as f:
-                events=[e for e in json.load(f)['traceEvents'] if e.get('cat')=='kernel' and e.get('name')=='norm_gemv_async']
-            ms=sum(e['dur'] for e in events)/replays/1000;pct=100*ms/result['total_ms_per_replay']
-            result['norm_gemv_async_per_replay']=len(events)/replays
-            result['small_matrix_breakdown']['norm_gemv_async']={'ms_per_replay':ms,'percent':pct}
-            result['groups']['small_matrix']['ms_per_replay']+=ms;result['groups']['small_matrix']['percent']+=pct
             result['small_matrix_breakdown_scope']+=' Research norm_gemv_async includes normalization/projection, counted once in small_matrix.'
             return result
         harness.kernel_summary=summary

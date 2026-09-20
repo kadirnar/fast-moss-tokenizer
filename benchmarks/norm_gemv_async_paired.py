@@ -1,8 +1,9 @@
 """Interleaved owned-graph pairs with one verified stable weight lifetime."""
-import json,statistics,time
+import argparse,json,statistics,time
 from pathlib import Path
 import torch
 from benchmarks.norm_gemv_async_model import selected,compare
+from benchmarks import norm_gemv_async_model as harness
 from benchmarks.lane_completion import audio_sources
 from benchmarks.ordered_model import options
 from fast_moss.loading import load_model,REVISION
@@ -11,13 +12,15 @@ from fast_moss.graphs import GraphedCallable
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser();parser.add_argument('--runtime',action='store_true');parser.add_argument('--output',default='results/full_norm_gemv_async_paired.json');args=parser.parse_args()
+    harness.RUNTIME=args.runtime
     selection=json.loads(Path('results/norm_gemv_async_ring_confirm.json').read_text());configs={}
     for row in selection['records']:
         ratios=row['rings'][-1]['speedups'];best=max(ratios,key=ratios.get)
         if ratios[best]>1.005:configs[row['mode']]=tuple(json.loads(best))
     model=load_model();clips,sources=audio_sources();opts=dict(options(),matrix_backend='cuda',ffn_backend='triton',norm_backend='cuda')
     report={'scope':'40 alternating graph pairs per direction and geometry, 200 warmups, five owned calls per sample; same verified weight addresses/layouts after warming both methods; setup/capture excluded; copies/clones included',
-        'previous_commit':'b40b3b4','revision':REVISION,'sources':sources,'configs':configs,'options':opts,'records':[]}
+        'previous_commit':'b40b3b4','integration_parent':'2825122','enabled_in_runtime':args.runtime,'revision':REVISION,'sources':sources,'configs':configs,'options':opts,'records':[]}
     for batch,frames in [(1,1),(8,1),(1,3)]:
         idx=torch.arange(frames*1920,device='cuda')[None]+torch.arange(batch,device='cuda')[:,None]*1920
         x=clips[1][idx%clips[1].numel()][:,None];e=model._encode_frame(x);codes=e.audio_codes
@@ -57,8 +60,8 @@ def main():
         pair_ratios={d:[next(r['ms'] for r in samples if r['pair']==p and r['mode']=='current' and r['direction']==d)/next(r['ms'] for r in samples if r['pair']==p and r['mode']=='candidate' and r['direction']==d) for p in range(40)] for d in operations}
         row={'batch':batch,'frames':frames,'checks':checks,'counts':counts,'stable_storage':True,'restored_bits_equal':True,'samples':samples,'medians_ms':medians,
             'speedups':{d:v['current']/v['candidate'] for d,v in medians.items()},'paired_speedups':pair_ratios,'candidate_wins':{d:sum(v>1 for v in values) for d,values in pair_ratios.items()}}
-        report['records'].append(row);Path('results/full_norm_gemv_async_paired.json').write_text(json.dumps(report,indent=2)+'\n')
+        report['records'].append(row);Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
         print(batch,frames,row['speedups'],row['candidate_wins'],counts,flush=True)
-    report['all_exact']=True;Path('results/full_norm_gemv_async_paired.json').write_text(json.dumps(report,indent=2)+'\n')
+    report['all_exact']=True;Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':main()

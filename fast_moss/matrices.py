@@ -94,6 +94,8 @@ class MatrixRuntime:
         self.norm_gemv_enabled = True
         self.norm_gemv_calls = self.norm_qkv_calls = self.norm_ffn_calls = 0
         self.norm_gemv_warmed = set()
+        self.norm_async_enabled = True
+        self.norm_async_calls = self.norm_async_qkv_calls = self.norm_async_ffn_calls = 0
         self.attention_residual_enabled = True
         self.attention_residual_calls = 0
         self.attention_residual_strided_calls = 0

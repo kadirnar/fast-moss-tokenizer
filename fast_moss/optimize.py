@@ -59,6 +59,8 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     Welford tree and affine arithmetic. Combined with CUDA matrices and FFN
     fusion, it folds one-row 1280-wide normalization into GELU projections;
     the Triton attention-mask path also folds normalization into QKV projections.
+    Both one-row projections stage native FP32 weights with asynchronous shared
+    copies while preserving their original accumulation and normalization order.
     CUDA matrices, FFN fusion and Triton attention masks also fuse square attention
     projections with scale/residual addition for nine native small-row shapes,
     retaining canonical contiguous or dense-transposed output layouts.

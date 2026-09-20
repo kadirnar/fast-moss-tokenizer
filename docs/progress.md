@@ -1456,3 +1456,43 @@ done
 ```
 
 All task handles are terminal: exploratory sweep `13089`, warm-finalist confirmation `29913`, all-schedule ring sweep `2212`, ring confirmation/focused tests/model chain `17747`, and interleaved pairs/compiler/CuTe/streams/profile/full-suite chain `25815`. Every GPU job ran sequentially. This turn is **progress**: it validates a new exact memory pipeline, rejects misleading warm timings, and confirms a small codec gain with two measurement protocols. Production integration and owned-lifetime validation remain the next step. The broader 100× objective remains active and unmet.
+
+
+## 2026-09-20 — Integrate asynchronous normalization/projection weight staging
+
+The previous turn (`2825122`) is **progress**: it established exact shared-memory staging, selected two schedules using distinct-weight rings, and confirmed a small codec gain with restored-context and interleaved graph comparisons. All earlier handles were terminal at this turn's start; only preexisting GPU PID 1718 remained.
+
+`fast_moss/norm_async.py` now provides the selected QKV `(0,128,64,2,8,16,1)` and GELU `(0,128,64,2,0,16,1)` schedules through the existing owned normalization/projection dispatch. They retain original FP32 weights, accumulation and normalization order. CUDA matrices, CUDA normalization and the Triton FFN option select the new path; QKV also uses the Triton attention-mask path. There is no additional persistent weight copy or workspace. Existing hooks, custom methods, gradient/autocast inputs, unsupported layouts and packed weights retain their guarded paths. Capture warmup is now keyed by backend as well as module, mode and stream. Captured direct/asynchronous variants can coexist while storage is stable, and all warmup records clear on context exit.
+
+The initial **107-test** regression group passes in 26.26 seconds. Adding thirteen integration tests gives **120 focused tests in 24.07 seconds**. New coverage checks exact intermediate/output bits, compiler provenance, both residual backends, captured backend switching, per-backend/per-stream warmup, packing invalidation and exception cleanup. The final full suite passes **1,040 tests in 190.18 seconds**.
+
+Both **48-case Triton/CuTe checkpoint gates** preserve original token values, hidden-state bits, waveform bits, captured replay and restored outputs. Seven rotating rounds with 200 extra graph warmups give one-frame batch-one encode **6.568213 → 6.536871 ms (1.00479×)** and decode **5.857654 → 5.824542 ms (1.00568×)**. No-call controls stay within 0.38% of parity.
+
+Forty alternating graph pairs with verified unchanged weight addresses/layouts measure **6.566422 → 6.532391 ms encode** and **5.860277 → 5.831503 ms decode**, with **35 / 40 encoder wins** and **31 / 40 decoder wins**. The two interleaved no-call controls stay within 0.22% of parity. These are modest incremental gains; no historical ratios are multiplied.
+
+Both **162-chunk / 12.96-second** streams preserve every chunk against corrected eager streaming: **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**. One lane activates the new kernels; two lanes are a no-call control. The existing decoder/offline discrepancy is unchanged. Profiles replace 64 direct normalization/projection launches per direction with asynchronous kernels at one frame, preserving total launches **1,184 / 676**. Three-frame launch counts remain **1,242 / 827**, with no new calls.
+
+The production compiler/SASS audit reproduces ten research finalist binaries, including asynchronous instructions in eight variants and none in two synchronous controls. Only two frozen schedules enter runtime dispatch. They retain **39 / 37 registers**, **14,384 / 13,360 shared bytes**, zero local memory instructions and no matrix Tensor Core instructions. The wheel's **32 runtime/profile files** match source and pass an isolated import. A final audit passes **195 cross-report checks**. [Implementation, research and reports](research.md#supported-asynchronous-weight-staging).
+
+Fresh original-versus-optimized one-frame timings are **6.455 ms encode / 5.744 ms decode**, or **7.24× / 6.44×** versus original eager and **1.60× / 1.58×** versus original graphs. Both one- and three-frame matched comparisons use three rotating rounds and 200 extra graph warmups per context; README headlines use these fresh totals.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m pytest tests/test_norm_async_runtime.py tests/test_norm_projection_runtime.py tests/test_attention_residual_runtime.py tests/test_norm_gemv_async_research.py -q
+.venv/bin/python -m benchmarks.norm_gemv_async_resources --runtime
+.venv/bin/python -m benchmarks.norm_gemv_async_model --runtime --rounds 7 --extra-warmup-replays 200 --output results/full_norm_async_runtime.json
+.venv/bin/python -m benchmarks.norm_gemv_async_paired --runtime --output results/full_norm_async_paired.json
+.venv/bin/python -m benchmarks.norm_gemv_async_model --runtime --fidelity-only --residual-backend cute --output results/full_norm_async_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.streaming_fidelity --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_norm_async_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_async_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_async_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_norm_async_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_norm_async_f3.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-norm-async-wheel
+```
+
+All GPU handles are terminal: initial regression tests `83482`, focused/compiler/seven-round model chain `70490`, and paired/CuTe/stream/profile/fresh-comparison/full-suite chain `55129`. Jobs ran sequentially. The CPU package and cross-report audits passed, and the generated build directory was removed. This turn is **progress**: exact asynchronous staging is integrated and validated in the supported runtime. Matrix work remains the dominant target for further optimization. The broader 100× objective remains active and unmet.

@@ -12,11 +12,24 @@ from benchmarks.norm_gemv_async import linear
 from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import REVISION,load_model
 from fast_moss.optimize import optimized
+RUNTIME=False
 
 @contextmanager
 def selected(model,configs):
     import fast_moss.norm_projection as projection
     original=projection.linear;counts={'candidate_calls':0,'qkv_calls':0,'ffn_calls':0}
+    runtime=model._fast_matrix_runtime;previous=runtime.norm_async_enabled
+    if RUNTIME:
+        from fast_moss.norm_async import CONFIGS
+        if configs and configs!=CONFIGS:raise ValueError('Runtime selection differs from validated schedules')
+        before=(runtime.norm_async_calls,runtime.norm_async_qkv_calls,runtime.norm_async_ffn_calls)
+        runtime.norm_async_enabled=bool(configs)
+        try:yield counts
+        finally:
+            counts.update(candidate_calls=runtime.norm_async_calls-before[0],qkv_calls=runtime.norm_async_qkv_calls-before[1],ffn_calls=runtime.norm_async_ffn_calls-before[2])
+            runtime.norm_async_enabled=previous
+        return
+    runtime.norm_async_enabled=False
     def candidate(x,w,g,b,eps,mode,config=None,debug=False,resources=False):
         if mode not in configs:return original(x,w,g,b,eps,mode,config,debug,resources)
         counts['candidate_calls']+=1;counts['qkv_calls' if mode=='none' else 'ffn_calls']+=1
@@ -24,7 +37,10 @@ def selected(model,configs):
     projection.linear=candidate
     try:yield counts
     finally:
-        torch.cuda.synchronize();projection.linear=original
+        torch.cuda.synchronize();projection.linear=original;runtime.norm_async_enabled=previous
+
+def runtime_count(model,counts):
+    return model._fast_matrix_runtime.norm_async_calls if RUNTIME else counts['candidate_calls']
 
 def compare(ref,out):
     return [{**difference(a,b),'bits_equal':torch.equal(
@@ -34,8 +50,10 @@ def compare(ref,out):
 
 @torch.inference_mode()
 def main():
+    global RUNTIME
     parser=argparse.ArgumentParser()
-    parser.add_argument('--selection',default='results/norm_gemv_async_confirm.json')
+    parser.add_argument('--runtime',action='store_true')
+    parser.add_argument('--selection',default='results/norm_gemv_async_ring_confirm.json')
 
     parser.add_argument('--fidelity-only', action='store_true')
     parser.add_argument('--timing-only', action='store_true')
@@ -43,7 +61,7 @@ def main():
     parser.add_argument('--extra-warmup-replays',type=int,default=0)
     parser.add_argument('--residual-backend', choices=['triton','cute'], default='triton')
     parser.add_argument('--output', default='results/full_norm_gemv_async.json')
-    args=parser.parse_args()
+    args=parser.parse_args();RUNTIME=args.runtime
     if args.rounds<1 or args.extra_warmup_replays<0 or (args.timing_only and args.fidelity_only):parser.error('Invalid timing options')
     selection=json.loads(Path(args.selection).read_text());configs={}
     for row in selection['records']:
@@ -52,13 +70,13 @@ def main():
     if not configs:raise SystemExit('No faster confirmed configuration')
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='cuda',ffn_backend='triton',norm_backend='cuda');opts['residual_backend']=args.residual_backend
-    report={'scope':'research asynchronous norm/GEMV weight staging, full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
-        'previous_commit':'b40b3b4','selection_report':args.selection,'revision':REVISION,'torch':torch.__version__,
+    report={'scope':('supported' if RUNTIME else 'research')+' asynchronous norm/GEMV weight staging, full checkpoint and paired current-runtime ablation','candidate_backend':'cuda',
+        'previous_commit':'b40b3b4','integration_parent':'2825122','selection_report':args.selection,'revision':REVISION,'torch':torch.__version__,
         'gpu':torch.cuda.get_device_name(),'sources':sources,'options':opts,
         'configs':configs,
         'fidelity_skipped':args.timing_only,'timing_rounds':args.rounds,
         'timing_scope':'rotating independently restored contexts; five samples of ten graph calls, input copies and owned outputs included; setup/capture/restoration excluded',
-        'cases':[],'timings':[],'enabled_in_runtime':False,'extra_warmup_replays':args.extra_warmup_replays}
+        'cases':[],'timings':[],'enabled_in_runtime':RUNTIME,'extra_warmup_replays':args.extra_warmup_replays}
     output=Path(args.output)
     def save():output.write_text(json.dumps(report,indent=2)+'\n')
     def run(x):
@@ -98,7 +116,7 @@ def main():
                 with optimized(model,**opts),selected(model,configs if backend=='candidate' else {}) as counts:
                     for _,fn,inp in fns:fn(inp)
                     for name,fn,inp in fns:
-                        before=counts['candidate_calls']
+                        before=runtime_count(model,counts)
                         graph=GraphedCallable(fn,inp)
                         checks=compare(refs[name],graph(inp))
                         if not all(c['bits_equal'] for c in checks):raise SystemExit('Timing fidelity mismatch')
@@ -107,7 +125,7 @@ def main():
                         def run_many():
                             for _ in range(10):graph(inp)
                         timing=measure(run_many,warmup=2,repeats=5)
-                        after=counts['candidate_calls']
+                        after=runtime_count(model,counts)
                         entry['results'][name]={'checks':checks,'candidate_capture_calls':after-before,'wall_ms':[v/10 for v in timing['wall_ms_samples']]}
                         del graph
                 entry.update(counts);record['rounds'].append(entry)

@@ -3,7 +3,8 @@
 Each CTA reconstructs the native LayerNorm Welford tree and affine values in
 shared memory, then runs the native eight-lane GEMV reduction. The CTA barrier
 precedes every consumer; each normalized shared-memory slot has one writer.
-Only the two measured configurations below are selected by runtime dispatch.
+The runtime uses validated asynchronous weight staging; the direct-load
+configurations below remain available for paired comparisons.
 """
 import ctypes
 import torch
@@ -155,10 +156,18 @@ def project(runtime,x,norm,module,mode):
         or not t.is_contiguous() or t.data_ptr()%16 for t in (g,b))
         or any(t.requires_grad for t in (g,b,module.weight))):return None
     stream=torch.cuda.current_stream(x.device).cuda_stream
-    key=(id(module),mode,stream)
+    asynchronous=runtime.norm_async_enabled
+    key=(id(module),mode,stream,asynchronous)
     if torch.cuda.is_current_stream_capturing() and key not in runtime.norm_gemv_warmed:
         raise RuntimeError('Warm normalization/projection on the capture stream')
-    out=linear(x.reshape(1,1280),module.weight,g,b,norm.eps,mode)
+    if asynchronous:
+        from .norm_async import linear as staged_linear
+        out=staged_linear(x.reshape(1,1280),module.weight,g,b,norm.eps,mode)
+        runtime.norm_async_calls+=1
+        if mode=='none':runtime.norm_async_qkv_calls+=1
+        else:runtime.norm_async_ffn_calls+=1
+    else:
+        out=linear(x.reshape(1,1280),module.weight,g,b,norm.eps,mode)
     runtime.norm_gemv_warmed.add(key);runtime.norm_gemv_calls+=1
     if mode=='none':runtime.norm_qkv_calls+=1
     else:runtime.norm_ffn_calls+=1
