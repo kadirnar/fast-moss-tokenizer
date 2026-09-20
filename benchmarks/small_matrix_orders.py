@@ -1,4 +1,5 @@
 """Native launch evidence for the short-chunk FP32 matrix arithmetic search."""
+import argparse
 import json
 from pathlib import Path
 import torch
@@ -15,11 +16,18 @@ SHAPES += [(m,n,k) for m in [6,12] for n,k in
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--rows',type=int,nargs='+')
+    parser.add_argument('--all-captured',action='store_true')
+    parser.add_argument('--output',default='results/small_matrix_orders.json')
+    args=parser.parse_args()
     strict_precision()
     cases=torch.load('results/matrix_inputs.pt',weights_only=True)
     report={'scope':'native small-row FP32 matrix launch geometry, ten calls per shape',
             'revision':REVISION,'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),'records':[]}
-    for shape in SHAPES:
+    shapes=sorted(cases) if args.all_captured else SHAPES
+    if args.rows:shapes=[s for s in shapes if s[0] in args.rows]
+    for shape in shapes:
         x,w=cases[shape]['x'],cases[shape]['weight']
         for _ in range(5):F.linear(x,w)
         torch.cuda.synchronize()
@@ -34,7 +42,7 @@ def main():
         report['records'].append({'shape':shape,'kernels':kernels})
         print(shape,sorted({(e['name'],str(e['args'].get('grid')),str(e['args'].get('block')))
                             for e in kernels}),flush=True)
-        Path('results/small_matrix_orders.json').write_text(json.dumps(report,indent=2)+'\n')
+        Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
 
 
 if __name__=='__main__':main()

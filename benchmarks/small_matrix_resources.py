@@ -6,7 +6,7 @@ import torch
 import torch.nn.functional as F
 import triton
 from fast_moss.loading import strict_precision
-from fast_moss.small_matrices import CONFIGS,linear,_small_fixed,_small_grouped,_small_parts,_small_reduce
+from fast_moss.small_matrices import CONFIGS,linear,_small_gemv,_small_fixed,_small_grouped,_small_parts,_small_reduce
 from benchmarks.ffn_resources import resources
 
 @torch.inference_mode()
@@ -19,7 +19,11 @@ def main():
     for shape,config in CONFIGS.items():
         m,n,k=shape;strategy,bm,bn,warps,unroll=config
         x,w=cases[shape]['x'],cases[shape]['weight'];out=torch.empty((m,n),device='cuda')
-        if strategy=='fixed':
+        if strategy=='gemv':
+            kernels=[_small_gemv[(triton.cdiv(n,bn),)](
+                x,w,out,n,k,bm,bn,unroll,num_warps=warps,enable_fp_fusion=False)]
+            scratch=0
+        elif strategy=='fixed':
             kernels=[_small_fixed[(triton.cdiv(n,bn),triton.cdiv(m,bm))](
                 x,w,out,m,n,k,bm,bn,unroll,num_warps=warps,enable_fp_fusion=False)]
             scratch=0

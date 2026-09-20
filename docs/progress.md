@@ -728,3 +728,41 @@ uv build --wheel --out-dir /tmp/moss-fixed-small-wheel
 ```
 
 Component probes reuse `results/matrix_inputs.pt`. All GPU handles are terminal: explicit-row search `38095`, CUDA vector search `71050`, first confirmation `24336`, cold-only diagnostic `40439`, four-shape model probe `40999`, eighteen-shape search `12937`, expanded confirmation `84802`, expanded research model `94679`, focused tests `26325`, and integrated-model/CuTe/stream/incremental/profile/resources/fresh-comparison/full-test chain `90773`. No benchmark or download is intentionally left running. One-row GEMV arithmetic, further weight reuse/prefetching in the now dominant small kernels, FFN epilogue fusion, broader corpora/schedules, network serving, multi-GPU execution and verified 100× acceleration remain open.
+
+## Exact one-frame GEMV kernels
+
+Previous goal turn classification: **progress**, verified at clean commit `f846998`, its twelve native-layout small shapes, exact model/stream reports and 285 passing tests. This turn is **progress**: six exact one-row kernels now accelerate the shortest batch-one chunk. **The 100× whole-model objective remains active and unmet.**
+
+- Researched KBLAS and inspected the pinned native GEMV launch geometry and installed SM120 instructions. The inferred arithmetic uses full-K cyclic FMA lanes, an explicit halving reduction and final addition of +0. Lane count is shape-specific: 32, 16 or 8. Generic `tl.sum` fails the 32-lane probe, and ordinary numeric equality hides negative-zero discrepancies after subnormal underflow. No vendor assembly is redistributed.
+- Saved 336 initial arithmetic hypotheses, 48 full-width arithmetic checks, 60 signed-zero comparisons and **195 exact tuning configurations**. `gemv_confirm.json` records **672 eager/graph comparisons**, all bit-exact, with fourteen activation variants and three alternating warm/evicted timing rounds. Selected warm component gains are roughly **1.69–3.51×**, evicted gains **1.00–2.09×**. The first 68.8 µs native K=5120 timing did not persist: repeated confirmation gives 35.7 µs, so the initial apparent 6.7× ratio is rejected.
+- `small_matrices.py` adds six GEMV shapes, for **eighteen** native-layout configurations. All use the existing opt-in version-gated matrix runtime, stream warmup, hooks, native storage and graph lifetime rules. The twelve previous small and twenty packed ordered configurations remain the ablation baseline. No persistent scratch, weight copy, reduced precision or new dependency is added.
+- `exact_gemv_model.py` preserves the older research-only `gemv_model.py` and freezes the preceding configuration table in `gemv_baseline.json`. Both research wrapper and integrated runtime pass **27 full-model cases** against original eager codes, hidden states, audio, graph replay and restored execution. The integrated one-frame comparison gives **7.520 → 7.417 ms encode (1.0139×)** and **6.686 → 6.598 ms decode (1.0134×)**. Unaffected controls vary about −0.5% to +0.3%. Three alternating independent contexts use five samples of ten graph calls; input copies and owned outputs are timed, setup/capture/restoration excluded.
+- **44 focused tests** pass, extending random-weight, storage, hook, warmup, fallback and graph checks to all eighteen shapes and adding vector/rank-three inputs plus forced signed-zero underflow. Compile and diff checks pass; `gemv_package.json` verifies all **23 runtime/profile files** against the built wheel byte-for-byte, and temporary build output is removed.
+- `full_gemv_cute.json` passes **27 CuTe cases**. `full_gemv_streaming.json` passes all **162 one-frame chunks** across **12.96 seconds**, with exact **5,184 tokens and 311,040 samples** versus corrected original eager streaming. Original and optimized streaming share a maximum **1.349e-6** waveform difference from offline. `full_incremental_gemv.json` retains exact **11,072 tokens / 664,320 samples** through pauses, partial tails, lane reuse and long requests; one/three-fragment schedules take **729.165/731.337 ms encode** and **666.378/668.599 ms decode**, without claiming a new streaming speedup.
+- `full_gemv_profile.json` records **129 / 128 GEMV calls** and **1548 / 944 total kernels** per one-frame encode/decode. GEMV takes **44.27% / 50.61%**, vendor small matrices **26.43% / 28.82%**, and disjoint matrix groups together **71.56% / 80.44%** of kernel time. The next targets are these remaining vendor small shapes and GEMV weight traffic. `gemv_resources.json` checks all eighteen configurations bit-for-bit; new GEMVs use **39–80 registers**, **16–640 shared bytes**, zero spills and no matrix Tensor Core instructions.
+- The fresh **one-frame** upstream comparison in `full_codec_single_frame.json` measures batch-one encoder **47.008 / 10.344 / 7.346 ms** and decoder **37.312 / 9.107 / 6.523 ms** for original eager / original graph / current optimized graph. Total ratios are **6.40× / 5.72×** versus eager and **1.41× / 1.40×** versus original graphs. Batch-eight encoder is **46.869 / 13.899 / 10.802 ms**, decoder **37.990 / 12.492 / 9.595 ms**, or **4.34× / 3.96×** versus eager and **1.29× / 1.30×** versus original graphs. All outputs and restored executions are exact, with peak allocation **7.517 GB**. The three-frame headline remains the preceding direct measurement of that unchanged dispatch geometry; these results do not multiply historical incremental ratios.
+- Full suite: **303 passed in 48.02 seconds**. All GPU jobs completed successfully; compile/diff checks and wheel verification pass.
+
+Reproduction, GPU jobs strictly sequential:
+
+```bash
+.venv/bin/python -m benchmarks.small_arithmetic --rows 1 --wide --output results/gemv_arithmetic.json
+.venv/bin/python -m benchmarks.small_matrix_orders --rows 1 --all-captured --output results/gemv_native_orders.json
+.venv/bin/python -m benchmarks.gemv_order
+.venv/bin/python -m benchmarks.gemv_zero
+.venv/bin/python -m benchmarks.gemv_tune
+.venv/bin/python -m benchmarks.gemv_confirm
+.venv/bin/python -m benchmarks.exact_gemv_model
+.venv/bin/python -m benchmarks.exact_gemv_model --runtime --output results/full_gemv_runtime.json
+.venv/bin/python -m benchmarks.exact_gemv_model --runtime --fidelity-only --residual-backend cute --output results/full_gemv_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_gemv_streaming.json
+.venv/bin/python -m benchmarks.incremental_batching --matrix-backend triton --projection-backend triton --ffn-backend triton --repeats 1 --output results/full_incremental_gemv.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_gemv_profile.json
+.venv/bin/python -m benchmarks.small_matrix_resources --output results/gemv_resources.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --output results/full_codec_single_frame.json
+.venv/bin/python -m pytest tests/test_small_matrices.py -q
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-exact-gemv-wheel
+```
+
+All GPU handles are terminal: initial arithmetic `4122`, full-width arithmetic `97988`, signed-zero probe `59682`, native profiling/tuning chain `20430`, component confirmation `31214`, research model `35266`, focused tests `88160`, and runtime/CuTe/stream/incremental/profile/resources/original-comparison/full-tests chain `45275`. No benchmark is intentionally left running. Remaining vendor small matrices, further GEMV weight reuse/prefetching, FFN epilogue fusion, broader corpora/schedules, network serving, multi-GPU execution and verified 100× whole-model acceleration remain open.

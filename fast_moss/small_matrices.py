@@ -1,7 +1,8 @@
 """Pinned native-layout small-row FP32 matrices with ordered tiled reductions.
 
-Each lane resets its FMA accumulator every 256 K terms. Tile sums precede
-serial lane reduction; interchanging those reductions changes rounding.
+Multi-row lanes reset their FMA accumulator every 256 K terms, then sum
+tiles before serial lane reduction. GEMV uses full-K cyclic lanes and an
+explicit halving reduction, followed by a rounding-preserving add of +0.
 Validated only for the recorded GPU/compiler/model through MatrixRuntime.
 """
 import torch
@@ -9,8 +10,15 @@ import triton
 import triton.language as tl
 
 
-# (M,N,K): (strategy, rows per block, columns per block, warps, unroll).
+# (M,N,K): (strategy, rows per block (GEMV: lanes), columns per block, warps, unroll).
 CONFIGS = {
+    (1, 768, 1280): ('gemv', 32, 4, 2, 32),
+    (1, 1280, 768): ('gemv', 16, 4, 2, 32),
+    (1, 1280, 1280): ('gemv', 16, 4, 2, 4),
+    (1, 1280, 5120): ('gemv', 16, 4, 1, 32),
+    (1, 3840, 1280): ('gemv', 8, 8, 1, 32),
+    (1, 5120, 1280): ('gemv', 8, 8, 1, 32),
+
     (3, 768, 1280): ('fixed', 3, 4, 1, 16),
     (3, 1280, 768): ('fixed', 3, 4, 1, 16),
     (3, 1280, 1280): ('fixed', 3, 4, 1, 16),
@@ -26,6 +34,29 @@ CONFIGS = {
 }
 
 SHAPES = set(CONFIGS)
+
+
+@triton.jit
+def _small_gemv(X,W,Y,N:tl.constexpr,K:tl.constexpr,LANES:tl.constexpr,
+          BN:tl.constexpr,UNROLL:tl.constexpr):
+    n=tl.program_id(0)*BN+tl.arange(0,BN)
+    lane=tl.arange(0,LANES)
+    acc=tl.full((BN,LANES),0,tl.float32)
+    for block in tl.range(tl.cdiv(K,LANES),loop_unroll_factor=UNROLL):
+        k=block*LANES+lane
+        x=tl.load(X+k,k<K,0)
+        w=tl.load(W+n[:,None]*K+k[None,:],(n[:,None]<N)&(k[None,:]<K),0)
+        acc=tl.fma(x[None,:],w,acc)
+    for i in tl.static_range(0,tl.constexpr(LANES.bit_length()-1)):
+        delta=LANES//2 >> i
+        index=tl.broadcast_to(((lane+delta)%LANES)[None,:],(BN,LANES))
+        acc=acc+tl.gather(acc,index,1)
+    out=tl.reshape(tl.gather(acc,tl.full((BN,1),0,tl.int32),1),(BN,))
+    # Preserve native positive zero after negative subnormal underflow.
+    # Plain `out + 0` can be optimized away by the compiler.
+    out=tl.inline_asm_elementwise('add.rn.f32 $0, $1, 0f00000000;',
+        constraints='=f,f',args=[out],dtype=tl.float32,is_pure=True,pack=1)
+    tl.store(Y+n,out,n<N)
 
 
 # Separate row accumulators avoid imposing a power-of-two tensor row axis.
@@ -218,7 +249,10 @@ def linear(x, weight):
         raise ValueError(message)
     strategy, bm, bn, warps, unroll = CONFIGS[shape]
     out = torch.empty((m,n),device=x.device,dtype=x.dtype)
-    if strategy == 'fixed':
+    if strategy == 'gemv':
+        _small_gemv[(triton.cdiv(n,bn),)](
+            x,weight,out,n,k,bm,bn,unroll,num_warps=warps,enable_fp_fusion=False)
+    elif strategy == 'fixed':
         _small_fixed[(triton.cdiv(n,bn),triton.cdiv(m,bm))](
             x,weight,out,m,n,k,bm,bn,unroll,num_warps=warps,enable_fp_fusion=False)
     elif strategy == 'grouped':

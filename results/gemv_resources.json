@@ -1,0 +1,483 @@
+{
+  "scope": "compiled native-layout small matrix resources and bit equality",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "records": [
+    {
+      "shape": [
+        1,
+        768,
+        1280
+      ],
+      "config": [
+        "gemv",
+        32,
+        4,
+        2,
+        32
+      ],
+      "kernels": [
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 640,
+          "ptx_fma_rn_f32": 80,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        768
+      ],
+      "config": [
+        "gemv",
+        16,
+        4,
+        2,
+        32
+      ],
+      "kernels": [
+        {
+          "registers": 39,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 48,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        1280
+      ],
+      "config": [
+        "gemv",
+        16,
+        4,
+        2,
+        4
+      ],
+      "kernels": [
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 4,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "config": [
+        "gemv",
+        16,
+        4,
+        1,
+        32
+      ],
+      "kernels": [
+        {
+          "registers": 80,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        1,
+        3840,
+        1280
+      ],
+      "config": [
+        "gemv",
+        8,
+        8,
+        1,
+        32
+      ],
+      "kernels": [
+        {
+          "registers": 80,
+          "spills": 0,
+          "shared_bytes": 32,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "config": [
+        "gemv",
+        8,
+        8,
+        1,
+        32
+      ],
+      "kernels": [
+        {
+          "registers": 80,
+          "spills": 0,
+          "shared_bytes": 32,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        768,
+        1280
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        1280,
+        768
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        1280,
+        1280
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        1280,
+        5120
+      ],
+      "config": [
+        "split",
+        4,
+        8,
+        4,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 64,
+          "spills": 0,
+          "shared_bytes": 2560,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        },
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 2112,
+          "ptx_fma_rn_f32": 0,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 4915200,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        3840,
+        1280
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        5120,
+        1280
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        6,
+        640,
+        768
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        6,
+        768,
+        768
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        6,
+        768,
+        3072
+      ],
+      "config": [
+        "fixed",
+        8,
+        4,
+        2,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 128,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 128,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        12,
+        384,
+        768
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        12,
+        768,
+        3072
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        12,
+        3072,
+        768
+      ],
+      "config": [
+        "fixed",
+        3,
+        4,
+        1,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 79,
+          "spills": 0,
+          "shared_bytes": 16,
+          "ptx_fma_rn_f32": 96,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    }
+  ],
+  "all_exact": true
+}

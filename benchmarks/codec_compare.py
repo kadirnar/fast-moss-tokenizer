@@ -1,5 +1,6 @@
 """Fresh original-eager/original-graph/current-graph whole-codec comparison."""
 from contextlib import nullcontext
+import argparse
 import json
 from pathlib import Path
 import statistics
@@ -15,19 +16,25 @@ from fast_moss.graphs import GraphedCallable
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--frames',type=int,default=3)
+    parser.add_argument('--batches',type=int,nargs='+',default=[1,8])
+    parser.add_argument('--output',default='results/full_codec_current.json')
+    args=parser.parse_args()
+    if args.frames<1 or any(b<1 for b in args.batches):parser.error('Frames and batches must be positive')
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='triton',ffn_backend='triton')
     report={'scope':'full checkpoint, original eager/original graph/current optimized graph',
             'revision':REVISION,'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),
             'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'options':opts,
-            'input':'speech source (index 1), cyclic 5760-sample windows with lane*1920-sample offsets',
+            'input':f'speech source (index 1), cyclic {args.frames*1920}-sample windows with lane*1920-sample offsets',
             'timing_scope':'three rotating-order rounds, ten single-call samples after three warmups per direction/mode; independent restored contexts, one live graph at a time; graph times include input copies and owned outputs; excludes load, packing, capture and restoration',
             'cases':[]}
     def encode(z):
         e=model._encode_frame(z)
         return e.audio_codes,e.encoder_hidden_states
-    for batch in [1,8]:
-        frames=3
+    for batch in args.batches:
+        frames=args.frames
         idx=torch.arange(frames*1920,device='cuda')[None]+torch.arange(batch,device='cuda')[:,None]*1920
         x=clips[1][idx%clips[1].numel()][:,None]
         enc=model._encode_frame(x);codes=enc.audio_codes
@@ -61,10 +68,10 @@ def main():
         case['all_exact']=all(c['exact'] for row in case['rounds'] for r in row['results'].values() for c in r['checks']) and all(
             c['exact'] for row in case['rounds'] for checks in row['restored'].values() for c in checks)
         report['cases'].append(case)
-        Path('results/full_codec_current.json').write_text(json.dumps(report,indent=2)+'\n')
+        Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     report['all_exact']=all(c['all_exact'] for c in report['cases'])
     report['peak_allocated_bytes']=torch.cuda.max_memory_allocated()
-    Path('results/full_codec_current.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     if not report['all_exact']:raise SystemExit('Whole-codec comparison gate failed')
 
 

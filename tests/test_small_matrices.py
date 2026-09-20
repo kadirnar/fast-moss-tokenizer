@@ -73,3 +73,29 @@ def test_small_helper_validates_operands():
         linear(torch.randn(3,1280),torch.randn(5120,1280))
     with pytest.raises(ValueError,match='supported contiguous'):
         linear(torch.randn(1280),torch.randn(5120,1280))
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('shape',sorted(s for s in CONFIGS if s[0]==1))
+def test_gemv_vector_rank_and_signed_zero(shape):
+    strict_precision();torch.manual_seed(158)
+    _,n,k=shape
+    model=torch.nn.Sequential(torch.nn.Linear(k,n,bias=False)).cuda().eval().requires_grad_(False)
+    for underflow in [False,True]:
+        if underflow:
+            model[0].weight.fill_(.125)
+            vector=torch.full((k,),-1.401298464324817e-45,device='cuda')
+        else:
+            vector=torch.randn(k,device='cuda')
+        inputs=[vector,vector.reshape(1,k),vector.reshape(1,1,k)]
+        expected=[model(x) for x in inputs]
+        if underflow:
+            assert all(torch.count_nonzero(y.view(torch.int32))==0 for y in expected)
+        with MatrixRuntime(model,backend='triton',_profile={'records':[]}) as runtime:
+            for x,ref in zip(inputs,expected):
+                actual=model(x)
+                assert torch.equal(ref.view(torch.int32),actual.view(torch.int32))
+                graph=GraphedCallable(lambda z:(model(z),),x)
+                assert torch.equal(ref.view(torch.int32),graph(x)[0].view(torch.int32))
+                del graph
+            assert runtime.small_calls>0
