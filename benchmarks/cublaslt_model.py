@@ -52,6 +52,8 @@ def experimental(model,selected,resident=False):
         raise ValueError('Experimental matrix replacement requires a frozen evaluation model')
     if getattr(model,'_fast_cublaslt_active',False):
         raise RuntimeError('This model already has a matrix replacement context')
+    if getattr(model,'_fast_matrix_runtime',None) is not None:
+        raise RuntimeError('Cannot combine experimental and supported matrix contexts')
     if resident and any(v['backend'].split('_')[1]!='packed' for v in selected.values()):
         raise ValueError('Resident mode currently requires packed algorithms')
     saved=[];plans={};workspace=torch.empty(32*1024*1024,device=next(model.parameters()).device,dtype=torch.uint8)

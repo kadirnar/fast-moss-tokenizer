@@ -81,6 +81,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--backend', choices=['triton', 'cute'], default='triton')
     parser.add_argument('--repeats', type=int, default=3)
+    parser.add_argument('--matrix-backend', choices=['none', 'cublaslt'], default='none')
     parser.add_argument('--output', default='results/full_incremental_batching.json')
     args = parser.parse_args()
     model = load_model()
@@ -98,7 +99,7 @@ def main():
         'scope': 'full checkpoint; incremental input, original FP32 weights and arithmetic',
         'revision': REVISION, 'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
         'dtype': 'float32', 'tf32': False, 'quantizers': 32, 'batch': batch,
-        'chunk_frames': frames, 'backend': args.backend, 'quantizer_backend': 'triton',
+        'chunk_frames': frames, 'backend': args.backend, 'quantizer_backend': 'triton', 'matrix_backend': args.matrix_backend,
         'sources': sources, 'audio_input_samples': [x.shape[-1] for x in audio],
         'input': 'source i%3 repeated cyclically, starting at (i%8)*1920 samples',
         'reference': 'independent original eager timelines at the same batch shape',
@@ -111,7 +112,8 @@ def main():
         refs = encoded if direction == 'encode' else reference(model, direction, inputs, batch, frames)
         rounds = {'one_fragment': [], 'three_fragments': []}
         with optimized(model, residual_backend=args.backend, kv_backend='triton', rope_backend='triton',
-                       share_rope_tables=True, attention_mask_backend='triton', quantizer_backend='triton'):
+                       share_rope_tables=True, attention_mask_backend='triton', quantizer_backend='triton',
+                       matrix_backend=args.matrix_backend):
             with StreamingBatcher(model, direction, batch, frames) as batcher:
                 # Warm the complete schedule, including all metadata shapes and
                 # tails. A short prefix misses some gather specializations.

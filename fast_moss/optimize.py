@@ -1,5 +1,5 @@
 """Reversible inference transformations, keeping the original FP32 arithmetic."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from types import MethodType
 
 import torch
@@ -35,11 +35,13 @@ def _decode_latents(self, latents):
 @contextmanager
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
               kv_backend="none", rope_backend="none", share_rope_tables=False,
-              attention_mask_backend="none", quantizer_backend="none"):
-    """Temporarily optimize a frozen model; no parameter conversion or retraining.
+              attention_mask_backend="none", quantizer_backend="none", matrix_backend="none"):
+    """Temporarily optimize a frozen model; no precision conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
     Cached normalization uses the exact upstream operations, once per codebook.
+    matrix_backend='cublaslt' explicitly changes weight storage/strides until exit;
+    it invalidates managed graphs on this device and requires the bundled profile.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -59,10 +61,13 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Unknown quantizer backend")
     if quantizer_backend == "triton" and not cache_codebooks:
         raise ValueError("Quantizer fusion requires cached codebooks")
+    if matrix_backend not in {"none", "cublaslt"}:
+        raise ValueError("Unknown matrix backend")
     kernel = scale_add
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
     saved = []
+    matrix_stack = ExitStack()
 
     def replace(obj, name, value):
         saved.append((obj, name, name in obj.__dict__, obj.__dict__.get(name)))
@@ -70,6 +75,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
 
     try:
         replace(model, "_fast_optimization_active", True)
+        if matrix_backend == 'cublaslt':
+            from .matrices import MatrixRuntime
+            matrix_stack.enter_context(MatrixRuntime(model))
         if quantizer_backend == "triton":
             if type(model).__name__ != "MossAudioTokenizerModel" or type(model.quantizer).__name__ != "MossAudioTokenizerResidualLFQ":
                 raise ValueError("Quantizer fusion requires the original MOSS LFQ model")
@@ -131,8 +139,11 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     replace(module, "forward", MethodType(forward, module))
         yield model
     finally:
-        for obj, name, existed, old in reversed(saved):
-            if existed:
-                setattr(obj, name, old)
-            else:
-                delattr(obj, name)
+        try:
+            matrix_stack.close()
+        finally:
+            for obj, name, existed, old in reversed(saved):
+                if existed:
+                    setattr(obj, name, old)
+                else:
+                    delattr(obj, name)

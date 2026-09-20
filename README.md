@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; optional version-gated resident FP32 cuBLASLt matrices.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -41,6 +41,43 @@ uv pip install --python .venv/bin/python -r requirements.lock
 ```
 
 The model loader pins Hugging Face revision `3cd226ba2947efa357ef453bcad111b6eafba782`, requests FP32, and disables TF32. `upstream/` contains unmodified source/configuration for inspection and small structural tests, with the upstream Apache-2.0 headers preserved. Checkpoint files stay in the Hugging Face cache.
+
+## Resident FP32 matrix backend
+
+`optimized(..., matrix_backend="cublaslt")` enables the measured matrix choices as an opt-in runtime option. The bundled profile requires the pinned checkpoint revision, RTX 5070 Ti with 70 SMs, PyTorch 2.8.0+cu128, cuBLASLt 12.8.4, and TF32 disabled. Mismatched environments are rejected; unprofiled shapes and unsupported input layouts use the original contiguous-weight arithmetic.
+
+```python
+import torch
+from fast_moss import load_model
+from fast_moss.graphs import GraphedCallable
+from fast_moss.optimize import optimized
+
+model = load_model()
+x = torch.zeros(8, 1, 5760, device="cuda")
+with torch.inference_mode(), optimized(
+    model, residual_backend="triton", rope_backend="triton", kv_backend="triton",
+    share_rope_tables=True, attention_mask_backend="triton",
+    quantizer_backend="triton", matrix_backend="cublaslt",
+):
+    encode = GraphedCallable(lambda audio: (model._encode_frame(audio).audio_codes,), x)
+    codes = encode(x)[0]
+    del encode
+```
+
+Weights are transposed into resident FP32 storage only when reached by a validated matrix shape. Parameter identity and values are preserved; storage and strides change until restoration on exit. Registered aliases and tied parameters are rejected before mutation. Do not retain external weight-storage aliases, mutate weights, or use raw CUDA graphs across storage transitions. Use one host thread. Each CUDA stream owns separate plans and a 32 MiB workspace; packing and restoration synchronize the device.
+
+Keep sessions and graphs inside the context. **Entering/exiting this backend or packing another weight invalidates all managed `GraphedCallable` objects on that device**, including unrelated graphs. Stale replay raises before submitting GPU work. Warm all needed shapes before constructing a collection of reusable graphs; fixed-shape sessions warm their own path automatically. A later unsupported shape may need a contiguous-weight copy for already packed parameters, so mixed-shape workloads should be measured separately. Create a new graph after a storage transition.
+
+Three alternating paired rounds compare combined encode/decode against the preceding optimized runtime, with quantizer fusion on both sides:
+
+| Batch / input per lane | Previous optimized | With matrices | Additional speedup |
+| --- | ---: | ---: | ---: |
+| 1 / 80 ms | 14.291 ms | 14.293 ms | 1.00× |
+| 1 / 240 ms | 16.967 ms | 16.200 ms | 1.05× |
+| 8 / 240 ms | 30.395 ms | 25.501 ms | 1.19× |
+| 128 / 240 ms | 169.851 ms | 146.823 ms | 1.16× |
+
+All tested codes, hidden states, waveforms, and restored-model results match original eager references. Peak allocated memory stays below 7.8 GB in this ablation. Packing, plan creation, graph capture, and restoration are excluded from steady-state timings; setup and memory are recorded separately. These are additional gains over the previous optimized runtime, not 100× results. [Paired ablation](results/full_matrix_runtime.json), [Triton corpus](results/full_fidelity_matrix_runtime.json), [CuTe corpus](results/full_fidelity_matrix_runtime_cute.json).
 
 ## Streaming
 
@@ -134,7 +171,7 @@ A separate split-cache FP32 attention prototype improves filled-ring streaming b
 
 A cuBLASLt pedantic-FP32 prototype selects measured algorithms and transposed FP32 weight layouts. Its new single-copy mode retains the packed storage and restores the original layout on exit. At batch eight / 240 ms, combined encode/decode falls from **30.916 to 26.019 ms (1.19×)** against the already optimized graph, with peak allocated memory around **7.46 GB** instead of the earlier duplicated-weight prototype's 13.25 GB. Batch 128 improves **169.831 → 146.979 ms (1.16×)** with peak allocation **7.63 GB**. All 18 cases in the batch sweep retain exact tokens, hidden states, audio, and restored-model outputs. [Batch evidence](results/full_cublaslt_batching.json).
 
-The eight-lane 12.96-second stream with pauses, completion, and reuse also remains exact in single-copy mode, with peak allocated memory **8.74 GB**. [Streaming evidence](results/full_cublaslt_resident_streaming.json). The broader tuning passes [684 matrix stress checks](results/cublaslt_large_fidelity.json). This version/hardware-specific experiment stays under `benchmarks/`; use `--resident` with `benchmarks.cublaslt_model` or `benchmarks.cublaslt_streaming`. It temporarily changes parameter storage/strides, so existing graphs and external weight aliases must not cross that context. The supported runtime and speedup table above remain unchanged.
+The eight-lane 12.96-second stream with pauses, completion, and reuse also remains exact in single-copy mode, with peak allocated memory **8.74 GB**. [Streaming evidence](results/full_cublaslt_resident_streaming.json). The broader tuning passes [684 matrix stress checks](results/cublaslt_large_fidelity.json). These historical research tools remain under `benchmarks/`. The supported `matrix_backend="cublaslt"` option described above packages the retained tuning with stream-specific workspaces, graph invalidation, and stronger lifetime checks. Its current measurements include quantizer fusion and are recorded separately; the original upstream-comparison table remains a historical matched measurement.
 
 A later search screened 12,422 vendor configurations. Its selected alternatives preserve tested outputs but change whole-codec latency by less than 1% against the previous prototype, so they have not replaced the default tuning. [Matched comparison](results/full_cublaslt_config_ablation.json), [fresh component confirmation](results/cublaslt_config_confirmation.json).
 

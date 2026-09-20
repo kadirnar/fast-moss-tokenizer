@@ -435,3 +435,41 @@ Reproduction (GPU jobs sequential):
 ```
 
 All GPU jobs are terminal: preliminary full arrivals `84398`, corrected warmed run `76799`, CuTe arrivals `6055`, packing component `67277`, complete-input regression `53221`, and full suite `89983`. The GPU inventory shows only the pre-existing desktop process. Dense FP32 matrix execution remains the dominant bottleneck and supported single-request acceleration remains approximately 5×. Network serving, broader schedules/corpus coverage, multi-GPU execution, faster exact matrix arithmetic, and the requested 100× result remain open.
+
+
+## 2026-09-20, supported resident FP32 matrix backend
+
+Previous goal turn classification: **progress**, verified against clean commit `fc56113`, its incremental scheduler/fragment kernels and exact full-checkpoint reports, and 167 passing tests. This turn is also **progress**: the measured matrix prototype has become an opt-in supported backend with packaged tuning, graph/storage invalidation, per-stream workspaces, and matched full-model improvements. The 100× objective remains active and unmet.
+
+Implementation:
+
+- `optimized(..., matrix_backend="cublaslt")` owns a `MatrixRuntime` for the pinned checkpoint and recorded RTX 5070 Ti / 70-SM / PyTorch 2.8.0+cu128 / cuBLASLt 12.8.4 environment. The bundled profile retains 57 validated packed choices over 16 weight geometries. Explicit pedantic FP32 compute, original weights, and all quantizers remain unchanged. Unknown input shapes/layouts, bias, gradients, and autocast retain the original contiguous-weight path, including the singleton-stride dispatch guard.
+- The shared ctypes binding now lives in `fast_moss.cublaslt`; research tools import compatibility names. Each used CUDA stream owns its plans and a 32 MiB workspace. Calls require one host thread. Supported and experimental contexts reject overlap. Registered parameter/buffer storage aliases and tied names are rejected before mutation; external aliases remain a documented constraint.
+- Weight storage is packed lazily only when a validated shape actually reaches it. Device synchronization protects transitions and restoration. Parameters retain identity and all FP32 values; exit closes plans and restores contiguous storage one weight at a time. Exceptions unwind matrix state and the enclosing optimization transformations.
+- A device-wide storage epoch invalidates managed graphs on context entry/exit and each newly packed weight. Graph warmup may perform packing before taking its final snapshot, but capture cannot create unwarmed plans. Stale replay fails before GPU submission. Context changes inside a captured function are rejected. All managed graphs on that device are conservatively affected, including unrelated models; reusable graph collections should warm all required shapes first. Raw CUDA graphs must obey the documented lifetime constraint.
+- Fidelity, incremental scheduling, and profiling tools accept the new backend. A dedicated paired full-codec benchmark records original eager references, restored outputs, graph timings, setup, and resource/memory accounting. The built wheel includes the profile and all runtime modules.
+
+Evidence and rejected approach:
+
+- `results/full_matrix_runtime_prepack.json`: eager packing of every eligible weight remains exact but regresses small geometries. Batch-one / three-frame time rises from about 17.0 ms to 43.4 ms because unselected operations need repeated contiguous-weight copies. This trial is explicitly superseded; it is not the accepted runtime behavior.
+- `results/full_matrix_runtime.json`: final lazy packing, four batch/frame geometries, three real recording sources each, three alternating paired rounds. All codes, hidden states, audio, and restored-model outputs remain exact against original eager references. Both measured variants include supported quantizer fusion. Combined encode/decode medians are **14.291 / 14.293 ms** at batch one / one frame (no meaningful gain, no selected plans), **16.967 / 16.200 ms** at batch one / three frames (**1.047×**), **30.395 / 25.501 ms** at batch eight / three frames (**1.192×**), and **169.851 / 146.823 ms** at batch 128 / three frames (**1.157×**).
+- Peak allocated memory in those matrix rounds stays below **7.8 GB**, including per-stream workspaces and restoration. Timings measure warmed graphs with input copies and owned outputs. Packing, plan setup, capture, restoration, and model loading are excluded; separate setup records include the first source's eager/capture checks. The new backend is opt-in and does not promise gains for mixed-shape sequences that trigger fallback copies.
+- `results/full_fidelity_matrix_runtime.json` and `full_fidelity_matrix_runtime_cute.json`: **13 cases each, all exact**, including the near-tie speech case, with quantizer fusion and both supported residual backends.
+- `results/full_incremental_matrix_runtime.json`: ten uneven requests, including two beyond ten seconds, preserve **11,072 tokens and 664,320 samples** against independent original eager timelines at batch eight / three frames. Graph identity, stable lanes, late final notifications, partial tails, and reuse remain correct. One-fragment/three-fragment times are **862.576/864.235 ms encode** and **812.515/817.501 ms decode**. These are logical-arrival streaming checks, not a newly paired matrix ablation or network latency measurements.
+- `results/full_matrix_runtime_profile.json`: batch-eight SGEMM-named kernels still account for **77.78% encode / 79.93% decode** kernel time; attention contributes **6.99% / 8.38%**. This is kernel-event attribution, excluding host time and copies. Dense FP32 arithmetic remains the principal bottleneck despite the accepted gain.
+- `results/tests.txt`: **177 passed in 22.46 seconds**. Ten added checks cover lifecycle/restoration, distinct stream workspaces, stale graph rejection, lazy packing after an earlier fallback graph, unchanged storage on new-plan creation, hooks/custom forwards, layout/autocast fallbacks, registered aliases, profile/TF32 rejection, one-thread use, failed-plan cleanup, optimizer unwinding, and capture warmup requirements. Existing research and runtime tests pass. The intentionally empty capture rejection is handled as an expected warning.
+- `results/matrix_runtime_package.json`: `uv build --wheel` succeeds and all **19 runtime/profile files** match wheel contents byte-for-byte. The initial `.venv/bin/python -m pip wheel` attempt found no pip module; the available `uv` builder completed the package check. Compile checks and `git diff --check` pass.
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.matrix_runtime
+.venv/bin/python -m benchmarks.fidelity --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --output results/full_fidelity_matrix_runtime.json
+.venv/bin/python -m benchmarks.fidelity --backend cute --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --output results/full_fidelity_matrix_runtime_cute.json
+.venv/bin/python -m benchmarks.incremental_batching --matrix-backend cublaslt --repeats 1 --output results/full_incremental_matrix_runtime.json
+.venv/bin/python -m benchmarks.profile_graph --batch 8 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --output results/full_matrix_runtime_profile.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-matrix-wheel
+```
+
+All jobs are terminal: profile extraction `15492`, initial focused checks `41034`, preliminary corpus `49865`, rejected prepacking ablation `96369`, corrected focused checks `43712`, final ablation `74823`, final Triton/CuTe corpora `27809`/`63879`, incremental gate `27771`, profile `88799`, and final suite `68774`. No GPU benchmark or download is intentionally left running. The historical approximately 5× single-request upstream comparison is not multiplied by a batch-eight ablation. Broader schedules/corpus coverage, network serving, multi-GPU execution, faster exact matrix arithmetic, and the requested matched-workload 100× result remain open.
