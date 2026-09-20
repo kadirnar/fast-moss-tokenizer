@@ -1,0 +1,953 @@
+{
+  "scope": "full checkpoint, small regression corpus",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "ffn_backend": "triton",
+  "projection_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "triton",
+  "residual_backend": "cute",
+  "rope_backend": "triton",
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "attention_mask_format": "aligned_fp32_additive",
+  "cases": [
+    {
+      "name": "speech_1frames",
+      "samples": 1920,
+      "input_shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      }
+    },
+    {
+      "name": "speech_10frames",
+      "samples": 19200,
+      "input_shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      }
+    },
+    {
+      "name": "speech_40frames",
+      "samples": 76800,
+      "input_shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      }
+    },
+    {
+      "name": "speech_near_tie_b8_f3",
+      "samples": 46080,
+      "input_shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "eight cyclic lanes, 5760 samples each, starts offset by 1920 samples",
+        "regression": "first observed TF32x3 code flip at quantizer 5, lane 6, frame 2 (zero-based)"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      }
+    },
+    {
+      "name": "speech_singleton_b24_f1",
+      "samples": 46080,
+      "input_shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "24 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      }
+    },
+    {
+      "name": "speech_singleton_b128_f1",
+      "samples": 245760,
+      "input_shape": [
+        128,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "128 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        }
+      }
+    },
+    {
+      "name": "environment_1frames",
+      "samples": 1920,
+      "input_shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      }
+    },
+    {
+      "name": "environment_10frames",
+      "samples": 19200,
+      "input_shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      }
+    },
+    {
+      "name": "music_1frames",
+      "samples": 1920,
+      "input_shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      }
+    },
+    {
+      "name": "music_10frames",
+      "samples": 19200,
+      "input_shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      }
+    },
+    {
+      "name": "music_40frames",
+      "samples": 76800,
+      "input_shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      }
+    },
+    {
+      "name": "silence",
+      "samples": 1920,
+      "input_shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      }
+    },
+    {
+      "name": "impulse",
+      "samples": 19200,
+      "input_shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      }
+    },
+    {
+      "name": "full_scale_alternating",
+      "samples": 19200,
+      "input_shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      }
+    },
+    {
+      "name": "tiny_signal",
+      "samples": 1920,
+      "input_shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "encoder_hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      }
+    }
+  ],
+  "all_exact": true,
+  "peak_memory_bytes": 7486543360
+}

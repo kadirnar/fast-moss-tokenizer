@@ -1,4 +1,5 @@
 """Stress and repeat the expanded ordered-matrix candidates using runtime kernels."""
+import argparse
 import json
 from pathlib import Path
 import statistics
@@ -29,9 +30,13 @@ def linear(x,packed,config,return_kernel=False):
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--search',default='results/ordered_shapes.json')
+    parser.add_argument('--output',default='results/ordered_shapes_confirm.json')
+    args=parser.parse_args()
     strict_precision();torch.manual_seed(6318)
     cases=torch.load('results/matrix_inputs.pt',weights_only=True)
-    search=json.loads(Path('results/ordered_shapes.json').read_text())
+    search=json.loads(Path(args.search).read_text())
     profile=json.loads(Path('fast_moss/matrix_profile.json').read_text())
     selected={tuple(r['shape']):r for r in profile['records']}
     report={'scope':'expanded ordered FP32 actual-weight stress, three alternating warm/cold rounds',
@@ -87,9 +92,9 @@ def main():
                'timings':rounds,'medians_ms':medians,'all_exact':all(exact.values())}
             report['records'].append(r)
             print(shape,'exact',exact,'medians',medians,flush=True)
-            Path('results/ordered_shapes_confirm.json').write_text(json.dumps(report,indent=2)+'\n')
+            Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     report['all_exact']=all(r['all_exact'] for r in report['records'])
-    Path('results/ordered_shapes_confirm.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
 
 
 if __name__=='__main__':main()

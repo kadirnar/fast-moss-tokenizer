@@ -4,14 +4,14 @@ Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retainin
 
 Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; version-gated resident FP32 cuBLASLt and ordered Triton matrices; fused LFQ output projections and cached decoder reconstruction; optional FFN pipeline tuning and exact decoder GELU/residual fusion.
 
-Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
+Fresh full-checkpoint measurements on RTX 5070 Ti, one 240 ms speech input, FP32 and all 32 codebooks:
 
-| Operation | Upstream eager | Optimized graph | Speedup |
-| --- | ---: | ---: | ---: |
-| Encode | 47.894 ms | 9.491 ms | 5.05× |
-| Decode | 38.317 ms | 7.820 ms | 4.90× |
+| Operation | Original eager | Original graph | Optimized graph | Speedup vs eager |
+| --- | ---: | ---: | ---: | ---: |
+| Encode | 47.600 ms | 11.801 ms | 8.513 ms | 5.59× |
+| Decode | 37.919 ms | 10.159 ms | 7.093 ms | 5.35× |
 
-These matched measurements include graph input copies and owned output tensors. Setup is separate. Tokens and waveforms match exactly in this run. [Raw samples and setup costs](results/full_compare_lane_reset_240ms.json) include reference graph-only and caching ablations. **This is not a 100× result.**
+Three rotating-order rounds use independent restored contexts and ten samples per mode/direction. Graph timings include input copies and owned outputs; loading, packing and capture are excluded. Tokens, hidden states, waveforms and restored outputs are exact. At batch eight, current graph latency is **10.287 ms encode / 8.732 ms decode**, or **4.83× / 4.52×** versus original eager at the same batch. Relative to the original graph, gains are **1.39× / 1.43×** at batch one and **1.83× / 1.97×** at batch eight. [Current matched comparison](results/full_codec_current.json). The [earlier seeded-input comparison](results/full_compare_lane_reset_240ms.json) remains historical evidence. **100× whole-model acceleration has not been demonstrated.**
 
 Both Triton and CuTe residual paths, combined with Triton RoPE, shared tables, and fused attention masks, pass exact token/hidden-state/audio checks on 12 initial real-audio and edge-case inputs: [Triton](results/full_fidelity_masks.json), [CuTe](results/full_fidelity_masks_cute.json). Two 12.8-second music streams cross the ten-second cache context with exact tokens versus offline encoding and exact waveform equality versus corrected eager streaming. Streamed audio differs from offline decoding by at most 1.70e-6, identically in the corrected eager and optimized paths. [Long-stream evidence](results/full_streaming_masks.json). Paused/resumed/reused lanes also match independent timelines on the full model: [evidence](results/full_parallel_masks.json).
 
@@ -81,7 +81,7 @@ All tested codes, hidden states, waveforms, and restored-model results match ori
 
 ## Ordered Triton matrices
 
-`matrix_backend="triton"` uses explicit FP32 SIMT kernels for fifteen attention/FFN matrix shapes with 24, 48, 96 or 192 rows. The exact geometries, accumulation partitions and tiles are listed in [the runtime configuration](fast_moss/ordered_matrices.py). Other matrix shapes retain the supported cuBLASLt/native paths. It requires the same pinned model, GPU and library profile as `"cublaslt"`, plus Triton 3.4.0. Packing, fallbacks, hooks, workspace ownership and graph lifetime rules remain the same; no additional persistent weight copy is kept.
+`matrix_backend="triton"` uses explicit FP32 SIMT kernels for twenty attention/FFN matrix shapes with 24, 48, 96 or 192 rows. The exact geometries, accumulation partitions and tiles are listed in [the runtime configuration](fast_moss/ordered_matrices.py). Other matrix shapes retain the supported cuBLASLt/native paths. It requires the same pinned model, GPU and library profile as `"cublaslt"`, plus Triton 3.4.0. Packing, fallbacks, hooks, workspace ownership and graph lifetime rules remain the same; no additional persistent weight copy is kept.
 
 Each kernel accumulates consecutive groups of 96–288 terms, then adds partial results in order. The original two FFN shapes use 256 terms. Changing those boundaries changes FP32 results. Compiled main loops use FP32 FMA instructions and no matrix Tensor Core instructions. [Component stress and timing](results/ordered_confirm.json), [compiled kernels](results/ordered_kernel_resources.json).
 
@@ -99,7 +99,7 @@ Expanded singleton-frame gates also exposed an older residual-layout bug. Both r
 
 ## Expanded attention and FFN matrices
 
-The current ordered backend adds thirteen exact matrix shapes, including the repeated attention input projection and several 768-channel transformer matrices. Compared with the preceding two-shape backend, with the same FFN/LFQ optimizations enabled:
+The first expansion added thirteen exact matrix shapes, including the repeated attention input projection and several 768-channel transformer matrices. Compared with the preceding two-shape backend, with the same FFN/LFQ optimizations enabled:
 
 | Batch / frames | Encoder, previous → expanded | Decoder, previous → expanded |
 | --- | ---: | ---: |
@@ -114,6 +114,14 @@ All **1,560 component comparisons**, **27 full-model cases**, the **15-case CuTe
 
 The profile now contains 192 ordered main loops per direction. Total kernels increase by 68 per direction because some replacements need a separate ordered reduction. Matrix-associated work still occupies approximately **78.58% encoder / 81.88% decoder** device kernel time, including fused decoder epilogues. The requested 100× whole-model result remains unproven. [Profile](results/full_ordered_shapes_profile.json), [compiled resources](results/ordered_shapes_resources.json).
 
+## Five further native-matrix replacements
+
+The backend now also covers `(M,N,K)=(24,1280,1280)`, `(48,3072,768)`, `(48,768,768)`, `(192,3072,768)` and `(192,2304,768)`. A wider partition search found exact 96-, 160- and 192-term accumulation groups that the earlier search omitted for native-only shapes. All **600 component comparisons** and **27 full-model cases** pass. [Native launches and search](results/ordered_remaining.json), [stress confirmation](results/ordered_remaining_confirm.json), [full-model fidelity](results/full_ordered_remaining.json).
+
+Against the preceding fifteen-shape backend, independent restored contexts give batch-eight / three-frame encoder time **11.530 → 10.448 ms (1.104×)** and decoder time **9.943 → 8.895 ms (1.118×)**. Batch 24 / one frame improves **1.095× / 1.110×**; batch one / 24 frames improves **1.106× / 1.129×**. Batch one / three frames does not activate the new shapes and is effectively unchanged. These are three alternating rounds, each with five samples of twenty graph calls; copies and owned outputs are included, while loading, packing, capture and restoration are excluded. [Matched fifteen-versus-twenty-shape ablation](results/full_ordered_remaining_ablation.json).
+
+The twenty-shape runtime also passes the **15-case CuTe corpus**, exact long streams with **11,072 tokens / 664,320 samples**, and **259 tests**. Compiled kernels retain FP32 FMA, zero spills and no matrix Tensor Core instructions. The latest profile attributes roughly **76.30% encode / 79.20% decode** device kernel time to matrix-associated work, now mainly the ordered kernels themselves. [CuTe fidelity](results/full_fidelity_ordered_remaining_cute.json), [streams](results/full_incremental_ordered_remaining.json), [compiled resources](results/ordered_remaining_resources.json), [profile](results/full_ordered_remaining_profile.json).
+
 ## FFN pipeline and decoder epilogues
 
 Add `ffn_backend="triton"` to `optimized(...)` with `matrix_backend="triton"` and either residual backend enabled. At the two supported 24-row FFN shapes, it uses two pipeline stages, halving main-loop shared memory to 20,480 bytes. Decoder reductions also compute GELU or scaled residual addition with explicit FP32 rounding. Encoder FFNs retain their existing GELU and residual paths. Other shapes, custom activations/norms, and observer hooks retain the appropriate existing module paths; packing and graph lifetime rules still apply.
@@ -122,7 +130,7 @@ This option requires `nvidia-cuda-nvcc-cu12==12.8.93`, included in `requirements
 
 At batch eight / three frames, eight rotating rounds of 20 graph calls give encoder medians **13.185 → 13.137 ms** and decoder **11.709 → 11.613 ms** versus the preceding ordered-matrix runtime. A separate 40-pair single-call comparison finds no encoder advantage at this geometry. Effects are small and variable; decoder fusion removes 64 kernel launches, but does not establish 100× acceleration. [Five-way ablation](results/full_ffn_ablation.json), [paired samples and 27 exact full-model cases](results/full_ffn_runtime.json), [profile](results/full_ffn_profile.json).
 
-The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **249 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
+The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **259 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
 
 ## LFQ projection and decoder reconstruction
 
@@ -228,7 +236,7 @@ A separate split-cache FP32 attention prototype improves filled-ring streaming b
 
 A cuBLASLt pedantic-FP32 prototype selects measured algorithms and transposed FP32 weight layouts. Its new single-copy mode retains the packed storage and restores the original layout on exit. At batch eight / 240 ms, combined encode/decode falls from **30.916 to 26.019 ms (1.19×)** against the already optimized graph, with peak allocated memory around **7.46 GB** instead of the earlier duplicated-weight prototype's 13.25 GB. Batch 128 improves **169.831 → 146.979 ms (1.16×)** with peak allocation **7.63 GB**. All 18 cases in the batch sweep retain exact tokens, hidden states, audio, and restored-model outputs. [Batch evidence](results/full_cublaslt_batching.json).
 
-The eight-lane 12.96-second stream with pauses, completion, and reuse also remains exact in single-copy mode, with peak allocated memory **8.74 GB**. [Streaming evidence](results/full_cublaslt_resident_streaming.json). The broader tuning passes [684 matrix stress checks](results/cublaslt_large_fidelity.json). These historical research tools remain under `benchmarks/`. The supported `matrix_backend="cublaslt"` option described above packages the retained tuning with stream-specific workspaces, graph invalidation, and stronger lifetime checks. Its current measurements include quantizer fusion and are recorded separately; the original upstream-comparison table remains a historical matched measurement.
+The eight-lane 12.96-second stream with pauses, completion, and reuse also remains exact in single-copy mode, with peak allocated memory **8.74 GB**. [Streaming evidence](results/full_cublaslt_resident_streaming.json). The broader tuning passes [684 matrix stress checks](results/cublaslt_large_fidelity.json). These historical research tools remain under `benchmarks/`. The supported `matrix_backend="cublaslt"` option described above packages the retained tuning with stream-specific workspaces, graph invalidation, and stronger lifetime checks. Its current measurements include quantizer fusion and are recorded separately; the earlier upstream-comparison reports remain historical matched measurements.
 
 A later search screened 12,422 vendor configurations. Its selected alternatives preserve tested outputs but change whole-codec latency by less than 1% against the previous prototype, so they have not replaced the default tuning. [Matched comparison](results/full_cublaslt_config_ablation.json), [fresh component confirmation](results/cublaslt_config_confirmation.json).
 

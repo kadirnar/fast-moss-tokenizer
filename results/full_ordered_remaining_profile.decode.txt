@@ -1,0 +1,37 @@
+Five graph replays; input copies/output clones included. Streaming profiles use a filled ring.
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                              _partials         0.00%       0.000us         0.00%       0.000us       0.000us      31.398ms        70.96%      31.398ms      23.087us          1360
+fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTorchMemEf...         0.00%       0.000us         0.00%       0.000us       0.000us       5.135ms        11.61%       5.135ms      15.103us           340
+                                                _reduce         0.00%       0.000us         0.00%       0.000us       0.000us       2.147ms         4.85%       2.147ms       2.065us          1040
+void at::native::(anonymous namespace)::vectorized_l...         0.00%       0.000us         0.00%       0.000us       0.000us       2.013ms         4.55%       2.013ms       2.960us           680
+void cutlass::Kernel2<cutlass_80_simt_sgemm_128x32_8...         0.00%       0.000us         0.00%       0.000us       0.000us     810.629us         1.83%     810.629us      40.531us            20
+                                             _scale_add         0.00%       0.000us         0.00%       0.000us       0.000us     570.049us         1.29%     570.049us       1.096us           520
+                                            _ffn_reduce         0.00%       0.000us         0.00%       0.000us       0.000us     515.415us         1.16%     515.415us       1.611us           320
+                                                _rotate         0.00%       0.000us         0.00%       0.000us       0.000us     469.604us         1.06%     469.604us       1.381us           340
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us     312.197us         0.71%     312.197us       1.734us           180
+void at::native::vectorized_elementwise_kernel<2, at...         0.00%       0.000us         0.00%       0.000us       0.000us     243.300us         0.55%     243.300us       0.632us           385
+void (anonymous namespace)::elementwise_kernel_with_...         0.00%       0.000us         0.00%       0.000us       0.000us     194.272us         0.44%     194.272us       0.571us           340
+void precomputed_convolve_sgemm<float, 1024, 5, 5, 4...         0.00%       0.000us         0.00%       0.000us       0.000us     120.545us         0.27%     120.545us      24.109us             5
+                                         _decode_tokens         0.00%       0.000us         0.00%       0.000us       0.000us      39.327us         0.09%      39.327us       7.865us             5
+void cutlass::Kernel2<cutlass_80_simt_sgemm_128x64_8...         0.00%       0.000us         0.00%       0.000us       0.000us      33.088us         0.07%      33.088us       6.618us             5
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us      29.890us         0.07%      29.890us       1.494us            20
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us      28.865us         0.07%      28.865us       1.443us            20
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      24.865us         0.06%      24.865us       0.995us            25
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      21.632us         0.05%      21.632us       1.082us            20
+void at::native::vectorized_elementwise_kernel<2, at...         0.00%       0.000us         0.00%       0.000us       0.000us      20.542us         0.05%      20.542us       1.027us            20
+void at::native::unrolled_elementwise_kernel<at::nat...         0.00%       0.000us         0.00%       0.000us       0.000us      19.554us         0.04%      19.554us       0.978us            20
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      17.791us         0.04%      17.791us       1.186us            15
+                                                  _mask         0.00%       0.000us         0.00%       0.000us       0.000us      13.442us         0.03%      13.442us       0.672us            20
+                                            aten::copy_         0.09%      39.047us         0.79%     363.526us      36.353us      11.426us         0.03%      12.387us       1.239us            10
+                         Memcpy DtoD (Device -> Device)         0.00%       0.000us         0.00%       0.000us       0.000us      11.426us         0.03%      11.426us       1.143us            10
+void (anonymous namespace)::elementwise_kernel_with_...         0.00%       0.000us         0.00%       0.000us       0.000us      11.425us         0.03%      11.425us       0.571us            20
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us      10.207us         0.02%      10.207us       1.021us            10
+void at::native::reduce_kernel<512, 1, at::native::R...         0.00%       0.000us         0.00%       0.000us       0.000us       9.920us         0.02%       9.920us       1.984us             5
+void at::native::_assert_async_cuda_kernel<bool>(boo...         0.00%       0.000us         0.00%       0.000us       0.000us       8.256us         0.02%       8.256us       1.651us             5
+void cublasLt::splitKreduce_kernel<32, 16, int, floa...         0.00%       0.000us         0.00%       0.000us       0.000us       7.518us         0.02%       7.518us       1.504us             5
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us       6.303us         0.01%       6.303us       1.261us             5
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 45.860ms
+Self CUDA time total: 44.247ms

@@ -1,0 +1,2584 @@
+{
+  "scope": "full checkpoint expanded ordered matrices, independent packing lifetimes",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "cases": [
+    {
+      "batch": 8,
+      "frames": 3,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.529848250211217,
+                11.515548250099528,
+                11.578652849857463,
+                11.517095650197007,
+                11.530918249991373
+              ],
+              "gpu_ms_per_call": [
+                11.528428649902343,
+                11.5146240234375,
+                11.577662658691406,
+                11.516222381591797,
+                11.529788970947266
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.942648250216735,
+                9.915460450065439,
+                9.922785250091692,
+                9.937176950188586,
+                10.015146650039242
+              ],
+              "gpu_ms_per_call": [
+                9.94080810546875,
+                9.914580535888671,
+                9.921998596191406,
+                9.9363037109375,
+                10.014395141601563
+              ]
+            }
+          },
+          "packed_bytes": 5975343104,
+          "packed_weights": 387,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.478410249925219,
+                10.432294200290926,
+                10.459294199972646,
+                10.44750289984222,
+                10.427282700038631
+              ],
+              "gpu_ms_per_call": [
+                10.476971435546876,
+                10.431454467773438,
+                10.45862045288086,
+                10.446745300292969,
+                10.426569366455078
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.934806549950736,
+                8.887732750008581,
+                8.89684590001707,
+                8.86547320005775,
+                8.887433700147085
+              ],
+              "gpu_ms_per_call": [
+                8.933668518066407,
+                8.886544036865235,
+                8.896109008789063,
+                8.864749145507812,
+                8.886768341064453
+              ]
+            }
+          },
+          "packed_bytes": 7074250752,
+          "packed_weights": 547,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.465349599689944,
+                10.43550829999731,
+                10.466540350171272,
+                10.438148300090688,
+                10.46358079984202
+              ],
+              "gpu_ms_per_call": [
+                10.464282989501953,
+                10.423831939697266,
+                10.4656494140625,
+                10.437137603759766,
+                10.453524780273437
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.889592250125133,
+                8.892860950072645,
+                8.910377499705646,
+                8.874803849903401,
+                8.830348950141342
+              ],
+              "gpu_ms_per_call": [
+                8.888398742675781,
+                8.880825805664063,
+                8.90960464477539,
+                8.874118041992187,
+                8.829633331298828
+              ]
+            }
+          },
+          "packed_bytes": 7074250752,
+          "packed_weights": 547,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.519690699788043,
+                11.557647299923701,
+                11.526217500068014,
+                11.508965400207671,
+                11.531172850300209
+              ],
+              "gpu_ms_per_call": [
+                11.518723297119141,
+                11.556721496582032,
+                11.525459289550781,
+                11.508230590820313,
+                11.530441284179688
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.951760599869885,
+                9.944381149762194,
+                10.000714999841875,
+                9.971225350091117,
+                10.050630749901757
+              ],
+              "gpu_ms_per_call": [
+                9.95013427734375,
+                9.943421173095704,
+                9.999922943115234,
+                9.970294189453124,
+                10.049896240234375
+              ]
+            }
+          },
+          "packed_bytes": 5975343104,
+          "packed_weights": 387,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.553118850133615,
+                11.542011900019133,
+                11.542246300086845,
+                11.526662899996154,
+                11.523522499919636
+              ],
+              "gpu_ms_per_call": [
+                11.551982116699218,
+                11.541152191162109,
+                11.541458892822266,
+                11.525764465332031,
+                11.522357177734374
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.924079350093962,
+                9.923022399743786,
+                9.937086450008792,
+                9.974227050042828,
+                9.926885700042476
+              ],
+              "gpu_ms_per_call": [
+                9.923017883300782,
+                9.92218246459961,
+                9.935953521728516,
+                9.971942138671874,
+                9.925923156738282
+              ]
+            }
+          },
+          "packed_bytes": 5975343104,
+          "packed_weights": 387,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.445114550020662,
+                10.428284800218535,
+                10.448299099880387,
+                10.452224500113516,
+                10.42790210012754
+              ],
+              "gpu_ms_per_call": [
+                10.442366027832032,
+                10.427401733398437,
+                10.447428894042968,
+                10.451283264160157,
+                10.426854705810547
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.961591799743474,
+                8.927381749890628,
+                8.895392350314069,
+                8.938287300043157,
+                8.922808100032853
+              ],
+              "gpu_ms_per_call": [
+                8.96026382446289,
+                8.9262451171875,
+                8.894583892822265,
+                8.937454223632812,
+                8.921924591064453
+              ]
+            }
+          },
+          "packed_bytes": 7074250752,
+          "packed_weights": 547,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "previous": 11.529848250211217,
+          "expanded": 10.44750289984222
+        },
+        "decode": {
+          "previous": 9.942648250216735,
+          "expanded": 8.895392350314069
+        }
+      },
+      "speedups": {
+        "encode": 1.103598473314168,
+        "decode": 1.1177301527195358
+      },
+      "all_exact": true
+    },
+    {
+      "batch": 24,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                12.31976230010332,
+                12.325027249971754,
+                12.322692899761023,
+                12.393708449963015,
+                12.307965049694758
+              ],
+              "gpu_ms_per_call": [
+                12.318635559082031,
+                12.31317596435547,
+                12.321810913085937,
+                12.392825317382812,
+                12.307054138183593
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                11.067872849889682,
+                11.094071350089507,
+                11.091843599933782,
+                11.097331999917515,
+                11.119070049971924
+              ],
+              "gpu_ms_per_call": [
+                11.066729736328124,
+                11.093236541748047,
+                11.090939331054688,
+                11.096456146240234,
+                11.118109130859375
+              ]
+            }
+          },
+          "packed_bytes": 5979275264,
+          "packed_weights": 388,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.25038999998651,
+                11.213825450249715,
+                11.241043300105957,
+                11.265658300180803,
+                11.243692849893705
+              ],
+              "gpu_ms_per_call": [
+                11.248993682861329,
+                11.212937927246093,
+                11.240188598632812,
+                11.264654541015625,
+                11.242724609375
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.970532700026524,
+                10.052033100146218,
+                9.986975749779958,
+                9.99999334999302,
+                10.017956249794224
+              ],
+              "gpu_ms_per_call": [
+                9.969280242919922,
+                10.051107025146484,
+                9.985929870605469,
+                9.999116516113281,
+                10.01705093383789
+              ]
+            }
+          },
+          "packed_bytes": 7078182912,
+          "packed_weights": 548,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.29632424999727,
+                11.255392000020947,
+                11.235632700118003,
+                11.257213450153358,
+                11.255877399889869
+              ],
+              "gpu_ms_per_call": [
+                11.292552185058593,
+                11.252301025390626,
+                11.234591674804687,
+                11.245137786865234,
+                11.255007934570312
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                10.01922064970131,
+                9.94138420028321,
+                9.982490850234171,
+                9.985440899981768,
+                9.991013450053288
+              ],
+              "gpu_ms_per_call": [
+                10.017916870117187,
+                9.940188598632812,
+                9.981587219238282,
+                9.984528350830079,
+                9.990094757080078
+              ]
+            }
+          },
+          "packed_bytes": 7078182912,
+          "packed_weights": 548,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                12.363849699977436,
+                12.324068599991733,
+                12.341008099974715,
+                12.347402199884527,
+                12.323014150024392
+              ],
+              "gpu_ms_per_call": [
+                12.362529754638672,
+                12.322045135498048,
+                12.33987808227539,
+                12.346405029296875,
+                12.321886444091797
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                11.043809100010549,
+                11.059238199959509,
+                11.080065049827681,
+                11.086430049908813,
+                11.096558699864545
+              ],
+              "gpu_ms_per_call": [
+                11.042440032958984,
+                11.058329772949218,
+                11.069894409179687,
+                11.085556793212891,
+                11.09572982788086
+              ]
+            }
+          },
+          "packed_bytes": 5979275264,
+          "packed_weights": 388,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                12.308715700055473,
+                12.322643000152311,
+                12.317598449953948,
+                12.343104600222432,
+                12.34951775004447
+              ],
+              "gpu_ms_per_call": [
+                12.306533050537109,
+                12.321672058105468,
+                12.305719757080078,
+                12.342241668701172,
+                12.348619079589843
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                11.052705900146975,
+                11.082906449883012,
+                11.087058799967053,
+                11.15533569973195,
+                11.054551949928282
+              ],
+              "gpu_ms_per_call": [
+                11.051409912109374,
+                11.08194580078125,
+                11.086022186279298,
+                11.154319763183594,
+                11.053447723388672
+              ]
+            }
+          },
+          "packed_bytes": 5979275264,
+          "packed_weights": 388,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.281322099966928,
+                11.248630849877372,
+                11.260791849781526,
+                11.260771299930639,
+                11.244579749836703
+              ],
+              "gpu_ms_per_call": [
+                11.279261016845703,
+                11.247608184814453,
+                11.259715270996093,
+                11.250777435302734,
+                11.24369125366211
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.983115149952937,
+                10.007001250050962,
+                9.980041349990643,
+                10.011357449911884,
+                9.959997500118334
+              ],
+              "gpu_ms_per_call": [
+                9.981788635253906,
+                10.006057739257812,
+                9.97912139892578,
+                10.010435485839844,
+                9.95909423828125
+              ]
+            }
+          },
+          "packed_bytes": 7078182912,
+          "packed_weights": 548,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "previous": 12.324068599991733,
+          "expanded": 11.255392000020947
+        },
+        "decode": {
+          "previous": 11.086430049908813,
+          "expanded": 9.986975749779958
+        }
+      },
+      "speedups": {
+        "encode": 1.0949479680466747,
+        "decode": 1.110088812436846
+      },
+      "all_exact": true
+    },
+    {
+      "batch": 1,
+      "frames": 24,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.346860350022325,
+                11.35880490001,
+                11.447894149750937,
+                11.375058599878685,
+                11.344335149988183
+              ],
+              "gpu_ms_per_call": [
+                11.345433807373047,
+                11.357810974121094,
+                11.446726226806641,
+                11.373336029052734,
+                11.343392181396485
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.840901200004737,
+                9.85467719983717,
+                9.936613399986527,
+                9.870096799932071,
+                9.885444300016388
+              ],
+              "gpu_ms_per_call": [
+                9.839478302001954,
+                9.853591918945312,
+                9.924603271484376,
+                9.867499542236327,
+                9.883888244628906
+              ]
+            }
+          },
+          "packed_bytes": 5974605824,
+          "packed_weights": 386,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.307486649981001,
+                10.265028450157843,
+                10.240844799773186,
+                10.263076800038107,
+                10.257539299709606
+              ],
+              "gpu_ms_per_call": [
+                10.306334686279296,
+                10.253523254394532,
+                10.23996810913086,
+                10.262290954589844,
+                10.256804656982421
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.66946160022053,
+                8.6681035500078,
+                8.671718899859115,
+                8.681335049914196,
+                8.692089849864715
+              ],
+              "gpu_ms_per_call": [
+                8.657100677490234,
+                8.667179107666016,
+                8.670603179931641,
+                8.680526733398438,
+                8.68004150390625
+              ]
+            }
+          },
+          "packed_bytes": 7073513472,
+          "packed_weights": 546,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.23445075006748,
+                10.250882300169906,
+                10.27018675013096,
+                10.244605949992547,
+                10.28869619985926
+              ],
+              "gpu_ms_per_call": [
+                10.23343505859375,
+                10.250071716308593,
+                10.269390106201172,
+                10.243819427490234,
+                10.287873840332031
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.737363850013935,
+                8.712610600196058,
+                8.778910750334035,
+                8.750349399997503,
+                8.71665774975554
+              ],
+              "gpu_ms_per_call": [
+                8.73406753540039,
+                8.7112060546875,
+                8.777909088134766,
+                8.749540710449219,
+                8.715787506103515
+              ]
+            }
+          },
+          "packed_bytes": 7073513472,
+          "packed_weights": 546,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.341112649824936,
+                11.35047884999949,
+                11.351882999952068,
+                11.354973850029637,
+                11.352043300212245
+              ],
+              "gpu_ms_per_call": [
+                11.33898696899414,
+                11.349533081054688,
+                11.351131439208984,
+                11.354035186767579,
+                11.350625610351562
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.775923150300514,
+                9.82292589978897,
+                9.866759150099824,
+                9.837179799797013,
+                9.871029699934297
+              ],
+              "gpu_ms_per_call": [
+                9.774790191650391,
+                9.822142028808594,
+                9.866027069091796,
+                9.825177764892578,
+                9.8576416015625
+              ]
+            }
+          },
+          "packed_bytes": 5974605824,
+          "packed_weights": 386,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                11.35095524987264,
+                11.372457399920677,
+                11.363136300133192,
+                11.365350450068945,
+                11.35819695009559
+              ],
+              "gpu_ms_per_call": [
+                11.349931335449218,
+                11.371676635742187,
+                11.362252807617187,
+                11.364564514160156,
+                11.35732650756836
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                9.799401499913074,
+                9.80076910018397,
+                9.80360949979513,
+                9.760274149812176,
+                9.781794749869732
+              ],
+              "gpu_ms_per_call": [
+                9.797417449951173,
+                9.799610900878907,
+                9.802732849121094,
+                9.759442901611328,
+                9.781082916259766
+              ]
+            }
+          },
+          "packed_bytes": 5974605824,
+          "packed_weights": 386,
+          "ordered_only_plans": 72,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 18432
+                }
+              ],
+              "wall_ms_per_call": [
+                10.262447749846615,
+                10.336033700150438,
+                10.256076199948438,
+                10.282169000129215,
+                10.278672899949015
+              ],
+              "gpu_ms_per_call": [
+                10.261402893066407,
+                10.335222625732422,
+                10.255332946777344,
+                10.281452941894532,
+                10.277973175048828
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 46080
+                }
+              ],
+              "wall_ms_per_call": [
+                8.711870800107135,
+                8.734265599923674,
+                8.717415800128947,
+                8.743131800292758,
+                8.707003650124534
+              ],
+              "gpu_ms_per_call": [
+                8.710447692871094,
+                8.733433532714844,
+                8.716563415527343,
+                8.742221069335937,
+                8.706006622314453
+              ]
+            }
+          },
+          "packed_bytes": 7073513472,
+          "packed_weights": 546,
+          "ordered_only_plans": 232,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 768
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 18432
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 46080
+              }
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "previous": 11.354973850029637,
+          "expanded": 10.263076800038107
+        },
+        "decode": {
+          "previous": 9.837179799797013,
+          "expanded": 8.712610600196058
+        }
+      },
+      "speedups": {
+        "encode": 1.106390809624213,
+        "decode": 1.1290737358990484
+      },
+      "all_exact": true
+    },
+    {
+      "batch": 1,
+      "frames": 3,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.618011650105473,
+                8.65235749988642,
+                8.650622200002545,
+                8.620736300144927,
+                8.611864599879482
+              ],
+              "gpu_ms_per_call": [
+                8.616741180419922,
+                8.651089477539063,
+                8.649756622314452,
+                8.619828796386718,
+                8.611007690429688
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.175941049717949,
+                7.18814409992774,
+                7.189555749937426,
+                7.1744176999345655,
+                7.217695399958757
+              ],
+              "gpu_ms_per_call": [
+                7.174660491943359,
+                7.187257385253906,
+                7.177845001220703,
+                7.1736610412597654,
+                7.216783905029297
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.653755150226061,
+                8.613978100038366,
+                8.60984124992683,
+                8.617922049961635,
+                8.610054699965985
+              ],
+              "gpu_ms_per_call": [
+                8.652715301513672,
+                8.612985229492187,
+                8.60895233154297,
+                8.617024230957032,
+                8.60919189453125
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.190263599841273,
+                7.1836310999060515,
+                7.175002849908196,
+                7.214555500104325,
+                7.23520350002218
+              ],
+              "gpu_ms_per_call": [
+                7.189107513427734,
+                7.171870422363281,
+                7.174081420898437,
+                7.2132415771484375,
+                7.223260498046875
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.635822850192199,
+                8.68836800000281,
+                8.63433199992869,
+                8.640819799984456,
+                8.633678299884195
+              ],
+              "gpu_ms_per_call": [
+                8.634868621826172,
+                8.687606048583984,
+                8.633454132080079,
+                8.628839874267578,
+                8.632904052734375
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.176317300036317,
+                7.191868700101622,
+                7.213277099799598,
+                7.1801875998062314,
+                7.177579699782655
+              ],
+              "gpu_ms_per_call": [
+                7.175328063964844,
+                7.19111328125,
+                7.212521362304687,
+                7.179512023925781,
+                7.176846313476562
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.63405355012219,
+                8.66544829987106,
+                8.619950399952359,
+                8.619578699654085,
+                8.612619549967349
+              ],
+              "gpu_ms_per_call": [
+                8.633055877685546,
+                8.664726257324219,
+                8.619220733642578,
+                8.618827056884765,
+                8.611854553222656
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.1805538500484545,
+                7.180197650086484,
+                7.212766150041716,
+                7.176130000152625,
+                7.176718100163271
+              ],
+              "gpu_ms_per_call": [
+                7.179492950439453,
+                7.17940673828125,
+                7.21204833984375,
+                7.175421142578125,
+                7.176025390625
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "previous",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.628491549825412,
+                8.63155885017477,
+                8.638959800009616,
+                8.6145191500691,
+                8.619976999762002
+              ],
+              "gpu_ms_per_call": [
+                8.627496337890625,
+                8.619707489013672,
+                8.63821792602539,
+                8.613742065429687,
+                8.619232177734375
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.1741417501471005,
+                7.213480500286096,
+                7.186598249973031,
+                7.191403349861503,
+                7.199827249860391
+              ],
+              "gpu_ms_per_call": [
+                7.173155212402344,
+                7.2035888671875,
+                7.1749427795410154,
+                7.190744018554687,
+                7.199127960205078
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "expanded",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304
+                }
+              ],
+              "wall_ms_per_call": [
+                8.641326799988747,
+                8.613469699776033,
+                8.632159999979194,
+                8.638756949949311,
+                8.615244050088222
+              ],
+              "gpu_ms_per_call": [
+                8.640335845947266,
+                8.61270523071289,
+                8.631275177001953,
+                8.637242889404297,
+                8.614328002929687
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760
+                }
+              ],
+              "wall_ms_per_call": [
+                7.218245550029678,
+                7.197489900136134,
+                7.182319200001075,
+                7.177331300044898,
+                7.2317174501222325
+              ],
+              "gpu_ms_per_call": [
+                7.217113494873047,
+                7.187654113769531,
+                7.181547546386719,
+                7.1765998840332035,
+                7.230948638916016
+              ]
+            }
+          },
+          "packed_bytes": 680214528,
+          "packed_weights": 97,
+          "ordered_only_plans": 0,
+          "restored": {
+            "encode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 96
+              },
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 2304
+              }
+            ],
+            "decode": [
+              {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 5760
+              }
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "previous": 8.620736300144927,
+          "expanded": 8.633678299884195
+        },
+        "decode": {
+          "previous": 7.186598249973031,
+          "expanded": 7.190263599841273
+        }
+      },
+      "speedups": {
+        "encode": 0.9985009865679797,
+        "decode": 0.9994902342845506
+      },
+      "all_exact": true
+    }
+  ],
+  "timing_scope": "three alternating backend rounds, independent optimized contexts restored between backends; each context uses one live graph at a time, five samples of twenty owned graph calls per direction; includes input copies and outputs, excludes load/packing/capture/restoration",
+  "previous_shapes": [
+    [
+      24,
+      768,
+      768
+    ],
+    [
+      24,
+      768,
+      3072
+    ],
+    [
+      24,
+      1280,
+      5120
+    ],
+    [
+      24,
+      2304,
+      768
+    ],
+    [
+      24,
+      3072,
+      768
+    ],
+    [
+      24,
+      3840,
+      1280
+    ],
+    [
+      24,
+      5120,
+      1280
+    ],
+    [
+      48,
+      768,
+      3072
+    ],
+    [
+      48,
+      2304,
+      768
+    ],
+    [
+      96,
+      768,
+      768
+    ],
+    [
+      96,
+      768,
+      3072
+    ],
+    [
+      96,
+      2304,
+      768
+    ],
+    [
+      96,
+      3072,
+      768
+    ],
+    [
+      192,
+      768,
+      768
+    ],
+    [
+      192,
+      768,
+      3072
+    ]
+  ],
+  "previous_commit": "827e69b",
+  "expanded_configs": {
+    "(24, 768, 768)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(24, 768, 3072)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(24, 1280, 1280)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(24, 1280, 5120)": [
+      256,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(24, 2304, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(24, 3072, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(24, 3840, 1280)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(24, 5120, 1280)": [
+      256,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(48, 768, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(48, 768, 3072)": [
+      160,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(48, 2304, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(48, 3072, 768)": [
+      96,
+      64,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(96, 768, 768)": [
+      128,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(96, 768, 3072)": [
+      288,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(96, 2304, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(96, 3072, 768)": [
+      192,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(192, 768, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(192, 768, 3072)": [
+      160,
+      64,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(192, 2304, 768)": [
+      160,
+      64,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(192, 3072, 768)": [
+      192,
+      64,
+      64,
+      32,
+      4,
+      2
+    ]
+  },
+  "all_exact": true,
+  "peak_allocated_bytes": 7729010688
+}

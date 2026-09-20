@@ -3,6 +3,7 @@
 A shared packed-weight lifetime penalizes old native fallback shapes with new
 contiguous copies. This experiment creates each backend in its own context.
 """
+import argparse
 import json
 from pathlib import Path
 import statistics
@@ -20,12 +21,25 @@ import fast_moss.ordered_matrices as ordered
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--previous-configs',help='JSON snapshot of prior shapes and unchanged configurations')
+    parser.add_argument('--output',default='results/full_ordered_shapes_ablation.json')
+    args=parser.parse_args()
+    previous_shapes=PREVIOUS_SHAPES
+    previous_commit=None
+    if args.previous_configs:
+        previous=json.loads(Path(args.previous_configs).read_text())
+        previous_shapes={tuple(s) for s in previous['shapes']}
+        previous_commit=previous['source_commit']
+        if any(tuple(r['config'])!=ordered.CONFIGS.get(tuple(r['shape'])) for r in previous['configs']):
+            raise ValueError('This ablation requires unchanged configs for the previous shapes')
     model=load_model();clips,sources=audio_sources()
     report={'scope':'full checkpoint expanded ordered matrices, independent packing lifetimes',
             'revision':REVISION,'torch':torch.__version__,'gpu':torch.cuda.get_device_name(),
             'dtype':'float32','tf32':False,'quantizers':32,'sources':sources,'cases':[],
             'timing_scope':'three alternating backend rounds, independent optimized contexts restored between backends; each context uses one live graph at a time, five samples of twenty owned graph calls per direction; includes input copies and outputs, excludes load/packing/capture/restoration',
-            'previous_shapes':sorted(PREVIOUS_SHAPES),'expanded_configs':{str(k):v for k,v in ordered.CONFIGS.items()}}
+            'previous_shapes':sorted(previous_shapes),'previous_commit':previous_commit,
+            'expanded_configs':{str(k):v for k,v in ordered.CONFIGS.items()}}
     def encode(z):
         e=model._encode_frame(z)
         return e.audio_codes,e.encoder_hidden_states
@@ -39,7 +53,7 @@ def main():
             r={'batch':b,'frames':t,'rounds':[]}
             for repeat in range(3):
                 for backend in (['previous','expanded'] if repeat%2==0 else ['expanded','previous']):
-                    ordered.SHAPES=set(ordered.CONFIGS) if backend=='expanded' else PREVIOUS_SHAPES
+                    ordered.SHAPES=set(ordered.CONFIGS) if backend=='expanded' else previous_shapes
                     entry={'round':repeat,'backend':backend,'results':{}}
                     with optimized(model,**dict(options(),matrix_backend='triton',ffn_backend='triton')):
                         runtime=model._fast_matrix_runtime
@@ -70,12 +84,12 @@ def main():
             r['all_exact']=all(c['exact'] for entry in r['rounds'] for result in entry['results'].values() for c in result['checks']) and all(
                 c['exact'] for entry in r['rounds'] for checks in entry['restored'].values() for c in checks)
             report['cases'].append(r)
-            Path('results/full_ordered_shapes_ablation.json').write_text(json.dumps(report,indent=2)+'\n')
+            Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     finally:
         ordered.SHAPES=set(ordered.CONFIGS)
     report['all_exact']=all(r['all_exact'] for r in report['cases'])
     report['peak_allocated_bytes']=torch.cuda.max_memory_allocated()
-    Path('results/full_ordered_shapes_ablation.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     if not report['all_exact']:raise SystemExit('Expanded matrix ablation gate failed')
 
 

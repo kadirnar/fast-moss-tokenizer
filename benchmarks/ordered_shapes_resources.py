@@ -1,4 +1,5 @@
 """Inspect compiled runtime resources and arithmetic for every ordered shape."""
+import argparse
 import json
 from pathlib import Path
 import torch
@@ -11,6 +12,9 @@ from benchmarks.ffn_resources import resources
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--output',default='results/ordered_shapes_resources.json')
+    args=parser.parse_args()
     strict_precision()
     cases=torch.load('results/matrix_inputs.pt',weights_only=True)
     report={'scope':'all compiled ordered runtime shapes, PTX/resources and actual-input equality',
@@ -24,7 +28,7 @@ def main():
             'probe_bits_equal':torch.equal(ref.view(torch.int32),out.view(torch.int32)),
             'runtime_bits_equal':torch.equal(ref.view(torch.int32),runtime.view(torch.int32))})
     report['all_exact']=all(r['probe_bits_equal'] and r['runtime_bits_equal'] for r in report['records'])
-    Path('results/ordered_shapes_resources.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     print('all_exact',report['all_exact'],'shapes',len(report['records']))
     if not report['all_exact']:raise SystemExit('Ordered runtime resource gate failed')
 

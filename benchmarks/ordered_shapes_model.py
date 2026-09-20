@@ -2,6 +2,7 @@
 
 Shared-storage timings are confounded; use ordered_shapes_ablation for speedups.
 """
+import argparse
 import json
 from pathlib import Path
 import statistics
@@ -23,6 +24,10 @@ PREVIOUS_SHAPES = {(24,5120,1280),(24,1280,5120)}
 
 @torch.inference_mode()
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--fidelity-only',action='store_true')
+    parser.add_argument('--output',default='results/full_ordered_shapes.json')
+    args=parser.parse_args()
     model=load_model();clips,sources=audio_sources()
     opts=dict(options(),matrix_backend='triton',ffn_backend='triton')
     report={'scope':'full checkpoint, expanded ordered matrix fidelity and 40 interleaved paired graph samples',
@@ -32,6 +37,11 @@ def main():
             'matrix_configs':{str(k):v for k,v in ordered.CONFIGS.items()},'cases':[],'timings':[],
             'dispatch':'previous two ordered FFN shapes versus expanded attention/FFN matrices; both include the accepted FFN epilogues',
             'timing_scope':'same packed-weight lifetime, two graphs per direction; includes graph input copies and owned outputs; excludes loading, packing, capture and restoration'}
+    if args.fidelity_only:
+        report['scope']='full checkpoint expanded ordered matrix fidelity, original eager and restored references'
+        report['dispatch']='all configured ordered matrices plus the accepted FFN epilogues'
+        report.pop('timing_caveat')
+        report.pop('timing_scope')
     def run(x):
         enc=model._encode_frame(x)
         return enc.audio_codes,enc.encoder_hidden_states,model._decode_frame(enc.audio_codes).audio
@@ -55,9 +65,9 @@ def main():
         r['comparisons']['restored']={label:difference(ref,out) for label,ref,out in zip(['codes','hidden','audio'],reference,restored)}
         r['all_exact']=all(v['exact'] for mode in r['comparisons'].values() for v in mode.values())
         report['cases'].append(r);print(name,r['all_exact'],r['ffn_calls'],flush=True)
-        Path('results/full_ordered_shapes.json').write_text(json.dumps(report,indent=2)+'\n')
+        Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
         del reference,restored,x
-    for b,t in [(8,3),(24,1),(1,24)]:
+    for b,t in ([] if args.fidelity_only else [(8,3),(24,1),(1,24)]):
         idx=torch.arange(t*1920,device='cuda')[None]+torch.arange(b,device='cuda')[:,None]*1920
         x=clips[1][idx%clips[1].numel()][:,None]
         enc=model._encode_frame(x);codes=enc.audio_codes
@@ -95,11 +105,11 @@ def main():
                 del graph
                 graphs.clear()
         report['timings'].append(case)
-        Path('results/full_ordered_shapes.json').write_text(json.dumps(report,indent=2)+'\n')
+        Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     report['all_exact']=all(r['all_exact'] for r in report['cases']) and all(
         c['exact'] for case in report['timings'] for result in case['results'].values() for checks in result['checks'].values() for c in checks)
     report['peak_allocated_bytes']=torch.cuda.max_memory_allocated()
-    Path('results/full_ordered_shapes.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path(args.output).write_text(json.dumps(report,indent=2)+'\n')
     if not report['all_exact']:raise SystemExit('Expanded ordered matrix full-model gate failed')
 
 

@@ -1,0 +1,2540 @@
+{
+  "scope": "full checkpoint expanded ordered matrix fidelity, original eager and restored references",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "triton",
+    "projection_backend": "triton",
+    "ffn_backend": "triton"
+  },
+  "matrix_configs": {
+    "(24, 768, 768)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(24, 768, 3072)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(24, 1280, 1280)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(24, 1280, 5120)": [
+      256,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(24, 2304, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(24, 3072, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(24, 3840, 1280)": [
+      96,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(24, 5120, 1280)": [
+      256,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(48, 768, 768)": [
+      96,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(48, 768, 3072)": [
+      160,
+      32,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(48, 2304, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(48, 3072, 768)": [
+      96,
+      64,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(96, 768, 768)": [
+      128,
+      32,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(96, 768, 3072)": [
+      288,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(96, 2304, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(96, 3072, 768)": [
+      192,
+      32,
+      128,
+      32,
+      4,
+      2
+    ],
+    "(192, 768, 768)": [
+      128,
+      32,
+      64,
+      32,
+      4,
+      2
+    ],
+    "(192, 768, 3072)": [
+      160,
+      64,
+      64,
+      32,
+      4,
+      3
+    ],
+    "(192, 2304, 768)": [
+      160,
+      64,
+      128,
+      32,
+      4,
+      3
+    ],
+    "(192, 3072, 768)": [
+      192,
+      64,
+      64,
+      32,
+      4,
+      2
+    ]
+  },
+  "cases": [
+    {
+      "name": "speech_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_near_tie_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "eight cyclic lanes, 5760 samples each, starts offset by 1920 samples",
+        "regression": "first observed TF32x3 code flip at quantizer 5, lane 6, frame 2 (zero-based)"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "24 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b128_f1",
+      "shape": [
+        128,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14",
+        "bytes": 108844,
+        "transform": "128 cyclic lanes, 1920 samples each, starts offset by 1920 samples",
+        "regression": "canonical residual output strides must preserve downstream matrix dispatch"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "source": "https://download.pytorch.org/torchaudio/tutorial-assets/steam-train-whistle-daniel_simon.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9",
+        "bytes": 437516
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "source": "https://librosa.org/data/audio/Kevin_MacLeod_-_Vibe_Ace.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a",
+        "bytes": 380332
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "silence",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "impulse",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "full_scale_alternating",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "tiny_signal",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "source": null,
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920
+          }
+        }
+      },
+      "triton_calls": 0,
+      "ffn_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "music_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "music_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/music.ogg",
+        "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/speech.wav",
+        "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f24",
+      "shape": [
+        1,
+        1,
+        46080
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b2_f12",
+      "shape": [
+        2,
+        1,
+        23040
+      ],
+      "source": {
+        "path": "data/environment.wav",
+        "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+      },
+      "comparisons": {
+        "eager": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "graph": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        },
+        "restored": {
+          "codes": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768
+          },
+          "hidden": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "audio": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080
+          }
+        }
+      },
+      "triton_calls": 2720,
+      "ffn_calls": 320,
+      "all_exact": true
+    }
+  ],
+  "timings": [],
+  "dispatch": "all configured ordered matrices plus the accepted FFN epilogues",
+  "all_exact": true,
+  "peak_allocated_bytes": 7667200000
+}
