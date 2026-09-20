@@ -473,3 +473,45 @@ uv build --wheel --out-dir /tmp/moss-matrix-wheel
 ```
 
 All jobs are terminal: profile extraction `15492`, initial focused checks `41034`, preliminary corpus `49865`, rejected prepacking ablation `96369`, corrected focused checks `43712`, final ablation `74823`, final Triton/CuTe corpora `27809`/`63879`, incremental gate `27771`, profile `88799`, and final suite `68774`. No GPU benchmark or download is intentionally left running. The historical approximately 5× single-request upstream comparison is not multiplied by a batch-eight ablation. Broader schedules/corpus coverage, network serving, multi-GPU execution, faster exact matrix arithmetic, and the requested matched-workload 100× result remain open.
+
+
+## 2026-09-20, exact LFQ projection fusion and cached decoder reconstruction
+
+Previous goal turn classification: **progress**, verified against clean commit `2c10a74`, its supported matrix backend, exact full-model/streaming reports, and 177 passing tests. This turn is also **progress**: new Triton kernels remove repeated quantizer projections and decoder reconstruction work, with exact full-model gates and additional matched latency reductions. The 100× whole-model objective remains active and unmet.
+
+Implementation:
+
+- `projection_backend="triton"` enables an eight-channel output projection with the measured forward FMA order and separate bias rounding. With quantizer fusion, the unobserved encoder path combines projection, masking, residual subtraction, and next-step masking. Straight-through latents are retained; decoder lookup values are not substituted into encoder residuals. Input projections remain unchanged.
+- The decoder caches all original FP32 projected codebook entries in a **64 MiB** tensor and gathers/adds them in the original codebook order. Its final output projection remains native. Token-oriented gather tiles coalesce table reads for multi-frame input; one-frame input retains the flat layout. Bounds checks preserve asynchronous CUDA assertion behavior, and extra codebooks beyond the model count retain the original ignore behavior.
+- The option requires cached convolution weights, the original 32-codebook LFQ geometry, the recorded RTX 5070 Ti / 70-SM / PyTorch 2.8.0+cu128 / cuDNN 9.10.2 environment, and enabled cuDNN with TF32/benchmark disabled. Autocast, observer hooks, and unsupported singleton layouts retain native paths. Cache construction uses functional convolutions and does not emit projection observer calls.
+- Guarded cache entry/exit synchronize the device and invalidate managed graphs on it, including unrelated graphs, preventing replay after table cleanup. Raw graphs must remain within the documented context lifetime. Methods/cache attributes restore after normal exit, body exceptions, and partial setup failure. The wheel packages the new runtime module.
+
+Evidence and rejected alternatives:
+
+- `results/pointwise_projection_probe.json`: the first actual output weight is exact with forward FMA at all five geometries. Reverse order, split accumulators, separate multiply/add, and small-shape `linear()` substitutions alter rounding. Component native/fused ratios range **2.13–5.99×**, excluding metadata/model execution. `results/pointwise_input_probe.json`: the 512-channel input projection changes seven of eight outputs at batch one / one frame; the other four tested shapes are exact but run only **0.226–0.412×** as fast as native convolution. This input path is rejected and remains research-only.
+- The first projection tests exposed a singleton-time stride mismatch, despite equal values: `(512,1,1)` versus `(512,1,512)`. The accepted implementation falls back to cuDNN for that noncanonical case. Corrected focused tests pass.
+- `results/projection_components.json`: **864 exact learned-weight checks**, covering every output projection, five activation geometries, zero/normal/tiny/large inputs and graph replay, plus all entries of all 32 codebooks under different projection layouts. `results/projected_gather.json`: twelve exact mode/geometry checks, with approximately **1.2–9.0×** faster multi-frame component gathers after coalescing reads. This uses a resident random table and excludes validation/allocation/final projection/model work.
+- `results/full_projection_runtime.json`: five geometries, three alternating paired rounds, all eager/graph codes, decoded audio, and decoder quantizer outputs exact against original eager references. The baseline already includes supported matrix and quantizer optimizations. At batch one / three frames, encoder time is **8.694 → 8.571 ms**, decoder **7.381 → 7.159 ms**, and decoder quantizer reconstruction **0.253 → 0.059 ms (4.29×)**. Batch-eight encoder/decoder gains are **1.022× / 1.026×**. Across all geometries, reconstruction gains are **3.14–6.16×**; whole-model gains remain approximately 1–3% for smaller shapes and below 1% for larger ones. The preliminary flat-gather ablation is retained separately as `full_projection_runtime_flat.json` and is superseded by the final table-layout measurements.
+- Those warmed timings include input copies and owned outputs, excluding loading, cache construction, packing, capture, and restoration. Peak allocated memory stays below **7.83 GB** in the ablation. The explicit table payload is 64 MiB; allocator/model peak differences are not treated as its size.
+- `results/full_fidelity_projections.json` and `full_fidelity_projections_cute.json`: **13 cases each, all exact**, including the near-tie speech regression. `results/full_incremental_projections.json`: exact **11,072 tokens and 664,320 samples**, with pauses, partial tails, late completion, stable lanes/reuse, and two requests beyond ten seconds. One-fragment/three-fragment logical schedules take **858.565/862.393 ms encode** and **806.605/807.591 ms decode**. These streaming checks are not an independent paired matrix/projection ablation or network latency claim.
+- `results/full_projection_profile.json`: **1856 → 1763 encoder kernels**, **1278 → 1091 decoder kernels** versus the previous matrix profile. The encoder has 31 fused projection/update kernels and no separate quantizer update kernels; the decoder has one projected-table gather. SGEMM-named kernels still consume **77.67% / 80.93%** of encoder/decoder kernel time, excluding host work and copies. Dense FP32 matrices remain the main target.
+- `results/tests.txt`: **192 passed in 32.59 seconds**. Fifteen new tests cover arithmetic/layout/bias/graphs, all cached codebook entries, codebook counts including zero and ignored extras, int32 fallback and strided codes, hooks/autocast, model/option validation, exact masked updates, full structural encoder/decoder composition, isolated invalid-index assertions, cache setup/body cleanup, and stale graph rejection. Compile checks and `git diff --check` pass.
+- `results/projection_package.json`: `uv build --wheel` succeeds; all **20 runtime/profile files** match packaged contents byte-for-byte.
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.pointwise_projection
+.venv/bin/python -m benchmarks.pointwise_projection --input-projection
+.venv/bin/python -m benchmarks.projection_components
+.venv/bin/python -m benchmarks.projected_gather
+.venv/bin/python -m benchmarks.projection_runtime
+.venv/bin/python -m benchmarks.fidelity --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --projection-backend triton --output results/full_fidelity_projections.json
+.venv/bin/python -m benchmarks.fidelity --backend cute --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --projection-backend triton --output results/full_fidelity_projections_cute.json
+.venv/bin/python -m benchmarks.incremental_batching --matrix-backend cublaslt --projection-backend triton --repeats 1 --output results/full_incremental_projections.json
+.venv/bin/python -m benchmarks.profile_graph --batch 8 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cublaslt --projection-backend triton --output results/full_projection_profile.json
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-projections-wheel
+```
+
+All jobs are terminal: initial output/input probes `8562`/`64636`, timed probes `33257`/`97206`, initial stride-failing tests `58566`, corrected tests `11474`, preliminary corpus `12728`, fused tests `88274`, intermediate corpus `84525`, flat ablation `44921`, all-weight components `9910`, gather comparison `84679`, final ablation `66393`, final CuTe/Triton corpora `58182`/`45411`, incremental stream `5807`, profile `58541`, and full suite `78156`. No benchmark or download is intentionally left running. The historical approximately 5× whole-model comparison is not multiplied by a component gain. Broader workloads, network serving, multi-GPU execution, faster exact dense arithmetic, and a defensible matched-workload 100× result remain open.

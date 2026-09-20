@@ -35,13 +35,16 @@ def _decode_latents(self, latents):
 @contextmanager
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
               kv_backend="none", rope_backend="none", share_rope_tables=False,
-              attention_mask_backend="none", quantizer_backend="none", matrix_backend="none"):
+              attention_mask_backend="none", quantizer_backend="none", matrix_backend="none",
+              projection_backend="none"):
     """Temporarily optimize a frozen model; no precision conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
     Cached normalization uses the exact upstream operations, once per codebook.
     matrix_backend='cublaslt' explicitly changes weight storage/strides until exit;
     it invalidates managed graphs on this device and requires the bundled profile.
+    projection_backend='triton' adds eight-channel LFQ projection kernels and a
+    64 MiB decoder table; it requires cached weights and the validated environment.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -63,6 +66,13 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Quantizer fusion requires cached codebooks")
     if matrix_backend not in {"none", "cublaslt"}:
         raise ValueError("Unknown matrix backend")
+    if projection_backend not in {'none', 'triton'}:
+        raise ValueError('Unknown projection backend')
+    if projection_backend == 'triton':
+        if not cache_weights:
+            raise ValueError('Projection kernels require cached convolution weights')
+        from .projections import validate
+        validate(model)
     kernel = scale_add
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
@@ -78,6 +88,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         if matrix_backend == 'cublaslt':
             from .matrices import MatrixRuntime
             matrix_stack.enter_context(MatrixRuntime(model))
+        if projection_backend == 'triton':
+            from .projections import cache_lifetime
+            matrix_stack.enter_context(cache_lifetime(next(model.parameters()).device))
         if quantizer_backend == "triton":
             if type(model).__name__ != "MossAudioTokenizerModel" or type(model.quantizer).__name__ != "MossAudioTokenizerResidualLFQ":
                 raise ValueError("Quantizer fusion requires the original MOSS LFQ model")
@@ -137,6 +150,22 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     from .quantizer import decode_latents, forward
                     replace(module, "decode_latents", MethodType(decode_latents, module))
                     replace(module, "forward", MethodType(forward, module))
+        if projection_backend == 'triton':
+            from .projections import forward as project_forward, decode_codes
+            q = model.quantizer
+            with torch.inference_mode(), torch.autocast('cuda', enabled=False):
+                table = torch.empty((32, 1024, 512), device=next(model.parameters()).device, dtype=torch.float32)
+                for i, quantizer in enumerate(q.quantizers):
+                    conv = quantizer.out_proj
+                    # Use the original convolution arithmetic once per frozen
+                    # entry. Direct functional calls do not emit observer hooks.
+                    values = F.conv1d(quantizer.codebook.weight.T[None], conv._fast_weight, conv.bias)
+                    table[i].copy_(values[0].T)
+                    replace(conv, '_fast_original_projection', conv.forward)
+                    replace(conv, 'forward', MethodType(project_forward, conv))
+            replace(q, '_fast_projected_codebooks', table)
+            replace(q, '_fast_original_decode_codes', q.decode_codes)
+            replace(q, 'decode_codes', MethodType(decode_codes, q))
         yield model
     finally:
         try:

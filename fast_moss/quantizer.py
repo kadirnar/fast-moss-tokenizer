@@ -120,6 +120,17 @@ def residual_forward(self, z, input_length, n_quantizers=None):
             # No later residual consumes the final projection; retain the exact
             # normalized distance calculation needed for the final code.
             _, indices = quantizer.decode_latents(quantizer.in_proj(masked.float()).float())
+        elif codes_only and hasattr(self, '_fast_projected_codebooks'):
+            from .projections import can_fuse_update, project_update
+            if can_fuse_update(residual, quantizer):
+                latent = quantizer.in_proj(masked.float()).float()
+                latent, indices = decode_latents(quantizer, latent, straight_through=True)
+                residual, masked = project_update(latent.contiguous(), quantizer.out_proj._fast_weight,
+                                                   quantizer.out_proj.bias, residual, mask)
+            else:
+                update, indices, _ = quantizer(masked)
+                residual = residual - update * mask3
+                masked = residual * mask3
         else:
             update, indices, _ = quantizer(masked)
             if (residual.is_cuda and residual.dtype == torch.float32 and residual.is_contiguous()

@@ -8,7 +8,8 @@ class GraphedCallable:
 
     Stateful streaming functions must reset their caches after construction.
     Calls are serialized on the CUDA stream used during construction.
-    Resident matrix storage transitions invalidate managed graphs on the device.
+    Resident matrix transitions and guarded cache lifetimes invalidate managed
+    graphs on the device.
     Warm every required matrix shape before capturing reusable graph collections.
     """
 
@@ -30,7 +31,7 @@ class GraphedCallable:
                 fn(*self.inputs)
         self.stream.wait_stream(side)
         if lifecycle != storage_epoch.lifecycle(self.device):
-            raise RuntimeError('Matrix storage contexts must enclose graph construction')
+            raise RuntimeError('Optimization contexts must enclose graph construction')
         # Warmup may lazily pack newly reached matrix shapes. Older graphs are
         # invalidated, while this graph captures only the resulting storage.
         self.storage_epoch = storage_epoch.current(self.device)
@@ -46,7 +47,7 @@ class GraphedCallable:
     @torch.inference_mode()
     def __call__(self, *args):
         if self.storage_epoch != storage_epoch.current(self.device):
-            raise RuntimeError('Matrix storage changed; construct a new graph in the active context')
+            raise RuntimeError('Matrix storage changed or cached resources expired; construct a new graph in the active context')
         if torch.cuda.current_stream(self.device) != self.stream:
             raise RuntimeError("Use this graph on its construction stream")
         if len(args) != len(self.inputs):

@@ -1,0 +1,118 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.24,
+  "batch": 8,
+  "streaming": false,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "cublaslt",
+  "projection_backend": "triton",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 13.041577502008295,
+      "gpu_ms_median": 13.02780818939209,
+      "wall_ms_samples": [
+        13.573381998867262,
+        13.038151002547238,
+        13.018213001487311,
+        13.600512000266463,
+        13.015006996283773,
+        13.547833004849963,
+        13.045004001469351,
+        13.017861994740088,
+        13.640899000165518,
+        13.019846999668516
+      ],
+      "gpu_ms_samples": [
+        13.553376197814941,
+        13.023551940917969,
+        13.00601577758789,
+        13.587679862976074,
+        13.001791954040527,
+        13.536352157592773,
+        13.032064437866211,
+        13.00598430633545,
+        13.626144409179688,
+        13.006112098693848
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 12.783341199999999,
+        "kernels_per_replay": 1763.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 31.0,
+        "decoder_gather_per_replay": 0.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 9.9282088,
+            "percent": 77.6652100938994
+          },
+          "attention": {
+            "ms_per_replay": 0.9115704,
+            "percent": 7.130924425298137
+          }
+        }
+      }
+    },
+    "decode": {
+      "wall_ms_median": 11.620073000813136,
+      "gpu_ms_median": 11.602719783782959,
+      "wall_ms_samples": [
+        11.6178989992477,
+        11.603170998569112,
+        12.21242199972039,
+        11.622247002378572,
+        11.58777199452743,
+        12.47091999539407,
+        11.605596002482343,
+        11.573584997677244,
+        12.071776000084355,
+        11.623639999015722
+      ],
+      "gpu_ms_samples": [
+        11.59823989868164,
+        11.588671684265137,
+        12.198687553405762,
+        11.607199668884277,
+        11.574912071228027,
+        12.457599639892578,
+        11.590559959411621,
+        11.560128211975098,
+        11.871071815490723,
+        11.607199668884277
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 11.5149692,
+        "kernels_per_replay": 1091.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 0.0,
+        "decoder_gather_per_replay": 1.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 9.3194898,
+            "percent": 80.9336928143933
+          },
+          "attention": {
+            "ms_per_replay": 0.9764138,
+            "percent": 8.479517253072636
+          }
+        }
+      }
+    }
+  }
+}

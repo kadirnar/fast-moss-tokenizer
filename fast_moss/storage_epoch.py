@@ -1,4 +1,4 @@
-"""Invalidate managed CUDA graphs across explicit parameter-storage transitions."""
+"""Invalidate managed CUDA graphs across storage and guarded cache lifetimes."""
 
 _epochs = {}
 _contexts = {}

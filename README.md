@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; optional version-gated resident FP32 cuBLASLt matrices.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion; optional version-gated resident FP32 cuBLASLt matrices; fused LFQ output projections and cached decoder reconstruction.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -78,6 +78,18 @@ Three alternating paired rounds compare combined encode/decode against the prece
 | 128 / 240 ms | 169.851 ms | 146.823 ms | 1.16× |
 
 All tested codes, hidden states, waveforms, and restored-model results match original eager references. Peak allocated memory stays below 7.8 GB in this ablation. Packing, plan creation, graph capture, and restoration are excluded from steady-state timings; setup and memory are recorded separately. These are additional gains over the previous optimized runtime, not 100× results. [Paired ablation](results/full_matrix_runtime.json), [Triton corpus](results/full_fidelity_matrix_runtime.json), [CuTe corpus](results/full_fidelity_matrix_runtime_cute.json).
+
+## LFQ projection and decoder reconstruction
+
+Add `projection_backend="triton"` to `optimized()` to accelerate the 32 LFQ output projections and decoder codebook reconstruction. It requires cached convolution weights, the original LFQ geometry, RTX 5070 Ti with 70 SMs, PyTorch 2.8.0+cu128, and cuDNN 9.10.2. cuDNN must be enabled with TF32 and benchmark mode disabled. The option is independent of the matrix backend.
+
+The decoder caches every codebook entry after its original FP32 output convolution, using **64 MiB** of additional resident storage. One Triton gather adds the selected vectors in the original codebook order; the final output projection remains unchanged. With `quantizer_backend="triton"`, the encoder also fuses each eight-channel projection with its masked residual update. It retains the actual straight-through values and does not substitute decoder lookup values. Input projections and nearest-code decisions keep their existing arithmetic.
+
+Local/global hooks retain the observable module path. Autocast, unsupported singleton strides, and changed cuDNN execution settings retain native paths. Cache construction bypasses projection hooks, and context exit restores methods and removes cached tensors. Entry/exit synchronize the device and invalidate all managed graphs on it, including unrelated graphs, to prevent replay through freed cache pointers. Keep weights unchanged and graphs/sessions inside the optimization context; raw CUDA graphs must not outlive it. Invalid used code indices retain asynchronous CUDA assertion behavior; unused extra codebooks retain the original ignore behavior.
+
+In three paired rounds against the supported matrix/quantizer runtime, batch-one / 240 ms encoder time improves **8.694 → 8.571 ms**, decoder **7.381 → 7.159 ms**, and decoder quantizer reconstruction **0.253 → 0.059 ms (4.29×)**. At batch eight / 240 ms, encode/decode gains are **1.022× / 1.026×**. Across five geometries, reconstruction improves **3.14–6.16×**, while whole-model improvements remain much smaller. Cache construction and graph setup are outside the timing loop; input copies and owned outputs are included. [Paired evidence](results/full_projection_runtime.json).
+
+All **864 learned-projection component checks**, both **13-case full-model corpora**, and the long incremental stream gate remain exact on recorded inputs. The component checks include all entries of all 32 codebooks; they do not establish numerical equivalence for untested library/device configurations. [Components](results/projection_components.json), [Triton corpus](results/full_fidelity_projections.json), [CuTe corpus](results/full_fidelity_projections_cute.json), [incremental streams](results/full_incremental_projections.json).
 
 ## Streaming
 
