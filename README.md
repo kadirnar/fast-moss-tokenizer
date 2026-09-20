@@ -8,26 +8,13 @@ NVIDIA RTX 5070 Ti 16 GB | `OpenMOSS-Team/MOSS-Audio-Tokenizer-v2` (2.12B params
 
 Native BF16 compute, FP32 weights and quantizer, all 32 quantizers.
 
-### End-to-End — 5s Audio
+### End-to-End
 
-| Method | Latency | Speedup | Real-time Factor |
-|--------|:-------:|:-------:|:----------------:|
-| PyTorch | 10.092 s | 1.00x | 0.50x |
-| **+ weight caching + fused kernels + graph** | **1.344 s** | **7.51x** | **3.72x** |
-
-### End-to-End — 10s Audio
-
-| Method | Latency | Speedup | Real-time Factor |
-|--------|:-------:|:-------:|:----------------:|
-| PyTorch | 19.935 s | 1.00x | 0.50x |
-| **+ weight caching + fused kernels + graph** | **2.653 s** | **7.52x** | **3.77x** |
-
-### End-to-End — 50s Audio
-
-| Method | Latency | Speedup | Real-time Factor |
-|--------|:-------:|:-------:|:----------------:|
-| PyTorch | 99.004 s | 1.00x | 0.51x |
-| **+ weight caching + fused kernels + graph** | **13.169 s** | **7.52x** | **3.80x** |
+| Audio | PyTorch | Fast-MOSS | Speedup | Fast-MOSS Real-time Factor |
+|-------|:-------:|:---------:|:-------:|:-------------------------:|
+| 5 s | 10.092 s | **1.344 s** | **7.51x** | **3.72x** |
+| 10 s | 19.935 s | **2.653 s** | **7.52x** | **3.77x** |
+| 50 s | 99.004 s | **13.169 s** | **7.52x** | **3.80x** |
 
 Median of three full encode → decode runs with GPU-resident inputs; excludes model loading, graph setup and file I/O. Real-time factor = audio duration / latency; higher is faster.
 
