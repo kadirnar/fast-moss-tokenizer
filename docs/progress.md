@@ -132,3 +132,28 @@ Reproduce with `.venv/bin/python -m benchmarks.attention_shapes` and `.venv/bin/
 
 
 Final verification: `results/tests.txt` records **69 passed**, including 12 new tests across split sizes, noncontiguous inputs, masked tails, empty rows, large scores, and graph replay. Final component/full-model rerun session 92121 and test session 14737 completed successfully. No GPU benchmark or download is intentionally left running.
+
+
+## 2026-09-20, independent completion and fused lane reset
+
+Previous goal turn classification: **progress**, verified against clean commit `2af03f9` and its full streaming attention experiment. This turn is also **progress**: heterogeneous final lengths and reusable completed lanes now work in the supported exact runtime, a new reset kernel removes significant request-boundary overhead, and full-checkpoint validation crosses the cache context. The goal remains active. Reset alone now exceeds 100× acceleration, but the requested 100× whole-model acceleration is still unachieved.
+
+Supported changes:
+
+- `StreamingSession.push(..., valid_lengths=[...], final_lanes=[...])` takes host metadata, with samples for encode and frames for decode. Zero length pauses a lane. Short positive tails must finish the lane; finished lanes stay paused until selected by `reset(mask)`. Global `final=True` retains session-wide completion. The same graph handles all tail lengths, closure, and reuse.
+- `fast_moss/stream_inputs.py`: fused masked loading, zero padding, effective length calculation, and activity updates. Padding never reaches the encoder or code lookup, including NaNs/invalid code IDs. Strided audio/codes and strided/expanded execution masks are tested. No host read of GPU state is required.
+- Empty completion returns empty outputs/zero lengths without executing or capturing the model. Completion before first capture survives capture warmup/reset. Returned outputs remain owned.
+- `fast_moss/stream_reset.py`: validated GPU address table for per-lane int64 offsets, shared masks, and completion flags. One launch resets selected lanes. CPU bookkeeping matches upstream; unknown layouts/state types fall back. Enabled by default for known CUDA states; `fast_reset=False` preserves the reference path. Session exit releases the reset plan's state references.
+- Stream ownership checks now precede preparation/reset, preventing an invalid-stream call from partially changing session state.
+
+Authoritative evidence:
+
+- `results/tests.txt`: **86 passed**. New cases compare fused reset directly with upstream reset methods at batches 1/3/17 and offsets above 2**40, and cover variable tails, empty completion, sticky closure, replay reuse, malformed metadata, wrong-stream rejection, noncontiguous preparation, and invalid padding.
+- `results/full_lane_completion.json`: full FP32 checkpoint/all 32 quantizers, three lanes, 160 ms chunks, 71 schedule steps. A continuing lane processes 13 seconds before tail/reuse events, crossing the ten-second context. **8,736 tokens and 522,240 samples match independent eager timelines exactly**; output lengths and graph reuse match at every step. References use original reset methods and identical batch shapes; they are not a sequential speed baseline. Source hashes and repetition behavior are recorded.
+- Same-shaped, all-active timing isolates lane-control overhead: encode **13.657 → 13.708 ms**, decode **11.712 → 11.810 ms**, both below 1% overhead in this run.
+- Selected-lane reset: encode **6.383 → 0.0629 ms (101.5×)**, decode **6.368 → 0.0623 ms (102.2×)**. This is reset-only acceleration, not codec speedup.
+- `results/full_compare_lane_reset_240ms.json`: all comparisons exact. Latest matched batch-one offline result **47.894 → 9.491 ms encode (5.05×)** and **38.317 → 7.820 ms decode (4.90×)**. Offline kernels are unchanged; small baseline differences from the earlier 5.10×/4.93× run are timing variation. Three-chunk graph streaming passes including reset are now **32.421/29.030 ms** encode/decode, versus the prior **38.885/35.486 ms**. The new matched corrected-eager pass timings are 185.870/157.325 ms.
+
+Reproduce heterogeneous completion with `.venv/bin/python -m benchmarks.lane_completion`. Existing comparison/fidelity scripts explicitly disable fast reset in eager references. No experimental attention reduction was enabled, and no weights/precision/quantizer counts changed. Automatic request scheduling, broader corpus/experimental-attention quality checks, matrix execution, and multi-GPU execution remain useful next work toward the original objective.
+
+All benchmark/test jobs completed successfully, including lane validation session 2680, test session 48905, and final comparison session 5981. No GPU benchmark or download is intentionally left running.

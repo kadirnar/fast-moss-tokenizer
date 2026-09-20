@@ -47,7 +47,7 @@ def main():
     for direction,inp,offline in [("encode",x,codes),("decode",codes,audio)]:
         chunk=a.chunk_frames*(1920 if direction=="encode" else 1)
         inputs=list(inp.split(chunk,dim=-1))
-        with StreamingSession(model,direction,a.batch,a.chunk_frames,use_graph=False) as session:
+        with StreamingSession(model,direction,a.batch,a.chunk_frames,use_graph=False,fast_reset=False) as session:
             reference=[session.push(part)[0].clone() for part in inputs]
         print(direction,"reference finished",flush=True)
         with optimized(model,residual_backend="triton",kv_backend="triton",rope_backend="triton",

@@ -28,9 +28,9 @@ def main():
     for direction,inp in [("encode",x),("decode",codes)]:
         chunks=list(inp.split(1920 if direction=="encode" else 1,dim=-1))
         dim=1 if direction=="encode" else 0
-        with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
+        with StreamingSession(model,direction,batch_size=2,use_graph=False,fast_reset=False) as session:
             reference=[session.push(chunk)[0].clone() for chunk in chunks]
-        with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
+        with StreamingSession(model,direction,batch_size=2,use_graph=False,fast_reset=False) as session:
             slow_reference=[session.push(chunks[i])[0].clone() for i in [0,2,4]]
         records=[]
         mask=torch.tensor([True,False],device="cuda")

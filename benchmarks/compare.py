@@ -98,7 +98,7 @@ def main():
             frames = chunks[0].shape[-1] // 1920 if direction == "encode" else chunks[0].shape[-1]
             if frames < 1 or any(t.shape != chunks[0].shape for t in chunks):
                 raise ValueError("Streaming benchmark requires equal complete chunks")
-            with StreamingSession(model, direction, a.batch, frames, use_graph=False) as session:
+            with StreamingSession(model, direction, a.batch, frames, use_graph=False,fast_reset=False) as session:
                 ref = [session.push(chunk)[0].clone() for chunk in chunks]
             with optimized(model, residual_backend=a.backend, kv_backend=a.kv_backend,
                            rope_backend=a.rope_backend,share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
@@ -110,7 +110,7 @@ def main():
                         for chunk in chunks:
                             session.push(chunk)
                     timing = measure(stream_pass, repeats=a.repeats)
-            with StreamingSession(model, direction, a.batch, frames, use_graph=False) as session:
+            with StreamingSession(model, direction, a.batch, frames, use_graph=False,fast_reset=False) as session:
                 baseline = measure(stream_pass, repeats=a.repeats)
             report["streaming"][direction] = {"chunks": len(chunks), "fidelity": fidelity,
                                                 "kv_backend": a.kv_backend,

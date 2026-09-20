@@ -1,0 +1,7435 @@
+{
+  "scope": "full checkpoint heterogeneous streaming completion and lane reuse",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "torch": "2.8.0+cu128",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "batch": 3,
+  "chunk_frames": 2,
+  "warm_steps": 65,
+  "continuous_lane_seconds_before_tail": 10.4,
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "encoder_input": "source audio repeated as needed; fresh requests restart at sample zero",
+  "decoder_input": "tokens from the first 0.8 seconds of each source, repeated as needed",
+  "reference": "independent eager timelines with the same batch shape, not a performance baseline",
+  "results": {
+    "encode": {
+      "steps": [
+        {
+          "step": 0,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 1,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 3,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 4,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 5,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 6,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 7,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 8,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 9,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 10,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 11,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 12,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 13,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 14,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 15,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 16,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 17,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 18,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 19,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 20,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 21,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 22,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 23,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 24,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 25,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 26,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 27,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 28,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 29,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 30,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 31,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 32,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 33,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 34,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 35,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 36,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 37,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 38,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 39,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 40,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 41,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 42,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 43,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 44,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 45,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 46,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 47,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 48,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 49,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 50,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 51,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 52,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 53,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 54,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 55,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 56,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 57,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 58,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 59,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 60,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 61,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 62,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 63,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 64,
+          "input_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            2,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 65,
+          "input_lengths": [
+            777,
+            3840,
+            3840
+          ],
+          "final_lanes": [
+            true,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            1,
+            2,
+            2
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 32
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            }
+          ]
+        },
+        {
+          "step": 66,
+          "input_lengths": [
+            3840,
+            0,
+            1921
+          ],
+          "final_lanes": [
+            false,
+            false,
+            true
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            2
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            }
+          ]
+        },
+        {
+          "step": 67,
+          "input_lengths": [
+            777,
+            3840,
+            3840
+          ],
+          "final_lanes": [
+            true,
+            false,
+            false
+          ],
+          "reset_lanes": [
+            0
+          ],
+          "output_lengths": [
+            1,
+            2,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 32
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 68,
+          "input_lengths": [
+            0,
+            0,
+            3840
+          ],
+          "final_lanes": [
+            true,
+            true,
+            false
+          ],
+          "reset_lanes": [
+            0,
+            2
+          ],
+          "output_lengths": [
+            0,
+            0,
+            2
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 64
+              }
+            }
+          ]
+        },
+        {
+          "step": 69,
+          "input_lengths": [
+            3840,
+            3840,
+            777
+          ],
+          "final_lanes": [
+            false,
+            false,
+            true
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            1
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 32
+              }
+            }
+          ]
+        },
+        {
+          "step": 70,
+          "input_lengths": [
+            3840,
+            3840,
+            3840
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        }
+      ],
+      "timing": {
+        "uniform": {
+          "wall_ms_median": 13.656608000019332,
+          "gpu_ms_median": 13.641711711883545,
+          "wall_ms_samples": [
+            13.911367001128383,
+            13.637001000461169,
+            13.940853001258802,
+            13.441483002679888,
+            13.991928994073533,
+            13.455660002364311,
+            13.967893995868508,
+            13.425062003079802,
+            13.434410000627395,
+            13.994284003274515,
+            13.44871599576436,
+            14.256938004109543,
+            13.555698002164718,
+            13.676214999577496,
+            13.910686000599526,
+            13.434600004984532,
+            14.252940003643744,
+            13.437025001621805,
+            13.970388994493987,
+            13.453184998070356
+          ],
+          "gpu_ms_samples": [
+            13.858816146850586,
+            13.620991706848145,
+            13.705183982849121,
+            13.426976203918457,
+            13.977503776550293,
+            13.439583778381348,
+            13.95315170288086,
+            13.41215991973877,
+            13.421216011047363,
+            13.978655815124512,
+            13.433504104614258,
+            14.24300765991211,
+            13.541760444641113,
+            13.662431716918945,
+            13.673439979553223,
+            13.422176361083984,
+            14.240703582763672,
+            13.42409610748291,
+            13.958784103393555,
+            13.440896034240723
+          ]
+        },
+        "lane_controls": {
+          "wall_ms_median": 13.708139998925617,
+          "gpu_ms_median": 13.505536079406738,
+          "wall_ms_samples": [
+            13.504591006494593,
+            14.088941999943927,
+            13.519128995540086,
+            14.06920500448905,
+            13.513648002117407,
+            13.726099001360126,
+            13.690180996491108,
+            13.499972999852616,
+            14.213746995665133,
+            13.794537997455336,
+            13.917579999542795,
+            13.893103001464624,
+            13.50412100146059,
+            13.975809000839945,
+            13.51012299710419,
+            14.115302001300734,
+            13.517116000002716,
+            13.737501001742203,
+            13.67636500071967,
+            13.50302799983183
+          ],
+          "gpu_ms_samples": [
+            13.486623764038086,
+            14.075936317443848,
+            13.506591796875,
+            14.056991577148438,
+            13.500479698181152,
+            13.71395206451416,
+            13.450240135192871,
+            13.48739242553711,
+            14.201663970947266,
+            13.451935768127441,
+            13.75977611541748,
+            13.880576133728027,
+            13.491552352905273,
+            13.774271965026855,
+            13.497759819030762,
+            14.102911949157715,
+            13.504480361938477,
+            13.725343704223633,
+            13.44115161895752,
+            13.491264343261719
+          ]
+        }
+      },
+      "reset_timing": {
+        "upstream": {
+          "wall_ms_median": 6.382690000464208,
+          "gpu_ms_median": 6.370895862579346,
+          "wall_ms_samples": [
+            6.448168998758774,
+            6.422509999538306,
+            6.407832996046636,
+            6.370823000906967,
+            6.369900998834055,
+            6.446826002502348,
+            6.3843980024103075,
+            6.360172003041953,
+            6.382614999893121,
+            6.382765001035295,
+            6.432809997932054,
+            6.396481003321242,
+            6.356846999551635,
+            6.3938160019461066,
+            6.3433010000153445,
+            6.437939002353232,
+            6.384187996445689,
+            6.359721999615431,
+            6.346035996102728,
+            6.344102002913132,
+            6.374199001584202,
+            6.451002998801414,
+            6.368788999679964,
+            6.374841002980247,
+            6.339744999422692,
+            6.403464998584241,
+            6.42375199822709,
+            6.386221997672692,
+            6.351445998006966,
+            6.359561004501302
+          ],
+          "gpu_ms_samples": [
+            6.430751800537109,
+            6.409696102142334,
+            6.395872116088867,
+            6.358816146850586,
+            6.357952117919922,
+            6.434783935546875,
+            6.3724799156188965,
+            6.348576068878174,
+            6.370431900024414,
+            6.371359825134277,
+            6.420896053314209,
+            6.38483190536499,
+            6.345536231994629,
+            6.38262414932251,
+            6.3315839767456055,
+            6.4260478019714355,
+            6.372416019439697,
+            6.347743988037109,
+            6.334303855895996,
+            6.327871799468994,
+            6.36246395111084,
+            6.43939208984375,
+            6.356959819793701,
+            6.363167762756348,
+            6.328159809112549,
+            6.392640113830566,
+            6.4120001792907715,
+            6.3744001388549805,
+            6.33951997756958,
+            6.3481597900390625
+          ]
+        },
+        "triton": {
+          "wall_ms_median": 0.06286850111791864,
+          "gpu_ms_median": 0.05284800007939339,
+          "wall_ms_samples": [
+            0.07635400106664747,
+            0.06982100603636354,
+            0.06697599746985361,
+            0.0657540003885515,
+            0.06953000411158428,
+            0.06594399746973068,
+            0.06489199586212635,
+            0.06376999954227358,
+            0.06287800351856276,
+            0.06374999793479219,
+            0.0677579955663532,
+            0.06496199785033241,
+            0.061926002672407776,
+            0.06315900100162253,
+            0.062137005443219095,
+            0.06275800114963204,
+            0.06258799839997664,
+            0.06285899871727452,
+            0.06280899833654985,
+            0.06267800199566409,
+            0.06283899710979313,
+            0.0612660005572252,
+            0.062478000472765416,
+            0.06165599916130304,
+            0.0615860044490546,
+            0.06636499892920256,
+            0.06365000444930047,
+            0.0627979970886372,
+            0.062316998082678765,
+            0.062357001297641546
+          ],
+          "gpu_ms_samples": [
+            0.06147199869155884,
+            0.058559998869895935,
+            0.05612799897789955,
+            0.054976001381874084,
+            0.055743999779224396,
+            0.05580800026655197,
+            0.054655998945236206,
+            0.05353600159287453,
+            0.05276799947023392,
+            0.05363199859857559,
+            0.05728000029921532,
+            0.054496001452207565,
+            0.05177599936723709,
+            0.05318399891257286,
+            0.05152000114321709,
+            0.052799999713897705,
+            0.052639998495578766,
+            0.05286400020122528,
+            0.05273599922657013,
+            0.05260799825191498,
+            0.05283199995756149,
+            0.05132799968123436,
+            0.05241600051522255,
+            0.05152000114321709,
+            0.0517439991235733,
+            0.05644800141453743,
+            0.053279999643564224,
+            0.0525440014898777,
+            0.052032001316547394,
+            0.05270399898290634
+          ]
+        }
+      },
+      "all_exact": true
+    },
+    "decode": {
+      "steps": [
+        {
+          "step": 0,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 1,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 3,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 4,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 5,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 6,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 7,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 8,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 9,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 10,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 11,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 12,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 13,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 14,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 15,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 16,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 17,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 18,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 19,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 20,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 21,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 22,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 23,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 24,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 25,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 26,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 27,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 28,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 29,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 30,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 31,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 32,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 33,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 34,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 35,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 36,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 37,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 38,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 39,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 40,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 41,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 42,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 43,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 44,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 45,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 46,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 47,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 48,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 49,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 50,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 51,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 52,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 53,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 54,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 55,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 56,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 57,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 58,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 59,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 60,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 61,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 62,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 63,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 64,
+          "input_lengths": [
+            2,
+            2,
+            0
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            3840,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 65,
+          "input_lengths": [
+            1,
+            2,
+            2
+          ],
+          "final_lanes": [
+            true,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            1920,
+            3840,
+            3840
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 1920
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            }
+          ]
+        },
+        {
+          "step": 66,
+          "input_lengths": [
+            2,
+            0,
+            1
+          ],
+          "final_lanes": [
+            false,
+            false,
+            true
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            1920
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 1920
+              }
+            }
+          ]
+        },
+        {
+          "step": 67,
+          "input_lengths": [
+            1,
+            2,
+            2
+          ],
+          "final_lanes": [
+            true,
+            false,
+            false
+          ],
+          "reset_lanes": [
+            0
+          ],
+          "output_lengths": [
+            1920,
+            3840,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 1920
+              }
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        },
+        {
+          "step": 68,
+          "input_lengths": [
+            0,
+            0,
+            2
+          ],
+          "final_lanes": [
+            true,
+            true,
+            false
+          ],
+          "reset_lanes": [
+            0,
+            2
+          ],
+          "output_lengths": [
+            0,
+            0,
+            3840
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 3840
+              }
+            }
+          ]
+        },
+        {
+          "step": 69,
+          "input_lengths": [
+            2,
+            2,
+            1
+          ],
+          "final_lanes": [
+            false,
+            false,
+            true
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            1920
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": {
+                "exact": true,
+                "max_abs": 0.0,
+                "rmse": 0.0,
+                "different_elements": 0,
+                "elements": 1920
+              }
+            }
+          ]
+        },
+        {
+          "step": 70,
+          "input_lengths": [
+            2,
+            2,
+            2
+          ],
+          "final_lanes": [
+            false,
+            false,
+            false
+          ],
+          "reset_lanes": [],
+          "output_lengths": [
+            0,
+            0,
+            0
+          ],
+          "same_graph": true,
+          "lanes": [
+            {
+              "lane": 0,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 1,
+              "length_exact": true,
+              "fidelity": null
+            },
+            {
+              "lane": 2,
+              "length_exact": true,
+              "fidelity": null
+            }
+          ]
+        }
+      ],
+      "timing": {
+        "uniform": {
+          "wall_ms_median": 11.711913499311777,
+          "gpu_ms_median": 11.69161605834961,
+          "wall_ms_samples": [
+            12.311077000049409,
+            12.017113003821578,
+            11.705305994837545,
+            12.273997002921533,
+            11.696610003127716,
+            11.702691001119092,
+            12.340452005446423,
+            11.688214006426279,
+            11.961148004047573,
+            11.877349999849685,
+            11.685469005897176,
+            12.26230499742087,
+            11.703303003741894,
+            11.703232004947495,
+            12.251062995346729,
+            11.697211004502606,
+            11.718521003786009,
+            12.294395004573744,
+            11.70255099714268,
+            11.69915500213392
+          ],
+          "gpu_ms_samples": [
+            12.28547191619873,
+            12.003040313720703,
+            11.692000389099121,
+            12.261823654174805,
+            11.68454360961914,
+            11.689760208129883,
+            12.327839851379395,
+            11.675680160522461,
+            11.949919700622559,
+            11.636096000671387,
+            11.67296028137207,
+            12.25046443939209,
+            11.690176010131836,
+            11.691231727600098,
+            12.239232063293457,
+            11.682656288146973,
+            11.706751823425293,
+            12.281791687011719,
+            11.68950366973877,
+            11.687328338623047
+          ]
+        },
+        "lane_controls": {
+          "wall_ms_median": 11.8097479971766,
+          "gpu_ms_median": 11.788335800170898,
+          "wall_ms_samples": [
+            11.778564999985974,
+            12.40174700069474,
+            11.772824000217952,
+            11.780307999288198,
+            12.266331999853719,
+            11.775258004490752,
+            12.036610001814552,
+            12.00510000489885,
+            11.789714997576084,
+            12.366451002890244,
+            11.807859998953063,
+            11.793933001172263,
+            12.431112001650035,
+            11.811635995400138,
+            11.795626996899955,
+            12.249952000274789,
+            11.807598995801527,
+            12.067799005308188,
+            11.993859996437095,
+            11.794974998338148
+          ],
+          "gpu_ms_samples": [
+            11.761695861816406,
+            12.388256072998047,
+            11.757760047912598,
+            11.768223762512207,
+            12.065376281738281,
+            11.76095962524414,
+            12.024127960205078,
+            11.771391868591309,
+            11.777312278747559,
+            12.353440284729004,
+            11.793696403503418,
+            11.777471542358398,
+            12.418720245361328,
+            11.797375679016113,
+            11.783231735229492,
+            12.046496391296387,
+            11.793439865112305,
+            12.054335594177246,
+            11.75817584991455,
+            11.782527923583984
+          ]
+        }
+      },
+      "reset_timing": {
+        "upstream": {
+          "wall_ms_median": 6.368289003148675,
+          "gpu_ms_median": 6.356640100479126,
+          "wall_ms_samples": [
+            6.527628996991552,
+            6.416379001166206,
+            6.380912003805861,
+            6.386512999597471,
+            6.383377003658097,
+            6.377976998919621,
+            6.504625998786651,
+            6.386624001606833,
+            6.326549999357667,
+            6.31904599867994,
+            6.3617070045438595,
+            6.471903994679451,
+            6.37487100175349,
+            6.331328993837815,
+            6.348912000248674,
+            6.358481005008798,
+            6.448770996939857,
+            6.3779970005271025,
+            6.331860997306649,
+            6.314598002063576,
+            6.33409500005655,
+            6.493285000033211,
+            6.350335002935026,
+            6.346718000713736,
+            6.335887999739498,
+            6.335928002954461,
+            6.499436000012793,
+            6.38577199424617,
+            6.338824001431931,
+            6.29655399825424
+          ],
+          "gpu_ms_samples": [
+            6.510655879974365,
+            6.403103828430176,
+            6.368800163269043,
+            6.374752044677734,
+            6.371551990509033,
+            6.366079807281494,
+            6.493055820465088,
+            6.3750081062316895,
+            6.314752101898193,
+            6.307168006896973,
+            6.350016117095947,
+            6.460127830505371,
+            6.363264083862305,
+            6.31935977935791,
+            6.337152004241943,
+            6.346879959106445,
+            6.437119960784912,
+            6.363935947418213,
+            6.3157758712768555,
+            6.302879810333252,
+            6.3224639892578125,
+            6.481599807739258,
+            6.33846378326416,
+            6.335040092468262,
+            6.324319839477539,
+            6.32422399520874,
+            6.48748779296875,
+            6.374048233032227,
+            6.3272318840026855,
+            6.284895896911621
+          ]
+        },
+        "triton": {
+          "wall_ms_median": 0.06229750215425156,
+          "gpu_ms_median": 0.05225599929690361,
+          "wall_ms_samples": [
+            0.07617400115123019,
+            0.0697310024406761,
+            0.06734699854860082,
+            0.06662600208073854,
+            0.06518300506286323,
+            0.06455200491473079,
+            0.06396000389941037,
+            0.0698020012350753,
+            0.06781699630664662,
+            0.06434100214391947,
+            0.06726699939463288,
+            0.06332900375127792,
+            0.06244800169952214,
+            0.06192699947860092,
+            0.06264699914027005,
+            0.06193699664436281,
+            0.0614160016993992,
+            0.061184997321106493,
+            0.061646001995541155,
+            0.062147002608980983,
+            0.06127499364083633,
+            0.061716003983747214,
+            0.06650500290561467,
+            0.0617260011495091,
+            0.0608850023127161,
+            0.06087400106480345,
+            0.06134499562904239,
+            0.06056400161469355,
+            0.061345002905,
+            0.06105499778641388
+          ],
+          "gpu_ms_samples": [
+            0.060896001756191254,
+            0.058079998940229416,
+            0.056671999394893646,
+            0.056223999708890915,
+            0.054687999188899994,
+            0.05385600030422211,
+            0.05353600159287453,
+            0.05974400043487549,
+            0.057151999324560165,
+            0.05385600030422211,
+            0.05350400134921074,
+            0.0533440001308918,
+            0.0522879995405674,
+            0.051872000098228455,
+            0.05244800075888634,
+            0.05180799961090088,
+            0.05129599943757057,
+            0.05081599950790405,
+            0.05167999863624573,
+            0.05222399905323982,
+            0.051072001457214355,
+            0.051392000168561935,
+            0.056384000927209854,
+            0.05164799839258194,
+            0.050912000238895416,
+            0.050624001771211624,
+            0.05100800096988678,
+            0.05052800104022026,
+            0.05132799968123436,
+            0.0506879985332489
+          ]
+        }
+      },
+      "all_exact": true
+    }
+  },
+  "all_exact": true
+}

@@ -36,7 +36,7 @@ def test_streaming_graph_wrap_reset_batch_and_tail(model, direction, backend):
     chunks = [(torch.randn(shape, device="cuda") * .05 if direction == "encode"
                else torch.randint(1024, shape, device="cuda")) for _ in range(5)]
     with optimized(model, residual_backend=backend, kv_backend="triton"):
-        with StreamingSession(model, direction, batch_size=2, use_graph=False) as session:
+        with StreamingSession(model, direction, batch_size=2, use_graph=False,fast_reset=False) as session:
             reference = [session.push(x)[0].clone() for x in chunks]
         with StreamingSession(model, direction, batch_size=2) as session:
             candidate = [session.push(x)[0] for x in chunks]

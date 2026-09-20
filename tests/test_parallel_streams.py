@@ -16,9 +16,9 @@ def test_lanes_follow_independent_timelines(direction):
     lane_dim = 1 if direction == "encode" else 0
     with optimized(model, residual_backend="triton", kv_backend="triton",
                    rope_backend="triton",share_rope_tables=True,attention_mask_backend="triton"):
-        with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
+        with StreamingSession(model,direction,batch_size=2,use_graph=False,fast_reset=False) as session:
             ref0=[session.push(chunk)[0].clone() for chunk in chunks]
-        with StreamingSession(model,direction,batch_size=2,use_graph=False) as session:
+        with StreamingSession(model,direction,batch_size=2,use_graph=False,fast_reset=False) as session:
             ref1=[session.push(chunks[i])[0].clone() for i in [0,2,4]]
         mask=torch.tensor([True,False],device="cuda")
         with StreamingSession(model,direction,batch_size=2) as session:
