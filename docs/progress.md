@@ -1420,3 +1420,39 @@ uv build --wheel --out-dir /tmp/moss-attention-residual-wheel
 ```
 
 All GPU handles are terminal: selection `54142`, smoke `77746`, initial focused tests `46674` (two test assumptions corrected), focused repeat `80992`, integrated model `54683`, first validation chain `97398` (KV test fixture corrected), and complete corrected chain `7205`. GPU jobs ran sequentially. The CPU wheel audit and cross-report audit passed; build output was removed from the worktree. This turn is **progress**. The next optimization should address the remaining matrix-heavy kernel time; the broader 100× objective remains active and unmet.
+
+
+## 2026-09-20 — Asynchronous weight staging inside exact normalization/projection
+
+The previous turn (`b40b3b4`) is **progress**: it integrated exact attention projection/residual fusion, passed 1,010 tests, and refreshed the original-versus-optimized comparison. No prior task GPU job remained active at this turn's start. The one-frame profile points to normalization/projection as the largest decoder kernel group, so this turn tests cooperative shared-memory weight staging with CUDA `cp.async` while preserving the existing Welford and cyclic FP32 arithmetic.
+
+The new research helper supports single/double buffering, padded or unpadded shared tiles, and a synchronous-copy control. Completed copy groups and CTA barriers protect every read and buffer reuse. Weights keep native storage and all original FP32 values. The sweep covers **152 configurations** with exact captured normalization/projection bits and zero local bytes. The initially large warm timing ratios do not survive fixed-graph confirmation and are not used as performance evidence.
+
+Warm-finalist confirmation and an all-candidate 32-allocation ring sweep lead to different final configurations. Five rotating rounds, each with 200 warmups and nine samples of ten graph replays, select **QKV `(0,128,64,2,8,16,1)`** and **GELU `(0,128,64,2,0,16,1)`**. The fields are register-normalization flag, threads, tile, stages, padding, unroll, asynchronous flag. Their 32-allocation medians improve **26.126 → 25.651 µs (1.01850×)** and **34.280 → 33.483 µs (1.02382×)**. Both confirmation passes independently preserve **220 candidate eager/graph bit comparisons plus 44 controls**. Distinct allocations are synthetic cache pressure, not measured DRAM traffic.
+
+All **48 Triton and 48 CuTe checkpoint cases** match original token values, hidden-state bits, waveform bits, graph replay and restored execution. Five independent-context rounds give batch-one / one-frame **6.553929 → 6.532265 ms encode** and **5.847502 → 5.821724 ms decode**. The no-call controls vary by up to 0.44%, so a second experiment captures current/candidate graphs in one verified stable weight lifetime. Forty alternating pairs give **6.567049 → 6.541410 ms encode (1.00392×)** and **5.860265 → 5.832864 ms decode (1.00470×)**, with **31 / 40 encoder wins** and **27 / 40 decoder wins**. These paired controls remain within 0.17% of parity. The gain is small and remains research evidence.
+
+Both **162-chunk / 12.96-second** streams pass per-chunk bit equality against corrected eager streaming, with **5,184 / 10,368 tokens**, **311,040 / 622,080 samples**, and **7.522 / 7.695 GB** peak allocations. The one-lane stream calls both candidates; the two-lane stream is a no-call control. Existing decoder/offline differences remain unchanged. The profile shows **64 staged normalization/projection kernels per direction**, with total launches unchanged at **1,184 / 676**. Matrix groups remain **77.19% / 85.77%** of device kernel time.
+
+The compiler/SASS audit reproduces ten finalist binaries/resources, finding `LDGSTS` in all eight asynchronous variants and none in the two synchronous controls. All have zero local load/store and matrix Tensor Core instructions. The selected kernels use **39 / 37 registers** and **14,384 / 13,360 shared bytes**. All **17 focused tests pass in 7.35 seconds**; the full suite passes **1,027 tests in 193.29 seconds**. The final audit passes **304 cross-report checks**. All **31 supported runtime/profile files** remain byte-identical to the verified `b40b3b4` package, so a replacement wheel and fresh supported-runtime speedup claim are unnecessary. [Research, references and reports](research.md#asynchronous-shared-weight-staging-for-one-row-projections).
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.norm_gemv_async_probe
+.venv/bin/python -m benchmarks.norm_gemv_async_confirm
+.venv/bin/python -m benchmarks.norm_gemv_async_ring
+.venv/bin/python -m benchmarks.norm_gemv_async_confirm --ring-ranking
+.venv/bin/python -m pytest tests/test_norm_gemv_async_research.py -q
+.venv/bin/python -m benchmarks.norm_gemv_async_model --selection results/norm_gemv_async_ring_confirm.json --rounds 5 --extra-warmup-replays 200
+.venv/bin/python -m benchmarks.norm_gemv_async_paired
+.venv/bin/python -m benchmarks.norm_gemv_async_resources
+.venv/bin/python -m benchmarks.norm_gemv_async_model --selection results/norm_gemv_async_ring_confirm.json --fidelity-only --residual-backend cute --output results/full_norm_gemv_async_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.norm_gemv_async_gate stream --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_norm_gemv_async_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.norm_gemv_async_gate profile --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_gemv_async_profile.json
+.venv/bin/python -m pytest -q
+```
+
+All task handles are terminal: exploratory sweep `13089`, warm-finalist confirmation `29913`, all-schedule ring sweep `2212`, ring confirmation/focused tests/model chain `17747`, and interleaved pairs/compiler/CuTe/streams/profile/full-suite chain `25815`. Every GPU job ran sequentially. This turn is **progress**: it validates a new exact memory pipeline, rejects misleading warm timings, and confirms a small codec gain with two measurement protocols. Production integration and owned-lifetime validation remain the next step. The broader 100× objective remains active and unmet.
