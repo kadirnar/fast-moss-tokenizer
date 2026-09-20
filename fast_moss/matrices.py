@@ -67,6 +67,8 @@ class MatrixRuntime:
         self.small_calls = 0
         self.small_warmed = set()
         self.ffn_calls = 0
+        self.ffn_gemv_calls = 0
+        self.ffn_gemv_enabled = True
         self.ffn_staged_calls = 0
         self.ffn_enabled = True
         self.profile = load_profile(model) if _profile is None else _profile
@@ -171,6 +173,14 @@ class MatrixRuntime:
                 with torch.cuda.device(self.device):
                     self.triton_calls += 1
                     self.small_calls += 1
+                    if _fast_epilogue is not None and shape in ((1,5120,1280),(1,1280,5120)):
+                        from .ffn import gemv_linear
+                        mode,residual,scale,library = _fast_epilogue
+                        self.ffn_calls += 1
+                        self.ffn_gemv_calls += 1
+                        return gemv_linear(x.reshape(1,shape[-1]),module.weight,mode,
+                            residual.reshape(1,module.out_features) if residual is not None else None,
+                            scale,library).reshape(*x.shape[:-1],module.out_features)
                     return finish(small_linear(x.reshape(shape[0],shape[-1]),module.weight).reshape(
                         *x.shape[:-1],module.out_features))
             if key not in self.plans:

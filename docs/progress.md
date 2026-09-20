@@ -978,3 +978,35 @@ Reproduction (GPU commands sequential):
 ```
 
 All handles are terminal: sweep `29275`, confirmation/focused tests `11924`, warm model `66852`, cold model `65896`, rings/full-suite chain `7162`. The warm model report predates the selection CLI; its subsequently added selection label is explicitly documented metadata, with measured samples unchanged. Final audit verifies every comparison, dispatch and packing count, all twelve rings, unchanged production hashes, Python compilation and diff hygiene. Further exact scheduling, physical memory-system attribution, broader serving/multi-GPU work and verified 100× acceleration remain open.
+
+## Integrated one-row FFN epilogues
+
+Previous goal turn classification: **progress**, verified at clean commit `21cb936`, with exact interleaved layouts, full-model packing-cost evidence, distinct-allocation diagnostics and 473 passing tests. The 100× goal remains active and unmet.
+
+- Attempted actual CUPTI collection using the installed headers/library. Metadata setup succeeds, but fetching the availability image and later starting collection return **`CUPTI_ERROR_HARDWARE_BUSY`**. Both attempts are retained, with **no counters collected** and no driver/permission changes. The owning client remains unidentified; this is not treated as a whole-goal blocker.
+- Implemented exact native GEMV/GELU and GEMV/scaled-residual fusion. All **48 configurations** pass **1,440 stress comparisons**. Using distinct-allocation rings selects the existing native launch geometries, with **1.0229× / 1.0206×** component gains at 32 allocations. No weight packing or additional persistent workspace is required.
+- Research and integrated runtime ablations each pass **48 cases**. The integrated one-frame batch-one gate improves encode **7.097 → 7.036 ms (1.0088×)** and decode **6.266 → 6.205 ms (1.0098×)**. Other measured geometries stay within 0.18% of parity. The implementation is included under the existing `ffn_backend="triton"` option, retaining the 24-row path and hook/custom-forward/graph safeguards.
+- The CuTe combination passes **48 cases**. Both **162-chunk / 12.96-second** streams match corrected original eager streaming exactly: **5,184 / 10,368 tokens** and **311,040 / 622,080 waveform samples**. Integrated peak allocation is **7.723 GB**, stream peaks **7.526 / 7.696 GB**.
+- The profile confirms **64 fewer launches per direction**, leaving **1,508 encode / 904 decode kernels**. Fused GEMVs are counted inside the matrix group, including their epilogues. Fresh original/current ratios are **6.86× encode / 6.17× decode** versus original eager at batch one / one frame, and **1.49× / 1.48×** versus original graphs. These are direct fresh-denominator totals; the approximately 1% isolated improvement is not multiplied into historical ratios.
+- The compiler audit passes for both integrated kernels, with zero spills and no matrix Tensor Core instructions. The expanded suite passes **501 tests in 80.75 seconds**. The wheel matches all **23 runtime/profile files**. This turn is **progress**: a verified runtime optimization plus concrete evidence about unavailable hardware-counter collection. The broader 100× objective remains unmet.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.counter_access
+.venv/bin/python -m benchmarks.gemv_counters
+.venv/bin/python -m benchmarks.gemv_epilogue_probe
+.venv/bin/python -m benchmarks.gemv_epilogue_model
+.venv/bin/python -m pytest tests/test_ffn.py tests/test_gemv_epilogue_research.py -q
+.venv/bin/python -m benchmarks.gemv_epilogue_model --runtime --output results/full_gemv_epilogue_runtime.json
+.venv/bin/python -m benchmarks.gemv_epilogue_model --runtime --fidelity-only --residual-backend cute --output results/full_gemv_epilogue_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_gemv_epilogue_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_gemv_epilogue_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend triton --projection-backend triton --ffn-backend triton --output results/full_gemv_epilogue_profile.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --output results/full_codec_gemv_epilogue.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.gemv_epilogue_resources
+uv build --wheel --out-dir /tmp/moss-gemv-epilogue-wheel
+```
+
+All handles are terminal: initial/extended metadata probes `37476` / `67384`, component search `41486`, first collection attempt `13719`, revised collection/research-model chain `73703`, initial focused tests `7436`, integrated/CuTe/streams/profile/upstream/full-suite chain `4232`, compiler resources `75719`. Wheel building completes successfully and its temporary repository build output is removed. Final audit verifies every corpus/stream/component check, kernel-count reduction, matrix-group accounting, direct performance ratios and wheel/source hashes. Python compilation and diff checks pass. Physical counter attribution, further exact matrix/launch optimizations, broader serving/multi-GPU execution and verified 100× acceleration remain open.

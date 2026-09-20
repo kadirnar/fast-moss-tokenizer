@@ -93,8 +93,10 @@ def test_ffn_observers_keep_original_module_values(monkeypatch,hook_target):
 
 
 @torch.inference_mode()
-def test_ffn_custom_activation_norm_and_body_exception_cleanup(monkeypatch):
+@pytest.mark.parametrize('one_row',[False,True])
+def test_ffn_custom_activation_norm_and_body_exception_cleanup(monkeypatch,one_row):
     model,layer,x=fixture(monkeypatch)
+    if one_row:x=x[:1,:1].contiguous()
     layer.activation=lambda value:F.relu(value)
     reference=layer._ff_block(x)
     with pytest.raises(RuntimeError,match='body failure'):
@@ -154,3 +156,46 @@ def test_fused_projection_signed_zero_before_epilogue(mode):
     graph=GraphedCallable(fn,x)
     assert torch.equal(ref.view(torch.int32),fn(x)[0].view(torch.int32))
     assert torch.equal(ref.view(torch.int32),graph(x)[0].view(torch.int32))
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('backend',['triton','cute'])
+@pytest.mark.parametrize('encoder',[False,True])
+def test_one_row_ffn_fusion_storage_graph_fallback_and_restoration(monkeypatch,backend,encoder):
+    model,layer,_=fixture(monkeypatch,encoder=encoder)
+    x=torch.randn(1,1,1280,device='cuda');ref=layer._ff_block(x)
+    refs={factor:layer._ff_block(x*factor) for factor in (0.,.17,1e-38)}
+    original=layer._ff_block
+    pointers=[m.weight.data_ptr() for m in (layer.linear1,layer.linear2)]
+    with optimized(model,residual_backend=backend,matrix_backend='triton',ffn_backend='triton'):
+        runtime=model._fast_matrix_runtime
+        out=layer._ff_block(x)
+        assert torch.equal(out.view(torch.int32),ref.view(torch.int32)) and out.stride()==ref.stride()
+        assert runtime.ffn_gemv_calls==2 and runtime.packed_bytes==0
+        assert pointers==[m.weight.data_ptr() for m in (layer.linear1,layer.linear2)]
+        graph=GraphedCallable(lambda z:(layer._ff_block(z),),x)
+        for factor,expected in refs.items():
+            assert torch.equal(graph(x*factor)[0].view(torch.int32),expected.view(torch.int32))
+        before=runtime.ffn_gemv_calls
+        runtime.ffn_gemv_enabled=False
+        assert torch.equal(layer._ff_block(x),ref) and runtime.ffn_gemv_calls==before
+    assert layer._ff_block==original and torch.equal(layer._ff_block(x),ref)
+    with pytest.raises(RuntimeError,match='storage changed'):graph(x)
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize('hook_target',['linear1','linear2','norm2','layer_scale_2','global'])
+def test_one_row_ffn_observers_keep_original_calls(monkeypatch,hook_target):
+    model,layer,_=fixture(monkeypatch);x=torch.randn(1,1,1280,device='cuda');seen=[]
+    def hook(module,args,out):
+        if module in (layer.linear1,layer.linear2,layer.norm2,layer.layer_scale_2):seen.append((id(module),out.clone()))
+    handle=(torch.nn.modules.module.register_module_forward_hook(hook) if hook_target=='global'
+            else getattr(layer,hook_target).register_forward_hook(hook))
+    try:
+        ref=layer._ff_block(x);expected=seen.copy();seen.clear()
+        with optimized(model,residual_backend='triton',matrix_backend='triton',ffn_backend='triton'):
+            assert torch.equal(layer._ff_block(x),ref)
+            assert model._fast_matrix_runtime.ffn_gemv_calls==0
+            assert len(seen)==len(expected)
+            assert all(i==j and torch.equal(a,b) for (i,a),(j,b) in zip(expected,seen))
+    finally:handle.remove()

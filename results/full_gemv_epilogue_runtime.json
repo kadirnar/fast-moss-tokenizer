@@ -1,0 +1,5404 @@
+{
+  "scope": "research-only exact native GEMV/FFN epilogues, original checkpoint fidelity and paired current-runtime ablation",
+  "previous_commit": "21cb936",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "triton",
+    "projection_backend": "triton",
+    "ffn_backend": "triton"
+  },
+  "configs": [
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "config": [
+        "gemv",
+        8,
+        8,
+        1,
+        32
+      ]
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "config": [
+        "gemv",
+        16,
+        2,
+        1,
+        32
+      ]
+    }
+  ],
+  "timing_scope": "three rotating independently restored contexts; five samples of ten graph calls, input copies and owned outputs included; setup/capture/restoration excluded",
+  "cases": [
+    {
+      "name": "speech_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 640,
+      "all_exact": true
+    },
+    {
+      "name": "speech_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_near_tie_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b24_f1",
+      "shape": [
+        24,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_singleton_b128_f1",
+      "shape": [
+        128,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4096,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 98304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 245760,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 640,
+      "all_exact": true
+    },
+    {
+      "name": "environment_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_1frames",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 640,
+      "all_exact": true
+    },
+    {
+      "name": "music_10frames",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_40frames",
+      "shape": [
+        1,
+        1,
+        76800
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1280,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 30720,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 76800,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "silence",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 640,
+      "all_exact": true
+    },
+    {
+      "name": "impulse",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "full_scale_alternating",
+      "shape": [
+        1,
+        1,
+        19200
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 320,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 19200,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "tiny_signal",
+      "shape": [
+        1,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 32,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1920,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 640,
+      "all_exact": true
+    },
+    {
+      "name": "music_b2_f1",
+      "shape": [
+        2,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b4_f1",
+      "shape": [
+        4,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b8_f1",
+      "shape": [
+        8,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b4_f2",
+      "shape": [
+        4,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f2",
+      "shape": [
+        1,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f3",
+      "shape": [
+        1,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b2_f3",
+      "shape": [
+        2,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f6",
+      "shape": [
+        1,
+        1,
+        11520
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f8",
+      "shape": [
+        1,
+        1,
+        15360
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "music_b1_f12",
+      "shape": [
+        1,
+        1,
+        23040
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b2_f1",
+      "shape": [
+        2,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b4_f1",
+      "shape": [
+        4,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b8_f1",
+      "shape": [
+        8,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b4_f2",
+      "shape": [
+        4,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f2",
+      "shape": [
+        1,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f3",
+      "shape": [
+        1,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b2_f3",
+      "shape": [
+        2,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f6",
+      "shape": [
+        1,
+        1,
+        11520
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f8",
+      "shape": [
+        1,
+        1,
+        15360
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "speech_b1_f12",
+      "shape": [
+        1,
+        1,
+        23040
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b2_f1",
+      "shape": [
+        2,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b4_f1",
+      "shape": [
+        4,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 128,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3072,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 7680,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b8_f1",
+      "shape": [
+        8,
+        1,
+        1920
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b4_f2",
+      "shape": [
+        4,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f2",
+      "shape": [
+        1,
+        1,
+        3840
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 64,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 1536,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 3840,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f3",
+      "shape": [
+        1,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 96,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 2304,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 5760,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b8_f3",
+      "shape": [
+        8,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 768,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 46080,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b2_f3",
+      "shape": [
+        2,
+        1,
+        5760
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f6",
+      "shape": [
+        1,
+        1,
+        11520
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 192,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f8",
+      "shape": [
+        1,
+        1,
+        15360
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 256,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 6144,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 15360,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    },
+    {
+      "name": "environment_b1_f12",
+      "shape": [
+        1,
+        1,
+        23040
+      ],
+      "checks": {
+        "eager": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "graph": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ],
+        "restored": [
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 384,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 9216,
+            "bits_equal": true
+          },
+          {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 23040,
+            "bits_equal": true
+          }
+        ]
+      },
+      "candidate_calls": 0,
+      "all_exact": true
+    }
+  ],
+  "timings": [
+    {
+      "batch": 1,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.0847790004336275,
+                7.117401799769141,
+                7.086987201182637,
+                7.141410099575296,
+                7.100724198971875
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.338754101307131,
+                6.2990349004394375,
+                6.266880099428818,
+                6.241956900339574,
+                6.230503298866097
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.038825099880341,
+                7.0478262001415715,
+                7.104254799196497,
+                7.026637099625077,
+                7.029920299828518
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.20329480007058,
+                6.198543799109757,
+                6.202092600869946,
+                6.205278499692213,
+                6.1471886991057545
+              ]
+            }
+          },
+          "candidate_calls": 640
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.0871244999580085,
+                7.03080189996399,
+                7.0849152994924225,
+                7.035563999670558,
+                7.024325701058842
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.260992899478879,
+                6.268763600382954,
+                6.203001200628933,
+                6.20416649908293,
+                6.210030600777827
+              ]
+            }
+          },
+          "candidate_calls": 640
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.1273465000558645,
+                7.097476100898348,
+                7.101809199957643,
+                7.081804399786051,
+                7.0920216996455565
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.269350799266249,
+                6.265367200830951,
+                6.20644480077317,
+                6.26398159947712,
+                6.266226799925789
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.084031599515583,
+                7.095592500991188,
+                7.139326199830975,
+                7.141486299224198,
+                7.0882085012272
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.269949898705818,
+                6.261723299394362,
+                6.2651057000039145,
+                6.26914040039992,
+                6.271421599376481
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.0739215007051826,
+                7.031182599894237,
+                7.023212600324769,
+                7.038439399912022,
+                7.029853199492209
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.205964800028596,
+                6.1987731998669915,
+                6.24382149981102,
+                6.290233299660031,
+                6.213127399678342
+              ]
+            }
+          },
+          "candidate_calls": 640
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 7.097476100898348,
+          "candidate": 7.035563999670558
+        },
+        "decode": {
+          "current": 6.266226799925789,
+          "candidate": 6.205278499692213
+        }
+      },
+      "speedups": {
+        "encode": 1.0087998774839784,
+        "decode": 1.009822008832738
+      }
+    },
+    {
+      "batch": 8,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.181026800069958,
+                9.23021779890405,
+                9.274471500248183,
+                9.242340798664372,
+                9.246699999494012
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.011494801030494,
+                7.967030699364841,
+                8.022359300230164,
+                8.015386101033073,
+                8.054427000752185
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.302720900450367,
+                9.270314700552262,
+                9.208805399248376,
+                9.37895219976781,
+                9.262307599419728
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.95170670025982,
+                8.034508299897425,
+                7.963017100701109,
+                7.9579314988222905,
+                8.044290800171439
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.22621329955291,
+                9.226915601175278,
+                9.237795100489166,
+                9.170688298763707,
+                9.299566100526135
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.961879900540225,
+                8.016927099379245,
+                7.968392300244886,
+                8.056715299608186,
+                8.015750799677335
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.23619210079778,
+                9.23195209907135,
+                9.22570429975167,
+                9.17352859978564,
+                9.239604500180576
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.9614973001298495,
+                8.022347300720867,
+                7.960232799814548,
+                7.977366200066172,
+                7.984111999394372
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.22717209905386,
+                9.230452300107572,
+                9.231228698627092,
+                9.178024099674076,
+                9.322340099606663
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.957220100797713,
+                8.018042201001663,
+                7.954760400753003,
+                7.963919699250255,
+                8.022806199733168
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                9.27064420102397,
+                9.233193499676418,
+                9.231654499308206,
+                9.178330699796788,
+                9.244015900185332
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                7.962428899190854,
+                8.027526100340765,
+                7.963047099474352,
+                8.053852799639571,
+                7.988662600109819
+              ]
+            }
+          },
+          "candidate_calls": 0
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 9.231228698627092,
+          "candidate": 9.237795100489166
+        },
+        "decode": {
+          "current": 7.984111999394372,
+          "candidate": 7.988662600109819
+        }
+      },
+      "speedups": {
+        "encode": 0.9992891808282557,
+        "decode": 0.9994303676418398
+      }
+    },
+    {
+      "batch": 1,
+      "frames": 3,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.250853398931213,
+                8.2350515993312,
+                8.318101700569969,
+                8.219814799667802,
+                8.25118310021935
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.860389601206407,
+                6.800709699746221,
+                6.823841499863192,
+                6.824166099249851,
+                6.799262001004536
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.239441900514066,
+                8.23238449956989,
+                8.226995301083662,
+                8.22599649982294,
+                8.313864599040244
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.7989293005666696,
+                6.807882199063897,
+                6.846921100805048,
+                6.8276446996605955,
+                6.79397489875555
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.254709700122476,
+                8.20497870008694,
+                8.254285999282729,
+                8.264884000527672,
+                8.319470200513024
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.803244500770234,
+                6.795261400111485,
+                6.797938499948941,
+                6.798533599067014,
+                6.820521100598853
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.196895399305504,
+                8.255310900858603,
+                8.225993500673212,
+                8.25655230000848,
+                8.20556879916694
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.78429569961736,
+                6.790337999700569,
+                6.772958199144341,
+                6.796027800010052,
+                6.78304929897422
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.196719000989106,
+                8.243264100747183,
+                8.195725199766457,
+                8.254000499437097,
+                8.206214000529144
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.885356700513512,
+                6.785840500378981,
+                6.79237800068222,
+                6.81682119902689,
+                6.791538301331457
+              ]
+            }
+          },
+          "candidate_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                8.197003600071184,
+                8.299395299400203,
+                8.201628300594166,
+                8.243856199260335,
+                8.199482300551608
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "wall_ms": [
+                6.795333499030676,
+                6.815388399991207,
+                6.8150517996400595,
+                6.860625000263099,
+                6.873968300351407
+              ]
+            }
+          },
+          "candidate_calls": 0
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 8.2350515993312,
+          "candidate": 8.239441900514066
+        },
+        "decode": {
+          "current": 6.796027800010052,
+          "candidate": 6.807882199063897
+        }
+      },
+      "speedups": {
+        "encode": 0.9994671603688847,
+        "decode": 0.9982587244157257
+      }
+    }
+  ],
+  "enabled_in_runtime": true,
+  "all_exact": true,
+  "peak_allocated_bytes": 7723150336
+}
