@@ -24,7 +24,7 @@ def kernel_summary(path,replays=5):
     groups['sgemm']=sum(e['dur'] for e in events if 'sgemm' in e.get('name','').lower()
         and not any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx','splitkreduce']))
     groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
-    small_names=['_short_fixed','short_ffn_cuda','wide_cta','cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
+    small_names=['_strided_ffn_fixed','strided_ffn_cuda','_short_fixed','short_ffn_cuda','wide_cta','cta_tiled','_small_gemv','_ffn_gemv','_small_fixed','_small_grouped','_small_parts','_small_reduce']
     small_times={name:sum(e['dur'] for e in events if e.get('name')==name) for name in small_names}
     groups['small_matrix']=sum(small_times.values())
     groups['small_vendor_matrix']=sum(e['dur'] for e in events
@@ -42,6 +42,8 @@ def kernel_summary(path,replays=5):
             'ordered_partials_per_replay':sum(e.get('name')=='_partials' for e in events)/replays,
             'ordered_reduce_per_replay':sum(e.get('name')=='_reduce' for e in events)/replays,
             'ffn_reduce_per_replay':sum(e.get('name')=='_ffn_reduce' for e in events)/replays,
+            'strided_ffn_fixed_per_replay':sum(e.get('name')=='_strided_ffn_fixed' for e in events)/replays,
+            'strided_ffn_cuda_per_replay':sum(e.get('name')=='strided_ffn_cuda' for e in events)/replays,
             'short_ffn_fixed_per_replay':sum(e.get('name')=='_short_fixed' for e in events)/replays,
             'short_ffn_cuda_per_replay':sum(e.get('name')=='short_ffn_cuda' for e in events)/replays,
             'wide_cta_per_replay':sum(e.get('name')=='wide_cta' for e in events)/replays,
@@ -54,7 +56,7 @@ def kernel_summary(path,replays=5):
             'small_grouped_per_replay':sum(e.get('name')=='_small_grouped' for e in events)/replays,
             'small_parts_per_replay':sum(e.get('name')=='_small_parts' for e in events)/replays,
             'small_reduce_per_replay':sum(e.get('name')=='_small_reduce' for e in events)/replays,
-            'small_matrix_breakdown_scope':'Already included in groups.small_matrix; do not add again. _ffn_gemv, _short_fixed and short_ffn_cuda include their fused epilogues.',
+            'small_matrix_breakdown_scope':'Already included in groups.small_matrix; do not add again. FFN GEMV, short-row and strided FFN kernels include their fused epilogues.',
             'small_matrix_breakdown':{name:{'ms_per_replay':value/replays/1000,
                 'percent':100*value/total if total else 0.} for name,value in small_times.items()},
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}

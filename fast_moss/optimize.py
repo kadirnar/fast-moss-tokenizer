@@ -50,6 +50,7 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     projection_backend='triton' adds eight-channel LFQ projection kernels and a
     64 MiB decoder table; it requires cached weights and the validated environment.
     ffn_backend='triton' adds sixteen short-row epilogues with CUDA matrices,
+    including dense transposed BTC residuals and outputs,
     and uses two stages and decoder epilogues for 24-row FFNs,
     plus fused native one-row GEMV epilogues in both encoder and decoder;
     it requires Triton matrices, residual fusion and the pinned ffn math extra.

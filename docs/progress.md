@@ -1213,3 +1213,43 @@ uv build --wheel --out-dir /tmp/moss-short-ffn-wheel
 ```
 
 All handles are terminal: math probe `99623`; initial probe `77373`; CUDA retune `46879`; confirmation `34900`; research model `92373`; research tests `57663`; encoder ablations `61278`; focused integration tests `69200`; integrated model `71240`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `93215`; isolated wheel import `27941`. GPU jobs ran sequentially, and only the preexisting 29 MiB client remains. Temporary repository wheel-build output is removed. This turn is **progress**, with an integrated verified improvement; the goal remains active and unmet. Further exact matrix scheduling, encoder fusion coverage, physical memory-system attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Encoder FFN fusion with preserved transposed layout
+
+Previous goal turn classification: **progress**, verified at clean commit `531fd32`, with exact short-row FFN fusion, 748 passing tests, exact corpus/streaming gates and measured launch removal. No task GPU job remained; only the preexisting 29 MiB client was active. The 100× goal remains active and unmet.
+
+- Attributed the encoder fusion gap to dense transposed BTC residual/output layouts. The candidate preserves that layout with direct residual-load/output-store addressing while retaining the validated matrix/epilogue arithmetic and existing GELU expansion.
+- Eight contraction shapes pass **480 eager/graph comparisons** plus **24 allocation-ring cases**, including output strides. The 32-allocation speedups span **1.04–1.16×**. All **22 batch/time factorizations** pass arithmetic, cancellation, signed-zero, layout and graph stress tests (**23 research tests**).
+- All **48 research full-model cases** pass. Five paired rounds give **1.0066× / 1.0038× / 1.0246× encoder gains** for batch-one 80 ms / batch-eight 80 ms / batch-one 240 ms. Decoder is a no-call control within 0.14% of parity.
+- Added guarded dense-transposed residual dispatch to the supported runtime. The **151 focused tests pass in 32.31 seconds**; all **29 runtime/profile files** match the wheel and isolated import passes. A source audit verifies that only residual/output addressing, the time-axis argument and kernel names differ from the existing arithmetic.
+
+- The integrated path passes **48 full-model cases**. Five rotating rounds give batch-one encode **6.760 → 6.686 ms** at 80 ms and **7.783 → 7.577 ms** at 240 ms (**1.0111× / 1.0272×**); batch-eight / 80 ms is **1.0033×**. Decoder has zero candidate calls, with timing variation up to 0.67%; no decoder gain is claimed.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.encoder_ffn_layout
+.venv/bin/python -m benchmarks.strided_ffn_model --rounds 5 --output results/full_strided_ffn.json
+.venv/bin/python -m benchmarks.strided_ffn_probe
+.venv/bin/python -m pytest tests/test_strided_ffn_research.py -q
+.venv/bin/python -m pytest tests/test_strided_ffn_runtime.py tests/test_strided_ffn_research.py tests/test_short_ffn_runtime.py tests/test_ffn.py -q
+.venv/bin/python -m benchmarks.strided_ffn_model --runtime --rounds 5 --output results/full_strided_ffn_runtime.json
+.venv/bin/python -m benchmarks.strided_ffn_model --runtime --fidelity-only --residual-backend cute --output results/full_strided_ffn_cute.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 1 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_ffn_streaming_b1.json
+.venv/bin/python -m benchmarks.streaming_fidelity --batch 2 --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_ffn_streaming_b2.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_ffn_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_strided_ffn_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --output results/full_codec_strided_ffn_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --output results/full_codec_strided_ffn_f3.json
+.venv/bin/python -m pytest -q
+.venv/bin/python -m benchmarks.strided_ffn_resources
+uv build --wheel --out-dir /tmp/moss-strided-ffn-wheel
+```
+
+The CuTe combination passes **48 cases**. Both **162-chunk / 12.96-second** streams exactly match corrected eager streaming, with **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**. The existing decoder/offline discrepancy is unchanged. Profiles verify **24 / 56 strided contractions**, eliminate **72 / 168 encoder launches**, and leave **1,340 / 1,354 encoder kernels** at 80/240 ms. Decoder remains at **808 / 883** launches with zero strided calls. All directions retain 136 CUDA LayerNorm calls. Matrices including fused epilogues still occupy **74.11% / 81.94%** of 80 ms kernel time.
+
+Fresh comparisons measure **6.626 / 5.862 ms** batch-one encode/decode at 80 ms, **7.12× / 6.39×** versus original eager and **1.56× / 1.55×** versus original graphs. At 240 ms, **7.464 / 6.212 ms** gives **6.41× / 6.16×** versus eager and **1.58× / 1.64×** versus graphs. Direct ratios use their own fresh denominators; no historical ratios are multiplied.
+
+The full suite passes **828 tests in 154.69 seconds**. All **22 compiled batch/time variants** pass captured arithmetic checks, use **34–80 registers** and **16–24,576 shared bytes**, and report zero local bytes, local load/store instructions or matrix Tensor Core instructions. Triton reports zero spills. Final audit verifies source/configuration provenance, exactness, decoder control counts, preserved output layouts, launch removal, direct ratios, compiler resources and all 29 package hashes.
+
+All handles are terminal: layout attribution `58850`; research model `42422`; initial component/research-test chain `47620`; component rerun after kernel naming and focused runtime tests `10273`; integrated model `32393`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `26761`; isolated wheel import `74184`; initial CPU audit `28801`. GPU jobs ran sequentially. Temporary repository wheel-build output is removed. This turn is **progress**, with an integrated verified encoder improvement; the goal remains active and unmet. Further exact matrix scheduling, physical memory-system attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.

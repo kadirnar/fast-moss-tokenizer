@@ -72,6 +72,8 @@ class MatrixRuntime:
         self.ffn_gemv_calls = 0
         self.ffn_short_enabled = True
         self.ffn_short_calls = 0
+        self.ffn_strided_enabled = True
+        self.ffn_strided_calls = 0
         self.ffn_gemv_enabled = True
         self.ffn_staged_calls = 0
         self.ffn_enabled = True
@@ -195,8 +197,18 @@ class MatrixRuntime:
                     self.small_warmed.add(key)
                 if _fast_epilogue is not None and self.backend == 'cuda' and self.ffn_short_enabled:
                     from .short_ffn import CONFIGS as SHORT_FFN, linear as short_ffn_linear
-                    if shape in SHORT_FFN:
+                    if shape in SHORT_FFN and (_fast_epilogue[0] != "residual"
+                            or _fast_epilogue[1].is_contiguous() or self.ffn_strided_enabled):
                         mode,residual,scale,library = _fast_epilogue
+                        if mode == 'residual' and not residual.is_contiguous():
+                            from .strided_ffn import linear as strided_ffn_linear
+                            self.ffn_calls += 1
+                            self.ffn_strided_calls += 1
+                            if SHORT_FFN[shape][0] == "fixed":
+                                self.small_calls += 1
+                                self.triton_calls += 1
+                            return strided_ffn_linear(x.reshape(shape[0],shape[-1]),module.weight,
+                                residual,scale,library,self.cuda_bindings)
                         self.ffn_calls += 1
                         self.ffn_short_calls += 1
                         if SHORT_FFN[shape][0] == 'fixed':

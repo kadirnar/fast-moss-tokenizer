@@ -148,13 +148,15 @@ def forward(self, x):
     if runtime.backend == 'cuda' and runtime.ffn_short_enabled and x.ndim >= 2 and x.shape[-1] in (768,1280):
         from .short_ffn import PAIRS
         short = (x.numel()//x.shape[-1],x.shape[-1]) in PAIRS
+    strided = (short and runtime.ffn_strided_enabled and x.ndim == 3 and x.shape[1] > 1
+               and x.stride() == (x.shape[1]*x.shape[2],1,x.shape[1]))
     if (not runtime.ffn_enabled or runtime.backend not in {'triton','cuda'} or self.activation is not F.gelu or self.gating is not None
             or self.weights_per_step or type(self.norm2) is not torch.nn.LayerNorm
             or ('forward' in self.norm2.__dict__ and not owned_norm_forward(self.norm2))
             or x.ndim < 2 or (not short and (x.shape[-1] != 1280 or x.numel() not in (1280,24*1280)))
             or (x.numel()==1280 and not runtime.ffn_gemv_enabled)
             or x.dtype != torch.float32 or x.device != runtime.device or x.requires_grad
-            or not x.is_contiguous() or torch.is_autocast_enabled('cuda')):
+            or (not x.is_contiguous() and not strided) or torch.is_autocast_enabled('cuda')):
         return self._fast_original_ffn(x)
     normalized = self.norm2(x)
     # A norm forward can install hooks or replace the activation. Recheck before
