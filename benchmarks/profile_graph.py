@@ -20,7 +20,9 @@ def kernel_summary(path,replays=5):
     groups={name:sum(e['dur'] for e in events if needle in e.get('name','').lower())
             for name,needle in [('sgemm','sgemm'),('attention','fmha')]}
     return {'scope':'CUDA kernel events only, excludes memcpy and host time','replays':replays,
-            'total_ms_per_replay':total/replays/1000,
+            'total_ms_per_replay':total/replays/1000,'kernels_per_replay':len(events)/replays,
+            'quantizer_select_per_replay':sum(e.get('name')=='_select' for e in events)/replays,
+            'quantizer_update_per_replay':sum(e.get('name')=='_update' for e in events)/replays,
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}
                       for name,value in groups.items()}}
 
@@ -35,6 +37,7 @@ def main():
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
     p.add_argument("--matrix-tuning",nargs="+",help="Experimental resident FP32 matrix tuning reports")
+    p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
     torch.manual_seed(2026)
     model=load_model()
@@ -46,10 +49,11 @@ def main():
     report={"scope":"full checkpoint optimized graph", "revision":REVISION,"torch":torch.__version__,
             "gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,"quantizers":32,
             "seconds":a.seconds,"batch":a.batch,"streaming":a.streaming,"share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
-            "experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
+            "quantizer_backend":a.quantizer_backend,"experimental_resident_matrices":bool(a.matrix_tuning),"matrix_tuning":a.matrix_tuning,
             "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","results":{}}
     with optimized(model,residual_backend="triton",rope_backend="triton",kv_backend="triton",
-                   share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
+                   share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,
+                   quantizer_backend=a.quantizer_backend):
         codes=model._encode_frame(x).audio_codes
         for name,fn,inp in [("encode",lambda v:(model._encode_frame(v).audio_codes,),x),
                             ("decode",lambda v:(model._decode_frame(v).audio,),codes)]:

@@ -1,0 +1,112 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.24,
+  "batch": 1,
+  "streaming": false,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 9.088265996979317,
+      "gpu_ms_median": 9.074272155761719,
+      "wall_ms_samples": [
+        9.01722799608251,
+        9.009232999233063,
+        9.008179993543308,
+        9.621274002711289,
+        9.153954997600522,
+        9.589613997377455,
+        9.568696004862431,
+        9.022576996358112,
+        9.305378996941727,
+        9.00941299914848
+      ],
+      "gpu_ms_samples": [
+        8.998527526855469,
+        8.996288299560547,
+        8.99612808227539,
+        9.60812759399414,
+        9.138527870178223,
+        9.253439903259277,
+        9.554304122924805,
+        9.010016441345215,
+        9.293984413146973,
+        8.996671676635742
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 9.005037,
+        "kernels_per_replay": 1727.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 31.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 6.9425198,
+            "percent": 77.09596084946682
+          },
+          "attention": {
+            "ms_per_replay": 0.5095276,
+            "percent": 5.6582510432772235
+          }
+        }
+      }
+    },
+    "decode": {
+      "wall_ms_median": 7.747378000203753,
+      "gpu_ms_median": 7.726783990859985,
+      "wall_ms_samples": [
+        8.547133002139162,
+        7.746996998321265,
+        7.727841999439988,
+        7.732550999207888,
+        8.583811999415047,
+        7.747759002086241,
+        7.721239002421498,
+        7.736517996818293,
+        8.4547790029319,
+        7.967533005285077
+      ],
+      "gpu_ms_samples": [
+        8.34876823425293,
+        7.730912208557129,
+        7.714367866516113,
+        7.719903945922852,
+        8.570176124572754,
+        7.732287883758545,
+        7.707968235015869,
+        7.722655773162842,
+        8.440896034240723,
+        7.697311878204346
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "total_ms_per_replay": 7.7286812000000005,
+        "kernels_per_replay": 1182.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 6.186333,
+            "percent": 80.04383723318799
+          },
+          "attention": {
+            "ms_per_replay": 0.5079222,
+            "percent": 6.571912941628384
+          }
+        }
+      }
+    }
+  }
+}

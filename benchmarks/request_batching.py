@@ -62,6 +62,7 @@ def main():
     p.add_argument('--repeats', type=int, default=3)
     p.add_argument('--backend', choices=['triton', 'cute'], default='triton')
     p.add_argument('--output', default='results/full_request_batching.json')
+    p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
     a = p.parse_args()
     model = load_model(); clips, sources = audio_sources()
     batch, frames = 8, 3
@@ -75,7 +76,7 @@ def main():
     report = {'scope': 'full-checkpoint finite-request scheduling, original FP32 weights/arithmetic',
               'revision': REVISION, 'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'dtype': 'float32', 'tf32': False, 'quantizers': 32, 'batch': batch,
-              'chunk_frames': frames, 'backend': a.backend, 'sources': sources,
+              'chunk_frames': frames, 'backend': a.backend, 'quantizer_backend': a.quantizer_backend, 'sources': sources,
               'input': 'source i%3 repeated cyclically, starting at (i%8)*1920 samples',
               'audio_input_samples': [x.shape[-1] for x in audio],
               'reference': 'independent original eager timelines with the same batch shape',
@@ -88,7 +89,7 @@ def main():
         audio_seconds = sum(x.shape[-1] for x in audio) / model.sampling_rate
         rounds = {'fifo': [], 'fixed_waves': []}
         with optimized(model, residual_backend=a.backend, kv_backend='triton', rope_backend='triton',
-                       share_rope_tables=True, attention_mask_backend='triton'):
+                       share_rope_tables=True, attention_mask_backend='triton', quantizer_backend=a.quantizer_backend):
             with StreamingBatcher(model, direction, batch, frames) as batcher:
                 # Compile and capture once. A completed warm request also tests
                 # that resetting the next occupant preserves graph addresses.

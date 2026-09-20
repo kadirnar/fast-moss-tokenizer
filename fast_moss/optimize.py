@@ -35,7 +35,7 @@ def _decode_latents(self, latents):
 @contextmanager
 def optimized(model, residual_backend="none", cache_codebooks=True, cache_weights=True,
               kv_backend="none", rope_backend="none", share_rope_tables=False,
-              attention_mask_backend="none"):
+              attention_mask_backend="none", quantizer_backend="none"):
     """Temporarily optimize a frozen model; no parameter conversion or retraining.
 
     Do not mutate weights or use the same model concurrently inside this context.
@@ -55,6 +55,10 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
         raise ValueError("Shared RoPE tables require the Triton RoPE backend")
     if attention_mask_backend not in {"none", "triton"}:
         raise ValueError("Unknown attention mask backend")
+    if quantizer_backend not in {"none", "triton"}:
+        raise ValueError("Unknown quantizer backend")
+    if quantizer_backend == "triton" and not cache_codebooks:
+        raise ValueError("Quantizer fusion requires cached codebooks")
     kernel = scale_add
     if residual_backend == "cute":
         from .cute_kernels import scale_add as kernel
@@ -66,8 +70,18 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
 
     try:
         replace(model, "_fast_optimization_active", True)
+        if quantizer_backend == "triton":
+            if type(model).__name__ != "MossAudioTokenizerModel" or type(model.quantizer).__name__ != "MossAudioTokenizerResidualLFQ":
+                raise ValueError("Quantizer fusion requires the original MOSS LFQ model")
+            from .quantizer import encode_frame
+            replace(model, "_fast_original_encode_frame", model._encode_frame)
+            replace(model, "_encode_frame", MethodType(encode_frame, model))
         for module in model.modules():
             kind = type(module).__name__
+            if kind == "MossAudioTokenizerResidualLFQ" and quantizer_backend == "triton":
+                from .quantizer import residual_forward
+                replace(module, "_fast_codes_only", False)
+                replace(module, "forward", MethodType(residual_forward, module))
             if kind == "MossAudioTokenizerTransformer" and (share_rope_tables or attention_mask_backend == "triton"):
                 from .transformer import stage_forward
                 if len(module.layers):
@@ -111,6 +125,10 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                 replace(module, "_fast_codebook", cb)
                 replace(module, "_fast_codebook_norm", cb.pow(2).sum(1, keepdim=True).t())
                 replace(module, "decode_latents", MethodType(_decode_latents, module))
+                if quantizer_backend == "triton":
+                    from .quantizer import decode_latents, forward
+                    replace(module, "decode_latents", MethodType(decode_latents, module))
+                    replace(module, "forward", MethodType(forward, module))
         yield model
     finally:
         for obj, name, existed, old in reversed(saved):

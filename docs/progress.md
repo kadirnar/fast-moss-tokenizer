@@ -337,3 +337,38 @@ Reproduction (GPU jobs run sequentially):
 ```
 
 All jobs are terminal: initial scheduler tests `15096`, full Triton queue benchmark `91969`, gather benchmark `72922`, full CuTe queue benchmark `59247`, and full suite `83983`. No GPU benchmark or download is intentionally left running. The scheduler accepts complete input tensors; incremental input fragment queues/network serving and multi-GPU execution remain open. Dense FP32 arithmetic is still the principal model bottleneck, and the supported single-request speed remains approximately 5×. Further work must preserve these fidelity gates while addressing those larger remaining costs.
+
+
+## 2026-09-20, exact quantizer fusion and encoder-only unused-output removal
+
+Previous goal turn classification: **progress**, verified against clean commit `1a76a2b`, the automatic scheduler and gather implementation, exact full-queue reports, and 110-test result. This turn is also **progress**: new Triton kernels remove repeated quantizer work, the encoder avoids results it never consumes, and matched ablations demonstrate an additional exact encoder improvement. The 100× whole-model goal remains active and unmet.
+
+Implementation:
+
+- `fast_moss.quantizer` fuses distance postprocessing, first-index selection, embedding gather, and the original straight-through subtraction/addition. Original FP32 normalization and vendor GEMM remain unchanged; both distance roundings and first-NaN behavior are retained. A separate fused update preserves masked residual and quantized-vector arithmetic. Noncanonical latent layouts retain original straight-through operations; noncontiguous residual layouts have an arithmetic fallback.
+- `optimized(..., quantizer_backend="triton")` enables the reversible option, requiring cached codebooks and the original LFQ model. Public quantizer calls still return vectors, indices, and lengths. The pinned encoder skips accumulated vectors and projections that its return value never uses, including the final quantizer's unused projected vector. All requested code indices are still calculated. Local/global forward hooks retain the complete observable path; the temporary encoder flag is restored after errors and all methods/attributes restore on context exit.
+- `benchmarks.quantizer` measures actual full-checkpoint quantizer inputs at five batch/frame geometries, comparing original eager outputs, both optimized variants, graph replay, and repeated timings. `--select-only` reproduces the initial selector/embedding/STE-only stage. Fidelity, queued streaming, and profiling tools now accept the optional quantizer backend; profile summaries also record kernel counts.
+
+Validation and performance:
+
+- `results/full_fidelity_quantizer.json` and `full_fidelity_quantizer_cute.json`: **13 cases each, all exact**, including codes, encoder hidden states, and decoded audio in eager/graph modes. The near-tie speech regression passes.
+- `results/full_quantizer.json`: **five geometries, three alternating paired rounds each**, all quantized vectors, indices, lengths, and encoder codes exact. At batch one / 240 ms, public quantizer latency is **1.530 → 1.078 ms** (1.420×) and encoder latency **9.488 → 9.012 ms** (1.053×, 5.01% lower) against the previous optimized graph. At batch eight / 240 ms, encoder latency is **16.406 → 15.805 ms** (3.66% lower). Gains at batch 128 / 240 ms and batch eight / 3.2 s are approximately 0.76%/0.79%; dense matrix execution limits them.
+- `results/full_quantizer_select.json` retains the preliminary one-round stage. Its first batch-one / one-frame baseline is unrepresentative of later measurements; the apparent large first-row encoder ratio is not promoted. Final model claims use the repeated ablation instead.
+- `results/full_request_batching_quantizer.json`: the 16-request long queue remains exact for **13,632 tokens and 817,920 decoded samples**, including stable lanes, reuse, partial tails, and two requests beyond the ten-second history. Its FIFO/fixed-wave encoder times are **919.119/1792.348 ms**; decoder times **856.165/1671.590 ms**. Those compare scheduling policies with quantizer fusion enabled on both sides, not a fresh quantizer ablation against the prior turn's queue timing.
+- `results/full_graph_quantizer_baseline.json` and `full_graph_quantizer_profile.json`: **2,054 → 1,727 encoder kernel launches**, including 32 `_select` and 31 `_update` calls per replay. Decoder count is unchanged at **1,182**. New encoder/decoder profiles attribute **77.10%/80.04%** of GPU kernel time to SGEMM-named kernels. Dense FP32 matrices remain the principal next target.
+- `results/tests.txt`: **131 passed in 19.21 seconds**. The 21 new checks cover rounding ties, infinities/NaNs, output strides, graphs, masked lengths, requested quantizer counts, observed public outputs, local/global hooks, restoration, and exception cleanup. The first test pass exposed a gapped singleton-stride mismatch despite equal values; the corrected fallback is covered by the final suite.
+
+Reproduction, with GPU jobs sequential:
+
+```bash
+.venv/bin/python -m benchmarks.fidelity --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --output results/full_fidelity_quantizer.json
+.venv/bin/python -m benchmarks.fidelity --backend cute --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --output results/full_fidelity_quantizer_cute.json
+.venv/bin/python -m benchmarks.quantizer --select-only --rounds 1 --output results/full_quantizer_select.json
+.venv/bin/python -m benchmarks.quantizer
+.venv/bin/python -m benchmarks.request_batching --quantizer-backend triton --repeats 1 --output results/full_request_batching_quantizer.json
+.venv/bin/python -m benchmarks.profile_graph --share-rope-tables --attention-mask-backend triton --output results/full_graph_quantizer_baseline.json
+.venv/bin/python -m benchmarks.profile_graph --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --output results/full_graph_quantizer_profile.json
+.venv/bin/python -m pytest -q
+```
+
+All GPU jobs are terminal: initial selector tests `44819` (one stride failure), corrected selector tests `48215`, initial corpus `66827`, initial component/model ablation `30211`, extended quantizer tests `60710`, full corpus/ablation/stream/profile/test sequence `20073`, and paired baseline profile/final suite `73490`. No benchmark or download is intentionally left running. The new option is exact on the recorded gates and remains opt-in. Wider coverage, incremental request input, multi-GPU execution, and substantially faster dense FP32 arithmetic remain open; this is not a 100× whole-model result.

@@ -144,3 +144,30 @@ A heterogeneous queue of 16 requests uses frame counts `[129,3,6,9,12,15,18,21]`
 Three alternating paired rounds on the full checkpoint yield median queue times **1837.35 → 941.75 ms encode** and **1669.98 → 857.26 ms decode**, about **1.951×/1.948×** over the same optimized runtime at the same batch size. All **13,632 code tokens** and **817,920 decoded samples** match original eager independent timelines at the same batch shape, with unchanged graph identity. A separate CuTe residual run is also exact and measures approximately 1.95× in both directions. There is no experimental tensor-core or matrix substitution in these runs. This is a scheduling improvement for the measured uneven queue, not an additional multiplier for the batch-one table. Equal-length queues can have no refill benefit.
 
 The API accepts finite CUDA input tensors and permits new submissions between steps; it does not yet accept incremental input fragments or provide network serving. Queue capacity bounds request count, not bytes. Callers retain source audio lengths for final waveform trimming. Scheduling keeps a fixed batch size because changing it can change vendor arithmetic; the independent reference deliberately uses the same batch geometry. Wider input coverage, incremental request admission, cross-device execution, and reducing dense FP32 matrix cost remain necessary work toward the full objective.
+
+
+## Exact LFQ selection, residual updates, and unused encoder outputs
+
+The quantizer still launched many small operations after the earlier cache optimizations. `quantizer_backend="triton"` keeps the original normalization, FP32 vendor GEMM, codebooks, and all requested quantizers, while fusing the arithmetic around them. A row kernel computes `(row_norm - dots) + codebook_norm`, selects the index, gathers the original embedding, and optionally evaluates `latent + (embedding - latent)`. FP contraction is disabled. Both distance roundings and both straight-through roundings remain necessary: removing a common row norm can change a rounded tie, and simply returning the embedding can change cancellation results.
+
+[Torch's maximum documentation](https://docs.pytorch.org/docs/main/generated/torch.max.html) specifies the first matching index for ties. Its [pinned reduction implementation](https://github.com/pytorch/pytorch/blob/v2.8.0/aten/src/ATen/native/SharedReduceOps.h) additionally prioritizes the first NaN. [Triton's argmin documentation](https://triton-lang.org/main/python-api/generated/triton.language.argmin.html) only promises its leftmost rule for non-NaN values, so the kernel explicitly reduces NaN indices separately. Tests include equal-distance codes, a rounding tie that would reverse if the row norm were dropped, infinities, and first-NaN selection.
+
+The initial numerical kernel passed but a stride assertion failed for a gapped singleton-time input: the upstream addition produced `(8,1,8)` while the candidate allocated `(8,1,1)`. Although values were identical, layout-dependent downstream dispatch must not be assumed harmless. Noncanonical latent strides now use the original straight-through additions after fused selection; canonical convolution outputs retain the fused path. Raw embedding outputs preserve the original B,T,D allocation followed by transpose.
+
+A second kernel combines the masked residual subtraction, next-step masking, and public quantized-vector accumulation. For the pinned encoder caller, the accumulated vectors are never returned or consumed: only code indices, lengths, and pre-quantizer hidden states are exposed. That path omits vector accumulation, its output projection, and the last quantizer's unused projected vector. It still computes the final code from the unchanged distance operation. Direct quantizer calls preserve all three original outputs. Local or global forward hooks disable the encoder-only omission so observers can still inspect those values. A temporary flag is restored even on exceptions; CUDA graphs capture the selected path normally.
+
+Three alternating paired rounds against the previous optimized runtime give:
+
+| Batch / frames | Public quantizer, previous → fused | Encoder, previous → fused | Encoder latency reduction |
+| --- | ---: | ---: | ---: |
+| 1 / 1 | 1.116 → 0.772 ms | 7.875 → 7.498 ms | 4.79% |
+| 1 / 3 | 1.530 → 1.078 ms | 9.488 → 9.012 ms | 5.01% |
+| 8 / 3 | 1.596 → 1.109 ms | 16.406 → 15.805 ms | 3.66% |
+| 128 / 3 | 2.426 → 1.836 ms | 86.502 → 85.843 ms | 0.76% |
+| 8 / 40 | 2.150 → 1.624 ms | 71.655 → 71.088 ms | 0.79% |
+
+The public quantizer still returns its vectors, so its timing is distinct from the encoder-only omission. All measured quantized vectors, indices, lengths, and encoder codes remain exact. The preliminary selector-only report is retained separately; its first 1×1 encoder baseline was much slower than later matched baselines, so that initial ratio is not a model performance claim. The final three-round ablation is authoritative.
+
+Both Triton and CuTe residual configurations pass the 13-case full-model corpus with quantizer fusion, including the speech decision separated by only 1.19e-7. The 16-request long queue also remains exact against original eager timelines: 13,632 tokens and 817,920 decoded samples, with lane reuse and two requests beyond ten seconds. These are tested-input guarantees, not a universal proof for arbitrary data or changed libraries.
+
+Paired full-model profiles show **2,054 → 1,727 encoder kernels per replay**, a reduction of 327, including 32 fused selectors and 31 residual-update kernels. Decoder execution stays at **1,182 kernels**. Dense FP32 SGEMM-named kernels remain **77.10%** of encoder and **80.04%** of decoder GPU kernel time in the new profile. This confirms the next priority: the dominant matrix cost remains, despite useful exact fusion gains. The supported fusion is opt-in and does not establish 100× acceleration.

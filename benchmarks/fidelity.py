@@ -46,6 +46,7 @@ def main():
     p.add_argument("--rope-backend",choices=["none","triton"],default="triton")
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--quantizer-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
     model=load_model()
     def run(x):
@@ -54,7 +55,7 @@ def main():
         return enc.audio_codes,enc.encoder_hidden_states,dec.audio
     report={"scope":"full checkpoint, small regression corpus", "revision":REVISION,
             "torch":torch.__version__,"gpu":torch.cuda.get_device_name(),"dtype":"float32","tf32":False,
-            "quantizers":32,"residual_backend":a.backend,"rope_backend":a.rope_backend,
+            "quantizers":32,"quantizer_backend":a.quantizer_backend,"residual_backend":a.backend,"rope_backend":a.rope_backend,
             "share_rope_tables":a.share_rope_tables,"attention_mask_backend":a.attention_mask_backend,
             "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean","cases":[]}
     for name,cpu,source in cases():
@@ -62,7 +63,8 @@ def main():
         reference=run(x)
         record={"name":name,"samples":x.numel(),"input_shape":list(x.shape),"source":source,"comparisons":{}}
         with optimized(model,residual_backend=a.backend,rope_backend=a.rope_backend,kv_backend="triton",
-                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
+                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,
+                       quantizer_backend=a.quantizer_backend):
             eager=run(x)
             graph=GraphedCallable(run,x)
             replay=graph(x)

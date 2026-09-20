@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; FIFO request scheduling with fused input gather; optional exact quantizer fusion.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -16,6 +16,8 @@ These matched measurements include graph input copies and owned output tensors. 
 Both Triton and CuTe residual paths, combined with Triton RoPE, shared tables, and fused attention masks, pass exact token/hidden-state/audio checks on 12 initial real-audio and edge-case inputs: [Triton](results/full_fidelity_masks.json), [CuTe](results/full_fidelity_masks_cute.json). Two 12.8-second music streams cross the ten-second cache context with exact tokens versus offline encoding and exact waveform equality versus corrected eager streaming. Streamed audio differs from offline decoding by at most 1.70e-6, identically in the corrected eager and optimized paths. [Long-stream evidence](results/full_streaming_masks.json). Paused/resumed/reused lanes also match independent timelines on the full model: [evidence](results/full_parallel_masks.json).
 
 The expanded 13-case fidelity corpus includes an eight-lane speech case whose closest codebook distances differ by only 1.19e-7. Both supported backends remain exact: [Triton](results/full_fidelity_near_tie.json), [CuTe](results/full_fidelity_near_tie_cute.json).
+
+`quantizer_backend="triton"` adds exact distance selection, embedding/straight-through fusion, and residual updates. In a separate paired ablation, batch-one / 240 ms encoder time falls **9.488 → 9.012 ms** (5.0% lower) against the preceding optimized graph; batch eight falls **16.406 → 15.805 ms**. All 32 codes are still computed. Both residual backends pass the 13-case corpus, and the long queued-stream test remains exact. This option requires cached codebooks and leaves vendor FP32 GEMM and normalization unchanged. [Ablation](results/full_quantizer.json), [Triton fidelity](results/full_fidelity_quantizer.json), [CuTe fidelity](results/full_fidelity_quantizer_cute.json), [streaming queue](results/full_request_batching_quantizer.json).
 
 At batch 128 and 240 ms per lane, aggregate throughput reaches 355.3 audio seconds/s encode and 367.1 decode. Matched-batch speedups are only 1.06× and 1.09×: throughput relative to real time is a different quantity. The fused-mask path retains exact outputs at batches 1, 8, and 128 ([measurements](results/batching_masks.json)); the earlier shared-RoPE sweep covers all powers of two from 1–128 ([measurements](results/batching.json)).
 
@@ -65,6 +67,8 @@ with torch.inference_mode(), optimized(model, residual_backend="triton",
 ```
 
 `attention_mask_backend="triton"` constructs the same FP32 zero/negative-infinity attention bias with aligned row strides and shares it within synchronized stages. This removes repeated mask construction, conversion, and padding while preserving the attention calculation.
+
+Quantizer fusion is opt-in through `optimized(..., quantizer_backend="triton")`. Direct quantizer calls retain their quantized vectors, codes, and lengths. The pinned encoder omits accumulated vectors and the final projection it does not return; installed forward hooks retain the complete path. The fused selector preserves both distance-rounding steps and first-index tie behavior, including the near-tie speech regression. Unsupported latent layouts keep the original straight-through additions. Decoder arithmetic is unchanged.
 
 Shared RoPE tables are opt-in and require `rope_backend="triton"`. They reuse identical positions within each transformer stage, including synchronized session lanes. External upstream streaming falls back to per-layer tables because its offsets may differ.
 
