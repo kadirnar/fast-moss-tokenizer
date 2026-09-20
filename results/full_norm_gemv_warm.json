@@ -1,0 +1,2515 @@
+{
+  "scope": "research LayerNorm/projection fusions, full checkpoint and paired current-runtime ablation",
+  "candidate_backend": "cuda",
+  "selection_report": "results/norm_gemv_steady.json",
+  "previous_commit": "b240bd2",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "sources": [
+    {
+      "path": "data/music.ogg",
+      "sha256": "6c23aed3dd5aa57f2b1652ecab68d15d9b82ad257f54e639eb2880ca09bc118a"
+    },
+    {
+      "path": "data/speech.wav",
+      "sha256": "c65fcd726d6b08c82c1e5dc7558f863cd8d483e3ed2f4a7bcf271dc1865ada14"
+    },
+    {
+      "path": "data/environment.wav",
+      "sha256": "762b6783be7f20aa8be03812eeb33184bb5b1497db7422607a70b5d441fc45e9"
+    }
+  ],
+  "options": {
+    "residual_backend": "triton",
+    "rope_backend": "triton",
+    "kv_backend": "triton",
+    "share_rope_tables": true,
+    "attention_mask_backend": "triton",
+    "quantizer_backend": "triton",
+    "matrix_backend": "cuda",
+    "projection_backend": "triton",
+    "ffn_backend": "triton",
+    "norm_backend": "cuda"
+  },
+  "configs": {
+    "none": [
+      0,
+      1,
+      128,
+      2,
+      4
+    ],
+    "gelu": [
+      1,
+      1,
+      256,
+      2,
+      4
+    ]
+  },
+  "fidelity_skipped": true,
+  "timing_rounds": 7,
+  "timing_scope": "rotating independently restored contexts; five samples of ten graph calls, input copies and owned outputs included; setup/capture/restoration excluded",
+  "cases": [],
+  "timings": [
+    {
+      "batch": 1,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.685418600682169,
+                6.715684800292365,
+                6.6859145008493215,
+                6.6822758002672344,
+                6.687555699318182
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.936938000377268,
+                5.937692399311345,
+                5.94193639990408,
+                5.9422339996672235,
+                5.883169500157237
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.66295029950561,
+                6.652388299698941,
+                6.653614700189792,
+                6.659373399452306,
+                6.675366699346341
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.883385900233407,
+                5.921245299396105,
+                5.946758600475732,
+                5.923164100386202,
+                5.862946300476324
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.709308900462929,
+                6.665075299679302,
+                6.660367400036193,
+                6.662633700761944,
+                6.659069898887537
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.855279800016433,
+                5.95932830037782,
+                5.916227000125218,
+                5.913330399198458,
+                5.921530899649952
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.690732800052501,
+                6.6830151990870945,
+                6.683498100028373,
+                6.707571601145901,
+                6.653606701001991
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.937155500578228,
+                5.937013200309593,
+                5.942365300143138,
+                5.937050300417468,
+                5.940271400322672
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.682393999653868,
+                6.681749799463432,
+                6.689340200682636,
+                6.69311630044831,
+                6.6924309998285025
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.920737500127871,
+                5.9037954997620545,
+                5.947355799435172,
+                5.940140200254973,
+                5.938994999451097
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.659110100008547,
+                6.652833300177008,
+                6.671535599161871,
+                6.642934599949513,
+                6.642118099262007
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.943955399561673,
+                5.913533900456969,
+                5.927414199686609,
+                5.886431800900027,
+                5.882870999630541
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 3,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.659725299687125,
+                6.663064600434154,
+                6.660204200306907,
+                6.658658299420495,
+                6.657867800095119
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.92355689877877,
+                5.888245299865957,
+                5.880717000400182,
+                5.905245299800299,
+                5.924760100606363
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 3,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.703891699726228,
+                6.692532300075982,
+                6.733567800256424,
+                6.693200599693228,
+                6.683666599565186
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.98533970041899,
+                5.943520599976182,
+                5.936248900252394,
+                5.935442399641033,
+                5.964144600147847
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.6916425988893025,
+                6.729072300367989,
+                6.6921706005814485,
+                6.6874227006337605,
+                6.682260900561232
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.964988200867083,
+                5.943836200458463,
+                5.944952400750481,
+                5.920615399372764,
+                5.975717501132749
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.71284469863167,
+                6.654276100744028,
+                6.655283000145573,
+                6.657433099462651,
+                6.650975899538025
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.868108199501876,
+                5.911255700630136,
+                5.920609399618115,
+                5.983753700274974,
+                5.928148599923588
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 5,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.653139898844529,
+                6.655531500291545,
+                6.655765000323299,
+                6.659792599384673,
+                6.6624915998545475
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.884336899907794,
+                5.885134400159586,
+                5.926525600079913,
+                5.9237644003587775,
+                5.926939399796538
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        },
+        {
+          "round": 5,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.680523700197227,
+                6.681811199814547,
+                6.710166699485853,
+                6.6876772994874045,
+                6.7338755005039275
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.910909098747652,
+                5.904079199535772,
+                5.937958200229332,
+                5.946341100207064,
+                5.943224100337829
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.6922680009156466,
+                6.6857024998171255,
+                6.683216799865477,
+                6.68820619903272,
+                6.691406200116035
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                5.906324500392657,
+                5.947383999591693,
+                5.953677000070456,
+                5.9390503010945395,
+                5.9117276992765255
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 32,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 768,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                6.648631600546651,
+                6.662870399304666,
+                6.711488300061319,
+                6.663633900461718,
+                6.664150799042545
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 1920,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 256,
+              "wall_ms": [
+                5.923886700475123,
+                5.868120299419388,
+                5.916488700313494,
+                6.006893399171531,
+                5.921904000570066
+              ]
+            }
+          },
+          "candidate_calls": 640,
+          "qkv_calls": 320,
+          "ffn_calls": 320
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 6.68820619903272,
+          "candidate": 6.659373399452306
+        },
+        "decode": {
+          "current": 5.9390503010945395,
+          "candidate": 5.920609399618115
+        }
+      },
+      "speedups": {
+        "encode": 1.0043296565383741,
+        "decode": 1.0031146965171547
+      }
+    },
+    {
+      "batch": 8,
+      "frames": 1,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.962838500156067,
+                8.969116400112398,
+                8.89895079890266,
+                8.963800300261937,
+                8.976474200608209
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.752458400500473,
+                7.821127100032754,
+                7.761160899826791,
+                7.795432599959895,
+                7.788587700633798
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.951839800283778,
+                8.965789100329857,
+                8.968931100389455,
+                8.937071899708826,
+                8.965314200031571
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.816462298796978,
+                7.744195900158957,
+                7.760557800065726,
+                7.809967100911308,
+                7.7540204001707025
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.996665399172343,
+                8.988700500049163,
+                8.98260990070412,
+                8.971847700013313,
+                9.005762600281741
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.8514765002182685,
+                7.751609900151379,
+                7.749504900129978,
+                7.864686498942319,
+                7.798626700241584
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.96944920095848,
+                9.002573699399363,
+                8.944883701042272,
+                8.953344699693844,
+                8.975272100360598
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.8223895994597115,
+                7.760834299551789,
+                7.81619299959857,
+                7.754965299682226,
+                7.784654300485272
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.965627900033724,
+                8.968462300254032,
+                9.017498898901977,
+                8.910069000557996,
+                8.964958699652925
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.761326400213875,
+                7.8149435998057015,
+                7.753471500473097,
+                7.755915200687014,
+                7.902255600492936
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                9.070930899179075,
+                8.90250369993737,
+                8.963085101277102,
+                8.963579199917149,
+                8.905564500309993
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.804759399732575,
+                7.765176700195298,
+                7.804162299726158,
+                7.844828101224266,
+                7.790956400276627
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 3,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                9.029953500430565,
+                8.910388700314797,
+                8.975690099759959,
+                8.966726099606603,
+                8.911803401133511
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.832516900089104,
+                7.772256099269725,
+                7.775460099219345,
+                7.825687999138609,
+                7.796854499611072
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 3,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.997627499047667,
+                8.965101100329775,
+                8.959279100236017,
+                8.967893299995922,
+                8.962501201312989
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.819831899541896,
+                7.760250399587676,
+                7.8302576002897695,
+                7.771887400303967,
+                7.802881899988279
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.974192300229333,
+                8.979940200515557,
+                9.026076299778651,
+                8.968535599706229,
+                9.00295760075096
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.774265899206512,
+                7.83153910015244,
+                7.778287499968428,
+                7.764822100580204,
+                7.825344399316236
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                9.050145800574683,
+                8.911565000016708,
+                8.969516500656027,
+                8.96473549946677,
+                8.899682699120604
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.833347599080298,
+                7.764030600083061,
+                7.7599850003025495,
+                7.843706100538839,
+                7.765759900212288
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 5,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.97469929914223,
+                8.992576099990401,
+                8.915598700696137,
+                9.006804000819102,
+                8.977085900551174
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.769842700508889,
+                7.794475099944975,
+                7.7917369999340735,
+                7.823355699656531,
+                7.861972700629849
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 5,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.967960700101685,
+                8.968780201394111,
+                8.961911199730821,
+                8.907897199969739,
+                8.959325301111676
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.811266899807379,
+                7.8173734989832155,
+                7.770834599796217,
+                7.772533698880579,
+                7.835105899721384
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.908685699861962,
+                8.977884499472566,
+                8.961740000813734,
+                8.972271899983753,
+                9.046705400396604
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.828787001199089,
+                7.762661098968238,
+                7.764283200958744,
+                7.819239000673406,
+                7.766367199656088
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 256,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 6144,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                8.986670100421179,
+                8.931711300101597,
+                8.970173000125214,
+                9.007859100529458,
+                8.908176799013745
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 15360,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.802157699188683,
+                7.77694819989847,
+                7.773787200858351,
+                7.815175400173757,
+                7.763304399850313
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 8.967960700101685,
+          "candidate": 8.968931100389455
+        },
+        "decode": {
+          "current": 7.784654300485272,
+          "candidate": 7.794475099944975
+        }
+      },
+      "speedups": {
+        "encode": 0.9998918042432361,
+        "decode": 0.998740030684071
+      }
+    },
+    {
+      "batch": 1,
+      "frames": 3,
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.612208998762071,
+                7.549443400057498,
+                7.61903389939107,
+                7.581317599397153,
+                7.56780319934478
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.305665199761279,
+                6.321769599162508,
+                6.328747900261078,
+                6.315085999085568,
+                6.322863699460868
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 0,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.591655300348066,
+                7.6439980999566615,
+                7.600552999065258,
+                7.562783599132672,
+                7.576000700646546
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.251390698889736,
+                6.29387290100567,
+                6.299985499936156,
+                6.302180599595886,
+                6.302091499674134
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.592036999994889,
+                7.565262400021311,
+                7.580909998796415,
+                7.71628270013025,
+                7.583148199773859
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.30702179914806,
+                6.3019091001478955,
+                6.294127499859314,
+                6.309332199452911,
+                6.268631300190464
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.553017299505882,
+                7.554499099205714,
+                7.611268300388474,
+                7.554143400921021,
+                7.559838199813385
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.305706400598865,
+                6.303308800852392,
+                6.3355607009725645,
+                6.327235999924596,
+                6.363635799789336
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.555787599994801,
+                7.554411899764091,
+                7.60554750013398,
+                7.542718900367618,
+                7.665790300234221
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.335326400585473,
+                6.304041200201027,
+                6.311425199965015,
+                6.300189999456052,
+                6.354176899185404
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 2,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.5648176003596745,
+                7.5580407996312715,
+                7.615760799671989,
+                7.557484800054226,
+                7.563048199517652
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.30371770093916,
+                6.337909201101866,
+                6.3207708997651935,
+                6.371324299834669,
+                6.358782600727864
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 3,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.611792400712147,
+                7.681213499745354,
+                7.583008099754807,
+                7.557128099142574,
+                7.5789754002471454
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.249126601323951,
+                6.366453200462274,
+                6.336092800484039,
+                6.308590900152922,
+                6.300239099073224
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 3,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.554548300686292,
+                7.5962160000926815,
+                7.549422599549871,
+                7.552354200743139,
+                7.605089699791279
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.3368563001859,
+                6.308547899243422,
+                6.297446800454054,
+                6.302792999485973,
+                6.314813598874025
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.622950499353465,
+                7.549419600400142,
+                7.550971599994227,
+                7.557922699197661,
+                7.608601399988402
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.270365801174194,
+                6.25826989999041,
+                6.304329900012817,
+                6.298327600234188,
+                6.304063399147708
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 4,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.623116800095886,
+                7.591159500589129,
+                7.6130879009724595,
+                7.546853800886311,
+                7.555091399990488
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.401537501369603,
+                6.328184899757616,
+                6.29904290108243,
+                6.303169699094724,
+                6.30226500070421
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 5,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.5410599005408585,
+                7.599092500458937,
+                7.6118316006613895,
+                7.542660900799092,
+                7.568735200038645
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.242456099425908,
+                6.293194901081733,
+                6.295372999738902,
+                6.303595600184053,
+                6.300810299580917
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 5,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.553031500719953,
+                7.606185899931006,
+                7.600401999661699,
+                7.550374499987811,
+                7.616631699784193
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.241923000197858,
+                6.292774100438692,
+                6.38233120116638,
+                6.305710499873385,
+                6.336669001029804
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "current",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.57979510090081,
+                7.63983460055897,
+                7.603982799628284,
+                7.545747800031677,
+                7.617036400188226
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.275201900280081,
+                6.259234799654223,
+                6.297468999400735,
+                6.302940400200896,
+                6.297954900946934
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        },
+        {
+          "round": 6,
+          "backend": "candidate",
+          "results": {
+            "encode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 96,
+                  "bits_equal": true
+                },
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 2304,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                7.555384001170751,
+                7.562310100183822,
+                7.576952700037509,
+                7.635823999589775,
+                7.5653317995602265
+              ]
+            },
+            "decode": {
+              "checks": [
+                {
+                  "exact": true,
+                  "max_abs": 0.0,
+                  "rmse": 0.0,
+                  "different_elements": 0,
+                  "elements": 5760,
+                  "bits_equal": true
+                }
+              ],
+              "candidate_capture_calls": 0,
+              "wall_ms": [
+                6.30447430012282,
+                6.300221200217493,
+                6.30399630026659,
+                6.35252100037178,
+                6.331837999459822
+              ]
+            }
+          },
+          "candidate_calls": 0,
+          "qkv_calls": 0,
+          "ffn_calls": 0
+        }
+      ],
+      "medians_ms": {
+        "encode": {
+          "current": 7.56780319934478,
+          "candidate": 7.5789754002471454
+        },
+        "decode": {
+          "current": 6.305665199761279,
+          "candidate": 6.303169699094724
+        }
+      },
+      "speedups": {
+        "encode": 0.9985258956109027,
+        "decode": 1.0003959120229482
+      }
+    }
+  ],
+  "enabled_in_runtime": false,
+  "extra_warmup_replays": 200,
+  "all_exact": true,
+  "peak_allocated_bytes": 7708115968
+}

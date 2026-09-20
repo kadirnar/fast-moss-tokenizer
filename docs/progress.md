@@ -1253,3 +1253,41 @@ Fresh comparisons measure **6.626 / 5.862 ms** batch-one encode/decode at 80 ms,
 The full suite passes **828 tests in 154.69 seconds**. All **22 compiled batch/time variants** pass captured arithmetic checks, use **34–80 registers** and **16–24,576 shared bytes**, and report zero local bytes, local load/store instructions or matrix Tensor Core instructions. Triton reports zero spills. Final audit verifies source/configuration provenance, exactness, decoder control counts, preserved output layouts, launch removal, direct ratios, compiler resources and all 29 package hashes.
 
 All handles are terminal: layout attribution `58850`; research model `42422`; initial component/research-test chain `47620`; component rerun after kernel naming and focused runtime tests `10273`; integrated model `32393`; sequential CuTe/streams/profiles/original-comparisons/full-suite/resource chain `26761`; isolated wheel import `74184`; initial CPU audit `28801`. GPU jobs ran sequentially. Temporary repository wheel-build output is removed. This turn is **progress**, with an integrated verified encoder improvement; the goal remains active and unmet. Further exact matrix scheduling, physical memory-system attribution, broader serving/multi-GPU execution and verified 100× acceleration remain open.
+
+## Fused normalization and one-row projection research
+
+Previous goal turn classification: **progress**, verified at clean commit `b240bd2`, with encoder FFN fusion preserving transposed output layouts, 828 passing tests, exact corpus/streaming gates and measured launch removal. No task GPU job remained; only the preexisting 29 MiB client was active. The 100× goal remains active and unmet.
+
+- The current 80 ms profile still assigns roughly three quarters/four fifths of encode/decode kernel time to matrices and their fused epilogues. Earlier vector-load-only attempts did not improve full-model latency. This experiment fuses native Welford normalization into the one-row 1280→3840 QKV and 1280→5120 GELU projections.
+- Every block computes the same exact normalized vector in 5 KiB of shared memory. Two layouts distribute Welford across four physical warps or repeat its four logical warp groups inside each physical warp. A block-wide barrier separates normalized stores from GEMV reads. FP32 accumulation/reduction order, affine arithmetic and GELU rounding are retained; weights stay native and unchanged.
+- All **240 configurations** reproduce captured normalized values and outputs exactly, with **31–44 registers**, **5,120–5,168 shared bytes**, zero local bytes and no matrix Tensor Core instructions. Initial confirmation passes **286 eager/graph stress comparisons** across seven candidates and native/current controls, plus exact six allocation-ring cases.
+- Initial `do_bench_cudagraph` ring measurements are bimodal, including the current baseline. A fixed graph with **200 warmup replays**, nine samples of ten replays, and five rotating rounds resolves that instability. Selected 32-allocation gains are **1.0107× QKV / 1.0085× GELU**. Initial timing reports remain preserved and are not used as final performance evidence.
+- A QKV-only full-model run and a steady-selected QKV+GELU run each pass **48 cases** bit for bit. The latter gives **1.0039× / 1.0042×** batch-one / 80 ms encode/decode, with no-call control variation up to 0.32%. A seven-round full-model comparison with 200 extra warmup replays checks this small effect further.
+- Explicit `.ca`, `.cg` and `.cs` weight-load policies pass **360 additional eager/graph stress comparisons**. Bypassing L1 regresses performance; streaming eviction gives only a small extra QKV gain and regresses the selected GELU schedule. These cache variants remain research-only.
+- All **29 focused tests pass in 8.02 seconds**, including intermediate normalized bits, signed zero/subnormal affine values, graph replay, multiple vector widths/layouts, cache policies, invalid geometry and explicit FP32 output dtype.
+
+The explicitly warmed seven-round repeat gives **6.688 → 6.659 ms encode (1.0043×)** and **5.939 → 5.921 ms decode (1.0031×)** at batch one / 80 ms; no-call controls stay within **0.15%** of parity. It is timing-only with original-output bit checks, using the already exact 48-case combined corpus gate. A research profile verifies **64 fused norm/projection calls**, **136 → 72 separate CUDA LayerNorm calls**, and **64 fewer launches per direction**, leaving **1,276 / 744** encoder/decoder kernels. Matrix groups including fused normalization occupy **76.13% / 84.97%** of device kernel time.
+
+The compiler audit passes **19 base/cache variants**, with **31–40 registers**, **5,120–5,168 shared bytes**, zero local bytes/local load-store instructions and no matrix Tensor Core instructions. Every explicit-cache variant emits the selected PTX cache policy. All **29 production files** remain byte-identical to the verified `b240bd2` package; no supported-runtime or overall-speedup claim is advanced by this research-only commit.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.norm_gemv_tune
+.venv/bin/python -m benchmarks.norm_gemv_confirm
+.venv/bin/python -m benchmarks.norm_gemv_model --rounds 5 --output results/full_norm_gemv.json
+.venv/bin/python -m benchmarks.norm_gemv_steady
+.venv/bin/python -m benchmarks.norm_gemv_model --confirmation results/norm_gemv_steady.json --rounds 5 --output results/full_norm_gemv_steady.json
+.venv/bin/python -m benchmarks.norm_gemv_cache_probe
+.venv/bin/python -m pytest tests/test_norm_gemv_research.py -q
+.venv/bin/python -m benchmarks.norm_gemv_model --confirmation results/norm_gemv_steady.json --timing-only --rounds 7 --extra-warmup-replays 200 --output results/full_norm_gemv_warm.json
+.venv/bin/python -m benchmarks.norm_gemv_profile --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_norm_gemv_profile.json
+.venv/bin/python -m benchmarks.norm_gemv_resources
+.venv/bin/python -m pytest -q
+```
+
+The next step is supported-runtime integration of the steady-selected QKV and GELU configurations, with owned normalization/projection dispatch, a prepared-attention projection path, observer/custom-forward fallbacks, storage/graph lifetime checks, and integrated corpus/CuTe/streaming/performance gates. Cache-policy experiments are retained separately; their additional QKV benefit is small and they do not improve the selected GELU path. The full 100× objective remains active and unmet.
+
+The full suite passes **857 tests in 157.93 seconds**. Final audit passes source/arithmetic provenance, selection, component/corpus bits, control counts, actual launch removal, direct timing ratios, compiler resources and unchanged production bytes. This turn is **progress**: it establishes a new exact fused-kernel candidate, resolves an unreliable component-timing method, and narrows the next implementation step without changing the full objective.
+
+All handles are terminal: initial arithmetic check `11941`; sweep `14015`; initial confirmation `35104`; QKV-only model `31386`; steady graph confirmation `83009`; combined model `45716`; cache policies `20297`; focused tests `40787`; warmed model repeat `47312`; sequential research profile/compiler/full-suite chain `87996`; CPU audit `52725`. GPU jobs ran sequentially. Only the preexisting 29 MiB GPU client remains. The supported runtime stays at `b240bd2`; production integration of the validated candidate and the broader 100× goal remain unfinished.
