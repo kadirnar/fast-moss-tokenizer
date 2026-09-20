@@ -52,9 +52,11 @@ def check(status):
 
 
 class LinearPlan:
-    def __init__(self,weight,rows,layout='col',candidates=16,workspace_bytes=32*1024*1024,workspace=None):
+    def __init__(self,weight,rows,layout='col',candidates=16,workspace_bytes=32*1024*1024,workspace=None,
+                 packed_weight=None):
         if (not weight.is_cuda or weight.dtype!=torch.float32 or weight.ndim!=2
-                or not weight.is_contiguous() or layout not in ['col','row','packed'] or rows<1):
+                or (not weight.is_contiguous() and packed_weight is None)
+                or layout not in ['col','row','packed'] or rows<1):
             raise ValueError('Expected contiguous CUDA FP32 weight and supported layout')
         if candidates<1 or workspace_bytes<0:
             raise ValueError('Positive candidate count and nonnegative workspace size required')
@@ -63,7 +65,13 @@ class LinearPlan:
             raise ValueError('Weight must be 256-byte aligned')
         self.lib=library();self.resources=[]
         self.n,self.k=weight.shape;self.m=rows;self.device=weight.device
-        self.layout=layout;self.weight=weight if layout!='packed' else weight.T.contiguous()
+        if packed_weight is not None and (layout!='packed' or packed_weight.shape!=(self.k,self.n)
+                or packed_weight.device!=self.device or packed_weight.dtype!=torch.float32
+                or not packed_weight.is_contiguous() or packed_weight.data_ptr()%256):
+            raise ValueError('Packed weight must match the aligned CUDA FP32 transposed layout')
+        self.layout=layout
+        self.weight=(packed_weight if packed_weight is not None else
+                     weight if layout!='packed' else weight.T.contiguous())
         if workspace is not None and (workspace.device!=self.device or workspace.dtype!=torch.uint8
                                       or not workspace.is_contiguous() or workspace.numel()<workspace_bytes
                                       or workspace.data_ptr()%256):

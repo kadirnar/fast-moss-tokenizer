@@ -193,3 +193,42 @@ Reproduction (run GPU jobs sequentially):
 No supported runtime defaults changed, no experimental attention was enabled, and no lower-precision checkpoint or operands were introduced. These improvements are specific to measured shapes and the installed RTX 5070 Ti / PyTorch 2.8 / cuBLASLt 12.8.4 environment. Further work should investigate reducing packed-weight memory overhead, extending exact algorithm coverage to small batches and larger batched workloads, and a validated optional runtime interface. Automatic request scheduling, multi-GPU execution, broader corpus checks, and the original 100× objective remain outstanding.
 
 Final sequential validation session `94535` completed successfully, including final stress, offline, streaming, and full tests. No GPU benchmark or download is intentionally left running.
+
+
+## 2026-09-20, single-copy FP32 weights and broader matrix coverage
+
+Previous goal turn classification: **progress**, verified against clean commit `9f55340`, its cuBLASLt code, 90-test result, and exact offline/streaming reports. This turn is also **progress**: the experimental matrix path now avoids duplicated GPU weights, covers more useful shapes, passes broader full-model gates, and has a new profile identifying its remaining dominant cost. The goal remains active. No 100× whole-model result has been achieved, and the supported batch-one runtime remains approximately 5×.
+
+Changes:
+
+- `benchmarks/packed_weights.py` shares each FP32 packed tensor across row-count plans. Optional resident mode keeps only that storage, with the original logical weight exposed as its transposed view. It preserves Parameter identity/values, uses no CPU offload or precision conversion, and restores contiguous weights one at a time after releasing plans. Original storage pointers/strides are not retained. Existing graphs/external aliases must not cross this research context; known distinct-Parameter storage aliases are rejected.
+- `LinearPlan` accepts validated prepacked weights. The reversible experimental wrapper enforces frozen evaluation, rejects overlapping contexts, preserves autocast/input-gradient fallbacks, and releases its plan/packed caches on exit. Untuned calls on resident weights reconstruct the original contiguous layout before ordinary linear execution.
+- `cublaslt_batching.py` evaluates three real sources at batches 1/8/128 and one/three frames, comparing eager and CUDA graph outputs against identical optimized reference workloads. It also checks outputs after restoring original weight storage. Setup and peak allocated memory are recorded separately from steady-state timing.
+- `cublaslt_audit.py` compares each candidate linear operation with original-layout PyTorch on the same input, returning the reference to prevent cascading differences. The first batch-128 one-frame attempt exposed one dispatch error at `encoder.7.output_proj`: a contiguous tensor with singleton strides failed PyTorch's leading-stride folding condition. Flattened GEMM matched the component reference but changed native batched-GEMM rounding. The rejected report is preserved in `full_cublaslt_batching_initial.json`; tokens/audio were exact but hidden-state maximum error reached 5.72e-6.
+- The wrapper now follows the pinned PyTorch 2.8 leading-stride folding rule and retains native batched GEMM where appropriate, without a layer-name exception. Unit tests reproduce this layout both before packing and after an earlier call has packed the same weight. Matrix reports now explicitly label their flattened 2-D reference and future captures include native input shape/stride metadata.
+- `profile_graph --matrix-tuning ...` profiles the resident experiment and persists kernel-group totals in addition to raw operator tables/traces.
+
+Authoritative evidence:
+
+- `results/full_cublaslt_resident.json`: the prior 14-case corpus remains exact in eager/graph execution and after restoration. Combined batch-eight timing **30.867 → 25.988 ms**. Peak allocated GPU memory **7,446,239,232 bytes**, versus the previous duplicated-weight run's **13,252,793,856 bytes**. Logical packed-weight content remains 5.69 GB, but it replaces original storage instead of adding another full copy.
+- `results/full_cublaslt_resident_streaming.json`: exact eight-lane, 54-step, 12.96-second schedule, including pauses/tails/empty completion/reuse. **38,080 tokens and 2,282,880 valid waveform samples** match. Encode **21.402 → 18.978 ms**, decode **19.471 → 16.805 ms**. Peak allocation **8,744,888,832 bytes**, versus 11,639,704,576 bytes in the prior copy-based run.
+- `results/matrices_cublaslt_large.json`: **1,290 component measurements across 52 shape groups** spanning 128–3,072 matrix rows. Together with the earlier reports, resident selection admits 57 packed shape choices. `results/cublaslt_large_fidelity.json`: **684 exact actual-weight comparisons and graph replays**, including subnormal/tiny/large/sparse/random inputs. Flattened-component equality alone is explicitly insufficient for native dispatch equivalence.
+- `results/cublaslt_layer_audit.json` isolates the initial mismatch; `results/cublaslt_layer_audit_fixed.json` is entirely exact after the stride-dispatch correction.
+- `results/full_cublaslt_batching.json`: **18 real-audio cases**, all exact in eager/graph execution and after restoring the model, comprising **52,608 tokens and 3,156,480 waveform samples per execution mode**, plus hidden states. At 240 ms per lane, combined encode/decode improves **30.916 → 26.019 ms (1.188×)** at batch eight and **169.831 → 146.979 ms (1.155×)** at batch 128. The latter is a **13.46% latency reduction** against the already optimized graph, with **7.633 GB peak allocation**. At batch 128 / 80 ms, **81.671 → 72.843 ms (1.121×)**. Batch one / 240 ms gains approximately 4.1%; batch one / 80 ms and batch eight / 80 ms have no meaningful gain. Setup for the measured case spans approximately 0.4–1.0 seconds and is excluded from steady-state latency.
+- `results/full_cublaslt_large_profile.json` and its encode/decode tables: batch 128 / 240 ms, FP32/all quantizers. SGEMM still accounts for **79.97% encode / 82.51% decode** of CUDA kernel time; attention accounts for **11.80% / 11.89%**. Profiled kernel totals are not substituted for unprofiled end-to-end timing.
+- `results/tests.txt`: **96 passed in 16.57 seconds**, including shared packed storage across row plans, graph replay/fallback, Parameter/value restoration, injected plan-validation failure cleanup, alias rejection, and the native batched-GEMM regression.
+
+Reproduce memory and broader coverage with sequential GPU jobs:
+
+```bash
+.venv/bin/python -m benchmarks.cublaslt_model --resident --output results/full_cublaslt_resident.json
+.venv/bin/python -m benchmarks.cublaslt_streaming --resident --output results/full_cublaslt_resident_streaming.json
+.venv/bin/python -m benchmarks.matrices --cublaslt --inputs results/matrix_inputs.pt --rows 128 256 384 512 768 1024 1536 3072 --output results/matrices_cublaslt_large.json
+.venv/bin/python -m benchmarks.cublaslt_fidelity --packed-only --tuning results/matrices_cublaslt.json results/matrices_cublaslt_codec8.json results/matrices_cublaslt_large.json --output results/cublaslt_large_fidelity.json
+.venv/bin/python -m benchmarks.cublaslt_batching
+.venv/bin/python -m benchmarks.profile_graph --batch 128 --seconds .24 --share-rope-tables --attention-mask-backend triton --matrix-tuning results/matrices_cublaslt.json results/matrices_cublaslt_codec8.json results/matrices_cublaslt_large.json --output results/full_cublaslt_large_profile.json
+```
+
+The ignored cached matrix inputs can be regenerated using the previous section's capture command. Performance remains hardware/library/shape-specific. These changes stay in the research path, with no supported-runtime default changes and no experimental attention enabled. Next work should target the measured remaining SGEMM cost, investigate exact batched-GEMM acceleration and native-layout tuning, and develop a validated runtime interface for resident weights. Broader quality/corpus validation, request scheduling, multi-GPU work, and the requested 100× whole-model objective remain outstanding.
+
+All GPU jobs completed, including resident/large-sweep session `74770`, diagnostic audit `95360`, and final corrected audit/batching/profile/test session `11333`. The initially rejected batch run `44997` was terminal before follow-up work. No GPU benchmark or download is intentionally left running.

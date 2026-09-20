@@ -17,8 +17,9 @@ def main():
     p.add_argument('--inputs',default='results/matrix_inputs.pt')
     p.add_argument('--tuning',nargs='+',default=['results/matrices_cublaslt.json','results/matrices_cublaslt_codec8.json'])
     p.add_argument('--output',default='results/cublaslt_fidelity.json')
+    p.add_argument('--packed-only',action='store_true')
     a=p.parse_args();strict_precision();torch.manual_seed(3812)
-    cases=torch.load(a.inputs,weights_only=True);selected=choices(a.tuning)
+    cases=torch.load(a.inputs,weights_only=True);selected=choices(a.tuning,packed_only=a.packed_only)
     report={'scope':'actual-weight stress checks, not a universal exactness proof',
             'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
             'cublaslt_version':library().cublasLtGetVersion(),'seed':3812,'records':[]}
@@ -44,6 +45,7 @@ def main():
         print(shape,'exact',all(c['reference']['exact'] and c['graph_vs_eager']['exact'] for c in checks),flush=True)
     report['all_exact']=all(c['reference']['exact'] and c['graph_vs_eager']['exact'] for r in report['records'] for c in r['checks'])
     Path(a.output).write_text(json.dumps(report,indent=2)+'\n')
+    if not report['all_exact']:raise SystemExit('Selected matrix fidelity failed')
 
 
 if __name__=='__main__':main()

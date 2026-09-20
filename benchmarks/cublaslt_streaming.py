@@ -31,20 +31,22 @@ def main():
     p.add_argument('--tuning',nargs='+',default=['results/matrices_cublaslt.json','results/matrices_cublaslt_codec8.json'])
     p.add_argument('--steps',type=int,default=54)
     p.add_argument('--output',default='results/full_cublaslt_streaming.json')
-    a=p.parse_args();model=load_model();selected=choices(a.tuning);clips,sources=audio_sources()
+    p.add_argument('--resident',action='store_true')
+    a=p.parse_args();model=load_model();selected=choices(a.tuning,packed_only=a.resident);clips,sources=audio_sources()
     width=5760
     audio=torch.stack([clips[i%3][(torch.arange(a.steps*width,device='cuda')+i*1920)%clips[i%3].numel()]
                        for i in range(8)])[:,None]
     report={'scope':'full-checkpoint cuBLASLt long-stream experiment; not promoted',
             'revision':REVISION,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
             'cublaslt_version':library().cublasLtGetVersion(),'dtype':'float32','tf32':False,
+            'resident_weights':a.resident,
             'quantizers':32,'batch':8,'chunk_frames':3,'steps':a.steps,'sources':sources,
             'input':'cyclic source samples, lanes alternate music/speech/environment with 1920-sample offsets',
             'reference':'existing exact optimized CUDA graph, identical lane schedule',
             'continuous_lane_seconds':a.steps*.24,'results':{}}
     def run(direction,parts,candidate,refs=None):
         records=[];outputs=[];valid_elements=0
-        ctx=experimental(model,selected) if candidate else nullcontext({})
+        ctx=experimental(model,selected,resident=a.resident) if candidate else nullcontext({})
         with ctx as plans:
             with StreamingSession(model,direction,8,chunk_frames=3) as session:
                 first_graph=None
@@ -72,7 +74,9 @@ def main():
                 for _ in range(43):session.push(parts[-1])
                 timing=measure(lambda:session.push(parts[-1]),repeats=20)
             plan_count=len(plans)
-            packed_bytes=sum(p.weight.numel()*4 for p,_ in plans.values() if p.layout=='packed')
+            unique={p.weight.data_ptr():p.weight for p,_ in plans.values() if p.layout=='packed'}
+            packed_bytes=sum(p.numel()*4 for p in unique.values())
+            del unique
         return outputs,{'timing':timing,'plan_count':plan_count,'packed_weight_bytes':packed_bytes,
                         'steps':records,'valid_elements':valid_elements,
                         'all_exact':all(r['lengths_exact'] and r['same_graph'] and all(c['exact'] for c in r['lanes']) for r in records)}

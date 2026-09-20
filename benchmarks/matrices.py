@@ -2,6 +2,8 @@
 
 Warm-cache microbenchmarks can overstate model-level performance. A separate
 cache-evicted replay measurement is reported; neither is a whole-model speedup.
+Inputs are normalized to contiguous 2-D matrices. Native higher-rank calls can
+dispatch to batched GEMM with a different reduction order; model gates cover it.
 """
 import argparse
 import json
@@ -48,7 +50,8 @@ def main():
             w=module.weight
             key=(x.shape[0],*w.shape)
             if key not in cases:
-                cases[key]={"name":name,"x":x.contiguous().clone(),"weight":w,"calls":0}
+                cases[key]={"name":name,"x":x.contiguous().clone(),"weight":w,"calls":0,
+                            "native_shape":list(args[0].shape),"native_stride":list(args[0].stride())}
             cases[key]["calls"]+=1
         return hook
     if a.inputs:
@@ -69,6 +72,7 @@ def main():
     report={"scope":"isolated actual-weight matrix operations, not whole-model speedups",
             "revision":REVISION,"torch":torch.__version__,"gpu":torch.cuda.get_device_name(),
             "dtype":"float32","tf32":False,"triton_dot_precision":"ieee",
+            "reference_layout":"flattened contiguous 2-D; native batched GEMM can differ",
             "cublaslt_compute":"CUBLAS_COMPUTE_32F_PEDANTIC" if a.cublaslt else None,"records":[],"unavailable":[]}
     if a.cublaslt:
         from benchmarks.cublaslt import library
@@ -112,6 +116,7 @@ def main():
             graph=GraphedCallable(lambda z:(fn(z),),x)
             record={"shape_MNK":shape,"layer":case["name"],"occurrences":case["calls"],"backend":name,
                     "reference_difference":difference(ref,out),"graph_vs_eager":difference(out,graph(x)[0]),
+                    "native_shape":case.get('native_shape'),"native_stride":case.get('native_stride'),
                     "algorithm":metadata.get(name),"fp64_max_abs":(out.double()-gold).abs().max().item(),
                     "reference_fp64_max_abs":(ref.double()-gold).abs().max().item(),
                     "hot_graph_ms":do_bench_cudagraph(lambda:fn(x),rep=10,return_mode="median"),
