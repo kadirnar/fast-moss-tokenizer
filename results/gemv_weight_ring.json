@@ -1,0 +1,993 @@
+{
+  "scope": "synthetic distinct-allocation ring of bit-identical captured FP32 weight copies; excludes packing/capture/copies; not a codec benchmark or physical DRAM counter",
+  "previous_commit": "dafaa46",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "records": [
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "length": 1,
+      "logical_weight_bytes": 26214400,
+      "configs": [
+        [
+          16,
+          2,
+          1,
+          4
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[16, 2, 1, 4]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.00959360959361477,
+          "per_call_ms": 0.00959360959361477
+        },
+        {
+          "round": 0,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.00935221039919297,
+          "per_call_ms": 0.00935221039919297
+        },
+        {
+          "round": 1,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.009397983168791195,
+          "per_call_ms": 0.009397983168791195
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.009589301757949595,
+          "per_call_ms": 0.009589301757949595
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.009568714565700956,
+          "per_call_ms": 0.009568714565700956
+        },
+        {
+          "round": 2,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.009362193160141662,
+          "per_call_ms": 0.009362193160141662
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.009589301757949595,
+        "[16, 2, 1, 4]": 0.009362193160141662
+      },
+      "speedups": {
+        "[16, 2, 1, 4]": 1.024258055129093
+      }
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "length": 4,
+      "logical_weight_bytes": 104857600,
+      "configs": [
+        [
+          16,
+          2,
+          1,
+          4
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[16, 2, 1, 4]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.13498528313743693,
+          "per_call_ms": 0.033746320784359234
+        },
+        {
+          "round": 0,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.13191197294937937,
+          "per_call_ms": 0.03297799323734484
+        },
+        {
+          "round": 1,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.13179872328774972,
+          "per_call_ms": 0.03294968082193743
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.134864570413317,
+          "per_call_ms": 0.03371614260332925
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.13472733347939803,
+          "per_call_ms": 0.033681833369849506
+        },
+        {
+          "round": 2,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.13190574645996095,
+          "per_call_ms": 0.03297643661499024
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.03371614260332925,
+        "[16, 2, 1, 4]": 0.03297643661499024
+      },
+      "speedups": {
+        "[16, 2, 1, 4]": 1.0224313499052462
+      }
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "length": 16,
+      "logical_weight_bytes": 419430400,
+      "configs": [
+        [
+          16,
+          2,
+          1,
+          4
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[16, 2, 1, 4]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.5385657174246652,
+          "per_call_ms": 0.033660357339041574
+        },
+        {
+          "round": 0,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.5271993302462393,
+          "per_call_ms": 0.03294995814038996
+        },
+        {
+          "round": 1,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.5268768511320415,
+          "per_call_ms": 0.032929803195752595
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.5385755947657994,
+          "per_call_ms": 0.03366097467286246
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.5386405161448887,
+          "per_call_ms": 0.033665032259055545
+        },
+        {
+          "round": 2,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 0.5277340604547869,
+          "per_call_ms": 0.03298337877842418
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.03366097467286246,
+        "[16, 2, 1, 4]": 0.03294995814038996
+      },
+      "speedups": {
+        "[16, 2, 1, 4]": 1.0215786778679072
+      }
+    },
+    {
+      "shape": [
+        1,
+        1280,
+        5120
+      ],
+      "length": 32,
+      "logical_weight_bytes": 838860800,
+      "configs": [
+        [
+          16,
+          2,
+          1,
+          4
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[16, 2, 1, 4]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 1.0769872052328926,
+          "per_call_ms": 0.033655850163527894
+        },
+        {
+          "round": 0,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 1.0551958901541574,
+          "per_call_ms": 0.03297487156731742
+        },
+        {
+          "round": 1,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 1.0527610233851843,
+          "per_call_ms": 0.03289878198078701
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 1.0782288006373815,
+          "per_call_ms": 0.03369465001991817
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 1.0759677682604107,
+          "per_call_ms": 0.033623992758137836
+        },
+        {
+          "round": 2,
+          "backend": "[16, 2, 1, 4]",
+          "ring_ms": 1.0535069427490233,
+          "per_call_ms": 0.03292209196090698
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.033655850163527894,
+        "[16, 2, 1, 4]": 0.03292209196090698
+      },
+      "speedups": {
+        "[16, 2, 1, 4]": 1.022287714993695
+      }
+    },
+    {
+      "shape": [
+        1,
+        3840,
+        1280
+      ],
+      "length": 1,
+      "logical_weight_bytes": 19660800,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.008124081086490674,
+          "per_call_ms": 0.008124081086490674
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.006909127481666529,
+          "per_call_ms": 0.006909127481666529
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.006907794482284072,
+          "per_call_ms": 0.006907794482284072
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.008098130327199006,
+          "per_call_ms": 0.008098130327199006
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.00816604154262585,
+          "per_call_ms": 0.00816604154262585
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.006958376766569522,
+          "per_call_ms": 0.006958376766569522
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.008124081086490674,
+        "[8, 4, 1, 16]": 0.006909127481666529
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.1758476172350332
+      }
+    },
+    {
+      "shape": [
+        1,
+        3840,
+        1280
+      ],
+      "length": 4,
+      "logical_weight_bytes": 78643200,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.10100755291385251,
+          "per_call_ms": 0.025251888228463127
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.10047033309936523,
+          "per_call_ms": 0.02511758327484131
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.10042994419733683,
+          "per_call_ms": 0.02510748604933421
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.10123643875122071,
+          "per_call_ms": 0.025309109687805177
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.10121876164486533,
+          "per_call_ms": 0.025304690411216333
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.10034594535827637,
+          "per_call_ms": 0.025086486339569093
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.025304690411216333,
+        "[8, 4, 1, 16]": 0.02510748604933421
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.0078544049171085
+      }
+    },
+    {
+      "shape": [
+        1,
+        3840,
+        1280
+      ],
+      "length": 16,
+      "logical_weight_bytes": 314572800,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.40504285097122195,
+          "per_call_ms": 0.02531517818570137
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.4031534067789714,
+          "per_call_ms": 0.02519708792368571
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.4037373021443685,
+          "per_call_ms": 0.02523358138402303
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.405140799445075,
+          "per_call_ms": 0.025321299965317186
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.40588890797383076,
+          "per_call_ms": 0.025368056748364422
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.40325866190592446,
+          "per_call_ms": 0.02520366636912028
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.025321299965317186,
+        "[8, 4, 1, 16]": 0.02520366636912028
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.0046673207966692
+      }
+    },
+    {
+      "shape": [
+        1,
+        3840,
+        1280
+      ],
+      "length": 32,
+      "logical_weight_bytes": 629145600,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.8122185475117452,
+          "per_call_ms": 0.025381829609742036
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.8055447346455342,
+          "per_call_ms": 0.025173272957672944
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.8096294093776394,
+          "per_call_ms": 0.02530091904305123
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.8114562627431509,
+          "per_call_ms": 0.025358008210723464
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.8100014712359455,
+          "per_call_ms": 0.025312545976123296
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.8087885933953363,
+          "per_call_ms": 0.025274643543604258
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.025358008210723464,
+        "[8, 4, 1, 16]": 0.025274643543604258
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.003298351843237
+      }
+    },
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "length": 1,
+      "logical_weight_bytes": 26214400,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ],
+        [
+          8,
+          8,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 8, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.01036202188234854,
+          "per_call_ms": 0.01036202188234854
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.008814774506480981,
+          "per_call_ms": 0.008814774506480981
+        },
+        {
+          "round": 0,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.008630809767866898,
+          "per_call_ms": 0.008630809767866898
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.0087857764433412,
+          "per_call_ms": 0.0087857764433412
+        },
+        {
+          "round": 1,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.008678968434571594,
+          "per_call_ms": 0.008678968434571594
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.010467711150961578,
+          "per_call_ms": 0.010467711150961578
+        },
+        {
+          "round": 2,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.00866371324813587,
+          "per_call_ms": 0.00866371324813587
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.010515801401904029,
+          "per_call_ms": 0.010515801401904029
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.008836064494085557,
+          "per_call_ms": 0.008836064494085557
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.010467711150961578,
+        "[8, 4, 1, 16]": 0.008814774506480981,
+        "[8, 8, 1, 16]": 0.00866371324813587
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.1875188801784198,
+        "[8, 8, 1, 16]": 1.208224562743217
+      }
+    },
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "length": 4,
+      "logical_weight_bytes": 104857600,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ],
+        [
+          8,
+          8,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 8, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.13364977773030598,
+          "per_call_ms": 0.033412444432576495
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.1325618038093466,
+          "per_call_ms": 0.03314045095233665
+        },
+        {
+          "round": 0,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.13171237530915633,
+          "per_call_ms": 0.03292809382728908
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.13262240008303994,
+          "per_call_ms": 0.033155600020759984
+        },
+        {
+          "round": 1,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.13124585690705673,
+          "per_call_ms": 0.03281146422676418
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.13347187211028244,
+          "per_call_ms": 0.03336796802757061
+        },
+        {
+          "round": 2,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.1314579637427079,
+          "per_call_ms": 0.03286449093567698
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.1334178983900282,
+          "per_call_ms": 0.03335447459750705
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.13280691849557977,
+          "per_call_ms": 0.03320172962389494
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.03336796802757061,
+        "[8, 4, 1, 16]": 0.033155600020759984,
+        "[8, 8, 1, 16]": 0.03286449093567698
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.0064051926877406,
+        "[8, 8, 1, 16]": 1.0153197897657702
+      }
+    },
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "length": 16,
+      "logical_weight_bytes": 419430400,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ],
+        [
+          8,
+          8,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 8, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 0.535129315512521,
+          "per_call_ms": 0.03344558221953256
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.5312530551040382,
+          "per_call_ms": 0.03320331594400239
+        },
+        {
+          "round": 0,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.5264874675817657,
+          "per_call_ms": 0.032905466723860355
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.5300637730380945,
+          "per_call_ms": 0.033128985814880905
+        },
+        {
+          "round": 1,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.5259341490896124,
+          "per_call_ms": 0.03287088431810078
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 0.5347687482833863,
+          "per_call_ms": 0.03342304676771164
+        },
+        {
+          "round": 2,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 0.5269779740718373,
+          "per_call_ms": 0.03293612337948983
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 0.5345037732805524,
+          "per_call_ms": 0.03340648583003453
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 0.5295948865120871,
+          "per_call_ms": 0.03309968040700544
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.03342304676771164,
+        "[8, 4, 1, 16]": 0.033128985814880905,
+        "[8, 8, 1, 16]": 0.032905466723860355
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.0088762437363432,
+        "[8, 8, 1, 16]": 1.0157293026169412
+      }
+    },
+    {
+      "shape": [
+        1,
+        5120,
+        1280
+      ],
+      "length": 32,
+      "logical_weight_bytes": 838860800,
+      "configs": [
+        [
+          8,
+          4,
+          1,
+          16
+        ],
+        [
+          8,
+          8,
+          1,
+          16
+        ]
+      ],
+      "checks": {
+        "current": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 4, 1, 16]": {
+          "eager": true,
+          "graph": true
+        },
+        "[8, 8, 1, 16]": {
+          "eager": true,
+          "graph": true
+        }
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "current",
+          "ring_ms": 1.070350742340088,
+          "per_call_ms": 0.03344846069812775
+        },
+        {
+          "round": 0,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 1.0572693620409284,
+          "per_call_ms": 0.03303966756377901
+        },
+        {
+          "round": 0,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 1.0526867389678956,
+          "per_call_ms": 0.032896460592746736
+        },
+        {
+          "round": 1,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 1.0552178246634347,
+          "per_call_ms": 0.032975557020732335
+        },
+        {
+          "round": 1,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 1.052925375529698,
+          "per_call_ms": 0.03290391798530306
+        },
+        {
+          "round": 1,
+          "backend": "current",
+          "ring_ms": 1.070607546397618,
+          "per_call_ms": 0.03345648582492556
+        },
+        {
+          "round": 2,
+          "backend": "[8, 8, 1, 16]",
+          "ring_ms": 1.0573603561946323,
+          "per_call_ms": 0.03304251113108226
+        },
+        {
+          "round": 2,
+          "backend": "current",
+          "ring_ms": 1.0700952121189662,
+          "per_call_ms": 0.03344047537871769
+        },
+        {
+          "round": 2,
+          "backend": "[8, 4, 1, 16]",
+          "ring_ms": 1.0559286798749652,
+          "per_call_ms": 0.03299777124609266
+        }
+      ],
+      "per_call_ms": {
+        "current": 0.03344846069812775,
+        "[8, 4, 1, 16]": 0.03299777124609266,
+        "[8, 8, 1, 16]": 0.03290391798530306
+      },
+      "speedups": {
+        "[8, 4, 1, 16]": 1.0136581785683012,
+        "[8, 8, 1, 16]": 1.0165494793984082
+      }
+    }
+  ]
+}

@@ -270,6 +270,8 @@ Research-only FP32 block encodings save **11–12% of weight storage** while pre
 
 A separate CUDA vector-load/prefetch search passes **336 captured configurations**, **660 finalist stress comparisons**, and **48 full-model cases**. Its best projection gains 5% in warm component timing but makes one-frame codec latency about 0.5% slower. It also remains research-only, with no runtime speedup claimed. [Component confirmation](results/gemv_vector_confirm.json), [generated instructions](results/gemv_vector_instructions.json), [codec ablation](results/full_gemv_vector.json).
 
+Interleaving exact FP32 weights gives **17–18% warm component gains**, but only **0.6–1.0% encode / 0.7% decode** in full-model ablations, while adding **4.6 GB** of packed storage. It remains research-only. Distinct-allocation rings show why repeated access to one weight overstates these gains. Both 48-case model gates pass; the full suite now passes **473 tests**. [Warm selection](results/full_gemv_interleaved.json), [cold selection](results/full_gemv_interleaved_cold.json), [weight rings](results/gemv_weight_ring.json).
+
 ## Fidelity and benchmark scope
 
 `benchmarks.compare` records exact equality, mismatching element counts, maximum error, and RMSE, and exits with failure on any mismatch. It compares equal batches, audio lengths, FP32 arithmetic, and quantizer counts. Wall-clock and CUDA-event samples include graph input copies/output ownership; amortized kernel-only measurements are labeled separately. Synthetic inputs and small structural tests are development gates, not proof of quality across real speech, music, or sound effects.

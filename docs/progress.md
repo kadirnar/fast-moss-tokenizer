@@ -955,3 +955,26 @@ Reproduction (GPU commands sequential):
 ```
 
 All handles are terminal: sweep `11540`, confirmation `91168`, initial instruction inspection `11530` (context initialization error, no tests run), corrected instruction inspection/focused tests/model chain `30038`, full suite `74126`. The final audit checks every comparison, candidate dispatch counts, emitted load widths, unchanged production hashes, compilation and diff hygiene. Actual memory-system counters, more effective exact data-access schedules, broader serving/multi-GPU work and the 100× whole-model goal remain open.
+
+## Exact interleaved GEMV storage and weight-ring diagnostics
+
+Previous goal turn classification: **progress**, verified at clean commit `dafaa46`, with 336 CUDA configurations, exact model gates, measured rejection of the candidate and 445 passing tests. The 100× goal remains active and unmet.
+
+- Implemented an FP32 output-group layout with integer-bit packing/unpacking and an unchanged native reduction. All **324 configurations** preserve captured outputs, with zero spills or matrix Tensor Core instructions. Twenty finalists pass **600 candidate plus 360 control** eager/graph stress comparisons.
+- Repeated component gains reach **17–18%** on QKV and the expanding FFN, but codec gains are much smaller. Both warm and cold selections pass **48 model cases** each. One-frame batch-one encode improves **0.57% / 1.02%**, decode **0.72% / 0.72%**, respectively. These prototypes add **4.618 / 4.614 GB** of packed weights, with peak allocation **12.370 / 12.366 GB**; packing setup is separately recorded. They remain outside production dispatch because the small codec gain does not justify that default memory cost.
+- Added distinct-allocation rings with 1/4/16/32 copies of a captured weight. All twelve cases pass. QKV's **1.176×** one-allocation gain becomes **1.0033×** at 32 allocations; expanding-FFN alternatives become **1.0137× / 1.0165×**. This changes the next tuning procedure: test distinct weight allocations early instead of selecting primarily on repeated access to one buffer. Rings are synthetic component diagnostics, not physical DRAM counters or full-model speedups.
+- Added **28** storage, arithmetic, graph and invalid-contract tests. Focused tests pass in **4.25 seconds**; the full suite passes **473 in 81.06 seconds**. All **23 production runtime/profile hashes** remain unchanged. This turn is **research progress**, with a new exact layout, bounded full-model evidence and a diagnostic explaining why much of the component gain disappears. No additional supported-runtime speedup is claimed.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.gemv_interleaved_tune
+.venv/bin/python -m benchmarks.gemv_interleaved_confirm
+.venv/bin/python -m pytest tests/test_gemv_interleaved_research.py -q
+.venv/bin/python -m benchmarks.gemv_interleaved_model
+.venv/bin/python -m benchmarks.gemv_interleaved_model --selection cold --output results/full_gemv_interleaved_cold.json
+.venv/bin/python -m benchmarks.gemv_weight_ring
+.venv/bin/python -m pytest -q
+```
+
+All handles are terminal: sweep `29275`, confirmation/focused tests `11924`, warm model `66852`, cold model `65896`, rings/full-suite chain `7162`. The warm model report predates the selection CLI; its subsequently added selection label is explicitly documented metadata, with measured samples unchanged. Final audit verifies every comparison, dispatch and packing count, all twelve rings, unchanged production hashes, Python compilation and diff hygiene. Further exact scheduling, physical memory-system attribution, broader serving/multi-GPU work and verified 100× acceleration remain open.
