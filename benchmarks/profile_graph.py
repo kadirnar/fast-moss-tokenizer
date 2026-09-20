@@ -19,9 +19,17 @@ def kernel_summary(path,replays=5):
     total=sum(e['dur'] for e in events)
     groups={name:sum(e['dur'] for e in events if needle in e.get('name','').lower())
             for name,needle in [('sgemm','sgemm'),('attention','fmha')]}
+    # "cublasGemmSmallNParams" itself contains "sgemm". Exclude the explicit
+    # small-matrix/reduction families so the matrix groups do not overlap.
+    groups['sgemm']=sum(e['dur'] for e in events if 'sgemm' in e.get('name','').lower()
+        and not any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx','splitkreduce']))
     groups['ordered_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_partials','_reduce','_ffn_reduce'])
+    groups['small_matrix']=sum(e['dur'] for e in events if e.get('name') in ['_small_grouped','_small_parts','_small_reduce'])
+    groups['small_vendor_matrix']=sum(e['dur'] for e in events
+        if any(needle in e.get('name','').lower() for needle in ['gemmsn','gemvx']))
     groups['vendor_split_reduce']=sum(e['dur'] for e in events if 'splitkreduce' in e.get('name','').lower())
     return {'scope':'CUDA kernel events only, excludes memcpy and host time','replays':replays,
+            'matrix_grouping':'SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions',
             'total_ms_per_replay':total/replays/1000,'kernels_per_replay':len(events)/replays,
             'quantizer_select_per_replay':sum(e.get('name')=='_select' for e in events)/replays,
             'quantizer_update_per_replay':sum(e.get('name')=='_update' for e in events)/replays,
@@ -30,6 +38,9 @@ def kernel_summary(path,replays=5):
             'ordered_partials_per_replay':sum(e.get('name')=='_partials' for e in events)/replays,
             'ordered_reduce_per_replay':sum(e.get('name')=='_reduce' for e in events)/replays,
             'ffn_reduce_per_replay':sum(e.get('name')=='_ffn_reduce' for e in events)/replays,
+            'small_grouped_per_replay':sum(e.get('name')=='_small_grouped' for e in events)/replays,
+            'small_parts_per_replay':sum(e.get('name')=='_small_parts' for e in events)/replays,
+            'small_reduce_per_replay':sum(e.get('name')=='_small_reduce' for e in events)/replays,
             'groups':{name:{'ms_per_replay':value/replays/1000,'percent':100*value/total if total else 0.}
                       for name,value in groups.items()}}
 

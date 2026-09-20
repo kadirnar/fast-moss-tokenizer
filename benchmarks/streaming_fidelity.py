@@ -22,7 +22,11 @@ def main():
     p.add_argument("--output",default="results/full_streaming_fidelity.json")
     p.add_argument("--share-rope-tables",action="store_true")
     p.add_argument("--attention-mask-backend", choices=["none", "triton"], default="none")
+    p.add_argument("--matrix-backend", choices=["none", "cublaslt", "triton"], default="none")
+    for name in ['quantizer','projection','ffn']:
+        p.add_argument(f"--{name}-backend", choices=["none", "triton"], default="none")
     a=p.parse_args()
+    extra={f'{name}_backend':getattr(a,f'{name}_backend') for name in ['matrix','quantizer','projection','ffn']}
     if a.frames%a.chunk_frames:
         raise ValueError("Frame count must divide into complete chunks")
     samples,sr=sf.read(a.audio,dtype="float32",always_2d=True)
@@ -44,6 +48,7 @@ def main():
             "attention_mask_format":"aligned_fp32_additive" if a.attention_mask_backend=="triton" else "upstream_boolean",
             "audio":a.audio,"audio_sha256":hashlib.sha256(Path(a.audio).read_bytes()).hexdigest(),
             "lane_transform":"lane i circularly shifted by i*1920 samples","results":{}}
+    report.update(extra)
     for direction,inp,offline in [("encode",x,codes),("decode",codes,audio)]:
         chunk=a.chunk_frames*(1920 if direction=="encode" else 1)
         inputs=list(inp.split(chunk,dim=-1))
@@ -51,15 +56,17 @@ def main():
             reference=[session.push(part)[0].clone() for part in inputs]
         print(direction,"reference finished",flush=True)
         with optimized(model,residual_backend="triton",kv_backend="triton",rope_backend="triton",
-                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend):
+                       share_rope_tables=a.share_rope_tables,attention_mask_backend=a.attention_mask_backend,**extra):
             with StreamingSession(model,direction,a.batch,a.chunk_frames) as session:
                 actual=[session.push(part)[0] for part in inputs]
+            small_calls=getattr(getattr(model,'_fast_matrix_runtime',None),'small_calls',0)
         ref=torch.cat(reference,dim=-1)
         cand=torch.cat(actual,dim=-1)
         result={"graph_vs_corrected_eager":difference(ref,cand),
                 "corrected_eager_vs_offline":difference(offline,ref),
                 "graph_vs_offline":difference(offline,cand),
-                "per_chunk_exact":[torch.equal(r,c) for r,c in zip(reference,actual)]}
+                "per_chunk_exact":[torch.equal(r,c) for r,c in zip(reference,actual)],
+                "small_matrix_calls":small_calls}
         report["results"][direction]=result
         print(direction,result,flush=True)
         Path(a.output).write_text(json.dumps(report,indent=2)+"\n")

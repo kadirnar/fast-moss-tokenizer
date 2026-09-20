@@ -1,0 +1,100 @@
+{
+  "scope": "compiled native-layout small matrix resources and bit equality",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "records": [
+    {
+      "shape": [
+        3,
+        5120,
+        1280
+      ],
+      "config": [
+        "grouped",
+        4,
+        8,
+        4,
+        4
+      ],
+      "kernels": [
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 144,
+          "ptx_fma_rn_f32": 16,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 0,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        3,
+        1280,
+        5120
+      ],
+      "config": [
+        "split",
+        4,
+        8,
+        4,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 64,
+          "spills": 0,
+          "shared_bytes": 2560,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        },
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 2112,
+          "ptx_fma_rn_f32": 0,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 4915200,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    },
+    {
+      "shape": [
+        12,
+        768,
+        3072
+      ],
+      "config": [
+        "split",
+        4,
+        8,
+        4,
+        16
+      ],
+      "kernels": [
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 2560,
+          "ptx_fma_rn_f32": 64,
+          "ptx_mma_instructions": 0
+        },
+        {
+          "registers": 40,
+          "spills": 0,
+          "shared_bytes": 2112,
+          "ptx_fma_rn_f32": 0,
+          "ptx_mma_instructions": 0
+        }
+      ],
+      "scratch_bytes": 7077888,
+      "probe_bits_equal": true,
+      "runtime_bits_equal": true
+    }
+  ],
+  "all_exact": true
+}

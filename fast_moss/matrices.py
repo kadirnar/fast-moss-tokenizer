@@ -51,6 +51,7 @@ class MatrixRuntime:
     not a claim that all pedantic algorithms reproduce PyTorch's reduction.
     backend='triton' substitutes ordered SIMT kernels for profiled attention/FFN shapes;
     it retains the same packing, fallbacks, per-stream plans and lifetime guards.
+    Three small-row shapes use native storage without persistent workspace.
     """
 
     def __init__(self, model, *, backend='cublaslt', _profile=None):
@@ -63,6 +64,8 @@ class MatrixRuntime:
         self.model = model
         self.backend = backend
         self.triton_calls = 0
+        self.small_calls = 0
+        self.small_warmed = set()
         self.ffn_calls = 0
         self.ffn_staged_calls = 0
         self.ffn_enabled = True
@@ -95,7 +98,9 @@ class MatrixRuntime:
         shapes = {shape[1:] for shape in self.selected}
         if self.backend == 'triton':
             from .ordered_matrices import SHAPES
+            from .small_matrices import SHAPES as SMALL_SHAPES
             shapes.update(shape[1:] for shape in SHAPES)
+            shapes.update(shape[1:] for shape in SMALL_SHAPES)
         modules = [m for m in self.model.modules() if type(m) is torch.nn.Linear
                    and tuple(m.weight.shape) in shapes and m.bias is None and 'forward' not in m.__dict__]
         # Include registered buffers and repeated/tied parameter names. External
@@ -141,16 +146,33 @@ class MatrixRuntime:
                 return finish(original(x))
             shape = (x.numel() // x.shape[-1], *module.weight.shape)
             ordered_shape = False
+            small_shape = False
             if self.backend == 'triton':
                 from .ordered_matrices import SHAPES
+                from .small_matrices import SHAPES as SMALL_SHAPES
                 ordered_shape = shape in SHAPES
-            if ((shape not in self.selected and not ordered_shape) or module.bias is not None or x.device != self.device
+                small_shape = shape in SMALL_SHAPES and module.weight.is_contiguous()
+            if ((shape not in self.selected and not ordered_shape and not small_shape) or module.bias is not None or x.device != self.device
                     or x.dtype != torch.float32 or not x.is_contiguous() or not folds_to_mm(x)
                     or x.data_ptr() % 256 or x.requires_grad or torch.is_autocast_enabled('cuda')):
                 return finish(F.linear(x, module.weight.contiguous(), module.bias)
                               if id(module.weight) in self.packed else original(x))
             stream = torch.cuda.current_stream(self.device).cuda_stream
             key = (id(module), shape, stream)
+            if small_shape:
+                # Native-layout kernels do not pack weights or retain workspace.
+                # If a larger call later packs this parameter, the normal native
+                # fallback above restores contiguous arithmetic for small calls.
+                if key not in self.small_warmed:
+                    if torch.cuda.is_current_stream_capturing():
+                        raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
+                    self.small_warmed.add(key)
+                from .small_matrices import linear as small_linear
+                with torch.cuda.device(self.device):
+                    self.triton_calls += 1
+                    self.small_calls += 1
+                    return finish(small_linear(x.reshape(shape[0],shape[-1]),module.weight).reshape(
+                        *x.shape[:-1],module.out_features))
             if key not in self.plans:
                 if torch.cuda.is_current_stream_capturing():
                     raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
@@ -223,6 +245,7 @@ class MatrixRuntime:
                 if plan is not None:
                     plan.close()
         self.plans.clear()
+        self.small_warmed.clear()
         # Plans hold packed tensors: drop the final loop reference before
         # restoring one parameter at a time, retaining a single model copy.
         if 'plan' in locals():
