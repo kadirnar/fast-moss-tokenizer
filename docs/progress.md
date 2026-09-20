@@ -372,3 +372,33 @@ Reproduction, with GPU jobs sequential:
 ```
 
 All GPU jobs are terminal: initial selector tests `44819` (one stride failure), corrected selector tests `48215`, initial corpus `66827`, initial component/model ablation `30211`, extended quantizer tests `60710`, full corpus/ablation/stream/profile/test sequence `20073`, and paired baseline profile/final suite `73490`. No benchmark or download is intentionally left running. The new option is exact on the recorded gates and remains opt-in. Wider coverage, incremental request input, multi-GPU execution, and substantially faster dense FP32 arithmetic remain open; this is not a 100× whole-model result.
+
+
+## 2026-09-20, lossless weight-storage kernels and verified hardware compression
+
+Previous goal turn classification: **progress**, verified against clean commit `9efa1e4`, its exact quantizer kernels and full-model ablation/corpus/streaming evidence, and 131 passing tests. This turn is also **progress**: a new lossless integer storage codec and CUDA VMM compression binding were implemented, their fidelity and lifetime behavior tested, and controlled matrix measurements reject both tested routes for acceleration. No new runtime speedup is accepted; the 100× objective remains active and unmet.
+
+New work:
+
+- `benchmarks.lossless_weights`: GPU block-header generation, exponent-delta bit packing, and parallel FP32 reconstruction. All 24 sign/mantissa bits and the full original exponent are recoverable. Blocks can use 24–32 bits per value plus metadata, so arbitrary bit patterns are supported without claiming that every input compresses. Encoding synchronizes once to size the packed buffer; decoding is graph-compatible. Tests compare raw int32 views, including signed zeros, subnormals, infinities, and quiet/signaling NaN payloads.
+- `benchmarks.lossless_shapes`: compares original GEMM, copy-then-GEMM, and reconstruction-then-GEMM using actual checkpoint inputs. It records encoded bytes, exponent-width histograms, exact reconstructed bits, eager/graph output equality, warm timing, cache-evicted timing, and a final fresh baseline.
+- `benchmarks.compressible_memory`: CUDA VMM allocation/mapping/access via the driver API, requesting generic data compression and verifying the returned allocation property. PyTorch tensors retain the CUDA-array-interface owner, whose final release synchronizes and unmaps/frees the allocation. This external memory is not counted by PyTorch's caching allocator and no allocation-size reduction is claimed. The module also reproduces the read-only capability query.
+- `benchmarks.compressible_shapes`: three alternating rounds over ordinary PyTorch, uncompressed VMM, and compressible VMM allocations. It adds zeros and a BF16-roundtrip matrix solely as controls; neither changes model weights or enters the runtime.
+
+Evidence:
+
+- `results/lossless_shapes.json`: **48 variants** over **three sampled FFN/QKV matrices**, each evaluated at rows 1/3/24/384, with block sizes 128/256/512/1024. All reconstructed bits and GEMM outputs are exact. Encoded storage ratios are **1.128–1.138×**, approximately **11.3–12.1% smaller**, including metadata. Cache-evicted GEMM-chain ratios are only **0.400–0.804×** versus the original operation: **1.24–2.50× slower**. The final baselines confirm that a large baseline drift does not explain this regression. This is not a whole-model memory-saving measurement.
+- `results/compression_capability.json`: device attribute 107 reports generic compression support, and the driver reports **50,331,648 bytes (48 MiB) L2** on SM120. Generic compute data compression is distinct from nvCOMP's dedicated decompression engine; current NVIDIA DE documentation lists different Blackwell GPU models.
+- `results/compressible_shapes.json`: **126 exact graph matrix comparisons**, across twelve actual-weight geometries plus two controls, three allocation kinds, and three rounds. Requested compression flags are confirmed on each allocation. Actual-matrix cache-evicted gains against uncompressed VMM range **0.955–1.008×**, with no material benefit. The zero control improves **2.2×**, confirming a data-dependent benefit; the BF16-roundtrip control has no cold improvement. A 1.05× comparison against PyTorch is also present with uncompressed VMM and therefore is not evidence of compression benefit.
+- `results/tests.txt`: **160 passed in 20.09 seconds**. New tests cover all exponent widths, varied block sizes/tails, exact bit reconstruction, CUDA graphs, allocation flag verification, and ownership across tensor/graph lifetimes. The first decoder compile requested incompatible `.cg`/`.evict_first` modifiers and failed; corrected supported loads pass. No result uses that failed assembly.
+
+Reproduction (GPU work sequential):
+
+```bash
+.venv/bin/python -m benchmarks.compressible_memory
+.venv/bin/python -m benchmarks.lossless_shapes
+.venv/bin/python -m benchmarks.compressible_shapes
+.venv/bin/python -m pytest -q
+```
+
+All jobs completed: initial codec tests `50175` (assembler rejection), corrected tests `82317`, actual-weight software sweep `25044`, VMM ownership/bit tests `96141`, hardware sweep `26221`, and final suite `76815`. No GPU benchmark or download is intentionally left running. The failed software path motivates avoiding separate reconstruction/materialization in future matrix work; the hardware experiment shows that allocation flags alone do not materially accelerate these sampled dense FP32 weights. Both tools remain research-only. Existing exact runtime performance, streaming, and scheduling are unchanged; wider matrix coverage, incremental input, multi-GPU execution, and the full 100× objective remain open.

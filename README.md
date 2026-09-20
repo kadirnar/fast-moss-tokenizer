@@ -121,4 +121,6 @@ A later search screened 12,422 vendor configurations. Its selected alternatives 
 
 Multi-pass tensor-core experiments keep FP32 weight storage but change arithmetic. A TF32x3 QKV probe changes 24 tokens in the near-tie speech case and produces up to 0.152 waveform error, despite small hidden-state errors. It is rejected as an exact replacement and remains outside the runtime. [Full probe](results/full_tensorcore_probe.json), [first changed decision](results/tensorcore_quantizer_tie.json).
 
+Lossless weight-storage experiments preserve every FP32 bit but have not produced a runtime improvement. Block exponent packing reduces stored bytes by roughly 12%, while separate reconstruction plus GEMM is 1.24–2.50× slower under the eviction protocol. Verified CUDA compressible allocations help the zero-matrix control but give no material benefit on the tested checkpoint matrices. Both remain research-only. [Software codec measurements](results/lossless_shapes.json), [hardware allocation comparison](results/compressible_shapes.json).
+
 Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, incremental input scheduling, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).
