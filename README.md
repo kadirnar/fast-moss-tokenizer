@@ -2,7 +2,7 @@
 
 Ongoing GPU optimization of the **original 1.6B MOSS Audio Tokenizer**, retaining FP32 weights, all 32 quantizers, and its learned architecture. No distillation, FP8, or FP4. **100× whole-model acceleration has not been demonstrated.**
 
-Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; FIFO request scheduling with fused input gather; optional exact quantizer fusion.
+Implemented: reversible inference caches for normalized codebooks and convolution weights; bitwise FP32 residual fusion in Triton and CuTe DSL (explicit CUDA PTX rounding); Triton RoPE with optional stage-shared tables, fused/shared attention masks, and ring-cache kernels; CUDA graphs; incremental encoder/decoder sessions with independently pausable, finishable, and reusable batch lanes; fused lane reset; incremental request scheduling with fused fragment gather and optional input byte limits; optional exact quantizer fusion.
 
 Full-checkpoint measurements on the RTX 5070 Ti, batch 1, 240 ms input, FP32, all 32 codebooks:
 
@@ -80,7 +80,7 @@ Known CUDA streaming states reset together in one Triton launch. Use `fast_reset
 
 ## Queued streaming requests
 
-`StreamingBatcher` automatically assigns finite requests to lanes, emits chunks immediately, and refills finished lanes from a FIFO queue. A Triton gather kernel packs the next chunk from each request. It uses the same streaming cache, reset, and graph paths described above.
+`StreamingBatcher` assigns complete or incrementally supplied requests to stable lanes, emits available chunks, and refills finished lanes from a queue. Ready queued requests enter in FIFO order; requests waiting for more input can be bypassed until they enter a lane. A Triton gather kernel packs the next chunk directly from its input fragments. It uses the same streaming cache, reset, and graph paths described above.
 
 ```python
 from fast_moss.batching import StreamingBatcher
@@ -103,7 +103,26 @@ with torch.inference_mode(), optimized(model, residual_backend="triton",
 codes = {request_id: torch.cat(parts, dim=-1) for request_id, parts in outputs.items()}
 ```
 
-Decoder requests use shape `(32, frames)` and int64 CUDA data. `submit()` owns a contiguous copy; returned chunks are also owned. New requests may arrive between `step()` calls. `max_pending` limits the number of active and waiting requests (default 128); reaching it raises `BufferError`. `cancel(request_id)` discards the remaining input and makes its lane available. Empty requests produce one empty final output. The scheduler accepts complete input tensors and streams their outputs; incremental input queues and network serving remain future work. Use one host thread and CUDA stream per batcher. Retain each encoder request's original sample count for trimming decoded audio.
+Decoder requests use shape `(32, frames)` and int64 CUDA data. `submit()` and `append()` own contiguous copies; returned chunks are also owned. New requests and fragments may arrive between `step()` calls. `submit(data)` defaults to a complete input. Open an incremental request with `submit(data, final=False)` or `submit(final=False)`, then append fragments as they arrive:
+
+```python
+with optimized(model, kv_backend="triton"), StreamingBatcher(model, "encode") as queue:
+    request_id = queue.submit(final=False)
+    collected = []
+    for fragment in audio_requests[0].split(1400, dim=-1):
+        queue.append(request_id, fragment)
+        while queue.can_step:
+            collected.extend(queue.step())
+    queue.append(request_id, final=True)
+    while queue.can_step:
+        collected.extend(queue.step())
+```
+
+A nonfinal request waits for a full configured chunk. `append(id, fragment, final=True)` flushes its final tail; `append(id, final=True)` closes input without adding data. A late final notification after the last full chunk produces an empty final output at the existing output offset. Empty requests also produce one empty final output. Waiting active requests keep their lane and history. `step()` can return `[]` while `pending > 0`; use `can_step` to avoid polling until more input arrives. If every lane belongs to a waiting request, queued work needs an active request to resume, finish, or be cancelled before it can enter.
+
+`max_pending` bounds active and waiting request count (default 128). Optional `max_buffered_bytes` bounds retained input tensor payloads; exceeding either limit raises `BufferError` before modifying request data. `buffered_bytes` counts entire retained fragments, including consumed prefixes until that fragment is fully consumed. It excludes allocator overhead, model state, and caller-owned outputs. Size the limit to accommodate incoming fragments and partially retained inputs. `cancel(request_id)` discards remaining input and releases its lane. Use one host thread and CUDA stream per batcher. Retain each encoder request's original sample count for trimming decoded audio. Network serving is not implemented.
+
+The incremental full-checkpoint gate uses ten requests, including two over ten seconds, with uneven arrivals, pauses, late final notifications, and lane reuse. All **11,072 tokens and 664,320 waveform samples** match independent original eager timelines at batch eight / three frames. Nine requests emit output before their last input arrival. In three paired rounds, splitting each eligible arrival into three fragments changes median encode time **980.42 → 982.02 ms** and decode time **933.58 → 934.93 ms**, approximately **0.16%/0.14% overhead**. These are host-driven logical arrivals without network waits, not measurements of network latency or additional model speedup. [Incremental evidence](results/full_incremental_batching.json).
 
 On a reproducible uneven queue of 16 requests, batch eight / 240 ms chunks, immediate refill uses **44 model steps versus 86** when each group of eight must finish before the next starts. Median queue time falls **1837 → 942 ms encode** and **1670 → 857 ms decode**, about **1.95×** against the same optimized runtime and batch size. All **13,632 tokens and 817,920 waveform samples** match independent original eager timelines at the same batch shape. Two requests cross the ten-second cache context. Timings include request copies, gathering, resets, owned outputs, and concatenation after graph warmup. This is a workload-dependent queue-completion gain, not a new single-request kernel speedup or a 100× model result. [Triton evidence](results/full_request_batching.json), [CuTe evidence](results/full_request_batching_cute.json).
 
@@ -123,4 +142,4 @@ Multi-pass tensor-core experiments keep FP32 weight storage but change arithmeti
 
 Lossless weight-storage experiments preserve every FP32 bit but have not produced a runtime improvement. Block exponent packing reduces stored bytes by roughly 12%, while separate reconstruction plus GEMM is 1.24–2.50× slower under the eviction protocol. Verified CUDA compressible allocations help the zero-matrix control but give no material benefit on the tested checkpoint matrices. Both remain research-only. [Software codec measurements](results/lossless_shapes.json), [hardware allocation comparison](results/compressible_shapes.json).
 
-Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, incremental input scheduling, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).
+Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, network serving, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).

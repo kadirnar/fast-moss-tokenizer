@@ -402,3 +402,36 @@ Reproduction (GPU work sequential):
 ```
 
 All jobs completed: initial codec tests `50175` (assembler rejection), corrected tests `82317`, actual-weight software sweep `25044`, VMM ownership/bit tests `96141`, hardware sweep `26221`, and final suite `76815`. No GPU benchmark or download is intentionally left running. The failed software path motivates avoiding separate reconstruction/materialization in future matrix work; the hardware experiment shows that allocation flags alone do not materially accelerate these sampled dense FP32 weights. Both tools remain research-only. Existing exact runtime performance, streaming, and scheduling are unchanged; wider matrix coverage, incremental input, multi-GPU execution, and the full 100× objective remain open.
+
+
+## 2026-09-20, incremental input queues with fused fragment packing
+
+Previous goal turn classification: **progress**, verified against clean commit `0de2e05`, its lossless codec and hardware allocation tools, exact matrix reports, and 160 passing tests. This turn is also **progress**: the supported scheduler now accepts live input fragments and preserves exact long-stream outputs; a new packing kernel avoids per-lane concatenation. This expands streaming functionality with small measured fragmentation overhead. It does not establish an additional model speedup, and the 100× goal remains active and unmet.
+
+Implementation:
+
+- `StreamingBatcher.submit(data, final=False)` or `submit(final=False)` opens an incremental request. `append(id, data, final=...)` owns incoming fragments; `append(id, final=True)` permits completion without more data. Existing `submit(data)` behavior remains a complete request. Nonfinal input waits for a full configured chunk, while a final tail is padded and trimmed through the existing session. Late final notification produces an empty final chunk at the accumulated output offset.
+- Ready queued requests can bypass queued requests waiting for input. Once active, each request keeps its lane/history through pauses. `can_step` exposes whether work or completion can proceed; an entirely waiting batch returns no chunks without running the model. Reused lanes reset before admitting a new occupant. Cancellation and context exit release retained fragments.
+- Optional `max_buffered_bytes` checks retained input payload capacity before mutating request data, independently of `max_pending`. Its counter includes consumed prefixes until their fragment is fully released; model state, output ownership, and allocator overhead are excluded. It is not a total GPU-memory bound or an automatic fragment-compaction policy.
+- The new segmented Triton gather reads source descriptors and disjoint tile tasks, directly copying fragments and zero padding into a batch in one launch. The complete-input single-segment case keeps the existing fast path. Segment count is a runtime scalar to avoid recompilation per count. README documents incremental producer use, waiting behavior, ownership, limits, and fixed-stream requirements. Research notes link the NVIDIA ready-control and stateful direct-scheduling design precedents.
+
+Evidence:
+
+- `results/full_incremental_batching.json`: ten real-recording-derived requests, two with 129 codec frames, batch eight / three-frame chunks, three alternating paired rounds in both directions. Every round retains exact **11,072 tokens / 664,320 decoded samples** against independent original eager timelines with the same batch shape. Stable lanes, output offsets, final completion, graph identity, and fully released input counters are checked. The 62 logical ticks include 13 wholly idle calls; encode executes 47 model steps and decode 48 because their partial-tail readiness differs.
+- Nine of ten requests emit data before their last input arrival. One-fragment versus three-fragment arrivals use the same logical schedule, with no real-time sleeps or network model. Median encode queue times are **980.417 → 982.021 ms**, and decode **933.580 → 934.928 ms**, approximately **0.16% / 0.14% overhead**. Peak retained input payloads are **184,252 bytes encode / 5,376 bytes decode** for this incremental schedule; these are not whole-model memory figures.
+- The preliminary job warmed only a short prefix and exposed compilation in the first fragmented timed round. Its timings were superseded: final code uses a runtime segment count and warms both complete schedules before sampling. `results/full_incremental_batching_cute.json` independently passes the same full-checkpoint gate with CuTe residual fusion; its one-round queue times are **977.097 / 979.662 ms encode** and **933.045 / 936.045 ms decode**.
+- `results/fragment_gather.json`: six exact component cases, three alternating rounds each, including output allocation and GPU metadata upload. Against per-lane concatenation/copy into a zero batch, batch-eight packing improves **0.166 → 0.117 ms encode** (1.42×) and **0.163 → 0.091 ms decode** (1.80×). Batch-128 component ratios reach 2.12× / 5.49×. These are packing wall times, not additional codec multipliers.
+- `results/full_request_batching_incremental_regression.json`: the prior complete-input workload remains exact for **13,632 codes and 817,920 samples**, with **44 FIFO / 86 fixed-wave steps**. Current one-round times are **916.064 / 1790.204 ms encode** and **856.508 / 1672.007 ms decode**, retaining approximately 1.95× against the same optimized fixed-wave baseline. No new gain versus a prior commit is claimed from these separate runs.
+- `results/tests.txt`: **167 passed in 28.74 seconds**. New coverage includes fragmented raw-bit gathering, offsets and padding, eager/graph uneven arrivals in both directions, idle-state preservation, ready admission, late completion/reuse, appended-source ownership, byte accounting, rejection without closing input, validation, stream enforcement, and cleanup. Existing finite request tests also pass. Compile checks and `git diff --check` pass.
+
+Reproduction (GPU jobs sequential):
+
+```bash
+.venv/bin/python -m benchmarks.incremental_batching
+.venv/bin/python -m benchmarks.incremental_batching --backend cute --repeats 1 --output results/full_incremental_batching_cute.json
+.venv/bin/python -m benchmarks.fragment_gather
+.venv/bin/python -m benchmarks.request_batching --quantizer-backend triton --repeats 1 --output results/full_request_batching_incremental_regression.json
+.venv/bin/python -m pytest -q
+```
+
+All GPU jobs are terminal: preliminary full arrivals `84398`, corrected warmed run `76799`, CuTe arrivals `6055`, packing component `67277`, complete-input regression `53221`, and full suite `89983`. The GPU inventory shows only the pre-existing desktop process. Dense FP32 matrix execution remains the dominant bottleneck and supported single-request acceleration remains approximately 5×. Network serving, broader schedules/corpus coverage, multi-GPU execution, faster exact matrix arithmetic, and the requested 100× result remain open.

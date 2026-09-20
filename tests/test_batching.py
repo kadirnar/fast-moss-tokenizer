@@ -100,7 +100,8 @@ def test_cancellation_ownership_capacity_empty_and_lifecycle():
 @torch.inference_mode()
 def test_batcher_rejects_invalid_configuration_and_storage():
     model = structural_model()
-    for kwargs in [{'batch_size': 0}, {'chunk_frames': 1.5}, {'max_pending': True}]:
+    for kwargs in [{'batch_size': 0}, {'chunk_frames': 1.5}, {'max_pending': True},
+                   {'max_buffered_bytes': 0}, {'max_buffered_bytes': True}, {'max_buffered_bytes': 1.5}]:
         with pytest.raises(ValueError): StreamingBatcher(model, 'encode', **kwargs)
     with pytest.raises(ValueError, match='kv_backend'):
         with StreamingBatcher(model, 'encode', chunk_frames=1): pass
