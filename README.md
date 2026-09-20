@@ -8,10 +8,10 @@ Fresh full-checkpoint measurements on RTX 5070 Ti, one 240 ms speech input, FP32
 
 | Operation | Original eager | Original graph | Optimized graph | Speedup vs eager |
 | --- | ---: | ---: | ---: | ---: |
-| Encode | 47.878 ms | 11.922 ms | 8.391 ms | 5.71× |
-| Decode | 38.187 ms | 10.169 ms | 6.974 ms | 5.48× |
+| Encode | 46.738 ms | 11.918 ms | 8.120 ms | 5.76× |
+| Decode | 37.283 ms | 10.168 ms | 6.710 ms | 5.56× |
 
-Three rotating-order rounds use independent restored contexts and ten samples per mode/direction. Graph timings include input copies and owned outputs; loading, packing and capture are excluded. Tokens, hidden states, waveforms and restored outputs are exact. At batch eight, current graph latency is **10.299 ms encode / 8.726 ms decode**, or **4.84× / 4.58×** versus original eager at the same batch. Relative to the original graph, gains are **1.42× / 1.46×** at batch one and **1.85× / 1.96×** at batch eight. [Current matched comparison](results/full_codec_current.json). The [earlier seeded-input comparison](results/full_compare_lane_reset_240ms.json) remains historical evidence. **100× whole-model acceleration has not been demonstrated.**
+Three rotating-order rounds use independent restored contexts and ten samples per mode/direction. Graph timings include input copies and owned outputs; loading, packing and capture are excluded. Tokens, hidden states, waveforms and restored outputs are exact. At batch eight, current graph latency is **10.288 ms encode / 8.723 ms decode**, or **4.75× / 4.48×** versus original eager at the same batch. Relative to the original graph, gains are **1.47× / 1.52×** at batch one and **1.83× / 1.98×** at batch eight. [Current matched comparison](results/full_codec_current.json). The [earlier seeded-input comparison](results/full_compare_lane_reset_240ms.json) remains historical evidence. **100× whole-model acceleration has not been demonstrated.**
 
 Both Triton and CuTe residual paths, combined with Triton RoPE, shared tables, and fused attention masks, pass exact token/hidden-state/audio checks on 12 initial real-audio and edge-case inputs: [Triton](results/full_fidelity_masks.json), [CuTe](results/full_fidelity_masks_cute.json). Two 12.8-second music streams cross the ten-second cache context with exact tokens versus offline encoding and exact waveform equality versus corrected eager streaming. Streamed audio differs from offline decoding by at most 1.70e-6, identically in the corrected eager and optimized paths. [Long-stream evidence](results/full_streaming_masks.json). Paused/resumed/reused lanes also match independent timelines on the full model: [evidence](results/full_parallel_masks.json).
 
@@ -124,11 +124,13 @@ The twenty-shape runtime also passes the **15-case CuTe corpus**, exact long str
 
 ## Small-row native-layout matrices
 
-The Triton matrix backend also accelerates three short-chunk shapes with exact FP32 arithmetic: `(3,5120,1280)`, `(3,1280,5120)` and `(12,768,3072)`. Sixteen accumulation lanes reset every 256 K elements; tile sums precede serial lane reduction. One shape shares weights across input rows; two compute tiles in parallel and reduce them in order. These paths retain native weight storage. If another call packs that weight, small calls use the existing contiguous-weight fallback.
+The Triton matrix backend supports **twelve native-layout small-row shapes**, including attention, FFN and inter-stage projections. Explicit row accumulators share weights across rows while preserving the same ordered FP32 arithmetic: reset sixteen lanes every 256 K elements, sum tiles within each lane, then reduce lanes serially. One long-K shape retains split-tile computation. If a larger call packs a weight, small calls retain the existing contiguous-weight fallback. [Selected configurations](results/small_fixed_selection.json).
 
-Against the preceding runtime, three alternating independent-context rounds give batch-one / three-frame encode **8.631 → 8.517 ms (1.013×)** and decode **7.188 → 7.059 ms (1.018×)**. Batch-two / three-frame gains are about 0.5%; the one-frame control is unchanged. Timings include copies and owned outputs, with five samples of ten calls per round. This is a small incremental gain. [Integrated ablation and 27 exact cases](results/full_small_runtime.json), [480 component comparisons and warm/evicted timings](results/small_tiled_confirm.json).
+Against the preceding three-shape runtime, three rotating-order rounds with independently restored contexts give batch-one / three-frame encode **8.505 → 8.239 ms (1.032×)** and decode **7.063 → 6.794 ms (1.040×)**. Batch two / three frames improves roughly 0.4%; batch one / six frames roughly 0.5%. The one-frame control is unchanged. Timings include copies and owned outputs, with five samples of ten calls per round. [Integrated ablation and 27 exact cases](results/full_small_fixed_runtime.json), [960 component comparisons](results/small_fixed_confirm.json).
 
-The new kernels preserve the pinned environment, hooks, graph warmup and storage-transition rules. All **27 CuTe cases** also match exactly. A **12.96-second batch-one stream** exercises the new shapes across the cache boundary: all **5,184 tokens and 311,040 samples** match corrected original eager streaming, chunk by chunk. As with the original streaming implementation, its waveform can differ slightly from offline decoding. [CuTe](results/full_small_runtime_cute.json), [long stream](results/full_small_streaming.json).
+Selection includes both component and full-model evidence. A larger sixteen-shape candidate set offers no consistent advantage over the retained eleven replacements; the existing split kernel supplies the twelfth supported shape. Explicit CUDA vector-load probes also preserve exact arithmetic but do not displace the selected Triton implementation. [Broader model ablation](results/full_small_fixed.json), [CUDA probes](results/small_vector_cuda.json).
+
+All **27 CuTe cases** also match exactly. A **12.96-second batch-one stream** exercises the new shapes across the cache boundary: all **5,184 tokens and 311,040 samples** match corrected original eager streaming, chunk by chunk. As with the original streaming implementation, its waveform can differ slightly from offline decoding. [CuTe](results/full_small_fixed_cute.json), [long stream](results/full_small_fixed_streaming.json). All **285 tests** pass; the twelve compiled configurations have zero spills and no matrix Tensor Core instructions. [Resources](results/small_fixed_resources.json).
 
 ## FFN pipeline and decoder epilogues
 
@@ -138,7 +140,7 @@ This option requires `nvidia-cuda-nvcc-cu12==12.8.93`, included in `requirements
 
 At batch eight / three frames, eight rotating rounds of 20 graph calls give encoder medians **13.185 → 13.137 ms** and decoder **11.709 → 11.613 ms** versus the preceding ordered-matrix runtime. A separate 40-pair single-call comparison finds no encoder advantage at this geometry. Effects are small and variable; decoder fusion removes 64 kernel launches, but does not establish 100× acceleration. [Five-way ablation](results/full_ffn_ablation.json), [paired samples and 27 exact full-model cases](results/full_ffn_runtime.json), [profile](results/full_ffn_profile.json).
 
-The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **267 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
+The CuTe residual combination passes all 15 corpus cases, and long incremental streams retain exact **11,072 tokens and 664,320 samples**. The full suite now passes **285 tests**. [CuTe fidelity](results/full_fidelity_ffn_cute.json), [streaming fidelity](results/full_incremental_ffn.json), [tests](results/tests.txt).
 
 ## LFQ projection and decoder reconstruction
 

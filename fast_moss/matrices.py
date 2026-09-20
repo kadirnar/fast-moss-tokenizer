@@ -51,7 +51,7 @@ class MatrixRuntime:
     not a claim that all pedantic algorithms reproduce PyTorch's reduction.
     backend='triton' substitutes ordered SIMT kernels for profiled attention/FFN shapes;
     it retains the same packing, fallbacks, per-stream plans and lifetime guards.
-    Three small-row shapes use native storage without persistent workspace.
+    Validated small-row shapes use native storage without persistent workspace.
     """
 
     def __init__(self, model, *, backend='cublaslt', _profile=None):

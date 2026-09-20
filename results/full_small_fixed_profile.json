@@ -1,0 +1,167 @@
+{
+  "scope": "full checkpoint optimized graph",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "dtype": "float32",
+  "tf32": false,
+  "quantizers": 32,
+  "seconds": 0.24,
+  "batch": 1,
+  "streaming": false,
+  "share_rope_tables": true,
+  "attention_mask_backend": "triton",
+  "quantizer_backend": "triton",
+  "matrix_backend": "triton",
+  "projection_backend": "triton",
+  "ffn_backend": "triton",
+  "experimental_resident_matrices": false,
+  "matrix_tuning": null,
+  "attention_mask_format": "aligned_fp32_additive",
+  "results": {
+    "encode": {
+      "wall_ms_median": 8.204997498978628,
+      "gpu_ms_median": 8.105184078216553,
+      "wall_ms_samples": [
+        8.12499099993147,
+        8.108620997518301,
+        8.714985000551678,
+        8.539123002265114,
+        8.118338999338448,
+        8.337232000485528,
+        8.285003998025786,
+        8.45999299781397,
+        8.113860996672884,
+        8.097920996078756
+      ],
+      "gpu_ms_samples": [
+        8.105536460876465,
+        8.095711708068848,
+        8.514847755432129,
+        8.524991989135742,
+        8.10483169555664,
+        8.325087547302246,
+        8.087072372436523,
+        8.447711944580078,
+        8.10159969329834,
+        8.085984230041504
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 8.0591566,
+        "kernels_per_replay": 1666.0,
+        "quantizer_select_per_replay": 32.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 31.0,
+        "decoder_gather_per_replay": 0.0,
+        "ordered_partials_per_replay": 48.0,
+        "ordered_reduce_per_replay": 48.0,
+        "ffn_reduce_per_replay": 0.0,
+        "small_fixed_per_replay": 144.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 32.0,
+        "small_reduce_per_replay": 32.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.788432,
+            "percent": 9.783058440631368
+          },
+          "attention": {
+            "ms_per_replay": 0.511617,
+            "percent": 6.348269743263209
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.5901988,
+            "percent": 7.323332071745572
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.1629558,
+            "percent": 51.65498086983444
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.5742362000000001,
+            "percent": 7.125264199482113
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.0022911999999999997,
+            "percent": 0.028429773904629172
+          }
+        }
+      }
+    },
+    "decode": {
+      "wall_ms_median": 6.724783997924533,
+      "gpu_ms_median": 6.7100160121917725,
+      "wall_ms_samples": [
+        7.186791001004167,
+        6.724929000483826,
+        6.7068759963149205,
+        6.728014996042475,
+        7.294754002941772,
+        6.72463899536524,
+        6.718667995301075,
+        6.708478002110496,
+        6.724368002323899,
+        7.229220995213836
+      ],
+      "gpu_ms_samples": [
+        6.988480091094971,
+        6.708127975463867,
+        6.692863941192627,
+        6.714560031890869,
+        7.280831813812256,
+        6.708640098571777,
+        6.704895973205566,
+        6.696256160736084,
+        6.711391925811768,
+        7.215968132019043
+      ],
+      "kernel_summary": {
+        "scope": "CUDA kernel events only, excludes memcpy and host time",
+        "replays": 5,
+        "matrix_grouping": "SGEMM excludes the separately counted gemmSN/GEMV and vendor split reductions",
+        "total_ms_per_replay": 6.945920200000001,
+        "kernels_per_replay": 1027.0,
+        "quantizer_select_per_replay": 0.0,
+        "quantizer_update_per_replay": 0.0,
+        "projection_update_per_replay": 0.0,
+        "decoder_gather_per_replay": 1.0,
+        "ordered_partials_per_replay": 48.0,
+        "ordered_reduce_per_replay": 48.0,
+        "ffn_reduce_per_replay": 0.0,
+        "small_fixed_per_replay": 144.0,
+        "small_grouped_per_replay": 0.0,
+        "small_parts_per_replay": 32.0,
+        "small_reduce_per_replay": 32.0,
+        "groups": {
+          "sgemm": {
+            "ms_per_replay": 0.0771458,
+            "percent": 1.1106634942336366
+          },
+          "attention": {
+            "ms_per_replay": 0.5107268,
+            "percent": 7.352903363329742
+          },
+          "ordered_matrix": {
+            "ms_per_replay": 0.643628,
+            "percent": 9.266274035224303
+          },
+          "small_matrix": {
+            "ms_per_replay": 4.3030452,
+            "percent": 61.95068581409847
+          },
+          "small_vendor_matrix": {
+            "ms_per_replay": 0.6209556,
+            "percent": 8.939860840900533
+          },
+          "vendor_split_reduce": {
+            "ms_per_replay": 0.002355,
+            "percent": 0.0339047949327146
+          }
+        }
+      }
+    }
+  }
+}

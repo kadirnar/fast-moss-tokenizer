@@ -1,0 +1,6989 @@
+{
+  "scope": "explicit row accumulators and vector CUDA stress; three alternating warm/evicted component rounds",
+  "revision": "3cd226ba2947efa357ef453bcad111b6eafba782",
+  "torch": "2.8.0+cu128",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "seed": 97651,
+  "records": [
+    {
+      "shape": [
+        6,
+        3072,
+        768
+      ],
+      "configs": [
+        [
+          "fixed",
+          [
+            6,
+            4,
+            1,
+            4
+          ]
+        ],
+        [
+          "fixed",
+          [
+            8,
+            4,
+            1,
+            4
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            128,
+            4,
+            true,
+            16
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            256,
+            1,
+            false,
+            16
+          ]
+        ]
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 1, 4]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 18432
+          },
+          "bits_equal": true
+        }
+      ],
+      "exact": {
+        "native": true,
+        "fixed_[6, 4, 1, 4]": true,
+        "fixed_[8, 4, 1, 4]": true,
+        "cuda_[6, 128, 4, True, 16]": true,
+        "cuda_[6, 256, 1, False, 16]": true
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "native",
+          "warm_ms": 0.01030329352211354,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03891199827194214,
+              0.03993599861860275,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03993599861860275,
+              0.04095999896526337,
+              0.03788800165057182,
+              0.03798399865627289,
+              0.03788800165057182,
+              0.03686400130391121,
+              0.04608000069856644,
+              0.03891199827194214,
+              0.03993599861860275,
+              0.03891199827194214,
+              0.04095999896526337,
+              0.03993599861860275,
+              0.03993599861860275,
+              0.03891199827194214,
+              0.03993599861860275,
+              0.03993599861860275,
+              0.03788800165057182,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.00811582416203738,
+          "cold": {
+            "gpu_ms_median": 0.03683200106024742,
+            "samples": [
+              0.03436800092458725,
+              0.03436800092458725,
+              0.03683200106024742,
+              0.03686400130391121,
+              0.03888000175356865,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[8, 4, 1, 4]",
+          "warm_ms": 0.008631392261041024,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.008456052914500363,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.04095999896526337,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "warm_ms": 0.008546279852788493,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03641600161790848,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "warm_ms": 0.008577249190386604,
+          "cold": {
+            "gpu_ms_median": 0.03683200106024742,
+            "samples": [
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03683200106024742,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.008473333418369294,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03641600161790848,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[8, 4, 1, 4]",
+          "warm_ms": 0.008501583320096975,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03440000116825104,
+              0.022816000506281853,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03683200106024742,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.008237532237309404,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03481600061058998,
+              0.03670400008559227,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03481600061058998,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "native",
+          "warm_ms": 0.010202211872458185,
+          "cold": {
+            "gpu_ms_median": 0.02252800017595291,
+            "samples": [
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "native",
+          "warm_ms": 0.010209420805799799,
+          "cold": {
+            "gpu_ms_median": 0.02252800017595291,
+            "samples": [
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.020479999482631683,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.008160986434248157,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[8, 4, 1, 4]",
+          "warm_ms": 0.008521595102062398,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.008512516786707914,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 256, 1, False, 16]",
+          "warm_ms": 0.00869127761953372,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "native": {
+          "warm": 0.010209420805799799,
+          "cold": 0.02252800017595291
+        },
+        "fixed_[6, 4, 1, 4]": {
+          "warm": 0.008160986434248157,
+          "cold": 0.03683200106024742
+        },
+        "fixed_[8, 4, 1, 4]": {
+          "warm": 0.008521595102062398,
+          "cold": 0.03481600061058998
+        },
+        "cuda_[6, 128, 4, True, 16]": {
+          "warm": 0.008473333418369294,
+          "cold": 0.03891199827194214
+        },
+        "cuda_[6, 256, 1, False, 16]": {
+          "warm": 0.008577249190386604,
+          "cold": 0.03686400130391121
+        }
+      }
+    },
+    {
+      "shape": [
+        6,
+        768,
+        3072
+      ],
+      "configs": [
+        [
+          "fixed",
+          [
+            3,
+            4,
+            1,
+            16
+          ]
+        ],
+        [
+          "fixed",
+          [
+            8,
+            4,
+            2,
+            16
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            128,
+            1,
+            true,
+            4
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            64,
+            1,
+            false,
+            16
+          ]
+        ]
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[8, 4, 2, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 4608
+          },
+          "bits_equal": true
+        }
+      ],
+      "exact": {
+        "native": true,
+        "fixed_[3, 4, 1, 16]": true,
+        "fixed_[8, 4, 2, 16]": true,
+        "cuda_[6, 128, 1, True, 4]": true,
+        "cuda_[6, 64, 1, False, 16]": true
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "native",
+          "warm_ms": 0.014884252805967588,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.010692368085927374,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.04095999896526337,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.040863998234272,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[8, 4, 2, 16]",
+          "warm_ms": 0.009856350643459537,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04710400104522705,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04335999861359596,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04460800066590309,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04710400104522705
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "warm_ms": 0.018359500546998614,
+          "cold": {
+            "gpu_ms_median": 0.04915200173854828,
+            "samples": [
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "warm_ms": 0.018902101194408258,
+          "cold": {
+            "gpu_ms_median": 0.05734400078654289,
+            "samples": [
+              0.05686400085687637,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.055296000093221664,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05737600103020668,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "warm_ms": 0.018790003119922075,
+          "cold": {
+            "gpu_ms_median": 0.05734400078654289,
+            "samples": [
+              0.05484800040721893,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05939200147986412,
+              0.05939200147986412,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05939200147986412,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05939200147986412,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.05734400078654289
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "warm_ms": 0.01861687742483121,
+          "cold": {
+            "gpu_ms_median": 0.04915200173854828,
+            "samples": [
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04902400076389313,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[8, 4, 2, 16]",
+          "warm_ms": 0.009792148254872667,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04464000090956688,
+              0.043935999274253845,
+              0.04464000090956688,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04710400104522705,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.010769921020928422,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03993599861860275,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.04095999896526337,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "native",
+          "warm_ms": 0.014779947781892415,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.02828799933195114,
+              0.043007999658584595,
+              0.04259200021624565,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "native",
+          "warm_ms": 0.014728738899055165,
+          "cold": {
+            "gpu_ms_median": 0.043007999658584595,
+            "samples": [
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04259200021624565,
+              0.03302399814128876,
+              0.043007999658584595,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04095999896526337
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.0107034352541708,
+          "cold": {
+            "gpu_ms_median": 0.03891199827194214,
+            "samples": [
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03846399858593941,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.04095999896526337,
+              0.04095999896526337,
+              0.03686400130391121,
+              0.04095999896526337,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121,
+              0.03891199827194214,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[8, 4, 2, 16]",
+          "warm_ms": 0.009923056410639055,
+          "cold": {
+            "gpu_ms_median": 0.04505600035190582,
+            "samples": [
+              0.04505600035190582,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04710400104522705,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582,
+              0.043007999658584595,
+              0.043007999658584595,
+              0.04505600035190582,
+              0.04505600035190582
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 128, 1, True, 4]",
+          "warm_ms": 0.018564725827567186,
+          "cold": {
+            "gpu_ms_median": 0.04915200173854828,
+            "samples": [
+              0.04870399832725525,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04825599864125252,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04710400104522705,
+              0.04915200173854828,
+              0.05119999870657921,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828,
+              0.04915200173854828
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 64, 1, False, 16]",
+          "warm_ms": 0.018825416230644664,
+          "cold": {
+            "gpu_ms_median": 0.05734400078654289,
+            "samples": [
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05939200147986412,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.055296000093221664,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.055296000093221664,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289,
+              0.05734400078654289
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "native": {
+          "warm": 0.014779947781892415,
+          "cold": 0.043007999658584595
+        },
+        "fixed_[3, 4, 1, 16]": {
+          "warm": 0.0107034352541708,
+          "cold": 0.03891199827194214
+        },
+        "fixed_[8, 4, 2, 16]": {
+          "warm": 0.009856350643459537,
+          "cold": 0.04505600035190582
+        },
+        "cuda_[6, 128, 1, True, 4]": {
+          "warm": 0.018564725827567186,
+          "cold": 0.04915200173854828
+        },
+        "cuda_[6, 64, 1, False, 16]": {
+          "warm": 0.018825416230644664,
+          "cold": 0.05734400078654289
+        }
+      }
+    },
+    {
+      "shape": [
+        3,
+        3840,
+        1280
+      ],
+      "configs": [
+        [
+          "fixed",
+          [
+            3,
+            4,
+            1,
+            16
+          ]
+        ],
+        [
+          "fixed",
+          [
+            3,
+            4,
+            1,
+            4
+          ]
+        ],
+        [
+          "cuda",
+          [
+            3,
+            64,
+            1,
+            false,
+            16
+          ]
+        ],
+        [
+          "cuda",
+          [
+            3,
+            128,
+            1,
+            false,
+            16
+          ]
+        ]
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[3, 4, 1, 4]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 11520
+          },
+          "bits_equal": true
+        }
+      ],
+      "exact": {
+        "native": true,
+        "fixed_[3, 4, 1, 16]": true,
+        "fixed_[3, 4, 1, 4]": true,
+        "cuda_[3, 64, 1, False, 16]": true,
+        "cuda_[3, 128, 1, False, 16]": true
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "native",
+          "warm_ms": 0.010822993601625681,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.008798983864400579,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[3, 4, 1, 4]",
+          "warm_ms": 0.009081516168697085,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03478400036692619,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "warm_ms": 0.009142229954401651,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03891199827194214,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03683200106024742,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "warm_ms": 0.009178490484006988,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "warm_ms": 0.009096444945196068,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03440000116825104,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03232000023126602,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "warm_ms": 0.009116318657284692,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03436800092458725,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[3, 4, 1, 4]",
+          "warm_ms": 0.009057907473742133,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.032735999673604965,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.008793219130914085,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03481600061058998,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "native",
+          "warm_ms": 0.010817004378285694,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03411199897527695,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "native",
+          "warm_ms": 0.010870096942508452,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[3, 4, 1, 16]",
+          "warm_ms": 0.008823567248405294,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[3, 4, 1, 4]",
+          "warm_ms": 0.009100427431603001,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[3, 64, 1, False, 16]",
+          "warm_ms": 0.0090852025431074,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03683200106024742,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03686400130391121,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[3, 128, 1, False, 16]",
+          "warm_ms": 0.00914440766586247,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03891199827194214,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "native": {
+          "warm": 0.010822993601625681,
+          "cold": 0.03276799991726875
+        },
+        "fixed_[3, 4, 1, 16]": {
+          "warm": 0.008798983864400579,
+          "cold": 0.03276799991726875
+        },
+        "fixed_[3, 4, 1, 4]": {
+          "warm": 0.009081516168697085,
+          "cold": 0.03276799991726875
+        },
+        "cuda_[3, 64, 1, False, 16]": {
+          "warm": 0.009116318657284692,
+          "cold": 0.03481600061058998
+        },
+        "cuda_[3, 128, 1, False, 16]": {
+          "warm": 0.00914440766586247,
+          "cold": 0.03481600061058998
+        }
+      }
+    },
+    {
+      "shape": [
+        12,
+        2304,
+        768
+      ],
+      "configs": [
+        [
+          "fixed",
+          [
+            6,
+            4,
+            1,
+            4
+          ]
+        ],
+        [
+          "fixed",
+          [
+            6,
+            4,
+            1,
+            16
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            128,
+            4,
+            true,
+            16
+          ]
+        ],
+        [
+          "cuda",
+          [
+            6,
+            64,
+            4,
+            true,
+            16
+          ]
+        ]
+      ],
+      "checks": [
+        {
+          "backend": "native",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "native",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 4]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "fixed_[6, 4, 1, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "actual",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "negated",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "scaled",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "zero",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "subnormal",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "tiny",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "large",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "random_0",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "random_1",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "random_2",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "random_3",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        },
+        {
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "input": "sparse",
+          "eager": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "graph": {
+            "exact": true,
+            "max_abs": 0.0,
+            "rmse": 0.0,
+            "different_elements": 0,
+            "elements": 27648
+          },
+          "bits_equal": true
+        }
+      ],
+      "exact": {
+        "native": true,
+        "fixed_[6, 4, 1, 4]": true,
+        "fixed_[6, 4, 1, 16]": true,
+        "cuda_[6, 128, 4, True, 16]": true,
+        "cuda_[6, 64, 4, True, 16]": true
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "backend": "native",
+          "warm_ms": 0.014134347065597169,
+          "cold": {
+            "gpu_ms_median": 0.02252800017595291,
+            "samples": [
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.0104810628789895,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.032287999987602234,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03478400036692619,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.032735999673604965,
+              0.03481600061058998,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "fixed_[6, 4, 1, 16]",
+          "warm_ms": 0.010171979219858882,
+          "cold": {
+            "gpu_ms_median": 0.028672000393271446,
+            "samples": [
+              0.028672000393271446,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.010465425515324814,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03436800092458725,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 0,
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "warm_ms": 0.010615565164327115,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03436800092458725,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "warm_ms": 0.010496418446177718,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.010478341758123557,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[6, 4, 1, 16]",
+          "warm_ms": 0.010111029441650207,
+          "cold": {
+            "gpu_ms_median": 0.028672000393271446,
+            "samples": [
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.026623999699950218,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.010495749463711039,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03232000023126602,
+              0.03276799991726875,
+              0.03232000023126602,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.030719999223947525,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.0318400003015995,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875
+            ]
+          }
+        },
+        {
+          "round": 1,
+          "backend": "native",
+          "warm_ms": 0.014078357932136668,
+          "cold": {
+            "gpu_ms_median": 0.02252800017595291,
+            "samples": [
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "native",
+          "warm_ms": 0.013989535640518653,
+          "cold": {
+            "gpu_ms_median": 0.02252800017595291,
+            "samples": [
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.020479999482631683,
+              0.02252800017595291,
+              0.02208000048995018,
+              0.02252800017595291,
+              0.020031999796628952,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291,
+              0.02252800017595291
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[6, 4, 1, 4]",
+          "warm_ms": 0.0105018058715508,
+          "cold": {
+            "gpu_ms_median": 0.03276799991726875,
+            "samples": [
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03481600061058998,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.03276799991726875,
+              0.030719999223947525,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "fixed_[6, 4, 1, 16]",
+          "warm_ms": 0.010175279924304581,
+          "cold": {
+            "gpu_ms_median": 0.028672000393271446,
+            "samples": [
+              0.030719999223947525,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.028672000393271446,
+              0.030719999223947525,
+              0.030719999223947525
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 128, 4, True, 16]",
+          "warm_ms": 0.010461905487345461,
+          "cold": {
+            "gpu_ms_median": 0.03481600061058998,
+            "samples": [
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03481600061058998
+            ]
+          }
+        },
+        {
+          "round": 2,
+          "backend": "cuda_[6, 64, 4, True, 16]",
+          "warm_ms": 0.01055219889180754,
+          "cold": {
+            "gpu_ms_median": 0.03686400130391121,
+            "samples": [
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03686400130391121,
+              0.03481600061058998,
+              0.03686400130391121,
+              0.03686400130391121
+            ]
+          }
+        }
+      ],
+      "medians_ms": {
+        "native": {
+          "warm": 0.014078357932136668,
+          "cold": 0.02252800017595291
+        },
+        "fixed_[6, 4, 1, 4]": {
+          "warm": 0.010495749463711039,
+          "cold": 0.03276799991726875
+        },
+        "fixed_[6, 4, 1, 16]": {
+          "warm": 0.010171979219858882,
+          "cold": 0.028672000393271446
+        },
+        "cuda_[6, 128, 4, True, 16]": {
+          "warm": 0.010465425515324814,
+          "cold": 0.03481600061058998
+        },
+        "cuda_[6, 64, 4, True, 16]": {
+          "warm": 0.01055219889180754,
+          "cold": 0.03686400130391121
+        }
+      }
+    }
+  ]
+}
