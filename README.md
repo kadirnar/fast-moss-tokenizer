@@ -70,4 +70,6 @@ Partial final encoder frames are explicitly zero-padded and retained. Save the o
 
 `benchmarks.compare` records exact equality, mismatching element counts, maximum error, and RMSE, and exits with failure on any mismatch. It compares equal batches, audio lengths, FP32 arithmetic, and quantizer counts. Wall-clock and CUDA-event samples include graph input copies/output ownership; amortized kernel-only measurements are labeled separately. Synthetic inputs and small structural tests are development gates, not proof of quality across real speech, music, or sound effects.
 
+A separate split-cache FP32 attention prototype improves filled-ring streaming by 1.24–1.26× encode and about 1.29× decode relative to the already optimized runtime. All 30,720 tokens match across three 12.8-second cases, but waveform rounding changes (maximum 8.51e-5). It remains under `benchmarks/` and is not part of the supported runtime or the speedup table above. [Experimental evidence](results/full_attention_experiment.json).
+
 Outstanding: broader audio corpus coverage, more streaming durations/batch schedules, arbitrary per-lane final lengths, multi-GPU execution, matrix-kernel optimization, and a defensible matched-workload 100× result. See [research notes](docs/research.md) and [work log](docs/progress.md).

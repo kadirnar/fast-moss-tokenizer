@@ -108,3 +108,27 @@ Completed evidence:
 Reproduce the main comparison with `benchmarks.compare --seconds .24 --stream-chunks 3 --rope-backend triton --kv-backend triton --share-rope-tables --attention-mask-backend triton`. All full-model fidelity scripts accept the new mask flag. The default remains opt-in. PyTorch source evidence and the FP32 backend scope are recorded in `docs/research.md`.
 
 All jobs in this turn completed successfully, including final tests session 96771. No benchmark/download job is intentionally left running. Next work should investigate FP32 small-query streaming attention on actual stage shapes, alongside matrix execution and its bandwidth/reduction-order limits. Batched request scheduling, arbitrary per-lane final lengths, broader audio coverage, and multi-GPU work remain part of the original objective.
+
+
+## 2026-09-20, experimental FP32 split-cache attention
+
+Previous goal turn classification: **progress**, verified against clean commit `ed45da9`, the mask implementation, and its full-checkpoint results. This turn is also **progress**: actual streaming attention shapes were captured, a faster hardware kernel was implemented and evaluated on the full checkpoint, a library alternative was investigated, and numerical/graph-layout issues were tested and addressed. The goal remains active. The supported runtime's matched batch-one 240 ms result is still 5.10×/4.93×; no 100× result or comprehensive no-quality-loss proof exists.
+
+New research code stays under `benchmarks/`:
+
+- `experimental_attention.py`: FP32 split-cache attention. Each query/head computes per-key-split maxima, denominators, and weighted-value sums; a second kernel merges them. Fully masked rows yield zero. No low-precision operands or TF32. The reduction order differs from vendor attention, so it is not promoted to `fast_moss`.
+- `attention_shapes.py`: captures actual post-wrap Q/K/V/bias tensors for four stage geometries per direction. Compares vendor SDPA, its math backend, split sizes 64/128/256, and optional FlexAttention in IEEE FP32. It records FP64 error diagnostics and separate warm/cache-evicted component timings, plus eager/graph equality. Locally cached inputs (`results/attention_inputs.pt`) are ignored and can be regenerated with `--save-inputs`.
+- `attention_model.py`: three full streaming cases, reference versus experimental encode, fixed-code decode, and round-trip output. All 32 quantizers and FP32 weights remain active. Music is continuous; speech and environmental recordings are explicitly repeated four/six times to fill 12.8 seconds per lane. Repetition counts and hashes are recorded.
+
+Authoritative evidence:
+
+- `results/attention_shapes.json`: 40 component comparisons; 64-key splitting gives roughly 3–7× warm attention speedups, with smaller cache-evicted gains. Errors against FP64 are often lower than vendor FP32 but not uniformly. None of the changed arithmetic paths is vendor-bitwise.
+- `results/attention_flex.json`: 16 comparisons. FlexAttention with explicit IEEE FP32 is faster than SDPA but slower than the custom 64-key split here; it also changes rounding. Initial compilation issues (scalar indexing and the installed version's quoted precision-option literal) were resolved. The final report completed successfully.
+- Every candidate in both final component reports is bitwise equal between its eager output and its graph replay. Targeted tests exposed stride-dependent reduction trees, including bias padding in 256-key blocks. Q/K/V normalization and dynamic bias strides fix these cases; model Q/K/V are already contiguous and incur no extra copies.
+- `results/full_attention_experiment.json`: **30,720 tokens exact** across three two-lane 12.8-second streams. Waveforms are not bitwise equal: maximum errors 1.69e-6 music / 2.10e-5 speech / 8.51e-5 environment; signal-to-error ratios 126.4 / 118.2 / 102.0 dB. These are numerical measurements, not a perceptual quality proof.
+- Full filled-ring graph encode improves **11.64–11.78 → 9.35–9.37 ms**, or **1.24–1.26×**, versus the already optimized stream. Decode improves **10.12–10.13 → 7.84–7.85 ms**, about **1.29×**. Those mean approximately 20–21% / 22–23% lower latency. Do not multiply these by the different batch-one/offline benchmark or label component wins as whole-model gains.
+
+Reproduce with `.venv/bin/python -m benchmarks.attention_shapes` and `.venv/bin/python -m benchmarks.attention_model`; add `--flex-only` to the former for the alternative library. No supported runtime behavior changed in this turn. Further work should explore shared Q/K/V loads across short query tiles, broaden speech/music/environmental and near-tie quantizer coverage, validate irregular lane schedules with the experimental kernel, and investigate exact reduction matching. Dense matrix execution remains the dominant remaining cost after the experimental attention improvement.
+
+
+Final verification: `results/tests.txt` records **69 passed**, including 12 new tests across split sizes, noncontiguous inputs, masked tails, empty rows, large scores, and graph replay. Final component/full-model rerun session 92121 and test session 14737 completed successfully. No GPU benchmark or download is intentionally left running.
