@@ -54,7 +54,7 @@ def causal_mask(offset, positions, length, context, additive=False):
     return out[..., :k]
 
 
-def forward(self, query, key, value, *, _fast_projected=None):
+def forward(self, query, key, value, *, _fast_projected=None, _fast_epilogue=None):
     # The upstream self-attention also projects query for Q, K, and V.
     if not query.is_cuda or query.dtype != torch.float32:
         return self._fast_original_attention(query, key, value)
@@ -83,7 +83,8 @@ def forward(self, query, key, value, *, _fast_projected=None):
                 pool[pool_key] = bias
     x = F.scaled_dot_product_attention(q, k, v, bias, dropout_p=0.0)
     x = x.transpose(1, 2).reshape(b, t, self.embed_dim)
-    x = self.out_projs[0](x)
+    x = (self.out_projs[0](x) if _fast_epilogue is None
+         else self.out_projs[0](x,_fast_epilogue=_fast_epilogue))
     if state is not None:
         state.offset[:] = torch.where(state.exec_mask, state.offset + t, state.offset)
         state.offset_cpu += t

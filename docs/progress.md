@@ -1384,3 +1384,39 @@ done
 This turn is **progress**: it establishes exact attention epilogue fusion across nine matrix shapes and 31 layouts, fixes a singleton allocation mismatch, and verifies whole-model/streaming gains and actual launch removal. Production integration should replace the research call-scoped interception with owned attention epilogue dispatch, preserving normalization/QKV fusion and observers, and verifying folded-matrix guards, custom forwards, host threads, capture warmup and packed-storage graph invalidation. Batch-eight decoder direction/layout selection remains to be resolved. The broader 100× objective remains active and unmet.
 
 Final audit passes **122 cross-report checks** for component/corpus bits, all nine exercised shapes, timing controls and direct ratios, streaming bits and unchanged offline discrepancy, launch counts, disjoint matrix grouping, compiler provenance and unchanged production bytes. All handles are terminal: initial probe `40263` (tuple-output harness error resolved); component probe `17879`; initial model `7869`; first gate chain `85714` (nine singleton-stride assertions resolved); fixed tests/model/CuTe/streams/profiles/compiler/full-suite chain `79702`; final CPU audit `94817`. GPU jobs ran sequentially. Only preexisting PID 1718 / 29 MiB remains; no task benchmark is left running.
+
+
+## 2026-09-20 — Integrate exact attention projection/residual fusion
+
+The previous turn (`f104647`) is **progress**: it established exact research kernels and identified production integration and batch-eight decoder selection as remaining work. This turn completes that integration. The four-way, nine-round selection retains all nine native shapes; its batch-eight one-frame decoder median improves **1.00319×**, and the seven-round integrated run improves **1.00506×** at that geometry.
+
+The production attention block passes a private, owned output epilogue to MatrixRuntime. It preserves normalization/QKV fusion and uses frozen native FP32 schedules. Hooks, custom forwards, gradient/autocast inputs, unsupported layouts and packed weights retain their observable fallback paths. Context setup now preserves preexisting custom attention/RoPE/KV methods. Capture requires the exact stream and residual layout to be warmed, and managed graph invalidation covers weight packing/restoration. No new weight copy or persistent workspace is introduced.
+
+At batch one / 80 ms, paired medians change **6.657526 → 6.565007 ms encode** and **5.906453 → 5.856775 ms decode**; at 240 ms they change **7.576466 → 7.444142 ms** and **6.311370 → 6.280599 ms**. The batch-eight / three-frame no-call control stays within 0.11% of parity. All **48 Triton and 48 CuTe checkpoint cases** pass original-reference bit checks. Both **162-chunk / 12.96-second** streams preserve every chunk, with **5,184 / 10,368 tokens** and **311,040 / 622,080 samples**; the existing decoder/offline discrepancy remains unchanged.
+
+Profiles verify **92 / 68 fewer launches** at one frame and **112 / 56 fewer** at three frames. One-frame matrix-associated kernel time remains **76.44% encode / 85.67% decode**. All **31 compiler variants** match the research binaries/resources and have zero local-memory or matrix Tensor Core instructions. The wheel's **31 runtime/profile files** match source and pass an isolated import. A final audit passes **222 cross-report checks**. See [research and result links](research.md#supported-attention-projectionresidual-fusion).
+
+The final focused suite passes **153 tests in 24.73 seconds**; the full suite passes **1,010 tests in 185.46 seconds**. Initial test failures exposed incorrect test assumptions: packed restoration need not reuse an address, the attempted folded-matrix counterexample actually passed the guard, and KVCacheResult must be unpacked rather than indexed. The corrected tests verify restored weight bits/layout, an actually unsupported fold, and preservation of a customized KV result. No numerical mismatch remained.
+
+Fresh matched one-frame measurements give **6.488 ms encode / 5.779 ms decode**, **7.26× / 6.46×** versus original eager and **1.60× / 1.58×** versus original graphs. At three frames, **7.356 / 6.186 ms** gives **6.45× / 6.14×** versus eager. Both comparisons use 200 extra graph warmups; these are direct measured ratios, separate from the paired integration increments.
+
+Reproduction (GPU commands sequential):
+
+```bash
+.venv/bin/python -m benchmarks.attention_residual_selection
+.venv/bin/python -m benchmarks.attention_residual_model --runtime --rounds 7 --extra-warmup-replays 200 --output results/full_attention_residual_runtime.json
+.venv/bin/python -m pytest tests/test_attention_residual_runtime.py tests/test_attention_residual_research.py tests/test_norm_projection_runtime.py -q
+.venv/bin/python -m benchmarks.attention_residual_model --runtime --fidelity-only --residual-backend cute --output results/full_attention_residual_runtime_cute.json
+for batch in 1 2; do
+  .venv/bin/python -m benchmarks.streaming_fidelity --batch "$batch" --frames 162 --chunk-frames 1 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output "results/full_attention_residual_runtime_streaming_b${batch}.json"
+done
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .08 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_attention_residual_runtime_profile_f1.json
+.venv/bin/python -m benchmarks.profile_graph --batch 1 --seconds .24 --warmup-replays 200 --share-rope-tables --attention-mask-backend triton --quantizer-backend triton --matrix-backend cuda --projection-backend triton --ffn-backend triton --norm-backend cuda --output results/full_attention_residual_runtime_profile_f3.json
+.venv/bin/python -m benchmarks.codec_compare --frames 1 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_attention_residual_f1.json
+.venv/bin/python -m benchmarks.codec_compare --frames 3 --matrix-backend cuda --norm-backend cuda --extra-warmup-replays 200 --output results/full_codec_attention_residual_f3.json
+.venv/bin/python -m benchmarks.attention_residual_resources --runtime
+.venv/bin/python -m pytest -q
+uv build --wheel --out-dir /tmp/moss-attention-residual-wheel
+```
+
+All GPU handles are terminal: selection `54142`, smoke `77746`, initial focused tests `46674` (two test assumptions corrected), focused repeat `80992`, integrated model `54683`, first validation chain `97398` (KV test fixture corrected), and complete corrected chain `7205`. GPU jobs ran sequentially. The CPU wheel audit and cross-report audit passed; build output was removed from the worktree. This turn is **progress**. The next optimization should address the remaining matrix-heavy kernel time; the broader 100× objective remains active and unmet.

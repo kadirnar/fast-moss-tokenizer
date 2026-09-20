@@ -2,6 +2,7 @@ import pytest
 import torch
 import torch.nn.functional as F
 from benchmarks.attention_residual import CONFIGS,linear
+from fast_moss.attention_residual import linear as runtime_linear
 from fast_moss.graphs import GraphedCallable
 from fast_moss.loading import strict_precision
 
@@ -10,12 +11,13 @@ GEOMETRIES=[(shape,t) for shape in sorted(CONFIGS) for t in range(1,shape[0]+1) 
 def bits(a,b):assert torch.equal(a.view(torch.int32),b.view(torch.int32))
 
 @torch.inference_mode()
+@pytest.mark.parametrize('helper',[linear,runtime_linear],ids=['research','runtime'])
 @pytest.mark.parametrize('shape,time',GEOMETRIES)
-def test_attention_residual_rounding_layout_and_graph(shape,time):
+def test_attention_residual_rounding_layout_and_graph(shape,time,helper):
     strict_precision();torch.manual_seed(963)
     m,n,k=shape;x=torch.randn(m,k,device='cuda');w=torch.randn(n,k,device='cuda')*.02
     r=torch.randn(m//time,n,time,device='cuda').transpose(1,2);s=torch.randn(n,device='cuda')*.1
-    def fn(a,ww,rr,ss):return (linear(a,ww,rr,ss),)
+    def fn(a,ww,rr,ss):return (helper(a,ww,rr,ss),)
     graph=GraphedCallable(fn,x,w,r,s)
     for a,ww,rr,ss in [(x,w,r,s),(x*1e-38,w,r*0,s),(x*1e10,w,r,s),
                        (torch.full_like(x,-0.),w,torch.full_like(r,-0.),s),

@@ -59,6 +59,9 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
     Welford tree and affine arithmetic. Combined with CUDA matrices and FFN
     fusion, it folds one-row 1280-wide normalization into GELU projections;
     the Triton attention-mask path also folds normalization into QKV projections.
+    CUDA matrices, FFN fusion and Triton attention masks also fuse square attention
+    projections with scale/residual addition for nine native small-row shapes,
+    retaining canonical contiguous or dense-transposed output layouts.
     """
     if model.training or any(p.requires_grad for p in model.parameters()):
         raise ValueError("Call eval().requires_grad_(False) before inference optimization")
@@ -149,19 +152,22 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                     raise ValueError("Fused masks do not support per-step attention weights")
                 replace(module, "_fast_mask_pool", None)
                 replace(module, "_fast_original_attention", module.forward)
-                replace(module, "forward", MethodType(attention_forward, module))
+                if getattr(module.forward,"__func__",None) is type(module).forward:
+                    replace(module, "forward", MethodType(attention_forward, module))
             if kind == "MossAudioTokenizerRotaryEmbedding" and rope_backend == "triton":
                 from .rope import forward
                 replace(module, "_fast_freqs", {})
                 replace(module, "_fast_tables", None)
                 replace(module, "_fast_original_rope", module.forward)
-                replace(module, "forward", MethodType(forward, module))
+                if getattr(module.forward,"__func__",None) is type(module).forward:
+                    replace(module, "forward", MethodType(forward, module))
             if kind == "MossAudioTokenizerMultiheadAttention" and kv_backend == "triton":
                 from .kv_cache import attention_complete
                 if module.weights_per_step:
                     raise ValueError("Fused KV updates require per-lane offsets")
                 replace(module, "_fast_original_complete", module._complete_kv)
-                replace(module, "_complete_kv", MethodType(attention_complete, module))
+                if getattr(module._complete_kv,"__func__",None) is type(module)._complete_kv:
+                    replace(module, "_complete_kv", MethodType(attention_complete, module))
             if (cache_weights and isinstance(module, torch.nn.Conv1d)
                     and torch.nn.utils.parametrize.is_parametrized(module, "weight")):
                 replace(module, "_fast_weight", module.weight.detach())
@@ -206,6 +212,17 @@ def optimized(model, residual_backend="none", cache_codebooks=True, cache_weight
                         replace(module,'_fast_original_sa',module._sa_block)
                         replace(module,'_fast_observed_sa',original_sa[id(module)])
                         replace(module,'_sa_block',MethodType(attention_block,module))
+        if matrix_backend=='cuda' and ffn_backend=='triton' and attention_mask_backend=='triton':
+            from .attention_residual import block as attention_residual_block
+            runtime=model._fast_matrix_runtime
+            for module in model.modules():
+                if (type(module).__name__=='MossAudioTokenizerTransformerLayer'
+                    and id(module) in original_sa and len(module.self_attn.out_projs)==1
+                    and module.self_attn.out_projs[0] in runtime.forwards):
+                    replace(module,'_fast_attention_runtime',runtime)
+                    replace(module,'_fast_attention_previous',module._sa_block)
+                    replace(module,'_fast_attention_observed',original_sa[id(module)])
+                    replace(module,'_sa_block',MethodType(attention_residual_block,module))
         if projection_backend == 'triton':
             from .projections import forward as project_forward, decode_codes
             q = model.quantizer

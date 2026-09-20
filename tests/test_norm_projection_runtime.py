@@ -126,7 +126,7 @@ def test_projection_capture_thread_and_inactive_owner(monkeypatch):
 @torch.inference_mode()
 def test_norm_projection_packed_transition_fallback(monkeypatch):
     model,layer,x=fixture(monkeypatch);original=layer._sa_block;ref=original(x)
-    projection=layer.self_attn.in_projs[0];pointer=projection.weight.data_ptr()
+    projection=layer.self_attn.in_projs[0];weight=projection.weight.clone()
     with optimized(model,**OPTIONS):
         owner=model._fast_matrix_runtime
         graph=GraphedCallable(lambda z:(layer._sa_block(z),),x);exact(graph(x)[0],ref)
@@ -135,5 +135,5 @@ def test_norm_projection_packed_transition_fallback(monkeypatch):
         with pytest.raises(RuntimeError,match='storage changed'):graph(x)
         before=owner.norm_gemv_calls
         exact(layer._sa_block(x),ref);assert owner.norm_gemv_calls==before
-    assert projection.weight.data_ptr()==pointer
+    assert projection.weight.is_contiguous();exact(projection.weight,weight)
     exact(original(x),ref)

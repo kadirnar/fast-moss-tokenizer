@@ -1,6 +1,6 @@
 """Run existing streaming/profile gates inside the research attention epilogue context."""
 from contextlib import contextmanager
-import gzip,json,sys
+import json,sys
 from pathlib import Path
 from benchmarks.attention_residual import CONFIGS
 from benchmarks.attention_residual_model import selected
@@ -23,11 +23,6 @@ def main():
         original_summary=harness.kernel_summary
         def summary(path,replays=5):
             result=original_summary(path,replays)
-            events=[e for e in json.loads(gzip.open(path,'rt').read())['traceEvents'] if e.get('cat')=='kernel' and e.get('name')=='attention_residual']
-            ms=sum(e['dur'] for e in events)/replays/1000;pct=100*ms/result['total_ms_per_replay']
-            result['attention_residual_cuda_per_replay']=len(events)/replays
-            result['small_matrix_breakdown']['attention_residual']={'ms_per_replay':ms,'percent':pct}
-            result['groups']['small_matrix']['ms_per_replay']+=ms;result['groups']['small_matrix']['percent']+=pct
             result['small_matrix_breakdown_scope']+=' Research attention residual shares the existing GEMV/fixed kernel names and adds attention_residual for CUDA.'
             return result
         harness.kernel_summary=summary

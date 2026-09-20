@@ -94,6 +94,11 @@ class MatrixRuntime:
         self.norm_gemv_enabled = True
         self.norm_gemv_calls = self.norm_qkv_calls = self.norm_ffn_calls = 0
         self.norm_gemv_warmed = set()
+        self.attention_residual_enabled = True
+        self.attention_residual_calls = 0
+        self.attention_residual_strided_calls = 0
+        self.attention_residual_warmed = set()
+        self.attention_residual_shapes = {}
         self.active = self.used = False
 
     @torch.inference_mode()
@@ -161,11 +166,12 @@ class MatrixRuntime:
             def finish(y):
                 if _fast_epilogue is None:
                     return y
-                mode,residual,scale,_ = _fast_epilogue
+                mode,residual,scale,extra = _fast_epilogue
+                if mode == 'attention_residual':return extra(residual,y,scale)
                 return F.gelu(y) if mode == 'gelu' else residual + y*scale
             if get_ident() != self.thread or not self.active:
                 raise RuntimeError('Use the active matrix runtime on its construction host thread')
-            if _fast_epilogue is not None and _fast_epilogue[0] not in {'gelu','residual'}:
+            if _fast_epilogue is not None and _fast_epilogue[0] not in {'gelu','residual','attention_residual'}:
                 raise ValueError('Unknown FFN epilogue')
             if x.ndim < 1 or x.shape[-1] != module.in_features:
                 return finish(original(x))
@@ -200,7 +206,21 @@ class MatrixRuntime:
                     if torch.cuda.is_current_stream_capturing():
                         raise RuntimeError('Warm matrix shapes on the capture stream before capturing')
                     self.small_warmed.add(key)
-                if _fast_epilogue is not None and self.backend == 'cuda' and self.ffn_short_enabled:
+                if (_fast_epilogue is not None and _fast_epilogue[0]=='attention_residual'
+                        and self.backend=='cuda' and self.attention_residual_enabled):
+                    from .attention_residual import CONFIGS as ATTENTION_CONFIGS,linear as attention_linear
+                    if shape in ATTENTION_CONFIGS:
+                        _,residual,scale,_=_fast_epilogue
+                        warm=(id(module),shape,stream,tuple(residual.shape),tuple(residual.stride()))
+                        if torch.cuda.is_current_stream_capturing() and warm not in self.attention_residual_warmed:
+                            raise RuntimeError('Warm attention residual layout on the capture stream')
+                        out=attention_linear(x.reshape(shape[0],shape[-1]),module.weight,residual,scale)
+                        self.attention_residual_warmed.add(warm)
+                        self.attention_residual_calls+=1
+                        self.attention_residual_shapes[shape]=self.attention_residual_shapes.get(shape,0)+1
+                        self.attention_residual_strided_calls+=int(not residual.is_contiguous())
+                        return out
+                if _fast_epilogue is not None and _fast_epilogue[0]!='attention_residual' and self.backend == 'cuda' and self.ffn_short_enabled:
                     from .short_ffn import CONFIGS as SHORT_FFN, linear as short_ffn_linear
                     if shape in SHORT_FFN and (_fast_epilogue[0] != "residual"
                             or _fast_epilogue[1].is_contiguous() or self.ffn_strided_enabled):
@@ -236,7 +256,7 @@ class MatrixRuntime:
                 with torch.cuda.device(self.device):
                     self.triton_calls += 1
                     self.small_calls += 1
-                    if _fast_epilogue is not None and shape in ((1,5120,1280),(1,1280,5120)):
+                    if _fast_epilogue is not None and _fast_epilogue[0]!='attention_residual' and shape in ((1,5120,1280),(1,1280,5120)):
                         from .ffn import gemv_linear
                         mode,residual,scale,library = _fast_epilogue
                         self.ffn_calls += 1
@@ -283,7 +303,7 @@ class MatrixRuntime:
                     from .ordered_matrices import linear
                     if ordered_shape:
                         self.triton_calls += 1
-                        if _fast_epilogue is not None:
+                        if _fast_epilogue is not None and _fast_epilogue[0]!='attention_residual':
                             from .ffn import linear as fused_linear
                             mode,residual,scale,library = _fast_epilogue
                             self.ffn_calls += 1
@@ -293,8 +313,8 @@ class MatrixRuntime:
                         if _fast_stages is not None:
                             self.ffn_staged_calls += 1
                         kwargs = {} if _fast_stages is None else {'stages':_fast_stages}
-                        return linear(x.reshape(shape[0], shape[-1]), self.packed[id(module.weight)][1],**kwargs).reshape(
-                            *x.shape[:-1], module.out_features)
+                        return finish(linear(x.reshape(shape[0], shape[-1]), self.packed[id(module.weight)][1],**kwargs).reshape(
+                            *x.shape[:-1], module.out_features))
                 return finish(plan(x.reshape(shape[0], shape[-1]), index).reshape(*x.shape[:-1], module.out_features))
         return forward
 
@@ -315,6 +335,7 @@ class MatrixRuntime:
         self.saved.clear()
         self.forwards.clear()
         self.norm_gemv_warmed.clear()
+        self.attention_residual_warmed.clear()
         with torch.cuda.device(self.device):
             for plan, _ in self.plans.values():
                 if plan is not None:
